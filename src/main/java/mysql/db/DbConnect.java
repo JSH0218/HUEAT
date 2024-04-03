@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DbConnect {
 
 	static final String MYSQLDRIVER="com.mysql.cj.jdbc.Driver";
-	static final String MYSQL_URL="jdbc:mysql://localhost:3306/coffee";
+	static final String MYSQL_URL="jdbc:mysql://hueat.cpamqegaqo13.ap-northeast-2.rds.amazonaws.com:3306/hueat";
 	
 	public DbConnect() {
 		try {
@@ -19,7 +19,7 @@ public class DbConnect {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			System.out.println("mysql 드라이버 실패"+e.getMessage());
+			System.out.println("MYSQL 드라이버 실패"+e.getMessage());
 		}
 	}
 	
@@ -29,12 +29,12 @@ public class DbConnect {
 		Connection conn=null;
 		
 		try {
-			conn=DriverManager.getConnection(MYSQL_URL, "angel", "a1234");
+			conn=DriverManager.getConnection(MYSQL_URL, "adminjsh", "!67ch218604");
 			System.out.println("mysql계정연결성공");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("MYSQL연결실패: "+e.getMessage());
+			System.out.println("mysql연결실패: "+e.getMessage());
 		}
 		
 		
