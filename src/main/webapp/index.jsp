@@ -11,6 +11,7 @@
 </head>
 <body>
 	<h4>master가 가지고있을 부분</h4>
+	<h4>master가 추가한 부분</h4>
 </body>
 <%
 	String comment="seokhun이 추가한 부분";
