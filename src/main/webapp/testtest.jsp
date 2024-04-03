@@ -10,6 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-테스트테스트
+>>>>>>> e2137874cd4011bf990faaecb50f6d9c617e8d37:src/main/webapp/index.jsp
 </body>
 </html>
