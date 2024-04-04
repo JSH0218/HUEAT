@@ -24,7 +24,8 @@
 	position:relative;
 	float:left;
 	margin:0;
-	padding:0
+	padding:0;
+	z-index: 9999;
 }
 
 #primary_nav_wrap ul a
