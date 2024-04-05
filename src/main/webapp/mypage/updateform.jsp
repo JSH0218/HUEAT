@@ -1,3 +1,6 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="meminfo.model.MemInfoDao"%>
+<%@page import="meminfo.model.MemInfoDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -44,7 +47,53 @@
   .mytable tr, .mytable td{
    border: 1px solid gray;
   }
+   .mytable input {
+  	font-size: 15px;
+  }
 </style>
+<%
+	//로그인 세션얻기
+	String loginok=(String)session.getAttribute("loginok");
+	//아이디 얻기
+	String myid=(String)session.getAttribute("myid");
+	
+	MemInfoDao dao=new MemInfoDao();
+	MemInfoDto dto=dao.getAlldatas(myid);
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	
+
+%>
+<script type="text/javascript">
+	$(function(){
+		$("#nickcheck").click(function(){ 
+			var nickname=$("#m_nick").val();
+			var num=$("#m_num").val();
+			//alert(nickname+","+num);
+			 $.ajax({
+				 type:"get",
+				 url:"mypage/nickcheck.jsp",
+				 dataType:"json",
+				 data:{"m_nick":nickname, "m_num": num},
+				 success:function(res){
+					 //alert(res.nick);
+					 if(res.count==1){
+						alert("현재 닉네임입니다");
+					 }else{
+						if(res.nickcount==1){
+							alert("이미 사용 중인 닉네임입니다")
+							$("#m_nick").val(res.nickname);
+						} else{
+							alert("사용 가능한 닉네임입니다")
+						}
+					 } 
+				 }
+				 
+			 })  
+			
+		})
+	})
+	
+</script>
 </head>
 <body>
 <div id="container">
@@ -70,14 +119,15 @@
 <b style="font-size: 25px; color: black;">개인 정보 수정</b><br><br>
 
 <hr class="line">
-<form style="margin:100px 200px;" action="#" method="post" id="passfrm" >
+<form style="margin:100px 200px;" action="mypage/updateaction.jsp" method="post" id="updatefrm" >
+		<input type="hidden" name="m_num" id="m_num" value="<%=dto.getM_num() %>">
 		<table class="mytable">
 			<tr>
 				<td style="width: 200px;">
 				<b>아이디</b>
 				</td>
 				<td style="width: 500px;">
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="ssoo1226" class="form-control" readonly="readonly">
+					<input type="text" name="m_id" id="m_id" style="width: 300px; height: 45px;" value="<%=dto.getM_id() %>" class="form-control" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
@@ -85,7 +135,7 @@
 				<b>현재 비밀번호</b>
 				</td>
 				<td>
-					<input type="password" name="id" id="id" style="width: 300px; height: 45px;" value="1234" class="form-control">
+					<input type="password" name="m_pass" id="m_pass" style="width: 300px; height: 45px;" value="<%=dto.getM_pass() %>" class="form-control" required="required">
 				</td>
 			</tr>
 			<tr>
@@ -93,7 +143,7 @@
 				<b>새 비밀번호</b>
 				</td>
 				<td>
-					<input type="password" name="id" id="id" style="width: 300px; height: 45px;" class="form-control" placeholder="새 비밀번호를 입력해 주세요">
+					<input type="password" name="m_upass" id="m_upass" style="width: 300px; height: 45px;" class="form-control" placeholder="새 비밀번호를 입력해 주세요">
 				</td>
 			</tr>
 			<tr style="padding-top: 12px;">
@@ -101,7 +151,7 @@
 				<b>새 비밀번호 확인</b>
 				</td>
 				<td>
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" class="form-control" placeholder="새 비밀번호를 다시 입력해 주세요">
+					<input type="password" name="m_upass1" id="m_upass1" style="width: 300px; height: 45px;" class="form-control" placeholder="새 비밀번호를 다시 입력해 주세요">
 				</td>
 			</tr>
 			<tr>
@@ -109,7 +159,7 @@
 				<b>이름</b>
 				</td>
 				<td>
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="손범수" class="form-control">
+					<input type="text" name="m_name" id="m_name" style="width: 300px; height: 45px;" value="<%=dto.getM_name() %>" class="form-control" required="required">
 				</td>
 			</tr>
 			<tr>
@@ -118,8 +168,8 @@
 				</td>
 				<td>
 					<div class="d-inline-flex">
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="범스" class="form-control">
-					<button style="margin-left: 10px;" class="btn btn-info">변경</button>
+					<input type="text" name="m_nick" id="m_nick" style="width: 300px; height: 45px;" value="<%=dto.getM_nick() %>" class="form-control"  required="required">
+					<button type="button" class="btn btn-success" style="width: 90px; margin-left: 10px;" id="nickcheck"><span style="font-size: 13px;">중복확인</span></button>
 					</div>
 				</td>
 			</tr>
@@ -128,7 +178,7 @@
 				<b>이메일(선택)</b>
 				</td>
 				<td>
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="ssoo9271@naver.com" class="form-control">
+					<input type="text" name="m_email" id="m_email" style="width: 300px; height: 45px;" value="<%=dto.getM_email()==null?"":dto.getM_email() %>" class="form-control">
 				</td>
 			</tr>
 			<tr>
@@ -137,11 +187,11 @@
 				</td>
 				<td>
 					<div class="d-inline-flex">
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="010-1234-5678" class="form-control">
-					<select id="m_hp1" name="m_hp1" class="form-control"style="width: 80px; margin-left: 10px;">
-                 	 <option value="SKT">SKT</option>
-                 	<option value="LG">LG</option>
-                  	<option value="KT">KT</option>
+					<input type="text" name="m_hp2" id="m_hp2" style="width: 300px; height: 45px;" value="<%=dto.getM_hp2() %>" class="form-control" required="required">
+					<select id="m_hp1" name="m_hp1" class="form-control"style="width: 80px; margin-left: 10px;" required="required">
+                 	 <option value="SKT" <% if(dto.getM_hp1().equals("SKT")) { %> selected <% } %> >SKT</option>
+                 	<option value="LG" <% if(dto.getM_hp1().equals("LG")) { %> selected <% } %> >LG</option>
+                  	<option value="KT" <% if(dto.getM_hp1().equals("KT")) { %> selected <% } %> >KT</option>
                  	 <option value="알뜰폰">알뜰폰</option>
               		</select>
               		</div>
@@ -152,7 +202,7 @@
 				<b>생년월일</b>
 				</td>
 				<td>
-					<input type="date" name="id" id="id" style="width: 300px; height: 45px;" value="1998-12-26" class="form-control">
+					<input type="date" name="m_birth" id="m_birth" style="width: 300px; height: 45px;" value="<%=dto.getM_birth() %>" class="form-control" required="required">
 				</td>
 			</tr>
 			<tr>
@@ -160,13 +210,13 @@
 				<b>가입일</b>
 				</td>
 				<td>
-					<input type="text" name="id" id="id" style="width: 300px; height: 45px;" value="2024-03-25" class="form-control">
+					<input type="text" name="m_gaipday" id="m_gaipday" style="width: 300px; height: 45px;" value="<%=sdf.format(dto.getM_gaipday())%>" class="form-control" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
 				<td style="width: 200px;" colspan="2" align="center">
-				<button type="button" class="btn btn-success" style="width: 150px;">탈퇴하기</button>
-				<button type="button" class="btn btn-success" style="width: 150px;">회원정보수정</button>
+				<button type="button" class="btn btn-outline-success" style="width: 100px;"><span style="font-size: 13px;">탈퇴하기</span></button>
+				<button type="submit" class="btn btn-success" style="width: 100px;"><span style="font-size: 13px;">회원정보수정</span></button>
 			</tr>
 		</table>	
  </form>
