@@ -15,6 +15,7 @@
 	}
 	#container{
 		display: flex;
+		margin-top: 100px;
 		margin-bottom: 100px;
 	}
 	
@@ -36,6 +37,7 @@
 	button.passcheck {
     background-color: #618E6E;
   }
+
 </style>
 </head>
 <body>
@@ -58,7 +60,7 @@
 </table>
 </div>
 
-<div id="updatemember">
+<div id="updatepassform">
 <b style="font-size: 25px; color: black;">개인 정보 수정</b><br><br>
 
 <b>비밀번호 재확인</b><br>
