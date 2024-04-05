@@ -118,7 +118,7 @@ public class MemInfoDao {
 		return idpass;
 	}
 	
-	//핸드폰 번호로 아이디 찾기
+	//이름과 핸드폰 번호로 아이디 찾기
 	public String idsearch(String m_name, String m_hp2) {
 		String b="";
 		Connection conn=db.getConnection();
@@ -145,5 +145,15 @@ public class MemInfoDao {
 		}
 		
 		return b;
+	}
+	
+	//이름과 이메일로 아이디 찾기
+	public String idsearch2(String m_name, String m_email) {
+		String e="";
+		
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		
+		return e;
 	}
 }
