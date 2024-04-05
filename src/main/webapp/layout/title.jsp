@@ -124,8 +124,10 @@
 		    </ul>
 		  </li>
 		  
-		  <li style="padding-left: 880px;"><a href="#">로그인</a></li>
-		  <li><a href="#">회원가입</a></li>
+		  <li style="padding-left: 880px;"><a href="index.jsp?main=mypage/updateform.jsp">회원정보수정</a></li>
+		  <li><a href="#">나의활동</a></li>
+		  <li><a href="#">즐겨찾기</a></li>
+		  
 		  
 		</ul>
 		</nav>
