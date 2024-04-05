@@ -39,7 +39,7 @@
 	dao.updateMember(dto);
 
 	//마이페이지
-	response.sendRedirect("../index.jsp?main=mypage/updatepassform.jsp");
+	response.sendRedirect("../index.jsp?main=mypage/updatepassform.jsp#container");
 %>
 </body>
 </html>

@@ -19,7 +19,6 @@
 	#container{
 		display: flex;
 		margin-bottom: 100px;
-		border: 1px solid red;
 	}
 	
 	#sidebar{
@@ -32,7 +31,6 @@
 	    width: 1000px;
      	margin-top: 100px;
      	margin-left: 50px;
-     	border: 1px solid red;
 	}
 	.line {
 	  border: 5px solid green;
@@ -45,7 +43,6 @@
   	line-height: 70px;
   }
   .mytable tr, .mytable td{
-   border: 1px solid gray;
   }
    .mytable input {
   	font-size: 15px;
@@ -169,7 +166,7 @@
 				<td>
 					<div class="d-inline-flex">
 					<input type="text" name="m_nick" id="m_nick" style="width: 300px; height: 45px;" value="<%=dto.getM_nick() %>" class="form-control"  required="required">
-					<button type="button" class="btn btn-success" style="width: 90px; margin-left: 10px;" id="nickcheck"><span style="font-size: 13px;">중복확인</span></button>
+					<button type="button" class="btn btn-success" style="width: 90px; margin-left: 30px;" id="nickcheck"><span style="font-size: 13px;">중복확인</span></button>
 					</div>
 				</td>
 			</tr>
@@ -188,7 +185,7 @@
 				<td>
 					<div class="d-inline-flex">
 					<input type="text" name="m_hp2" id="m_hp2" style="width: 300px; height: 45px;" value="<%=dto.getM_hp2() %>" class="form-control" required="required">
-					<select id="m_hp1" name="m_hp1" class="form-control"style="width: 80px; margin-left: 10px;" required="required">
+					<select id="m_hp1" name="m_hp1" class="form-control"style="width: 80px; margin-left: 30px;" required="required">
                  	 <option value="SKT" <% if(dto.getM_hp1().equals("SKT")) { %> selected <% } %> >SKT</option>
                  	<option value="LG" <% if(dto.getM_hp1().equals("LG")) { %> selected <% } %> >LG</option>
                   	<option value="KT" <% if(dto.getM_hp1().equals("KT")) { %> selected <% } %> >KT</option>
@@ -216,7 +213,7 @@
 			<tr>
 				<td style="width: 200px;" colspan="2" align="center">
 				<button type="button" class="btn btn-outline-success" style="width: 100px;"><span style="font-size: 13px;">탈퇴하기</span></button>
-				<button type="submit" class="btn btn-success" style="width: 100px;"><span style="font-size: 13px;">회원정보수정</span></button>
+				<button type="submit" class="btn btn-success" style="width: 100px; margin-left: 10px;"><span style="font-size: 13px;">회원정보수정</span></button>
 			</tr>
 		</table>	
  </form>
