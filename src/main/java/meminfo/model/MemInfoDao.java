@@ -118,7 +118,7 @@ public class MemInfoDao {
 		return idpass;
 	}
 	
-	//이름과 핸드폰 번호로 아이디 찾기
+	//이름과 핸드폰 번호로 아이디 찾기11
 	public String idsearch(String m_name, String m_hp2) {
 		String b="";
 		Connection conn=db.getConnection();
@@ -147,13 +147,60 @@ public class MemInfoDao {
 		return b;
 	}
 	
-	//이름과 이메일로 아이디 찾기
+	//이름과 이메일로 아이디 찾기22
 	public String idsearch2(String m_name, String m_email) {
 		String e="";
 		
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
+		ResultSet rs=null;
 		
+		String sql="select m_id from meminfo where m_name=? and m_email=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m_name);
+			pstmt.setString(2, m_email);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				e=rs.getString("m_id");
+			}
+		
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
 		return e;
+	}
+	
+	//이름,아이디,핸드폰번호로 비밀번호 찾기
+	public String passSearch(String m_name,String m_id,String m_hp2) {
+		String p="";
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select m_pass from meminfo where m_name=? and m_id=? and m_hp2=?";
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m_name);
+			pstmt.setString(2, m_id);
+			pstmt.setString(3, m_hp2);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=rs.getString("m_pass");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		return p;
+		
 	}
 }

@@ -3,13 +3,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String m_name=request.getParameter("m_name2");
-String m_email=request.getParameter("m_email2");
+String m_name=request.getParameter("m_name");
+String m_id=request.getParameter("m_id");
+String m_hp2=request.getParameter("m_hp2");
 
 MemInfoDao dao=new MemInfoDao();
-String memid=dao.idsearch2(m_name, m_email);
+String mempass=dao.passSearch(m_name, m_id, m_hp2);
 JSONObject ob=new JSONObject();
-ob.put("memid", memid);
-
+ob.put("mempass", mempass);
 %>
 <%=ob.toString()%>
