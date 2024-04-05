@@ -28,7 +28,7 @@ if(b){
 	session.setAttribute("loginok", "yes");
 	session.setAttribute("myid", id);
 	session.setAttribute("saveok", cbsave==null?null:"yes" );
-	response.sendRedirect("loginmain.jsp");
+	response.sendRedirect("../index.jsp?main=member/loginmain.jsp");
 	
 }else{%>
 	<script type="text/javascript">

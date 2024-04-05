@@ -131,7 +131,7 @@
 		  		<li style="padding-left: 880px;"><a href="member/loginform.jsp">로그인</a></li>
 		  		<li><a href="member/gaipform.jsp">회원가입</a></li>
 		  	<%}else{%>
-		  		<li style="padding-left: 880px;"><a href="logoutaction.jsp">로그아웃</a></li>
+		  		<li style="padding-left: 880px;"><a href="member/logoutaction.jsp">로그아웃</a></li>
 		  		<li><a href="#">마이페이지</a>
 		  			<ul>
 				      <li><a href="#">회원정보수정</a></li>

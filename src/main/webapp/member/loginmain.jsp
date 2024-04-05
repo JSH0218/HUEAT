@@ -16,9 +16,9 @@ String loginok=(String)session.getAttribute("loginok");
 
 //로그아웃상태일때
 if(loginok==null){%>
-	<jsp:include page="loginform.jsp"/>
+	<jsp:include page="../layout/main.jsp"/>
 <%}else{%>
-	<jsp:include page="../index.jsp"/>
+	<jsp:include page="../layout/main.jsp"/>
 <%}
 %>
 </body>
