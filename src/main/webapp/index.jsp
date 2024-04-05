@@ -48,7 +48,6 @@
 <body>
 
   <div class="layout title"><jsp:include page="layout/title.jsp"/></div>
-  <%-- <div class="layout menu"><jsp:include page="layout/menu.jsp"/></div> --%>
   <div class="layout banner"><jsp:include page="layout/banner.jsp"/></div>
   <div class="layout main"><jsp:include page="<%=main %>"/></div>
   <div class="layout info"><jsp:include page="layout/info.jsp"/></div>
