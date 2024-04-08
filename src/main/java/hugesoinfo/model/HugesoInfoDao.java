@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -277,7 +276,7 @@ public class HugesoInfoDao {
 				dto.setH_sangprice(rs.getString("h_sangprice"));
 				dto.setH_gasolin(rs.getString("h_gasolin"));
 				dto.setH_disel(rs.getString("h_disel"));
-				dto.setH_lgp(rs.getString("h_lpg"));
+				dto.setH_lpg(rs.getString("h_lpg"));
 				dto.setH_grade(rs.getString("h_grade"));
 				dto.setH_gradecount(rs.getString("h_gradecount"));
 				

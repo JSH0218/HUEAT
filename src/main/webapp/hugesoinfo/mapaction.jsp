@@ -8,7 +8,7 @@
 <%
 	
 	HugesoInfoDao dao=new HugesoInfoDao();
-	List<HugesoInfoDto> list=dao.selectHugesoInfo();
+	List<HugesoInfoDto> list=dao.getAllDatas();
 	
 	JSONArray arr=new JSONArray();
 	

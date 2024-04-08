@@ -9,13 +9,13 @@ import java.util.List;
 
 import mysql.db.DbConnect;
 
-public class noticeDao {
+public class NoticeDao {
 	 
 	DbConnect db = new DbConnect();
 	
 	
 	//insert 저장
-	public void insertNotice(noticeDto dto) {
+	public void insertNotice(NoticeDto dto) {
 		
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
@@ -40,8 +40,8 @@ public class noticeDao {
 	}
 	
 	//noticelist 전체 출력
-	public List<noticeDto> getAllNotice() {
-		List<noticeDto> list = new ArrayList<noticeDto>();
+	public List<NoticeDto> getAllNotice() {
+		List<NoticeDto> list = new ArrayList<NoticeDto>();
 		
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
@@ -55,7 +55,7 @@ public class noticeDao {
 			
 			while(rs.next()) {
 				
-				noticeDto dto = new noticeDto();
+				NoticeDto dto = new NoticeDto();
 				
 				dto.setN_num(rs.getString("n_num"));
 				dto.setN_subject(rs.getString("n_subject"));
@@ -110,8 +110,8 @@ public class noticeDao {
 	}
 	
 	// paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-		public List<noticeDto> getList(int start, int perPage) {
-			List<noticeDto> list = new ArrayList<noticeDto>();
+		public List<NoticeDto> getList(int start, int perPage) {
+			List<NoticeDto> list = new ArrayList<NoticeDto>();
 
 			Connection conn = db.getConnection();
 			PreparedStatement pstmt = null;
@@ -129,7 +129,7 @@ public class noticeDao {
 
 				while (rs.next()) {
 
-					noticeDto dto = new noticeDto();
+					NoticeDto dto = new NoticeDto();
 
 					dto.setN_num(rs.getString("n_num"));
 					dto.setN_subject(rs.getString("n_subject"));
@@ -153,8 +153,8 @@ public class noticeDao {
 		
 		
 		//detail페이지 num값 넘겨주기 -> dto 반환!!
-		public noticeDto getDataNotice(String n_num) {
-			noticeDto dto = new noticeDto();
+		public NoticeDto getDataNotice(String n_num) {
+			NoticeDto dto = new NoticeDto();
 			
 			Connection conn = db.getConnection();
 			PreparedStatement pstmt = null;

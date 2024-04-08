@@ -19,7 +19,7 @@ public class MemInfoDao {
 				PreparedStatement pstmt=null;
 				ResultSet rs=null;
 				
-				String sql="select num from meminfo where m_id=?";
+				String sql="select m_num from meminfo where m_id=?";
 				
 				try {
 					pstmt=conn.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class MemInfoDao {
 				
 				return m_num;
 			}
-}
+
 	
 	//회원가입 
 	public void insertMember(MemInfoDto dto) {
@@ -349,5 +349,4 @@ public class MemInfoDao {
             db.dbClose(pstmt, conn);
          }
       }
-   }
 }
