@@ -1,23 +1,24 @@
 package hugesoinfo.model;
 
 public class HugesoInfoDto {
-	String h_num;
-	String h_name;
-	String h_xvalue;
-	String h_yvalue;
-	String h_photo;
-	String h_hp;
-	String h_addr;
-	String h_pyeon;
-	String h_brand;
-	String h_sangname;
-	String h_sangphoto;
-	String h_sangprice;
-	String h_gasolin;
-	String h_disel;
-	String h_lgp;
-	String h_grade;
-	String h_gradecount;
+
+	private String h_num;
+	private String h_name;
+	private String h_xvalue;
+	private String h_yvalue;
+	private String h_photo;
+	private String h_hp;
+	private String h_addr;
+	private String h_pyeon;
+	private String h_brand;
+	private String h_sangname;
+	private String h_sangphoto;
+	private String h_sangprice;
+	private String h_gasolin;
+	private String h_disel;
+	private String h_lpg;
+	private String h_grade;
+	private String h_gradecount;
 	
 	public String getH_num() {
 		return h_num;
@@ -103,11 +104,11 @@ public class HugesoInfoDto {
 	public void setH_disel(String h_disel) {
 		this.h_disel = h_disel;
 	}
-	public String getH_lgp() {
-		return h_lgp;
+	public String getH_lpg() {
+		return h_lpg;
 	}
-	public void setH_lgp(String h_lgp) {
-		this.h_lgp = h_lgp;
+	public void setH_lpg(String h_lpg) {
+		this.h_lpg = h_lpg;
 	}
 	public String getH_grade() {
 		return h_grade;
@@ -121,7 +122,4 @@ public class HugesoInfoDto {
 	public void setH_gradecount(String h_gradecount) {
 		this.h_gradecount = h_gradecount;
 	}
-	
-	
-	
 }

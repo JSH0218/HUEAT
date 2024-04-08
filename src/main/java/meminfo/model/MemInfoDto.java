@@ -75,5 +75,6 @@ public class MemInfoDto {
 	public void setM_gaipday(Timestamp m_gaipday) {
 		this.m_gaipday = m_gaipday;
 	}
-	
+
 }
+
