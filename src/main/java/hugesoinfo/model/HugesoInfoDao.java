@@ -28,7 +28,7 @@ public class HugesoInfoDao {
 			String sql ="select * from hugesoinfo order by h_num desc";
 			
 			try {
-				pstmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+				pstmt = conn.prepareStatement(sql);
 				rs=pstmt.executeQuery();
 				
 				while(rs.next()) {
@@ -292,4 +292,3 @@ public class HugesoInfoDao {
 		return list;
 	}
 }
-
