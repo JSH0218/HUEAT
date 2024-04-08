@@ -66,6 +66,16 @@ table td:last-child {
 	border-right: 0;
 }
 
+.pyeonicon1{
+	width: 2%;
+	height: 2%;
+}
+
+.pyeonicon2{
+	width: 14%;
+	height: 14%;
+}
+
 .line{
 	border-top: 3px solid darkgray;
 }
@@ -196,10 +206,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- 편의시설 아이콘  -->
 <div style="width:100%; text-align:center;">
     <% 
-    String[] pyeonIcons = {"수면실", "샤워실", "세탁실", "세차장", "경정비", "수유실", "쉼터", "ATM", "매점", "약국", "기타"};
+    String[] pyeonIcons = {"수면실", "샤워실", "세탁실", "세차장", "경정비", "수유실", "쉼터", "ATM", "매점", "약국"};
     for (int i = 0; i < pyeonIcons.length; i++) { 
     %>
-        <img src="../image/pyeon/<%= i + 1 %>.jpg" alt="<%= pyeonIcons[i] %>" width="5%" height="5%">
+        <img src="image/pyeon/<%= pyeonIcons[i] %>.png" alt="<%= pyeonIcons[i] %>" class="pyeonicon1">
         <%= pyeonIcons[i] %>
     <% } %>
 </div>
@@ -237,12 +247,12 @@ onclick="List(1)" >
 <th width="250" style="background-color:#DFE8E2">주유소</th>
 </tr>
 <% 
-for(int i=0;i<list.size();i++){
+for(int i=0;i<list2.size();i++){
     //1번열에 출력할 번호
-    int num = list.size()-i;
+    int num = list2.size()-i;
     
     //i번째 dto얻기
-    HugesoInfoDto dto = list.get(i);
+    HugesoInfoDto dto = list2.get(i);
     %>
     <tr>
     <td align="center">
@@ -257,47 +267,46 @@ for(int i=0;i<list.size();i++){
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
         	 case "수면실":{
-        		 %><img src="../image/pyeon/1.jpg" alt="수면실" width="15%" height="15%"><%
+        		 %><img src="image/pyeon/수면실.png" alt="수면실" class="pyeonicon2"><%
         	 break;
         	 }
         	 case "샤워실":{
-        		 %><img src="../image/pyeon/2.jpg" alt="샤워실"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/샤워실.png" alt="샤워실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "세탁실":{
-        		 %><img src="../image/pyeon/3.jpg" alt="세탁실"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/세탁실.png" alt="세탁실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "세차장":{
-        		 %><img src="../image/pyeon/4.jpg" alt="세차장"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/세차장.png" alt="세차장" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "경정비":{
-        		 %><img src="../image/pyeon/5.jpg" alt="경정비"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/경정비.png" alt="경정비" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "수유실":{
-        		 %><img src="../image/pyeon/6.jpg" alt="수유실"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/수유실.png" alt="수유실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "쉼터":{
-        		 %><img src="../image/pyeon/7.jpg" alt="쉼터"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/쉼터.png" alt="쉼터" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "ATM":{
-        		 %><img src="../image/pyeon/8.jpg" alt="ATM"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/ATM.png" alt="ATM" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "매점":{
-        		 %><img src="../image/pyeon/9.jpg" alt="매점"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/매점.png" alt="매점" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "약국":{
-        		 %><img src="../image/pyeon/10.jpg" alt="약국"  width="15%" height="15%"><%
+        		 %><img src="image/pyeon/약국.png" alt="약국" class="pyeonicon2"><%
         				 break;
         	 }
         	 default:{ /* 기타 */
-        		 %><img src="../image/pyeon/11.jpg" alt="기타"  width="15%" height="15%"><%
         		 break;
         	 }
         	 

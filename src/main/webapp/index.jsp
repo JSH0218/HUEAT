@@ -41,13 +41,6 @@
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
 	   main = request.getParameter("main");
-	   %>
-	   <script type="text/javascript">
-	   	$(function(){
-			$("div.banner").hide();
-		})
-	   </script>
-	   <%
    }
 %>
 

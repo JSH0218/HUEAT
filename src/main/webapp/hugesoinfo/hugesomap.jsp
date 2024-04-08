@@ -133,7 +133,7 @@
 	        		
 	        		$.each(res,function(i,elt){
 	        			
-	        			s+="<tr><td h_num="+elt.h_num+" onclick=\"location.href='index.jsp'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+	        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 	        			
 	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 			            	message = '<div class="infowindow">'+elt.h_name+'</div>'; // 인포윈도우에 표시될 내용입니다
@@ -161,7 +161,7 @@
 				        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 				     	// 마커에 클릭이벤트를 등록합니다
 				        kakao.maps.event.addListener(marker, 'click', function() {
-				        	alert(elt.h_num);  
+				        	location.href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num;
 				        });
 	        		});
 	        		
@@ -200,7 +200,7 @@
 		        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
 		        		
 		        		$.each(res,function(i,elt){
-		        			s+="<tr><td h_num="+elt.h_num+" onclick=\"location.href='index.jsp'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+		        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 		        		});
 		        		
 		        		s+="</table>";

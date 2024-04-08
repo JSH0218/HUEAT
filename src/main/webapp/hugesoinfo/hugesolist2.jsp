@@ -38,6 +38,10 @@ font-family: 'Nanum Gothic';
 	border:white;
 }
 
+.col-md-3{
+	
+}
+
 a:link{
 color : black;
 text-decoration: none;
@@ -155,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<div style="margin: 15% 15%; width:80%;">
+<div>
 
 
 		<div id="titlearea">
@@ -181,7 +185,7 @@ onclick="List(1)" >
 
 <%
 int count = 0; // 열의 카운터 변수
-for (int i = 0; i < list.size(); i++) {
+for (int i = 0; i < list2.size(); i++) {
     if (count % 3 == 0) {
 %>
     <div class="row">
@@ -191,7 +195,7 @@ for (int i = 0; i < list.size(); i++) {
         <div class="col-md-3" style="margin-right: 5%;"><br>
 <%
     // 각 게시물 정보를 가져오기
-    HugesoInfoDto dto = list.get(i);
+    HugesoInfoDto dto = list2.get(i);
 %>
 	   
             <div style="width: 250px; height: 250px;  border: 1px solid lightgray; "><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div><br>
@@ -202,7 +206,7 @@ for (int i = 0; i < list.size(); i++) {
         </div>
 <%
     count++;
-    if (count % 3 == 0 || i == list.size() - 1) {
+    if (count % 3 == 0 || i == list2.size() - 1) {
 %>
     </div>
 <%
