@@ -14,11 +14,18 @@
   div.title {
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
+    /*position: fixed;
+     top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;*/
   }
   
   div.banner {
     border: 0px solid yellow;
     font-family: 'Nanum Gothic';
+    /* margin-top: 100px;*/
   }
   
   div.main {
@@ -42,9 +49,9 @@
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
 	   main = request.getParameter("main");
+
    }
 %>
-
 <body>
 
   <div class="layout title"><jsp:include page="layout/title.jsp"/></div>

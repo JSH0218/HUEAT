@@ -74,6 +74,43 @@ $(function(){
 	$("#idfail").hide();
 	$("#idsuccess").hide();
 	
+	//prop을 사용해 처음에 버튼을 비활성화 상태로 둔다.
+	$("#idsearchbtn,#idsearchbtn2").prop("disabled", true).css("background-color","#ccc");
+	
+	//버튼 활성화 비활성화 사용자 함수
+	function toggleIdSearchButton() {
+		var name = $("#m_name").val();
+		var hp2 = $("#m_hp2").val();
+		
+		// 이름과 핸드폰 번호 둘 다 입력되면 버튼 활성화, 그렇지 않으면 비활성화
+		if (name !== "" && hp2 !== "") {
+			if(hp2.length==11){ //핸드폰 번호의 길이가 11자일때 활성화 그 외에 줄어드는 순간 비활성화 
+				$("#idsearchbtn").prop("disabled", false).css("background-color","#618E6E");
+			}else{
+				$("#idsearchbtn").prop("disabled", true).css("background-color","#ccc");
+			}	
+		} else {
+			$("#idsearchbtn").prop("disabled", true).css("background-color","#ccc");
+		}
+	};
+	
+	function toggleemailbtn(){
+		var name=$("#m_name2").val();
+		var email=$("#m_email2").val();
+		
+		if (name !== "" && email !== "") {
+			$("#idsearchbtn2").prop("disabled", false).css("background-color","#618E6E");
+		}else {
+			$("#idsearchbtn2").prop("disabled", true).css("background-color","#ccc");
+		}
+		
+	};
+	
+	// 입력 필드 내용이 변경될 때 toggleIdSearchButton 함수 호출
+	$("#m_name, #m_hp2").on("input", toggleIdSearchButton);
+	$("#m_name2,#m_email2").on("input",toggleemailbtn);
+	
+	//아이디 찾기 버튼을 눌렀을 때
 	$("#idsearchbtn").click(function(){
 		var name=$("#m_name").val();
 		var hp2=$("#m_hp2").val();
@@ -174,7 +211,7 @@ $(function(){
 						<tr>
 							<td>
 								<input type="text" name="m_hp2" id="m_hp2" placeholder="핸드폰 번호를 입력해 주세요."
-								 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11">
 							</td>
 						</tr>
 					</table>
