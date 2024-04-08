@@ -20,7 +20,6 @@ public class HugesoInfoDto {
 	private String h_grade;
 	private String h_gradecount;
 	
-	
 	public String getH_num() {
 		return h_num;
 	}
@@ -123,8 +122,4 @@ public class HugesoInfoDto {
 	public void setH_gradecount(String h_gradecount) {
 		this.h_gradecount = h_gradecount;
 	}
-	
-	
-	
-	
 }

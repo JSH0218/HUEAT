@@ -79,14 +79,13 @@
 }
 
 
-
-
 </style>
 </head>
   <%
     //1.프로젝트 절대 경로 설정
     String root = request.getContextPath();
-    
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");
   %>
 <body>
   <!-- 1. title 상부 만들기 -->
@@ -124,10 +123,23 @@
 		      <li class="dir"><a href="#">고객후기</a>
 		    </ul>
 		  </li>
-		  
-		  <li style="padding-left: 880px;"><a href="#">로그인</a></li>
-		  <li><a href="#">회원가입</a></li>
-		  
+		  <%
+		  	//로그아웃 상태일때 로그인 버튼이 보이게
+		  	if(loginok==null){%>
+		  		<li style="padding-left: 880px;"><a href="member/loginform.jsp">로그인</a></li>
+		  		<li><a href="member/gaipform.jsp">회원가입</a></li>
+		  	<%}else{%>
+		  		<li style="padding-left: 880px;"><a href="member/logoutaction.jsp">로그아웃</a></li>
+		  		<li><a href="#">마이페이지</a>
+		  			<ul>
+				      <li><a href="index.jsp?main=mypage/updatepassform.jsp#container">회원정보수정</a></li>
+				      <li><a href="#">나의 활동</a></li>
+				      <li><a href="#">즐겨찾기</a></li>
+		    		</ul>
+		  		</li>
+		  	<%}
+		  %>
+
 		</ul>
 		</nav>
       
