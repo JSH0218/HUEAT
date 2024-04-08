@@ -114,7 +114,7 @@
 		  
 		  <li><a href="#">휴게소정보</a>
 		    <ul>
-		      <li><a href="#">휴게소찾기</a></li>
+		      <li><a href="index.jsp?main=hugesoinfo/hugesomap.jsp">휴게소찾기</a></li>
 		      <li><a href="#">휴게소목록</a></li>
 		    </ul>
 		  </li>
