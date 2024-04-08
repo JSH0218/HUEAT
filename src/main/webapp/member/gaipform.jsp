@@ -17,9 +17,10 @@
 		border-radius:10px;
 		border: 1px solid gray;
 		font-family: 'Nanum Gothic';
+	
 }
 
-	div{ 
+	body{ 
 		font-family: 'Nanum Gothic';
 	}
 	
@@ -141,7 +142,7 @@ $(function(){
 			f.m_pass2.value="";
 			return false;
 		}
-		
+		//아이디 중복체크 버튼을 누르지 않으면 회원가입을 완료할 수 없다. 
 		  if (!isIdChecked) {
                 alert("아이디 중복 확인을 해주세요.");
                 return;
@@ -168,7 +169,7 @@ $(function(){
 <h3 style="width: 500px; margin: 0 auto; margin-top: 50px; text-align: center;">회원가입</h3>
 <div  style="width: 500px; margin: 0 auto; margin-top: 40px; border: 1px solid #ccc; border-radius: 10px;">
 
-	<form style="margin: 60px;" action="gaipaction.jsp" method="post" onsubmit="return check(this)">
+	<form style="margin: 60px;width: 400px;" action="gaipaction.jsp" method="post" onsubmit="return check(this)">
 	
 		<table class="table table-bordered-light" style="width: 400px; margin: 0 auto;">
 			<tr>

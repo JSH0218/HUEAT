@@ -13,13 +13,14 @@
 <style type="text/css">
 input{
 	border: none;
+	outline: none;
 
 }
 table th {
 	text-align: center;
 }
 
-div{
+body{
 	font-family: 'Nanum Gothic';
 }
 table td{
@@ -85,7 +86,7 @@ onclick="location.href='../index.jsp'"></div>
 	<div align="center" style="margin-bottom: 30px;">
 		<span><a href='idsearchform.jsp'>아이디 찾기</a></span>&nbsp;&nbsp;
 		|
-		<span><a>비밀번호 찾기</a></span>&nbsp;&nbsp;
+		<span><a href="passSearchform.jsp">비밀번호 찾기</a></span>&nbsp;&nbsp;
 		|
 		<span><a href='gaipform.jsp'>회원가입</a></span>
 	</div>
