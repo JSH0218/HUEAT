@@ -2,7 +2,7 @@ package notice.model;
 
 import java.sql.Timestamp;
 
-public class noticeDto {
+public class NoticeDto {
 
 	
 	private String n_num;
