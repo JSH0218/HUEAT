@@ -28,7 +28,7 @@ body {
 	width: 300px;
 	height: 300px;
 	margin-top: 100px;
-	margin-left: 300px;
+	margin-left: 200px;
 }
 
 #updatemember {
@@ -147,9 +147,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 		});
 		
-		/*$("#deletebtn").click(function(){
-			location.href="mypage/delete.jsp";
-		}) */
+		$("#deletebtn").click(function(){
+			location.href="index.jsp?main=mypage/deleteform.jsp";  
+		}) 
 	})
 </script>
 </head>
@@ -279,6 +279,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 								style="width: 100px; margin-left: 10px;">
 								<span style="font-size: 13px;">회원정보수정</span>
 							</button>
+						</td>
 					</tr>
 				</table>
 			</form>
