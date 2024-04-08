@@ -4,28 +4,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR&family=Stylish&display=swap" rel="stylesheet">
+  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
   div.title {
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
-    /*position: fixed;
+    position: fixed;
      top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;*/
+    background-color: white;
   }
   
   div.banner {
     border: 0px solid yellow;
     font-family: 'Nanum Gothic';
-    /* margin-top: 100px;*/
+    margin-top: 100px;
   }
   
   div.main {
@@ -39,6 +39,12 @@
     background-color: #DAE7DE;
     
   }
+  	@font-face {
+    font-family: 'Orbit-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 </style>
 </head>
 <%
@@ -47,9 +53,13 @@
    
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
-	   main = request.getParameter("main");
-
-   }
+	   main = request.getParameter("main");%>
+	<script type="text/javascript">
+		$(function(){
+			$("div.banner").hide();
+		})
+	</script>
+   <%}
 %>
 <body>
 

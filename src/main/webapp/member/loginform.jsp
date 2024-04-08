@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Gugi&family=Hahmlet:wght@100..900&family=Hi+Melody&family=Sunflower:wght@300&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
@@ -38,6 +38,12 @@ body{
 	div img{
 	cursor: pointer;
 	}
+	  	@font-face {
+    font-family: 'Orbit-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 </style>
 </head>
 <%
@@ -81,9 +87,9 @@ onclick="location.href='../index.jsp'"></div>
 		</div>
 	</form>
 	<div align="center" style="margin-bottom: 30px;">
-		<span><a href='idsearchform.jsp'>아이디 찾기</a></span>&nbsp;&nbsp;
+		<span><a href='../index.jsp?main=member/idsearchform.jsp'>아이디 찾기</a></span>&nbsp;&nbsp;
 		|
-		<span><a href="passSearchform.jsp">&nbsp;비밀번호 찾기</a></span>&nbsp;&nbsp;
+		<span><a href="../index.jsp?main=member/passSearchform.jsp">&nbsp;비밀번호 찾기</a></span>&nbsp;&nbsp;
 		|
 		<span><a href='gaipform.jsp'>&nbsp;회원가입</a></span>
 	</div>
