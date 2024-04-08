@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -29,7 +28,7 @@ public class HugesoInfoDao {
 			String sql ="select * from hugesoinfo order by h_num desc";
 			
 			try {
-				pstmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+				pstmt = conn.prepareStatement(sql);
 				rs=pstmt.executeQuery();
 				
 				while(rs.next()) {
@@ -277,7 +276,7 @@ public class HugesoInfoDao {
 				dto.setH_sangprice(rs.getString("h_sangprice"));
 				dto.setH_gasolin(rs.getString("h_gasolin"));
 				dto.setH_disel(rs.getString("h_disel"));
-				dto.setH_lgp(rs.getString("h_lpg"));
+				dto.setH_lpg(rs.getString("h_lpg"));
 				dto.setH_grade(rs.getString("h_grade"));
 				dto.setH_gradecount(rs.getString("h_gradecount"));
 				
@@ -293,4 +292,3 @@ public class HugesoInfoDao {
 		return list;
 	}
 }
-

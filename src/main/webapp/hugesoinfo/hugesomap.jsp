@@ -19,7 +19,8 @@
 		
 		#titlearea{
 			text-align: center;
-			margin-bottom: 20px;
+			margin-top: 100px;
+			margin-bottom: 40px;
 		}
 		
 		#titlearea hr{
@@ -30,12 +31,18 @@
 		#contentarea{
 			padding-left: 25%;
 			padding-right: 25%;
+			margin-bottom: 80px;
 		}
 		
 		#map{
         	max-width: 800px; /* 지도 최대 너비 설정 */
         	height: 640px;
-        	margin: 0 auto 20px auto;
+        	margin: 0 auto 40px auto;
+		}
+		
+		div.infowindow{
+			text-align: center;
+			width: 210px;
 		}
 		
 		#searcharea{
@@ -49,10 +56,23 @@
 			margin-right: 5px;
 		}
 		
-		div.infowindow{
-			text-align: center;
-			width: 210px;
+		#searcharea button{
+			background-color: #618E6E;
 		}
+		
+		table tr:nth-child(1) th{
+			background-color: #dfdfdf;
+			text-align: center;
+		}
+		
+		table tr td:nth-child(1){
+			cursor: pointer;
+		}
+		
+		table tr td{
+			font-size: 14px;
+		}
+
 	</style>
 	<script>
 		$(function(){
@@ -113,7 +133,7 @@
 	        		
 	        		$.each(res,function(i,elt){
 	        			
-	        			s+="<tr><td h_num="+elt.h_num+">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+	        			s+="<tr><td h_num="+elt.h_num+" onclick=\"location.href='index.jsp'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 	        			
 	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 			            	message = '<div class="infowindow">'+elt.h_name+'</div>'; // 인포윈도우에 표시될 내용입니다
@@ -180,7 +200,7 @@
 		        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
 		        		
 		        		$.each(res,function(i,elt){
-		        			s+="<tr><td h_num="+elt.h_num+">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+		        			s+="<tr><td h_num="+elt.h_num+" onclick=\"location.href='index.jsp'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 		        		});
 		        		
 		        		s+="</table>";

@@ -94,7 +94,7 @@
        <a href="<%=root%>" style="color: #618E6E; text-decoration: none; display: flex; align-items: center;"">
        <img src="<%=root%>/image/mainbanner/logo1.png" style="width: 100px; margin-top: 5%; margin-left: 100%;">
        
-       <div style="margin-top: 35px;line-height:100%">
+       	<div style="margin-top: 35px;line-height:100%">
             <span style="font-size: 20px;" ><b>HUEAT</b></span><br>
             <span style="font-size: 10px;">[머무르는곳]</span>
         </div>
@@ -112,7 +112,7 @@
 		  
 		  <li><a href="#">휴게소정보</a>
 		    <ul>
-		      <li><a href="#">휴게소찾기</a></li>
+		      <li><a href="index.jsp?main=hugesoinfo/hugesomap.jsp">휴게소찾기</a></li>
 		      <li><a href="index.jsp?main=hugesoinfo/hugesolist.jsp">휴게소목록</a></li>
 		    </ul>
 		  </li>
