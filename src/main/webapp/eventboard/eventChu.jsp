@@ -1,4 +1,5 @@
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="event.model.EventDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,16 +15,21 @@
 <body>
 
   <%
-  String n_num=request.getParameter("n_num");
-  String currentPage=request.getParameter("currentPage");
-  
-  NoticeDao dao=new NoticeDao();
-  dao.deleteNoice(n_num);
-  
-  response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp?currentPage="+currentPage);
-  
-  
-  %>
+    //num 읽기
+    String e_num = request.getParameter("e_num");
+    
+    EventDao dao = new EventDao();
+    dao.updateEventChu(e_num);
+    
+    //증가된 chu 값 json 형태로 보내기
+    int chu = dao.getDataEvent(e_num).getE_chu();
+    
+    JSONObject ob = new JSONObject();
+    ob.put("chu", chu);
+    
+    %>
+    
+    <%=ob.toString()%>
 
 </body>
 </html>

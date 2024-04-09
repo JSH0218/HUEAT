@@ -1,5 +1,5 @@
-<%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="event.model.EventDto"%>
+<%@page import="event.model.EventDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -15,10 +15,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-  <%
+    <%
   //String myid=(String)session.getAttribute("myid");
 
-  String realPath=getServletContext().getRealPath("/noticesave");
+  String realPath=getServletContext().getRealPath("/eventsave");
   System.out.println(realPath);
   
   int uploadSize=1024*1024*5;
@@ -27,34 +27,34 @@
   try{
   multi=new MultipartRequest(request,realPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
   
-       String n_num = multi.getParameter("n_num");
+       String e_num = multi.getParameter("e_num");
        String currentPage = multi.getParameter("currentPage");
-       String n_subject = multi.getParameter("n_subject");
-       String n_content=multi.getParameter("n_content");
-       String n_image=multi.getFilesystemName("n_image"); 
+       String e_subject = multi.getParameter("e_subject");
+       String e_content=multi.getParameter("e_content");
+       String e_image=multi.getFilesystemName("e_image"); 
        
        //기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
-       NoticeDao dao = new NoticeDao();
-       String old_photoName = dao.getDataNotice(n_num).getN_image();
+       EventDao dao = new EventDao();
+       String old_photoName = dao.getDataEvent(e_num).getE_image();
        
        //dto에 저장
-       NoticeDto dto=new NoticeDto();
+       EventDto dto=new EventDto();
        
        
        //추후 아이디불러오기 dto.setMyid(myid);
-       dto.setN_num(n_num);
-       dto.setN_subject(n_subject);
-       dto.setN_content(n_content);
+       dto.setE_num(e_num);
+       dto.setE_subject(e_subject);
+       dto.setE_content(e_content);
        
        
        //사진 선택을 안하면 기존의 사진으로 저장
-       dto.setN_image(n_image==null?old_photoName:n_image);
+       dto.setE_image(e_image==null?old_photoName:e_image);
        
        //update
-       dao.updateNotice(dto);
+       dao.updateEvent(dto);
        
        //방명록 목록으로 이동(수정했던 페이지로 이동)
-       response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp?currentPage="+currentPage);
+       response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp?currentPage="+currentPage);
   
   }catch(Exception e){
 	  
