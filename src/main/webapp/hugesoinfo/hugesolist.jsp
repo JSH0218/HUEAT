@@ -31,7 +31,7 @@ font-family: 'Nanum Gothic';
 		}
 
 .icon1 , .icon2{
-width: 30px;
+	width: 30px;
     height: 30px;
 }
 
@@ -74,6 +74,7 @@ table td:last-child {
 .pyeonicon2{
 	width: 14%;
 	height: 14%;
+	padding-right: 2%;
 }
 
 .line{
@@ -115,7 +116,7 @@ color: black;
 	 
 	//전체갯수
 	int totalCount=dao.getTotalCount();
-	int perPage=3; //한페이지당 보여질 글의 갯수
+	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
 	int startPage; //각블럭당 보여질 시작페이지
@@ -196,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </script>
 
-<div style="margin: 10% 10%; width:80%;">
+<div style="margin: 100px 10% 40px; width:80%;">
 
 <div id="titlearea">
 			<h4>휴게소 목록</h4>
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function() {
     String[] pyeonIcons = {"수면실", "샤워실", "세탁실", "세차장", "경정비", "수유실", "쉼터", "ATM", "매점", "약국"};
     for (int i = 0; i < pyeonIcons.length; i++) { 
     %>
-        <img src="image/pyeon/<%= pyeonIcons[i] %>.png" alt="<%= pyeonIcons[i] %>" class="pyeonicon1">
+        <img src="image/pyeon/<%= pyeonIcons[i] %>.jpg" alt="<%= pyeonIcons[i] %>" class="pyeonicon1">
         <%= pyeonIcons[i] %>
     <% } %>
 </div>
@@ -229,7 +230,7 @@ onclick="List(1)" >
 
 
 
-<table class="table">
+<table class="table" style="margin-bottom: 40px;">
 <tr class="line">
 <th rowspan="2" width="250" style="background-color:#DFE8E2">휴게소</th>
 <th rowspan="2" width="420" style="background-color:#DFE8E2">이정</th>
@@ -267,43 +268,43 @@ for(int i=0;i<list2.size();i++){
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
         	 case "수면실":{
-        		 %><img src="image/pyeon/수면실.png" alt="수면실" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" class="pyeonicon2"><%
         	 break;
         	 }
         	 case "샤워실":{
-        		 %><img src="image/pyeon/샤워실.png" alt="샤워실" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "세탁실":{
-        		 %><img src="image/pyeon/세탁실.png" alt="세탁실" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "세차장":{
-        		 %><img src="image/pyeon/세차장.png" alt="세차장" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/세차장.jpg" alt="세차장" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "경정비":{
-        		 %><img src="image/pyeon/경정비.png" alt="경정비" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/경정비.jpg" alt="경정비" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "수유실":{
-        		 %><img src="image/pyeon/수유실.png" alt="수유실" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/수유실.jpg" alt="수유실" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "쉼터":{
-        		 %><img src="image/pyeon/쉼터.png" alt="쉼터" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "ATM":{
-        		 %><img src="image/pyeon/ATM.png" alt="ATM" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/ATM.jpg" alt="ATM" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "매점":{
-        		 %><img src="image/pyeon/매점.png" alt="매점" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/매점.jpg" alt="매점" class="pyeonicon2"><%
         				 break;
         	 }
         	 case "약국":{
-        		 %><img src="image/pyeon/약국.png" alt="약국" class="pyeonicon2"><%
+        		 %><img src="image/pyeon/약국.jpg" alt="약국" class="pyeonicon2"><%
         				 break;
         	 }
         	 default:{ /* 기타 */
@@ -316,7 +317,7 @@ for(int i=0;i<list2.size();i++){
         %>
         
     </td>
-    <td></td>
+    <td>휘발유<%=dto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=dto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=dto.getH_lpg().equals("없음")?"X":"O" %></td>
     <td>
     <%
      String brands = dto.getH_brand();

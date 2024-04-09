@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -36,10 +36,6 @@ font-family: 'Nanum Gothic';
 .btn{
 	background-color:white;
 	border:white;
-}
-
-.col-md-3{
-	
 }
 
 a:link{
@@ -77,7 +73,7 @@ color: black;
 	 
 	//전체갯수
 	int totalCount=dao.getTotalCount();
-	int perPage=3; //한페이지당 보여질 글의 갯수
+	int perPage=9; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
 	int startPage; //각블럭당 보여질 시작페이지
@@ -159,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<div>
+<div style="margin: 100px 10% 40px; width:80%;">
 
 
 		<div id="titlearea">
@@ -179,43 +175,37 @@ onclick="List(1)" >
 <i class="bi bi-grid-fill icon2" style="font-size: 25px; font-weight: bold;"></i>
 </button>
 
-
-<table class="table">
-
-
 <%
 int count = 0; // 열의 카운터 변수
 for (int i = 0; i < list2.size(); i++) {
     if (count % 3 == 0) {
 %>
-    <div class="row">
+<div class="container" style="margin-bottom: 40px;">
+    <div class="row" style="display: flex; justify-content: center;">
 <% 
     }
 %>
-        <div class="col-md-3" style="margin-right: 5%;"><br>
+        <div class="col-md-3" style="text-align: center; margin-bottom: 20px;">
 <%
-    // 각 게시물 정보를 가져오기
-    HugesoInfoDto dto = list2.get(i);
+	    // 각 게시물 정보를 가져오기
+	    HugesoInfoDto dto = list2.get(i);
 %>
 	   
-            <div style="width: 250px; height: 250px;  border: 1px solid lightgray; "><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div><br>
-           <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="text-decoration: none; font-weight:bold;"><%=dto.getH_name() %></a><br>
-            <b style="color: gray; font-size: 9pt;"><%=dto.getH_addr() %></b><br>
-            <b style="color: lightgray; font-size: 9pt;"><%=dto.getH_hp() %> </b>&nbsp;
-            <b style="color: lightgray; font-size: 9pt;">조회&nbsp; </b><br>
+			<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
+          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="text-decoration: none; font-weight:bold;"><%=dto.getH_name() %></a>
+            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
+            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
         </div>
 <%
     count++;
     if (count % 3 == 0 || i == list2.size() - 1) {
 %>
     </div>
+</div>
 <%
     }
 }
 %>
-
-</table>
-
 
 <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
