@@ -66,31 +66,46 @@
 	
 %>
 <script type="text/javascript">
+    $(function(){
+        $("form").submit(function(e){
+            e.preventDefault();
+            var f = this;
 
-	$(function(){
-		$("form").submit(function(e){
-			e.preventDefault();
-			var f=this;
-			
-			if (!$("#agree").is(":checked")) {
-	            alert("이용약관에 동의해야 합니다.");
-	            return false; // 제출 중지
-	        }
-			
-			if(f.m_pass.value != '<%=dto.getM_pass()%>') {
-		        swal("비밀번호가 일치하지 않습니다.", "다시 입력해주세요.", "error");
-		        f.m_pass.value="";
-		        return false;
-		    } 
+            if (!$("#agree").is(":checked")) {
+                alert("이용약관에 동의해야 합니다.");
+                return false; // 제출 중지
+            }
 
-			swal("탈퇴가 완료되었습니다.","이용해 주셔서 감사합니다.")
-			.then(function(){
-				f.submit();
-			})
-			
-		});
-	}) 
+            if (f.m_pass.value != '<%=dto.getM_pass()%>') {
+                swal("비밀번호가 일치하지 않습니다.", "다시 입력해주세요.", "error");
+                f.m_pass.value = "";
+                return false;
+            }
+
+            // 확인 대화 상자 표시
+            confirmWithdrawal(f);
+        });
+    });
+
+    function confirmWithdrawal(f) {
+        swal({
+            title: "정말 탈퇴하시겠습니까?",
+            text: "탈퇴 후에는 계정을 복구할 수 없습니다.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willWithdraw) => {
+            if (willWithdraw) {
+                swal("회원탈퇴가 완료되었습니다.","이용해주셔서 감사합니다.", {
+                    icon: "success",
+                }).then(() => {
+                    f.submit(); // 폼 제출
+                });
+            } 
+        });
+    }
 </script>
+
 <body>
 <div id="container">
 <div id="deletediv">
@@ -98,8 +113,8 @@
 <b style="font-size: 25px; color: gray;">회원탈퇴안내</b><br><br>
 </div>
 <hr class="theme">
-<form style="margin:100px; margin-top: 30px;" id="deleteform" >
-	<div style="width: 800px; height: 300px; overflow: auto;">
+<form style="margin:100px; margin-top: 30px;" id="deleteform" action="mypage/deleteaction.jsp" method="post">
+	<div style="width: 800px; height: 300px; overflow: auto; border: 1px solid gray;">
      	 <b style="font-size: 20px; color: black;">회원 탈퇴 약관</b>
     <br><br>
     <b>제1조 (목적)</b><br>
@@ -125,15 +140,16 @@
      </div>
      <div style="margin-top: 20px; display: flex; align-items: center;">
     <label for="agree" class="chk_box">
-    <input type="checkbox" id="agree">
-    <span class="on"></span>이용약관에 동의합니다.
+    <input type="checkbox" id="agree" name="agree">
+    <span class="on"></span>이용약관에 동의합니다.<span style="color: red;"><b>(필수)</b></span>
 	</label>
 	</div>
      <div style="margin-top: 50px;" class="d-inline-flex align-items-center">
     <b style="margin-right: 20px;">비밀번호 입력</b>
     <input type="password" name="m_pass" id="m_pass" style="width: 200px; height: 40px;" class="form-control" required="required">
+    <input type="hidden" name="m_num" value="<%=dto.getM_num() %>" >
 	</div>
-	<div style="margin-top: 100px; text-align: center;"">
+	<div style="margin-top: 100px; text-align: center;">
 		<button type="button" class="btn btn-outline-success" style="width: 100px; height: 44px;" id="#"
 		onclick="location.href='index.jsp?main=mypage/updateform.jsp'">
 		취소

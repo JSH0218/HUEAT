@@ -140,11 +140,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 			
 			
-			swal("회원정보가 수정되었습니다.","성공!")
-			.then(function(){
-				f.submit();
-			})
-			
+			swal("회원정보가 수정되었습니다.", "성공!","success").then(function() {
+			    f.submit();
+			});
 		});
 		
 		$("#deletebtn").click(function(){
@@ -248,7 +246,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							        <option value="SKT" <%if (dto.getM_hp1().equals("SKT")) {%> selected <%}%>>SKT</option>
 							        <option value="LG" <%if (dto.getM_hp1().equals("LG")) {%> selected <%}%>>LG</option>
 							        <option value="KT" <%if (dto.getM_hp1().equals("KT")) {%> selected <%}%>>KT</option>
-							        <option value="알뜰폰">알뜰폰</option>
+							        <option value="알뜰폰" <%if (dto.getM_hp1().equals("알뜰폰")) {%> selected <%}%>>알뜰폰</option>
 							    </select>
 							     <input type="text" name="m_hp2" id="m_hp2" style="width: 215px; height: 45px;  margin-left: 5px;"
 							           value="<%=dto.getM_hp2()%>" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="11">
