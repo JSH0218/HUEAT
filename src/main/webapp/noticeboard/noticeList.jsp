@@ -1,5 +1,5 @@
-<%@page import="notice.model.noticeDto"%>
-<%@page import="notice.model.noticeDao"%>
+<%@page import="notice.model.NoticeDto"%>
+<%@page import="notice.model.NoticeDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -42,7 +42,7 @@
    //로그인상태확인
    //String loginok=(String)session.getAttribute("loginok");
 
-	noticeDao dao=new noticeDao();
+	NoticeDao dao=new NoticeDao();
 	
 	//전체갯수
 	int totalCount=dao.getTotalCount();
@@ -85,7 +85,7 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<noticeDto> list = dao.getList(startNum, perPage);
+	List<NoticeDto> list = dao.getList(startNum, perPage);
 		
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -123,7 +123,7 @@
           
           //내용 넣으면 각 주제별로 게시물 추출
           else {
-        	  for(noticeDto dto:list) {%>
+        	  for(NoticeDto dto:list) {%>
         		
         		  <tr>
         		    <td align="center"><%=dto.getN_num() %></td>

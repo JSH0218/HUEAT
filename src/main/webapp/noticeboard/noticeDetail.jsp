@@ -1,5 +1,6 @@
-<%@page import="notice.model.noticeDto"%>
-<%@page import="notice.model.noticeDao"%>
+
+<%@page import="notice.model.NoticeDto"%>
+<%@page import="notice.model.NoticeDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -17,9 +18,9 @@
   <%
   
     String n_num = request.getParameter("n_num");
-    noticeDao dao = new noticeDao();
+    NoticeDao dao = new NoticeDao();
     
-    noticeDto dto = dao.getDataNotice(n_num);
+    NoticeDto dto = dao.getDataNotice(n_num);
     String currentPage=request.getParameter("currentPage");
     
     //조회수 가져오기

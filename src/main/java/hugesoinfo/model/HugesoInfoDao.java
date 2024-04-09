@@ -228,7 +228,8 @@ public class HugesoInfoDao {
 					Connection conn=db.getConnection();
 					PreparedStatement pstmt=null;
 					
-					String sql="delete from favorite where f_num=?";
+					//f_num이 null인 경우를 처리
+					String sql = "DELETE FROM favorite WHERE f_num = ?";
 					
 					try {
 						pstmt=conn.prepareStatement(sql);
@@ -291,4 +292,5 @@ public class HugesoInfoDao {
 		
 		return list;
 	}
+	
 }

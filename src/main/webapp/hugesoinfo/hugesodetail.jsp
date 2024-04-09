@@ -1,3 +1,6 @@
+<%@page import="review.model.ReviewDto"%>
+<%@page import="review.model.ReviewDao"%>
+<%@page import="favorite.model.FavoriteDto"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="meminfo.model.MemInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
@@ -15,7 +18,7 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-   
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <title>HUEAT</title>
 <style type="text/css">
 
@@ -62,78 +65,151 @@ button.brand{
 	border:white;
 }
 
+.nav-pills .nav-link.active{
+	background-color:#618E6E;
+}
 </style>
 </head>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
 	String h_num = request.getParameter("h_num");
     //세션에서 현재 로그인된 member의 아이디를 가져옴
-	String m_id = (String)session.getAttribute("m_id");
+	String m_id = (String)session.getAttribute("myid");
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
-	String m_num = mdao.getM_num("m_id");
+	String m_num = mdao.getM_num(m_id);
 	
      // HugesoInfoDao 객체 생성
      HugesoInfoDao dao = new HugesoInfoDao();
 	// 휴게소 데이터 가져옴
 	HugesoInfoDto dto = dao.getData(h_num);
+	
+	FavoriteDto fdto = new FavoriteDto();
+	
+	ReviewDao rdao = new ReviewDao();
+	
+    
 %>
 
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+	
 
 $(".brand").click(function() {
     $(this).toggleClass("active-color");
 });
 
 
+
+//초기 즐겨찾기 상태 가져오기
+$(document).ready(function() {
+    checkFavoriteStatus();
+});
+
+// 즐겨찾기 상태를 가져오고 버튼 색상을 업데이트하는 함수
+function checkFavoriteStatus() {
+    $.ajax({
+        type: "get",
+        url: "hugesoinfo/checkfavorite.jsp", // 해당 URL은 실제로 구현되어야 합니다.
+        dataType: "json", // 즐겨찾기 상태를 JSON 형식으로 반환하는 것을 가정합니다.
+        success: function(response) {
+            // 즐겨찾기 상태에 따라 버튼 색상 업데이트
+            isFavorite = response.isFavorite;
+            updateButtonColor();
+        },
+        error: function(xhr, status, error) {
+            // 오류 처리
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+
+// 버튼 클릭 시 즐겨찾기 추가 또는 삭제 요청 보내기
 $("#favorite").click(function(){
     var login = "<%=loginok%>";
     
-    if(login == "null"){
+    if(login === "null"){
         alert("로그인이 필요한 서비스입니다.");
         return;
+    }
+
+    if (isFavorite) {
+        del(<%=fdto.getF_num()%>);
     } else {
-        var icon = $("#favorite i");
-        if (icon.css("color") === "rgb(255, 255, 0)") {
-            icon.css("color", "white"); // 노란색에서 흰색으로 변경
-        } else {
-            icon.css("color", "yellow"); // 흰색에서 노란색으로 변경
-        }
+        toggleFavorite();
     }
 });
 
+// 즐겨찾기 추가 요청을 보내는 함수
+function toggleFavorite() {
+    var f_data=$("#frm").serialize();
+  
+    $.ajax({
+        type: "post",
+        dataType: "html",
+        data: f_data,
+        url: "hugesoinfo/insertfavorite.jsp",
+        success: function(response) {
+            // 성공 시 즐겨찾기 상태 업데이트 및 버튼 색상 변경
+            isFavorite = true;
+            updateButtonColor();
+        },
+        error: function(xhr, status, error) {
+            // 오류 처리
+            console.error("오류 발생: " + error);
+        }
+    });
+}
 
-	
-	
-	//form태그에서 favorite 데이터 가져오기
-	var f_data=$("#frm").serialize();
-	//alert(f_data);
-	
-	//즐겨찾기 추가
-	$.ajax({
-		type:"post",
-		dataType:"html",
-		data:f_data,
-		url:"hugesoinfo/insertfavorite.jsp",
-		success:function(){
-			
-			//alert("success");
-			
-			var a=confirm("즐겨찾기에 저장하였습니다\n즐겨찾기로 이동하려면 [확인]을 눌러주세요");
-			
-			if(a){
-				location.href="index.jsp?main=/.jsp";
-			}
-		}
-	})
-	
-	
-})
+// 즐겨찾기 삭제 요청을 보내는 함수
+function del(f_num) {
+    $.ajax({
+        type: "get",
+        url: "hugesoinfo/deletefavorite.jsp",
+        dataType: "html",
+        data: {"f_num": f_num},
+        success: function(response) {
+            // 성공 시 즐겨찾기 상태 업데이트 및 버튼 색상 변경
+            isFavorite = false;
+            updateButtonColor();
+        },
+        error: function(xhr, status, error) {
+            // 오류 처리
+            console.error("오류 발생: " + error);
+        }
+    });
+}
+
+// 버튼 색상을 업데이트하는 함수
+function updateButtonColor() {
+    var icon = $("#favorite i");
+    if (isFavorite) {
+        icon.css("background-color", "yellow");
+    } else {
+        icon.css("background-color", "white");
+    }
+}
+
+
+
+
+
+
+	//변수 선언
+	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
+	var diesel = parseInt(<%=dto.getH_disel()%>); // 경유 가격 데이터
+	var lpg = parseInt(<%=dto.getH_lpg()%>); // LPG 가격 데이터
+
+    // 숫자에 천 단위 콤마 추가하는 함수
+    function insertCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
 </script>
 
@@ -151,12 +227,13 @@ $("#favorite").click(function(){
 <input type="hidden" name="h_num" value="<%=h_num%>">
 <input type="hidden" name="m_num" value="<%=m_num%>">
 
+<!-- 휴게소 사진 -->
 <div style="float:left; margin-top:50px;">
 <img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:600px; height:400px;">
 </div>
 
-<div style="padding-bottom: 200px; padding-top: 50px; margin-left:50%;">
 
+<div style="padding-bottom: 150px; padding-top: 80px; position: relative; left:4%;">
 
 <!-- 휴게소 이름 출력 -->
 <div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;">
@@ -165,10 +242,9 @@ $("#favorite").click(function(){
 
 
 <!-- 즐겨찾기 버튼 -->
-<button type="button" id="favorite">
-<i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i>
+<button type="button" id="favorite" style="position:relative; left:-200px; top:-50px;">
+<i class="bi bi-bookmark" style=" font-size:200%;"></i>
 </button>
-
 
 <!-- 휴게소 평점 출력 -->
 <div style="font-size: 20px; margin-bottom: 20px; ">
@@ -255,44 +331,74 @@ for(i=0;i<5;i++){%>
 </div>
 
 
-<div style="float:left; width: 500px; height:600px;">
+<div style="float:left; position: relative; top:-50px;"> 
 
 
+<div class="container mt-3">
 
-<!-- 브랜드 출력  -->
-<% 
-String brands = dto.getH_brand();
-String[] brandArray = brands.split(",");
-for(String brand : brandArray){%>
-	<button type="button" class="btn btn-success brand" style="width:110px; height:50px;">
-	<% out.println(brand); %>
-	</button> 
- <%} %><br>
+  <!-- Nav pills -->
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#home">푸드코트</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#menu1">브랜드</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+   
+      
+     <!-- 상품 사진 출력  --> 
+      <%
+String sangphotos = dto.getH_sangphoto();
+String[] sangPhotoArray = sangphotos.split(",");
+  for(String sangphoto : sangPhotoArray){%>
+	<img alt="" src="image/food/<%=sangphoto%>" style="width: 200px; height:200px; margin-right:20px;">
  
+ <%}%><br>
  
- 
-<%=dto.getH_sangphoto() %>
-
 <!-- 상품이름 출력 -->
 <%
 String sangnames =  dto.getH_sangname();
 String[] sangArray = sangnames.split(",");
 for(String sangname : sangArray){%>
-	<span style="margin-left:20px;"><% out.println(sangname); %></span>
+	<div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;"><% out.println(sangname); %></div>
 <%}%><br>
 
-<!-- 상품가격 출력 -->
+
+ <!-- 상품가격 출력 -->
 <%
 String prices =  dto.getH_sangprice();
 prices = prices.replaceAll("\\{", "").replaceAll("\\}", ""); // {와 }를 제거하여 숫자만 남김
 String[] priceArray = prices.split(","); // 쉼표를 기준으로 문자열 분할
-for(String price : priceArray){
-	 out.println(price+"원");
-}%>
+for(String price : priceArray){%>
+	 <div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;">
+	 <% out.println(price+"원");%></div>
+<%}%>  
+      
+    </div>
+    
+    
+    <div id="menu1" class="container tab-pane fade"><br>
 
+ <!-- 브랜드 출력  -->
+<% 
+String brands = dto.getH_brand();
+String[] brandArray = brands.split(",");
+for(String brand : brandArray){%>
+ <img alt="<%= brand %>" src="image/brand/<%= brand %>.jpg" style="width: 120px; height: 120px;">
+  <% out.println(brand);%>
+ <%}%><br>
+
+    </div>
+  </div>
+</div>
 </div>
 
-<div style="position:relative; margin-left:50%;">
+<div style="position:relative; margin-left:60%; ">
 <h5>주유소/충전소</h5>
 <table class="table">
 <tr>
@@ -301,15 +407,15 @@ for(String price : priceArray){
 </tr>
 <tr>
 <td >휘발유</td>
-<td ><%=dto.getH_gasolin() %>원</td>
+<td ><%=dto.getH_gasolin()%>원</td>
 </tr>
 <tr>
 <td >경유</td>
-<td ><%=dto.getH_disel() %>원</td>
+<td ><%= dto.getH_disel() %>원</td>
 </tr>
 <tr>
 <td >LPG</td>
-<td><%=dto.getH_lpg() %>원</td>
+<td><%= dto.getH_lpg() %>원</td>
 </tr>
 </table>
 <div style="font-size:14px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
