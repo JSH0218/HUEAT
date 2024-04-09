@@ -1,3 +1,4 @@
+<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -63,6 +64,15 @@
 		table tr:nth-child(1) th{
 			background-color: #dfdfdf;
 			text-align: center;
+			border-right: 1px solid #b7b7b7;
+		}
+		
+		table tr:nth-child(1) th:nth-child(3){
+			border-right: none;
+		}
+		
+		table tr th:nth-child(2n-1){
+			width: 30%;
 		}
 		
 		table tr td:nth-child(1){
@@ -128,13 +138,8 @@
 	        	dataType:"json",
 	        	success:function(res){
 	        		
-	        		var s="<table class='table table-bordered'>";
-	        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
-	        		
 	        		$.each(res,function(i,elt){
-	        			
-	        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
-	        			
+	        				        			
 	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 			            	message = '<div class="infowindow">'+elt.h_name+'</div>'; // 인포윈도우에 표시될 내용입니다
 			            
@@ -163,14 +168,11 @@
 				        kakao.maps.event.addListener(marker, 'click', function() {
 				        	location.href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num;
 				        });
-	        		});
-	        		
-	        		s+="</table>";
-	        		
-	        		$("#tablearea").html(s);
-	        		
+	        		});	        		
 	        	}
 	        });
+			
+			getPagingList(1);
 		});
 		
 		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
@@ -209,6 +211,105 @@
 					}
 	        		
 	        		$("#tablearea").html(s);
+	        		
+	        		$("#pagenumarea").html("");
+				}
+			});
+		}
+		
+		function getPagingList(currentPage){
+			var currentPage=currentPage; //현재페이지번호
+			$.ajax({
+				type:"get",
+				url:"hugesoinfo/hugesopaging.jsp",
+				dataType:"json",
+				data:{"currentPage":currentPage},
+				success:function(res){
+					var s="<table class='table table-bordered'>";
+	        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
+	        		
+					$.each(res,function(i,elt){
+	        			
+	        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+	        		});
+					
+					s+="</table>";
+	        		
+	        		$("#tablearea").html(s);
+	        		
+	        		<%
+	        			HugesoInfoDao dao=new HugesoInfoDao();
+	        		%>
+	        		var totalCount=<%=dao.getTotalCount() %>; //전체데이터수
+	        		var perPage=5; //한페이지당 보여질 글의 갯수
+	        		var perBlock=5; //한블럭당 보여질 페이지 갯수
+	        		var startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
+	        		var startPage; //각블럭당 보여질 시작페이지
+	        		var endPage; //각블럭당 보여질 끝페이지
+	        		var totalPage; //총페이지수
+	        		var no; //각페이지당 출력할 시작번호
+	        		
+	        		//총페이지수 구한다
+	        		//총글갯수/한페이지당보여질갯수로 나눔(7/5=1)
+	        		//나머지가 1이라도 있으면 무조건 1페이지 추가(1+1=2페이지가 필요)
+	        		totalPage=totalCount/perPage+(totalCount%perPage==0?0:1);
+
+	        		//각블럭당 보여질 시작페이지
+	        		//perBlock=5일경우 현재페이지가 1~5일경우 시작페이지가1,끝페이지가 5
+	        		//현재가 13일경우 시작:11 끝:15
+	        		var startPage=Math.floor((currentPage-1)/perBlock)*perBlock+1;
+	        		endPage=startPage+perBlock-1;
+
+	        		//총페이지가 23일경우 마지막블럭은 끝페이지가 25가 아니라 23
+	        		if(endPage>totalPage)
+	        			endPage=totalPage;
+
+	        		//각페이지에서 보여질 시작번호
+	        		//1페이지:0, 2페이지:5 3페이지: 10.....
+	        		startNum=(currentPage-1)*perPage;
+
+	        		//각페이지당 출력할 시작번호 구하기
+	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
+	        		no=totalCount-(currentPage-1)*perPage;
+
+	        		//각페이지당 출력할 시작번호 구하기
+	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
+	        		no=totalCount-(currentPage-1)*perPage;
+	        		
+	        		//alert("startPage:"+startPage+"\n(currentPage-1)/perBlock:"+Math.floor((currentPage-1)/perBlock));
+	        			        		
+	        		var s="<ul class='pagination justify-content-center'>";
+	        		
+	        		//이전
+	        		if(startPage>1){
+	        			s+="<li class='page-item'>";
+	        			s+="<a class='page-link' onclick='getPagingList("+(parseInt(startPage)-1)+")' style='color: black;'>이전</a>";
+	        			s+="</li>";
+	        		}
+	        		
+	        		//페이지번호
+	        		for(var pp=startPage;pp<=endPage;pp++){
+	        			if(pp==currentPage){
+	        				s+="<li class='page-item active'>";
+	        				s+="<a class='page-link' onclick='getPagingList("+pp+")'>"+pp+"</a>";
+	        				s+="</li>";
+	        			}else{
+	        				s+="<li class='page-item'>";
+	        				s+="<a class='page-link' onclick='getPagingList("+pp+")'>"+pp+"</a>";
+	        				s+="</li>";
+	        			}
+	        		}
+	        		
+	        		//다음
+	        		if(endPage<totalPage){
+	        			s+="<li class='page-item'>";
+	        			s+="<a  class='page-link' onclick='getPagingList("+(parseInt(endPage)+1)+")' style='color: black;'>다음</a>";
+	        			s+="</li>";
+	        		}
+	        		
+	        		s+="</ul>";
+	        		
+	        		$("#pagenumarea").html(s);
 				}
 			});
 		}
@@ -230,6 +331,7 @@
 				<div id="tablearea"></div>
 			</div>
 		</div>
+		<div id="pagenumarea"></div>
 	</div>
 </body>
 </html>
