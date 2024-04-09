@@ -34,8 +34,8 @@
      	margin-left: 50px;
 	}
 	.line {
-	  border: 5px solid green;
-	  border-radius: 5px;
+	  border: 1px solid #000;
+	  margin-top: 40px;
 	}
 	button.passcheck {
     background-color: #618E6E;

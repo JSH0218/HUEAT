@@ -38,9 +38,9 @@ body {
 }
 
 .line {
-	border: 5px solid green;
-	border-radius: 5px;
-}
+	  border: 1px solid #000;
+	  margin-top: 30px;
+	}
 
 button.passcheck {
 	background-color: #618E6E;
@@ -172,8 +172,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		</div>
 
 		<div id="updatemember">
-			<b style="font-size: 25px; color: black;">개인 정보 수정</b><br>
-			<br>
+			<b style="font-size: 25px; color: black;">개인 정보 수정</b>
 
 			<hr class="line">
 			<form style="margin: 100px 200px;" action="mypage/updateaction.jsp"

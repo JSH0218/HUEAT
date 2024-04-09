@@ -29,12 +29,12 @@
    	    margin-right: auto;
 	}
   
-  .theme{
-  	border:0px; height:10px; background: linear-gradient(to left, yellow, green);
-  	width: 500px;
-  	border-radius: 5px;
-  	margin: 0 auto;
-  }
+  .line {
+	  border: 1px solid #000;
+	  width: 800px;
+	  margin: 0 auto;
+	  margin-top: 20px;
+	}
   
 	.chk_box { display: block; position: relative; padding-left: 25px; margin-bottom: 10px; cursor: pointer; font-size: 14px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 	
@@ -110,11 +110,11 @@
 <div id="container">
 <div id="deletediv">
 <div style="text-align: center;">
-<b style="font-size: 25px; color: gray;">회원탈퇴안내</b><br><br>
+<b style="font-size: 25px; color: black;">회원탈퇴안내</b>
 </div>
-<hr class="theme">
-<form style="margin:100px; margin-top: 30px;" id="deleteform" action="mypage/deleteaction.jsp" method="post">
-	<div style="width: 800px; height: 300px; overflow: auto; border: 1px solid gray;">
+<hr class="line">
+<form style="margin:100px; margin-top: 100px;" id="deleteform" action="mypage/deleteaction.jsp" method="post">
+	<div style="width: 800px; height: 300px; overflow: auto; border: 1px solid gray; padding: 20px;">
      	 <b style="font-size: 20px; color: black;">회원 탈퇴 약관</b>
     <br><br>
     <b>제1조 (목적)</b><br>
