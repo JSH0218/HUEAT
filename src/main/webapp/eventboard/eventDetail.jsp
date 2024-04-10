@@ -1,6 +1,6 @@
-<%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="event.model.EventDto"%>
+<%@page import="event.model.EventDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -56,16 +56,16 @@
 	 //누르면 추천 올라가기
 	  $("i.icon1").click(function () {
 		  
-		  var n_num = $(this).attr("n_num");
-		  //alert(n_num);
+		  var e_num = $(this).attr("e_num");
+		  //alert(e_num);
 		  var tag = $(this); 
 		  
 		  
 		  $.ajax ({
 			type : "get",
 			dataType : "json",
-			url : "noticeboard/noticeChu.jsp",
-			data : {"n_num":n_num},
+			url : "eventboard/eventChu.jsp",
+			data : {"e_num":e_num},
 			success : function (data) {
 				
 				//alert(data.chu);
@@ -82,14 +82,14 @@
 	});
 
   //게시물 삭제
-  function funcdel(n_num,currentPage){
+  function funcdel(e_num,currentPage){
 	   
-	   //alert(n_num+","+currentPage);
+	   //alert(e_num+","+currentPage);
 	   
 	  var ans=confirm("삭제하려면 [확인]을 눌러주세요");
 	   
 	   if(ans){
-		   location.href='noticeboard/noticeDelete.jsp?n_num='+n_num+"&currentPage="+currentPage;
+		   location.href='eventboard/eventDelete.jsp?e_num='+e_num+"&currentPage="+currentPage;
 	   } 
   }
  
@@ -102,14 +102,14 @@
 
   <%
   
-    String n_num = request.getParameter("n_num");
-    NoticeDao dao = new NoticeDao();
+    String e_num = request.getParameter("e_num");
+    EventDao dao = new EventDao();
     
-    NoticeDto dto = dao.getDataNotice(n_num);
+    EventDto dto = dao.getDataEvent(e_num);
     String currentPage=request.getParameter("currentPage");
     
     //조회수 가져오기
-    dao.updateReadcount(n_num);
+    dao.updateReadcount(e_num);
     
     //날짜
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -118,7 +118,7 @@
 <body>
 
   <!-- 메뉴 타이틀 -->
-  <input type="hidden" id="n_num" value="<%=n_num%>">
+  <input type="hidden" id="e_num" value="<%=e_num%>">
   <div style="margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
   
 
@@ -126,16 +126,16 @@
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
     <form id="frm">
      <table class="table">
-      <caption align="top"><h5><b><%=dto.getN_subject() %></b></h5></caption>
+      <caption align="top"><h5><b><%=dto.getE_subject() %></b></h5></caption>
       
       <tr>
         <td>
-          <b style="position: absolute; margin-top: 3%;">작성자 : <%=dto.getN_subject() %></b><br>
-          <span class="day"><%=sdf.format(dto.getN_writeday()) %></span><br>
-          <span class="read">조회 : <%=dto.getN_readcount()%></span>
-          <i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>></i>
+          <b style="position: absolute; margin-top: 3%;">작성자 : <%=dto.getE_subject() %></b><br>
+          <span class="day"><%=sdf.format(dto.getE_writeday()) %></span><br>
+          <span class="read">조회 : <%=dto.getE_readcount()%></span>
+          <i class="icon1 bi bi-hand-thumbs-up" e_num=<%=dto.getE_num() %>></i>
           <span class="likes">추천 : </span>
-    	  <span class="chu"><%=dto.getN_chu() %></span>
+    	  <span class="chu"><%=dto.getE_chu() %></span>
     	  
           
         </td>
@@ -143,8 +143,8 @@
       
       <tr height="300" align="center">
         <td>
-           <img alt="" src="noticesave/<%=dto.getN_image()%>"><br><br><br>
-           <%=dto.getN_content().replace("\n", "<br>") %><br><br>
+           <img alt="" src="eventsave/<%=dto.getE_image()%>"><br><br><br>
+           <%=dto.getE_content().replace("\n", "<br>") %><br><br>
         </td>
      </tr>
       
@@ -154,14 +154,14 @@
       <tr>
        <td colspan="1" align="right">
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
-         onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'">글쓰기</button>
+         onclick="location.href='index.jsp?main=eventboard/eventForm.jsp'">글쓰기</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
-         onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
+         onclick="location.href='index.jsp?main=eventboard/eventList.jsp'">목록</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
-         onclick="location.href='index.jsp?main=noticeboard/noticeUpdateForm.jsp?n_num=<%=n_num%>&currentPage=<%=currentPage%>'">
+         onclick="location.href='index.jsp?main=eventboard/eventUpdateForm.jsp?e_num=<%=e_num%>&currentPage=<%=currentPage%>'">
          수정</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
-         onclick="funcdel(<%=n_num%>,<%=currentPage%>)">삭제</button>
+         onclick="funcdel(<%=e_num%>,<%=currentPage%>)">삭제</button>
       
        </td>
 		</tr>		
