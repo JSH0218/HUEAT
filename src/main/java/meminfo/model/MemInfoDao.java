@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import favorite.model.FavoriteDto;
 import mysql.db.DbConnect;
 
 public class MemInfoDao {
@@ -35,6 +39,7 @@ public class MemInfoDao {
 
 		return m_num;
 	}
+	
 
 	// 회원가입
 	public void insertMember(MemInfoDto dto) {
@@ -344,4 +349,123 @@ public class MemInfoDao {
 			db.dbClose(pstmt, conn);
 		}
 	}
+	
+	
+	//즐겨찾기 목록 출력
+	public List<HashMap<String, String>> getFavlist(String m_num){
+		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
+		
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon,h.h_brand from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_num=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m_num);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, String> map=new HashMap<String, String>();
+				map.put("f_num", rs.getString("f_num"));
+				map.put("h_name", rs.getString("h_name"));
+				map.put("h_addr", rs.getString("h_addr"));
+				map.put("h_pyeon", rs.getString("h_pyeon"));
+				map.put("h_brand", rs.getString("h_brand"));
+				list.add(map);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		return list;
+		
+	}
+	
+	//m_num과 h_num이 일치할때의 f_num을 구하는 메서드
+	public String f_numData(String m_num,String h_num) {
+		String fnum="";
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql="select f_num from favorite where m_num=? and h_num=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m_num);
+			pstmt.setString(2, h_num);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				fnum=rs.getString("f_num");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return fnum;
+	}
+	
+	public int isFavorite(String m_num, String h_num) {
+		int fav=0;
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select count(*) from favorite where m_num=? and h_num=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_num);
+			pstmt.setString(2, h_num);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				fav=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		return fav;
+	}
+	
+	public List<FavoriteDto> getFavData(String m_num){
+		List<FavoriteDto> list=new ArrayList<FavoriteDto>();
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select * from favorite where m_num=?";
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m_num);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				FavoriteDto dto=new FavoriteDto();
+				dto.setF_num(rs.getString("f_num"));
+				dto.setH_num(rs.getString("h_num"));
+				dto.setM_num(rs.getString("m_num"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		
+		return list;
+	}
+	
+
 }

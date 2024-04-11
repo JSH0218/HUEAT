@@ -45,6 +45,7 @@ body{
     font-style: normal;
 }
 </style>
+
 </head>
 <%
 String saveok=(String)session.getAttribute("saveok");
@@ -67,14 +68,14 @@ onclick="location.href='../index.jsp'"></div>
 		<tr>
 			<th width="50"><i class="bi bi-person-circle fs-4"></i></th>
 			<td >
-				<input type="text" placeholder="아이디" name="id" required="required"
+				<input type="text" placeholder="아이디" name="m_id" required="required"
 				value="<%=myid%>" style="width: 300px;height: 40px;">
 			</td>
 		</tr>
 		<tr>
 			<th width="50"><i class="bi bi-lock-fill fs-4"></i></th>
 			<td>
-				<input type="password" placeholder="비밀번호" name="pass" required="required"style="width: 300px;height: 40px;">
+				<input type="password" placeholder="비밀번호" name="m_pass" required="required"style="width: 300px;height: 40px;">
 			</td>
 		</tr>
 		</table>

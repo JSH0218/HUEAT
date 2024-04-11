@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 		<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+    <link rel="icon" type="image/png" href="image/mainbanner/logo1.png" sizes="32x32">
+<title>HUEAT</title>
 <style type="text/css">
   div.title {
     border: 0px solid gray; 
@@ -54,11 +55,6 @@
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
 	   main = request.getParameter("main");%>
-	<script type="text/javascript">
-		$(function(){
-			$("div.banner").hide();
-		})
-	</script>
    <%}
 %>
 <body>

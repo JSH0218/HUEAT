@@ -12,8 +12,8 @@
 </head>
 <body>
 <%
-String id=request.getParameter("id");
-String pass=request.getParameter("pass");
+String id=request.getParameter("m_id");
+String pass=request.getParameter("m_pass");
 String cbsave=request.getParameter("cbsave");
 
 MemInfoDao dao=new MemInfoDao();
