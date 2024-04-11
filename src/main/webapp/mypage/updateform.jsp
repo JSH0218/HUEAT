@@ -15,9 +15,9 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-body {
-	font-family: 'Nanum Gothic';
-}
+*{
+		font-family: 'Nanum Gothic';
+	}
 
 #container {
 	display: flex;
@@ -42,9 +42,6 @@ body {
 	  margin-top: 30px;
 	}
 
-button.passcheck {
-	background-color: #618E6E;
-}
 
 .mytable {
 	line-height: 70px;

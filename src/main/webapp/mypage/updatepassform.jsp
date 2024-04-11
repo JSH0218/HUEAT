@@ -14,7 +14,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	body {
+	*{
 		font-family: 'Nanum Gothic';
 	}
 	#container{
@@ -24,9 +24,9 @@
 	
 	#sidebar{
      	width: 300px;
-     	height: 300px;
-     	margin-top: 50px;
-     	margin-left: 200px;
+		height: 300px;
+		margin-top: 100px;
+		margin-left: 200px;
 	}
 	#updatepassform{
 	    width: 1000px;
@@ -114,7 +114,7 @@ function submitForm(){
          dataType: "json",
          success: function(res) {
         	 if(res.idpass) {
-                 location.href = "index.jsp?main=mypage/updateform.jsp#container"; // 페이지 이동
+                 location.href = "index.jsp?main=mypage/updateform.jsp"; // 페이지 이동
              } else {
             	 swal("비밀번호가 다릅니다", "비밀번호를 확인해주세요", "error");
                  $("#m_pass").val("");

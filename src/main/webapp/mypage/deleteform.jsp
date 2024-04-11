@@ -14,7 +14,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	body {
+	*{
 		font-family: 'Nanum Gothic';
 	}
 	#container{

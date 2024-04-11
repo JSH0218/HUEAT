@@ -130,10 +130,10 @@
 		  		<li><a href="member/gaipform.jsp">회원가입</a></li>
 		  	<%}else{%>
 		  		<li style="padding-left: 880px;"><a href="member/logoutaction.jsp">로그아웃</a></li>
-		  		<li><a href="#">마이페이지</a>
+		  		<li><a href="index.jsp?main=mypage/updatepassform.jsp">마이페이지</a>
 		  			<ul>
-				      <li><a href="index.jsp?main=mypage/updatepassform.jsp#container">회원정보수정</a></li>
-				      <li><a href="#">나의 활동</a></li>
+				      <li><a href="index.jsp?main=mypage/updatepassform.jsp">회원정보수정</a></li>
+				      <li><a href="index.jsp?main=mypage/myactivelist.jsp">나의 활동</a></li>
 				      <li><a href="#">즐겨찾기</a></li>
 		    		</ul>
 		  		</li>
