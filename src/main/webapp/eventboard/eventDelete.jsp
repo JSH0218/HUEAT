@@ -1,4 +1,4 @@
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="event.model.EventDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,15 +12,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+ 
   <%
-  String n_num=request.getParameter("n_num");
+  String e_num=request.getParameter("e_num");
   String currentPage=request.getParameter("currentPage");
   
-  NoticeDao dao=new NoticeDao();
-  dao.deleteNoice(n_num);
+  EventDao dao=new EventDao();
+  dao.deleteEvent(e_num);
   
-  response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp?currentPage="+currentPage);
+  response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp?currentPage="+currentPage);
   
   
   %>

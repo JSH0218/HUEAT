@@ -1,5 +1,5 @@
-<%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="event.model.EventDto"%>
+<%@page import="event.model.EventDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -16,9 +16,9 @@
 </head>
 <body>
 
-  <%
+   <%
     //이미지 업로드 경로
-    String uploadPath = getServletContext().getRealPath("/noticesave");
+    String uploadPath = getServletContext().getRealPath("/eventsave");
     System.out.println(uploadPath);
     
     //업로드할 사이즈
@@ -31,27 +31,27 @@
     	multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
     	
     	
-    	String n_subject = multi.getParameter("n_subject");
-    	String n_content = multi.getParameter("n_content");
-    	String n_image = multi.getFilesystemName("n_image");
+    	String e_subject = multi.getParameter("e_subject");
+    	String e_content = multi.getParameter("e_content");
+    	String e_image = multi.getFilesystemName("e_image");
     	
-    	System.out.println(n_image);
+    	System.out.println(e_image);
     	
     	//dao 선언
-    	NoticeDao dao= new NoticeDao();
+    	EventDao dao = new EventDao();
     	
     	//dto 데이터담기
-    	NoticeDto dto= new NoticeDto();
+    	EventDto dto = new EventDto();
     	
-    	dto.setN_subject(n_subject);
-    	dto.setN_content(n_content);
-    	dto.setN_image(n_image);
+    	dto.setE_subject(e_subject);
+    	dto.setE_content(e_content);
+    	dto.setE_image(e_image);
     	
     	//db에 추가
-    	dao.insertNotice(dto);
+    	dao.insertEvent(dto);
     	
     	//공지사항 목록으로 이동
-    	response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp");
+    	response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp");
     	
      } catch(Exception e) {
     	

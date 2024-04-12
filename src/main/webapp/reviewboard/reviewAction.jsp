@@ -1,5 +1,5 @@
-<%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="review.model.ReviewDao"%>
+<%@page import="review.model.ReviewDto"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -17,46 +17,48 @@
 <body>
 
   <%
-    //이미지 업로드 경로
-    String uploadPath = getServletContext().getRealPath("/noticesave");
+    
+	//로그인 세션얻기
+	String loginok=(String)session.getAttribute("loginok");
+	//아이디 얻기
+	String myid=(String)session.getAttribute("myid");
+  
+    String uploadPath = getServletContext().getRealPath("/reviewsave");
     System.out.println(uploadPath);
     
-    //업로드할 사이즈
     int uploadSize = 1024*1024*5;
     
     MultipartRequest multi = null;
     
-    try {
+    try{
     	
-    	multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
+    	multi = new MultipartRequest(request,uploadPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
     	
     	
-    	String n_subject = multi.getParameter("n_subject");
-    	String n_content = multi.getParameter("n_content");
-    	String n_image = multi.getFilesystemName("n_image");
+    	String r_content = multi.getParameter("r_content");
+    	String r_image = multi.getFilesystemName("r_image");
     	
-    	System.out.println(n_image);
+    	System.out.println(r_image);
     	
-    	//dao 선언
-    	NoticeDao dao= new NoticeDao();
+    	//dao선언
+    	ReviewDao dao = new ReviewDao();
     	
-    	//dto 데이터담기
-    	NoticeDto dto= new NoticeDto();
+    	//dto저장
+    	ReviewDto dto = new ReviewDto();
     	
-    	dto.setN_subject(n_subject);
-    	dto.setN_content(n_content);
-    	dto.setN_image(n_image);
+    	dto.setR_myid(myid);
+    	dto.setR_content(r_content);
+    	dto.setR_image(r_image);
     	
-    	//db에 추가
-    	dao.insertNotice(dto);
+    	//db추가
+    	dao.insertReview(dto);
     	
-    	//공지사항 목록으로 이동
-    	response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp");
+    	//방명록 목록으로 이동
+    	response.sendRedirect("../index.jsp?main=reviewboard/reviewList.jsp");
     	
-     } catch(Exception e) {
+    } catch (Exception e) {
     	
     }
-  
   %>
 
 </body>

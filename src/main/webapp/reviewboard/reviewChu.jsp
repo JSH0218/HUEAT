@@ -1,17 +1,17 @@
 <%@page import="org.json.simple.JSONObject"%>
-<%@page import="notice.model.NoticeDao"%>
+<%@page import="review.model.ReviewDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
     <%
     //num 읽기
-    String n_num = request.getParameter("n_num");
+    String r_num = request.getParameter("r_num");
     
-    NoticeDao dao = new NoticeDao();
-    dao.updateNoticeChu(n_num);
+    ReviewDao dao = new ReviewDao();
+    dao.updateReviewChu(r_num);
     
     //증가된 chu 값 json 형태로 보내기
-    int chu = dao.getDataNotice(n_num).getN_chu();
+    int chu = dao.getDataReview(r_num).getR_chu();
     
     JSONObject ob = new JSONObject();
     ob.put("chu", chu);

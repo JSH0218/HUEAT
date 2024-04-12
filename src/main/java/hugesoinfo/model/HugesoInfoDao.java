@@ -25,7 +25,7 @@ public class HugesoInfoDao {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			
-			String sql ="select * from hugesoinfo order by h_num desc";
+			String sql ="select * from hugesoinfo order by h_num";
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -105,7 +105,7 @@ public class HugesoInfoDao {
 					PreparedStatement pstmt=null;
 					ResultSet rs=null;
 					
-					String sql="select * from hugesoinfo order by h_num desc limit ?,?";
+					String sql="select * from hugesoinfo order by h_num limit ?,?";
 					
 					try {
 						pstmt=conn.prepareStatement(sql);
@@ -223,17 +223,17 @@ public class HugesoInfoDao {
 				
 				
 				//휴게소 즐겨찾기 해제 (hugesodetail.jsp)
-				public void deleteFavorite(String f_num)
+				public void deleteFavorite(String m_num,String h_num)
 				{
 					Connection conn=db.getConnection();
 					PreparedStatement pstmt=null;
 					
-					//f_num이 null인 경우를 처리
-					String sql = "DELETE FROM favorite WHERE f_num = ?";
+					String sql="delete from favorite where m_num=? and h_num=?";
 					
 					try {
 						pstmt=conn.prepareStatement(sql);
-						pstmt.setString(1, f_num);
+						pstmt.setString(1, m_num);
+						pstmt.setString(2, h_num);
 						pstmt.execute();
 						
 					} catch (SQLException e) {

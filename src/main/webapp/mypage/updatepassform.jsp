@@ -7,12 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Gugi&family=Hahmlet:wght@100..900&family=Hi+Melody&family=Sunflower:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	body {
+	*{
 		font-family: 'Nanum Gothic';
 	}
 	#container{
@@ -22,9 +24,9 @@
 	
 	#sidebar{
      	width: 300px;
-     	height: 300px;
-     	margin-top: 50px;
-     	margin-left: 300px;
+		height: 300px;
+		margin-top: 100px;
+		margin-left: 200px;
 	}
 	#updatepassform{
 	    width: 1000px;
@@ -32,8 +34,8 @@
      	margin-left: 50px;
 	}
 	.line {
-	  border: 5px solid green;
-	  border-radius: 5px;
+	  border: 1px solid #000;
+	  margin-top: 40px;
 	}
 	button.passcheck {
     background-color: #618E6E;
@@ -112,9 +114,10 @@ function submitForm(){
          dataType: "json",
          success: function(res) {
         	 if(res.idpass) {
-                 location.href = "index.jsp?main=mypage/updateform.jsp#container"; // 페이지 이동
+                 location.href = "index.jsp?main=mypage/updateform.jsp"; // 페이지 이동
              } else {
-                 alert("비밀번호가 일치하지 않습니다."); // 비밀번호가 틀릴 경우
+            	 swal("비밀번호가 다릅니다", "비밀번호를 확인해주세요", "error");
+                 $("#m_pass").val("");
              }
          }
       });  
