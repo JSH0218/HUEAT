@@ -24,8 +24,8 @@ public class GradeDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getM_num());
-			pstmt.setString(2, dto.getH_num());
+			pstmt.setString(1, dto.getH_num());
+			pstmt.setString(2, dto.getM_num());
 			pstmt.setString(3, dto.getG_grade());
 			
 			pstmt.execute();
@@ -58,8 +58,8 @@ public class GradeDao {
 				GradeDto dto = new GradeDto();
 				
 				dto.setG_num(rs.getString("g_num"));
-				dto.setM_num(rs.getString("m_num"));
-				dto.setH_num(rs.getString("h_num"));
+				dto.setM_num(rs.getString("h_num"));
+				dto.setH_num(rs.getString("m_num"));
 				dto.setG_grade(rs.getString("g_grade"));
 				dto.setG_writeday(rs.getTimestamp("g_writeday"));
 				

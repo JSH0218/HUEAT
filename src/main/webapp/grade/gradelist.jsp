@@ -21,8 +21,8 @@
 		JSONObject ob=new JSONObject();
 		
 		ob.put("g_num", dto.getG_num());
-		ob.put("m_num", dto.getM_num());
 		ob.put("h_num", dto.getH_num());
+		ob.put("m_num", dto.getM_num());
 		ob.put("g_grade", dto.getG_grade());
 		ob.put("writeday", sdf.format(dto.getG_writeday()));
 		

@@ -1,6 +1,5 @@
 <%@page import="grade.model.GradeDto"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="favorite.model.FavoriteDto"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="meminfo.model.MemInfoDto"%>
@@ -17,15 +16,11 @@
  <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <title>HUEAT</title>
 <style type="text/css">
 
-body{
-font-family: 'Nanum Gothic';
-}
 
 #titlearea{
 			text-align: center;
@@ -103,6 +98,7 @@ button.brand{
   -webkit-text-fill-color: #fff58c;
 }
 
+
 .star-ratings {
   color: #aaa9a9; 
   position: relative;
@@ -116,9 +112,9 @@ button.brand{
 .star-ratings-fill {
   color: #fff58c;
   padding: 0;
-  position: absolute;
+ /*  position: absolute;
   z-index: 1;
-  display: flex;
+  display: flex; */
   top: 0;
   left: 0;
   overflow: hidden;
@@ -134,6 +130,14 @@ button.brand{
 	color: #FFE400;
 }
 
+
+div.alist{margin-left: 20px;}
+
+span.aday{
+	float:right;
+	font-size:0.8em;
+	color:#bbb;
+}
 </style>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
@@ -164,6 +168,106 @@ button.brand{
 <script type="text/javascript">
   
 $(function(){
+	list();
+	
+	var h_num=$("#h_num").val();
+	//alert(h_num);
+	
+	var login = "<%=loginok%>";
+	 if(login=="null"){
+		 $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
+	        return;
+	    }else {
+	        $("#insertgrade").show(); // 로그인 상태일 때 표시
+	    } 
+	
+	$("#btnasend").click(function(){
+		
+		    /* var m_num = $("#m_num").val().trim(); */
+		    var g_grade = $("input[name='g_grade']:checked").val(); // 선택된 별점 값 가져오기
+		    
+		/*   if(m_num === ''){
+		    	alert("회원번호를 입력해주세요");
+		    	return;
+		    }  */
+		    
+		    if (!g_grade) { // 선택된 별점이 없을 경우
+		        alert("별점을 선택해주세요");
+		        return;
+		    }
+
+		    $.ajax({
+		        type: "GET", // HTTP 요청 메서드 설정 (GET, POST 등)
+		        url: "grade/insertgrade.jsp",
+		        dataType: "html",
+		        data: {"h_num": $("#h_num").val(), /* "m_num":m_num, */ "g_grade": g_grade}, // rating 변수를 사용하여 데이터 전송
+		        success: function(){
+		            // 기존 입력값 지우기
+		           /*  $("#m_num").val(''); */
+		            $("input[name='g_grade']").prop('checked',false);
+		            
+		            //댓글 목록 다시 불러오기
+		            list();
+		        },
+		        error: function(xhr, status, error) {
+		            // 오류 발생 시 처리
+		            console.error("AJAX Error: " + error);
+		        }
+		    });
+		});
+
+
+			  
+		
+		
+	    function list()
+	    {
+	  	  //console.log("list h_num="+$("#h_num").val());
+	  	  
+	  	  $.ajax({
+	  		  
+	  		  type:"get",
+	  		  url:"grade/gradelist.jsp",
+	  		  dataType:"json",
+	  		  data:{"h_num":$("#h_num").val()},
+	  		  success:function(res){
+	  			 
+	  			  //댓글갯수출력
+	  			  $("b.acount>span").text(res.length);
+	  			  
+	  			  var s="";
+	  			  $.each(res,function(idx,item){
+	  				  s+="<div>"+item.m_num+": ";
+	  				  
+	  				  //별점에 따라 별표시 추가
+	  				  var starsHTML = "";
+	  				  for(var i=5;i>0;i--){
+	  					  if(i<=item.g_grade){
+	  						  starsHTML +="<span class='star' style='color:gold;'>★</span>";
+	  					  }else{
+	  						 starsHTML +="<span class='star-empty'>☆</span>";
+	  					  }
+	  					  
+	  				  }
+	  				  s+="<div class='star-rating'>" + starsHTML +"</div>";
+	  				 
+	  				  s+="<span class='aday'>"+item.writeday+"</span>";
+	  				  s+= "</div>";
+	  			  });
+	  			  $("div.alist").html(s);
+	  			  
+	  		  },
+	  		  error: function(xhr, status, error) {
+	  	            console.error("AJAX Error: " + error);
+	  	        }
+	  		  
+	  	  });
+	    } 
+	
+	
+	
+	
+	
 	
   $(".brand").click(function() {
       $(this).toggleClass("active-color");
@@ -185,83 +289,13 @@ $(function(){
 	
 	
 	
-	/* 평점 */
-	ratingToPercent() {
+	/* 휴게소 전체 평점 */
+	 function ratingToPercent() {
       const score = +this.restaurant.averageScore * 20;
       return score + 1.5;
- }
+     }
 	
-	
-	
-$(document).on("click","#btnsend", function(){
-	 var login = "<%=loginok%>";
-	 if(login === null){
-		 $("#btnsend").hide(); // 로그아웃 상태일 때 숨김
-	        return;
-	    }else {
-	        $("#btnsend").show(); // 로그인 상태일 때 표시
-	    }
-	 
-	    var rating = $("input[name='rating']:checked").val(); // 선택된 별점 값 가져오기
-	    
-	    if (!rating) { // 선택된 별점이 없을 경우
-	        alert("별점을 선택해주세요");
-	        return;
-	    }
 
-	    $.ajax({
-	        type: "GET", // HTTP 요청 메서드 설정 (GET, POST 등)
-	        url: "../grade/insertgrade.jsp",
-	        dataType: "html",
-	        data: {"g_num": g_num, "m_num": m_num, "h_num": h_num, "g_grade": rating}, // rating 변수를 사용하여 데이터 전송
-	        success: function(){
-	            // 기존 입력값 지우기
-	            $(".g_grade").val('');
-	            
-	            list();
-	        },
-	        error: function(xhr, status, error) {
-	            // 오류 발생 시 처리
-	            console.error("AJAX Error: " + error);
-	        }
-	    });
-	});
-
-
-		  
-	
-	
-    function list()
-    {
-  	  console.log("list h_num="+$("#h_num").val());
-  	  
-  	  $.ajax({
-  		  
-  		  type:"get",
-  		  url:"../grade/gradelist.jsp",
-  		  dataType:"json",
-  		  data:{"g_num":$("#g_num").val()},
-  		  success:function(res){
-  			 
-  			  //댓글갯수출력
-  			  $("b.acount>span").text(res.length);
-  			  
-  			  var s="";
-  			  $.each(res,function(idx,item){
-  				  
-  				  s+="<div>"+item.m_num+":  "+item.g_grade;
-  				  s+="<span class='aday'>"+item.writeday+"</span>";
-  			  });
-  			  $("div.alist").html(s);
-  			  
-  		  },
-  		  error: function(xhr, status, error) {
-  	            console.error("AJAX Error: " + error);
-  	        }
-  		  
-  	  });
-    } 
-  });
   
 
 var login = "<%=loginok%>";
@@ -354,17 +388,17 @@ if(login=="null"){
 </div>
 
 <!-- 휴게소 평점 출력 -->
-<!-- <div class="star-ratings">
+ <div class="star-ratings">
 	<div 
     class="star-ratings-fill space-x-2 text-lg"
-    :style="{ width: ratingToPercent + '%' }"
+    style="{ width: ratingToPercent + '%' }"
 	>
 		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 	</div>
 	<div class="star-ratings-base space-x-2 text-lg">
 		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 	</div>
-</div> -->
+</div> 
 
 <!-- 휴게소 주소, 영업시간, 전화번호, 편의시설 출력 -->
 <div style="font-size: 20px; margin-bottom: 20px; ">
@@ -534,29 +568,30 @@ for(String brand : brandArray){%>
      <!-- 평점 -->
      <tr>
        <td>
-         <b class="acount" >평점<span>0</span></b>
-         <div class="alist" id="alist" >
-             평점 목록
-         </div>
-         <div class="aform input-group">
-          <input type="hidden" id="m_id"><%=m_id%> 
+         <b class="acount">평점<span>0</span></b>
+         <div class="aform input-group" id="insertgrade" >
+          <!-- <input type="text" id="m_num" class="form-control"
+          style="width:10px;" placeholder="회원번호"> --><%=m_id %>
           
-    <div class="star-rating space-x-4 mx-auto">
-	<input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" class="g_grade"/>
+    <div class="star-rating space-x-4 mx-auto" id="g_grade">
+	<input type="radio" id="5-stars" name="g_grade" value="5" v-model="ratings" />
 	<label for="5-stars" class="star pr-4">★</label>
-	<input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" class="g_grade"/>
+	<input type="radio" id="4-stars" name="g_grade" value="4" v-model="ratings" />
 	<label for="4-stars" class="star">★</label>
-	<input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" class="g_grade"/>
+	<input type="radio" id="3-stars" name="g_grade" value="3" v-model="ratings" />
 	<label for="3-stars" class="star">★</label>
-	<input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" class="g_grade"/>
+	<input type="radio" id="2-stars" name="g_grade" value="2" v-model="ratings" />
 	<label for="2-stars" class="star">★</label>
-	<input type="radio" id="1-star" name="rating" value="1" v-model="ratings" class="g_grade"/>
+	<input type="radio" id="1-star" name="g_grade" value="1" v-model="ratings" />
 	<label for="1-star" class="star">★</label>
     </div>
 
-   <button type="button" id="btnsend"
+   <button type="button" id="btnasend"
    class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
+   
    </div>
+   
+   <div class="alist" id="alist" >평점 목록</div>
          
 </td>
 </tr>
