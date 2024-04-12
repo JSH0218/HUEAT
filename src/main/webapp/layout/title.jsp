@@ -106,7 +106,7 @@
 		    <ul>
 		      <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
 		      <li><a href="#">소개글</a></li>
-		      <li><a href="#">이벤트</a></li>
+		      <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
 		    </ul>
 		  </li>
 		  
@@ -120,7 +120,7 @@
 		  <li><a href="#">게시판</a>
 		    <ul>
 		      <li class="dir"><a href="#">고객문의</a></li>
-		      <li class="dir"><a href="#">고객후기</a>
+		      <li class="dir"><a href="index.jsp?main=reviewboard/reviewList.jsp">고객후기</a>
 		    </ul>
 		  </li>
 		  <%
