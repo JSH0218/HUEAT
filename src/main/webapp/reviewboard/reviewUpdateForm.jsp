@@ -16,11 +16,14 @@
   button.col {
     background-color: #618E6E;
     margin-left: -118%;
+    margin-top: 347%;
     
   }
   
     #showing {
     width: 300px;
+    display: block;
+        margin: auto;
   }
   
   
@@ -70,7 +73,7 @@
            <td>
              <img id="showing" src="<%=(dto.getR_image()==null?"":"reviewsave/"+dto.getR_image())%>"><br><br>
              <textarea type="text" name="r_content" class="form-control" required="required"
-               style="width: 690px; height: 100px;" value="<%=dto.getR_content() %>"></textarea>
+               style="width: 690px; height: 100px;" ><%=dto.getR_content() %></textarea>
            </td>
            
            <td>
