@@ -192,7 +192,7 @@ $(".brand").click(function() {
 	
 	
 	
-$("#btnsend").click(function() {
+$(document).on("click","#btnsend", function(){
 	 var login = "<%=loginok%>";
 	 if(login === "null"){
 		 $("#btnsend").hide(); // 로그아웃 상태일 때 숨김
@@ -301,7 +301,7 @@ $("#btnsend").click(function() {
 </button>
 
 <!-- 휴게소 평점 출력 -->
-<div class="star-ratings">
+<!-- <div class="star-ratings">
 	<div 
     class="star-ratings-fill space-x-2 text-lg"
     :style="{ width: ratingToPercent + '%' }"
@@ -311,7 +311,7 @@ $("#btnsend").click(function() {
 	<div class="star-ratings-base space-x-2 text-lg">
 		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 	</div>
-</div>
+</div> -->
 
 <!-- 휴게소 주소, 영업시간, 전화번호, 편의시설 출력 -->
 <div style="font-size: 20px; margin-bottom: 20px; ">
@@ -332,47 +332,47 @@ $("#btnsend").click(function() {
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
         	 case "수면실":{
-        		 %><img src="../image/pyeon/1.jpg" alt="수면실" width="5%" height="5%"><%
+        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" width="5%" height="5%"><%
         	 break;
         	 }
         	 case "샤워실":{
-        		 %><img src="../image/pyeon/2.jpg" alt="샤워실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "세탁실":{
-        		 %><img src="../image/pyeon/3.jpg" alt="세탁실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "세차장":{
-        		 %><img src="../image/pyeon/4.jpg" alt="세차장"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/세차장.jpg" alt="세차장"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "경정비":{
-        		 %><img src="../image/pyeon/5.jpg" alt="경정비"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/경정비.jpg" alt="경정비"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "수유실":{
-        		 %><img src="../image/pyeon/6.jpg" alt="수유실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/수유실.jpg" alt="수유실"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "쉼터":{
-        		 %><img src="../image/pyeon/7.jpg" alt="쉼터"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "ATM":{
-        		 %><img src="../image/pyeon/8.jpg" alt="ATM"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/ATM.jpg" alt="ATM"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "매점":{
-        		 %><img src="../image/pyeon/9.jpg" alt="매점"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/매점.jpg" alt="매점"  width="5%" height="5%"><%
         				 break;
         	 }
         	 case "약국":{
-        		 %><img src="../image/pyeon/10.jpg" alt="약국"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/약국.jpg" alt="약국"  width="5%" height="5%"><%
         				 break;
         	 }
         	 default:{ /* 기타 */
-        		 %><img src="../image/pyeon/11.jpg" alt="기타"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/기타.jpg" alt="기타"  width="5%" height="5%"><%
         		 break;
         	 }
         	 
