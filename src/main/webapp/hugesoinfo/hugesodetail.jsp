@@ -263,17 +263,23 @@ $(document).on("click","#btnsend", function(){
   	  });
     } 
   });
-  
+  </script>
 
+    <script>
+    $(function(){
+    	
+ 
 var login = "<%=loginok%>";
 var data=$("#frm").serialize()
 var f_num=$(".f_num").attr("f_num");
 var icon = $(".favorite i");
 
-
+//로그아웃상태일때는 class제거해서 보이지 않게
 if(login=="null"){
-	icon.css("background-color","white");
+	//icon.css("background-color","white");
+	icon.removeClass("red");
 }
+//fav=>m_num(회원번호)와 h_num(휴게소번호)가 있으면 1을 반환하고 red라는 class를 부여한다.
 else if(<%=fav%>==1){
 	icon.addClass("red");
 	}
@@ -284,6 +290,7 @@ if(login=="null"){
 	alert("로그인이 필요한 서비스입니다.");
 	return;
 }else{
+	//fav=1일때 즉 'red'라는 클래스가 있어서 이미 즐겨찾기를 한 휴게소일때 삭제가 되게끔하고
 	if(icon.hasClass("red")){
 		  $.ajax({
               type:"post",
@@ -296,7 +303,7 @@ if(login=="null"){
                               
               }
           })
-	}else{
+	}else{//즐겨찾기한 휴게소가 아닐때는 추가할 수 있게한다.
 		  $.ajax({
         type:"post",
         dataType:"html",
