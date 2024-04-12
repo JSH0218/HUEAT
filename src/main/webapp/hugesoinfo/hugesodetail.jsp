@@ -164,6 +164,8 @@ button.brand{
 <script type="text/javascript">
   
 $(function(){
+	consol.log(h_num);
+	
   $(".brand").click(function() {
       $(this).toggleClass("active-color");
 });
@@ -194,7 +196,7 @@ $(function(){
 	
 $(document).on("click","#btnsend", function(){
 	 var login = "<%=loginok%>";
-	 if(login === "null"){
+	 if(login === null){
 		 $("#btnsend").hide(); // 로그아웃 상태일 때 숨김
 	        return;
 	    }else {
@@ -248,10 +250,8 @@ $(document).on("click","#btnsend", function(){
   			  var s="";
   			  $.each(res,function(idx,item){
   				  
-  				  s+="<div>"+item.nick+":  "+item.content;
+  				  s+="<div>"+item.m_num+":  "+item.g_grade;
   				  s+="<span class='aday'>"+item.writeday+"</span>";
-  				  s+="<i class='bi bi-pencil-square amod' idx="+item.idx+"></i>";
-  				  s+="<i class='bi bi-trash adel' idx="+item.idx+"></i>";
   			  });
   			  $("div.alist").html(s);
   			  
@@ -263,6 +263,7 @@ $(document).on("click","#btnsend", function(){
   	  });
     } 
   });
+  
 
 var login = "<%=loginok%>";
 var data=$("#frm").serialize()
@@ -542,15 +543,15 @@ for(String brand : brandArray){%>
           <input type="hidden" id="m_id"><%=m_id%> 
           
     <div class="star-rating space-x-4 mx-auto">
-	<input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+	<input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" class="g_grade"/>
 	<label for="5-stars" class="star pr-4">★</label>
-	<input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+	<input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" class="g_grade"/>
 	<label for="4-stars" class="star">★</label>
-	<input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+	<input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" class="g_grade"/>
 	<label for="3-stars" class="star">★</label>
-	<input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+	<input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" class="g_grade"/>
 	<label for="2-stars" class="star">★</label>
-	<input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+	<input type="radio" id="1-star" name="rating" value="1" v-model="ratings" class="g_grade"/>
 	<label for="1-star" class="star">★</label>
     </div>
 
