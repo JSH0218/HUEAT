@@ -261,4 +261,33 @@ public class ReviewDao {
 
 			return dto;
 		}
+		
+		//myid를 통해 r_num값 얻어오기 (soo) (mypage->myactivelist.jsp)
+		public String getNum(String r_myid) {
+			String r_num="";
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			String sql = "select * from reviewboard where r_myid=?";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, r_myid);
+				rs=pstmt.executeQuery();
+				
+				if(rs.next()) {
+					r_num=rs.getString("r_num");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return r_num;
+		}
+		
+		
+		
 	}
+
