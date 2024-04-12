@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="favorite.model.FavoriteDto"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="meminfo.model.MemInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
@@ -54,7 +57,7 @@ button.brand{
 }
 
 
-#favorite{
+.favorite{
 	display: inline-block; 
 	float:right;
 	vertical-align: top;
@@ -62,82 +65,98 @@ button.brand{
 	border:white;
 }
 
+.red{
+	color: #FFE400;
+}
+
 </style>
-</head>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
 	String h_num = request.getParameter("h_num");
     //세션에서 현재 로그인된 member의 아이디를 가져옴
-	String m_id = (String)session.getAttribute("m_id");
+	String m_id = (String)session.getAttribute("myid");
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
-	String m_num = mdao.getM_num("m_id");
+	String m_num = mdao.getM_num(m_id);
 	
      // HugesoInfoDao 객체 생성
      HugesoInfoDao dao = new HugesoInfoDao();
 	// 휴게소 데이터 가져옴
 	HugesoInfoDto dto = dao.getData(h_num);
+	String f_num=mdao.f_numData(m_num, h_num);
+	int fav=mdao.isFavorite(m_num, h_num);
 %>
-
 
 <script type="text/javascript">
 
+$(function(){
+	
 $(".brand").click(function() {
     $(this).toggleClass("active-color");
 });
 
+var login = "<%=loginok%>";
+var data=$("#frm").serialize()
+var f_num=$(".f_num").attr("f_num");
+var icon = $(".favorite i");
 
-$("#favorite").click(function(){
-    var login = "<%=loginok%>";
-    
-    if(login == "null"){
-        alert("로그인이 필요한 서비스입니다.");
-        return;
-    } else {
-        var icon = $("#favorite i");
-        if (icon.css("color") === "rgb(255, 255, 0)") {
-            icon.css("color", "white"); // 노란색에서 흰색으로 변경
-        } else {
-            icon.css("color", "yellow"); // 흰색에서 노란색으로 변경
+
+if(login=="null"){
+	icon.css("background-color","white");
+}
+else if(<%=fav%>==1){
+	icon.addClass("red");
+	}
+
+$(".favorite i").click(function(){
+
+if(login=="null"){
+	alert("로그인이 필요한 서비스입니다.");
+	return;
+}else{
+	if(icon.hasClass("red")){
+		  $.ajax({
+              type:"post",
+              url:"hugesoinfo/deletefavorite.jsp",
+              dataType:"html",
+              data:data,
+              success:function(){
+                  alert("즐겨찾기 삭제완료");
+                  icon.removeClass("red");
+                              
+              }
+          })
+	}else{
+		  $.ajax({
+        type:"post",
+        dataType:"html",
+        data: data,
+        url:"hugesoinfo/insertfavorite.jsp",
+        success:function(){
+            icon.addClass("red");
+            var a=confirm("즐겨찾기에 저장하였습니다\n즐겨찾기로 이동하려면 [확인]을 눌러주세요");
+            
+            if(a){
+                location.href="index.jsp?main=/.jsp";
+            }
+            
         }
-    }
+    })
+	};
+		
+}
+	
+
+
 });
 
-
-	
-	
-	//form태그에서 favorite 데이터 가져오기
-	var f_data=$("#frm").serialize();
-	//alert(f_data);
-	
-	//즐겨찾기 추가
-	$.ajax({
-		type:"post",
-		dataType:"html",
-		data:f_data,
-		url:"hugesoinfo/insertfavorite.jsp",
-		success:function(){
-			
-			//alert("success");
-			
-			var a=confirm("즐겨찾기에 저장하였습니다\n즐겨찾기로 이동하려면 [확인]을 눌러주세요");
-			
-			if(a){
-				location.href="index.jsp?main=/.jsp";
-			}
-		}
-	})
-	
-	
 })
-
 </script>
-
-
+</head>
 
 <body>
 <div style="margin: 100px 100px;">
@@ -148,8 +167,9 @@ $("#favorite").click(function(){
 		</div>
 
 <form id="frm">
-<input type="hidden" name="h_num" value="<%=h_num%>">
-<input type="hidden" name="m_num" value="<%=m_num%>">
+<input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
+<input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
+<input type="hidden"  class="f_num"  f_num="<%=f_num %>">
 
 <div style="float:left; margin-top:50px;">
 <img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:600px; height:400px;">
@@ -159,15 +179,19 @@ $("#favorite").click(function(){
 
 
 <!-- 휴게소 이름 출력 -->
-<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;">
+<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;" class="d-inline-flex">
 <%=dto.getH_name()%> 
+
+<!-- 즐겨찾기 버튼 -->
+<button type="button" class ="favorite">
+<!-- <i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i> -->
+<i class="bi bi-bookmarks-fill" style="margin-left: 30px;"></i>
+</button>
+
 </div>
 
 
-<!-- 즐겨찾기 버튼 -->
-<button type="button" id="favorite">
-<i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i>
-</button>
+
 
 
 <!-- 휴게소 평점 출력 -->
@@ -326,4 +350,5 @@ for(String price : priceArray){
 
  
 </body>
+
 </html>

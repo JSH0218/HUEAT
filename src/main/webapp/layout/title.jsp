@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
 <title>Insert title here</title>
 <style type="text/css">
 
@@ -91,7 +91,7 @@
   <!-- 1. title 상부 만들기 -->
     <div class="d-inline-flex" style="width: 100%;">
        <!-- 이미지 로고 -->
-       <a href="<%=root%>" style="color: #618E6E; text-decoration: none; display: flex; align-items: center;"">
+       <a href="<%=root%>" style="color: #618E6E; text-decoration: none; display: flex; align-items: center;">
        <img src="<%=root%>/image/mainbanner/logo1.png" style="width: 100px; margin-top: 5%; margin-left: 100%;">
        
        	<div style="margin-top: 35px;line-height:100%">

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Gugi&family=Hahmlet:wght@100..900&family=Hi+Melody&family=Sunflower:wght@300&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
@@ -14,7 +14,6 @@
 input{
 	border: none;
 	outline: none;
-
 }
 table th {
 	text-align: center;
@@ -23,9 +22,7 @@ table th {
 body{
 	font-family: 'Nanum Gothic';
 }
-table td{
-	border-left: none;
-}
+
 	.loginbtn{
 		background-color: #618E6E;
 		color: white;
@@ -41,7 +38,14 @@ table td{
 	div img{
 	cursor: pointer;
 	}
+	  	@font-face {
+    font-family: 'Orbit-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 </style>
+
 </head>
 <%
 String saveok=(String)session.getAttribute("saveok");
@@ -55,7 +59,7 @@ if(saveok!=null){
 
 <div><img src="../image/mainbanner/logo1.png" style="width: 200px;margin-left:840px;margin-top:100px;"
 onclick="location.href='../index.jsp'"></div>
-<div style="width: 500px;  margin: 0 auto; margin-top: 50px; margin-bottom:100px; border: 1px solid gray; border-radius: 10px;" >
+<div style="width: 500px;  margin: 0 auto; margin-top: 50px; margin-bottom:100px; border: 1px solid #ccc; border-radius: 10px;" >
 	
 	<form style="margin:50px;" action="loginaction.jsp" method="post">
 
@@ -64,14 +68,14 @@ onclick="location.href='../index.jsp'"></div>
 		<tr>
 			<th width="50"><i class="bi bi-person-circle fs-4"></i></th>
 			<td >
-				<input type="text" placeholder="아이디" name="id" required="required"
+				<input type="text" placeholder="아이디" name="m_id" required="required"
 				value="<%=myid%>" style="width: 300px;height: 40px;">
 			</td>
 		</tr>
 		<tr>
 			<th width="50"><i class="bi bi-lock-fill fs-4"></i></th>
 			<td>
-				<input type="password" placeholder="비밀번호" name="pass" required="required"style="width: 300px;height: 40px;">
+				<input type="password" placeholder="비밀번호" name="m_pass" required="required"style="width: 300px;height: 40px;">
 			</td>
 		</tr>
 		</table>
@@ -79,16 +83,16 @@ onclick="location.href='../index.jsp'"></div>
 		<input type="checkbox" name="cbsave" value="<%=saveok==null?"":"checked"%>">&nbsp;&nbsp;
 		아이디 저장
 		</div>
-		<div align="center">
-		<button type="submit" style="width: 200px;" class="loginbtn">로그인</button>
+		<div align="center" style="margin-top: 30px;">
+		<button type="submit" style="width: 400px;" class="loginbtn">로그인</button>
 		</div>
 	</form>
 	<div align="center" style="margin-bottom: 30px;">
-		<span><a href='idsearchform.jsp'>아이디 찾기</a></span>&nbsp;&nbsp;
+		<span><a href='../index.jsp?main=member/idsearchform.jsp'>아이디 찾기</a></span>&nbsp;&nbsp;
 		|
-		<span><a href="passSearchform.jsp">비밀번호 찾기</a></span>&nbsp;&nbsp;
+		<span><a href="../index.jsp?main=member/passSearchform.jsp">&nbsp;비밀번호 찾기</a></span>&nbsp;&nbsp;
 		|
-		<span><a href='gaipform.jsp'>회원가입</a></span>
+		<span><a href='gaipform.jsp'>&nbsp;회원가입</a></span>
 	</div>
 </div>
 </body>
