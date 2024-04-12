@@ -344,4 +344,31 @@ public class MemInfoDao {
 			db.dbClose(pstmt, conn);
 		}
 	}
+	
+	
+	// 닉네임, 아이디불러오기 (리뷰에 연동)
+		public String getId(String m_id) {
+			String m_nick = "";
+
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			String sql = "select * from meminfo where m_id=?";
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, m_id);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					m_nick = rs.getString("m_nick");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(rs, pstmt, conn);
+			}
+			return m_nick;
+		}
 }
