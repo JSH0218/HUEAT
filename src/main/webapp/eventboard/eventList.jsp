@@ -1,7 +1,7 @@
-<%@page import="notice.model.NoticeDao"%>
-<%@page import="notice.model.NoticeDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="event.model.EventDto"%>
 <%@page import="java.util.List"%>
+<%@page import="event.model.EventDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 
-<style type="text/css">
+ <style type="text/css">
 
   button.col {
     background-color: #618E6E;
@@ -42,7 +42,7 @@
    //로그인상태확인
    //String loginok=(String)session.getAttribute("loginok");
 
-	NoticeDao dao=new NoticeDao();
+	EventDao dao=new EventDao();
 	
 	//전체갯수
 	int totalCount=dao.getTotalCount();
@@ -85,7 +85,7 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<NoticeDto> list = dao.getList(startNum, perPage);
+	List<EventDto> list = dao.getList(startNum, perPage);
 		
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -94,7 +94,7 @@
 	%>
 <body>
   <!-- 메뉴 타이틀 -->
-  <div style="margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
+  <div style="margin-top: 70px; text-align: center;"><h4><b>이벤트</b></h4></div>
   
   
   <div style="margin: 100px 200px; width: 1000px; margin-left: 18%;">
@@ -123,22 +123,22 @@
           
           //내용 넣으면 각 주제별로 게시물 추출
           else {
-        	  for(NoticeDto dto:list) {%>
+        	  for(EventDto dto:list) {%>
         		
         		  <tr>
-        		    <td align="center" valign="<%=dto.getN_num()%>"><%=no-- %></td>
+        		    <td align="center" valign="<%=dto.getE_num()%>"><%=no-- %></td>
         		    
         		    <!-- 제목 선택하면 디테일 페이지로 이동 -->
-        		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getN_num()%>
+        		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getE_num()%>
         		    &currentPage=<%=currentPage%>">
         		    <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-        		    width: 250px; display: block;"><%=dto.getN_subject() %></a></span>
+        		    width: 250px; display: block;"><%=dto.getE_subject() %></a></span>
         		    
         		    </td>
-        		    <td align="center"><%=dto.getN_content() %></td>
-        		    <td align="center"><%=dto.getN_readcount() %></td>
-        		    <td align="center"><%=dto.getN_chu()%></td>
-        		    <td align="center"><%=sdf.format(dto.getN_writeday())%></td>
+        		    <td align="center"><%=dto.getE_content() %></td>
+        		    <td align="center"><%=dto.getE_readcount() %></td>
+        		    <td align="center"><%=dto.getE_chu()%></td>
+        		    <td align="center"><%=sdf.format(dto.getE_writeday())%></td>
         		    
         		  </tr>  
         	  <%}
@@ -147,7 +147,7 @@
         
       <tr>
         <td colspan="6" align="right">
-          <button type="button" onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'"
+          <button type="button" onclick="location.href='index.jsp?main=eventboard/eventForm.jsp'"
           class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
         </td>
     </tr>
@@ -164,7 +164,7 @@
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=eventboard/eventList.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -172,12 +172,12 @@
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=eventboard/eventList.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=eventboard/eventList.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -186,7 +186,7 @@
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=eventboard/eventList.jsp?currentPage=<%=endPage+1%>"
     		style="color: black;">다음</a>
     	</li>
     <%}
@@ -196,5 +196,6 @@
  
   
 </div>
+
 </body>
 </html>

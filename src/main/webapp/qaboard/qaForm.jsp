@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR&family=Stylish&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -21,12 +21,12 @@
 </head>
 <body>
   <!-- 메뉴 타이틀 -->
-  <div style="margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
+  <div style="margin-top: 70px; text-align: center;"><h4><b>고객문의</b></h4></div>
   
 
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
-     <form action="noticeboard/noticeAction.jsp" method="post" enctype="multipart/form-data">
+     <form action="qaboard/qaAction.jsp" method="post" enctype="multipart/form-data">
        <table class="table">
          <caption align="top"><h5><b>글쓰기</b></h5></caption>
            <tr>

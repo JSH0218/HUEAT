@@ -25,7 +25,7 @@ public class HugesoInfoDao {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			
-			String sql ="select * from hugesoinfo order by h_num desc";
+			String sql ="select * from hugesoinfo order by h_num";
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -105,7 +105,7 @@ public class HugesoInfoDao {
 					PreparedStatement pstmt=null;
 					ResultSet rs=null;
 					
-					String sql="select * from hugesoinfo order by h_num desc limit ?,?";
+					String sql="select * from hugesoinfo order by h_num limit ?,?";
 					
 					try {
 						pstmt=conn.prepareStatement(sql);
