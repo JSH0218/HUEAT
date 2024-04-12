@@ -173,6 +173,7 @@ public class NoticeDao {
 					dto.setN_num(rs.getString("n_num"));
 					dto.setN_subject(rs.getString("n_subject"));
 					dto.setN_content(rs.getString("n_content"));
+					dto.setN_image(rs.getString("n_image"));
 					dto.setN_readcount(rs.getInt("n_readcount"));
 					dto.setN_chu(rs.getInt("n_chu"));
 					dto.setN_writeday(rs.getTimestamp("n_writeday"));
@@ -208,4 +209,74 @@ public class NoticeDao {
 				db.dbClose(pstmt, conn);
 			}
 		}
-}
+		
+		//update 수정
+		public void updateNotice(NoticeDto dto) {
+			
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			
+			String sql = "update noticeboard set n_subject=?, n_content=?, n_image=? where n_num=?";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, dto.getN_subject());
+				pstmt.setString(2, dto.getN_content());
+				pstmt.setString(3, dto.getN_image());
+				pstmt.setString(4, dto.getN_num());
+				
+				pstmt.execute();;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				db.dbClose(pstmt, conn);
+			}
+			
+		}
+		
+		//삭제하기
+		public void deleteNoice(String n_num) {
+			
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			
+			String sql = "delete from noticeboard where n_num=?";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, n_num);
+				
+				pstmt.execute();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				db.dbClose(pstmt, conn);
+			}
+			
+		}
+		
+		// 추천 클릭 시 추천수 증가 시키기
+		public void updateNoticeChu(String n_num) {
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+
+			String sql = "update noticeboard set n_chu=n_chu+1 where n_num=?";
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, n_num);
+				pstmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+	}
