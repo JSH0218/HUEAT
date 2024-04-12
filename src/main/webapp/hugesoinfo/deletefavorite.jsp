@@ -2,7 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    String f_num=request.getParameter("f_num");
+    String m_num=request.getParameter("m_num");
+String h_num=request.getParameter("h_num");
     HugesoInfoDao dao=new HugesoInfoDao();
-    dao.deleteFavorite(f_num);
+    dao.deleteFavorite(m_num, h_num);
 %>

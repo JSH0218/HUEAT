@@ -12,8 +12,8 @@
 </head>
 <body>
 <%
-String id=request.getParameter("id");
-String pass=request.getParameter("pass");
+String id=request.getParameter("m_id");
+String pass=request.getParameter("m_pass");
 String cbsave=request.getParameter("cbsave");
 
 MemInfoDao dao=new MemInfoDao();
@@ -28,7 +28,7 @@ if(b){
 	session.setAttribute("loginok", "yes");
 	session.setAttribute("myid", id);
 	session.setAttribute("saveok", cbsave==null?null:"yes" );
-	response.sendRedirect("../index.jsp?main=member/loginmain.jsp");
+	response.sendRedirect("../index.jsp");
 	
 }else{%>
 	<script type="text/javascript">

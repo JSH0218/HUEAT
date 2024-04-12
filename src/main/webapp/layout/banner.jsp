@@ -96,7 +96,7 @@
     
 %>
 
-<body>
+<body style="overflow-x: hidden;">
   <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
@@ -126,6 +126,7 @@
     const progressCircle = document.querySelector(".autoplay-progress svg");
     const progressContent = document.querySelector(".autoplay-progress span");
     var swiper = new Swiper(".mySwiper", {
+      loop: true,
       spaceBetween: 30,
       centeredSlides: true,
       autoplay: {

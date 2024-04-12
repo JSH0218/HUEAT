@@ -1,4 +1,6 @@
 <%@page import="grade.model.GradeDto"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="favorite.model.FavoriteDto"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="meminfo.model.MemInfoDto"%>
@@ -56,7 +58,7 @@ button.brand{
 }
 
 
-#favorite{
+.favorite{
 	display: inline-block; 
 	float:right;
 	vertical-align: top;
@@ -127,8 +129,12 @@ button.brand{
   z-index: 0;
   padding: 0;
 }
+
+.red{
+	color: #FFE400;
+}
+
 </style>
-</head>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
 	String h_num = request.getParameter("h_num");
@@ -142,31 +148,25 @@ button.brand{
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
 	String m_num = mdao.getM_num(m_id);
 	
-     // HugesoInfoDao 객체 생성
-     HugesoInfoDao dao = new HugesoInfoDao();
+  // HugesoInfoDao 객체 생성
+  HugesoInfoDao dao = new HugesoInfoDao();
 	// 휴게소 데이터 가져옴
 	HugesoInfoDto dto = dao.getData(h_num);
 	
 	GradeDto gdto = new GradeDto();
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    
+
+	String f_num=mdao.f_numData(m_num, h_num);
+	int fav=mdao.isFavorite(m_num, h_num);
 %>
 
-
 <script type="text/javascript">
-
-$(document).ready(function() {
-	
-
-$(".brand").click(function() {
-    $(this).toggleClass("active-color");
+  
+$(function(){
+  $(".brand").click(function() {
+      $(this).toggleClass("active-color");
 });
-
-
-
-
-
 
 	//변수 선언
 	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
@@ -263,11 +263,62 @@ $("#btnsend").click(function() {
   	  });
     } 
   });
-	
-	
+
+var login = "<%=loginok%>";
+var data=$("#frm").serialize()
+var f_num=$(".f_num").attr("f_num");
+var icon = $(".favorite i");
+
+
+if(login=="null"){
+	icon.css("background-color","white");
+}
+else if(<%=fav%>==1){
+	icon.addClass("red");
+	}
+
+$(".favorite i").click(function(){
+
+if(login=="null"){
+	alert("로그인이 필요한 서비스입니다.");
+	return;
+}else{
+	if(icon.hasClass("red")){
+		  $.ajax({
+              type:"post",
+              url:"hugesoinfo/deletefavorite.jsp",
+              dataType:"html",
+              data:data,
+              success:function(){
+                  alert("즐겨찾기 삭제완료");
+                  icon.removeClass("red");
+                              
+              }
+          })
+	}else{
+		  $.ajax({
+        type:"post",
+        dataType:"html",
+        data: data,
+        url:"hugesoinfo/insertfavorite.jsp",
+        success:function(){
+            icon.addClass("red");
+            var a=confirm("즐겨찾기에 저장하였습니다\n즐겨찾기로 이동하려면 [확인]을 눌러주세요");
+            
+            if(a){
+                location.href="index.jsp?main=/.jsp";
+            }
+            
+        }
+    })
+	};
+		
+}
+});
+
+})
 </script>
-
-
+</head>
 
 
 <div style="margin: 100px 100px;">
@@ -278,8 +329,9 @@ $("#btnsend").click(function() {
 		</div>
 
 <form id="frm">
-<input type="hidden" name="h_num"  id="h_num" value="<%=h_num%>">
-<input type="hidden" name="m_num" id="m_num" value="<%=m_num%>">
+<input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
+<input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
+<input type="hidden"  class="f_num"  f_num="<%=f_num %>">
 
 <!-- 휴게소 사진 -->
 <div style="float:left; margin-top:50px;">
@@ -290,15 +342,16 @@ $("#btnsend").click(function() {
 <div style="padding-bottom: 150px; padding-top: 80px; position: relative; left:4%;">
 
 <!-- 휴게소 이름 출력 -->
-<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;">
+<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;" class="d-inline-flex">
 <%=dto.getH_name()%> 
-</div>
-
 
 <!-- 즐겨찾기 버튼 -->
-<button type="button" id="favorite" style="position:relative; left:-200px; top:-50px;">
-<i class="bi bi-bookmark" style=" font-size:200%;"></i>
+<button type="button" class ="favorite">
+<!-- <i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i> -->
+<i class="bi bi-bookmarks-fill" style="margin-left: 30px;"></i>
 </button>
+
+</div>
 
 <!-- 휴게소 평점 출력 -->
 <div class="star-ratings">
@@ -517,4 +570,5 @@ for(String brand : brandArray){%>
 <body>
  
 </body>
+
 </html>
