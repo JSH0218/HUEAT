@@ -1,3 +1,4 @@
+<%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="review.model.ReviewDto"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -61,7 +62,7 @@
 
 		.tab-content{
 			display: none;
-			background: pink;
+			background: white;
 			padding: 15px;
 		}
 
@@ -73,6 +74,16 @@
   		  font-weight: bold;
 		}
 		
+		.table {
+		  width: 100%;
+		}
+		
+		.table th, .table td {
+		  border: 1px solid red;
+		  padding: 8px;
+		  text-align: center;
+		  border-collapse: collapse;
+		}
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -86,26 +97,29 @@
 			$(this).addClass('current');
 			$("#"+tab_id).addClass('current');
 		})
+		
 	
 	})
 </script>
 </head>
 <%
-//로그인상태확인
-//String loginok=(String)session.getAttribute("loginok");
+   
+    //로그인 세션얻기
+	String loginok=(String)session.getAttribute("loginok");
+	String myid=(String)session.getAttribute("myid");
 
 	ReviewDao dao=new ReviewDao();
 	
 	//전체갯수
 	int totalCount=dao.getTotalCount();
-	int perPage=10; //한페이지당 보여질 글의 갯수
+	int perPage=5; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
 	int startPage; //각블럭당 보여질 시작페이지
 	int endPage; //각블럭당 보여질 끝페이지
 	int currentPage;  //현재페이지
 	int totalPage; //총페이지수
-	int no; //각페이지당 출력할 시작번호
+	int no; //각페이지당 출력할 시작번호 
 	
 	//현재페이지 읽는데 단 null일경우는 1페이지로 준다
 	if(request.getParameter("currentPage")==null)
@@ -137,14 +151,21 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<ReviewDto> list = dao.getList(startNum, perPage);
+	List<ReviewDto> list = dao.getmypagelist(startNum, perPage, myid);
+		
+	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
+	//마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
+		if(list.size()==0 && currentPage !=1) {%>
+			<script type="text/javascript">
+			  location.href="index.jsp?main=reviewboard/reviewList.jsp?currentPage=<%=currentPage-1%>";
+			</script>
+		<%}
 	
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	
 	%>
-
 <body>
 <div id="container">
 <div id="sidebar">
@@ -170,16 +191,54 @@
 	<hr class="line">
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1"><span>내가 작성한 Q&A</span></li>
-		<li class="tab-link" data-tab="tab-2"><span>내가 작성한 리뷰</span></li>
+		<li class="tab-link" data-tab="tab-2"><span>내가 작성한 리뷰(<span style="color: red;"><%=totalCount %></span>)</span></li>
 	</ul>
 
 	<div id="tab-1" class="tab-content current">
-		<table>
-			<th>12123</th>
-		</table>
-		 <div style="width: 1000px; text-align: center;" id="pagelayout">
-  
-  
+		1233213
+	</div>
+	<div id="tab-2" class="tab-content">
+		<table class="table">
+			<tr>
+				<th>닉네임</th>
+				<th>리뷰</th>
+				<th>추천</th>
+				<th>작성일</th>
+			</tr>
+		<%
+	      MemInfoDao mdao=new MemInfoDao();
+		  String name=mdao.getId(myid);
+		  
+	      for(ReviewDto dto:list) {
+	    	  
+	    	  
+	    	   
+	    	    
+		%>
+		<tr>
+			<td>
+				<%=name %>
+			</td>
+			<td>
+		        <%=dto.getR_content()%>
+		    </td>
+		    <td>
+		        <%=dto.getR_chu()%>
+		    </td>
+		    <td>
+		        <%=sdf.format(dto.getR_writeday())%>
+		    </td>		
+		</tr>
+    	<%}
+    	%> 
+    	</table>  
+    </div>
+    
+    
+    
+    
+   <div style="width: 1000px; text-align: center;" id="pagelayout">
+
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
   <%
@@ -187,7 +246,7 @@
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -195,12 +254,12 @@
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -209,7 +268,7 @@
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=endPage+1%>"
     		style="color: black;">다음</a>
     	</li>
     <%}
@@ -219,13 +278,6 @@
  
   
 </div>
-	</div>
-	<div id="tab-2" class="tab-content">
-		 <table>
-			<th>12123</th>
-		</table>
-	</div>
-
 </div><!-- container -->
 </div>
 </body>

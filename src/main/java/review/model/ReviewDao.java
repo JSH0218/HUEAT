@@ -288,6 +288,80 @@ public class ReviewDao {
 		}
 		
 		
+		// myreviewlist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
+				public List<ReviewDto> getmypagelist(int start, int perPage, String myid) {
+					List<ReviewDto> mypagelist = new ArrayList<ReviewDto>();
+
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+
+					String sql = "select * from reviewboard where r_myid=? order by r_num desc limit ?,?";
+
+					try {
+						pstmt = conn.prepareStatement(sql);
+						
+						pstmt.setString(1, myid);
+						pstmt.setInt(2, start);
+						pstmt.setInt(3, perPage);
+
+						rs = pstmt.executeQuery();
+
+						while (rs.next()) {
+
+							ReviewDto dto = new ReviewDto();
+
+							dto.setR_num(rs.getString("r_num"));
+							dto.setR_myid(rs.getString("r_myid"));
+							dto.setR_content(rs.getString("r_content"));
+							dto.setR_image(rs.getString("r_image"));
+							dto.setR_chu(rs.getInt("r_chu"));
+							dto.setR_writeday(rs.getTimestamp("r_writeday"));
+
+							mypagelist.add(dto);
+						}
+
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+
+					return mypagelist;
+				}
+				// myreviewlist.jsp //페이징리스트/ 전체페이지수 반환하기
+				public int getMyPageTotalCount(String myid) {
+					
+					int total = 0;
+					
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					
+					String sql = "select count(*) from reviewboard where r_myid=?";
+					
+					try {
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, myid);
+						rs = pstmt.executeQuery();
+						
+						if(rs.next()) {
+							total = rs.getInt(1);
+						}
+						
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+					
+					return total;
+					
+				}
+				
+		
 		
 	}
 
