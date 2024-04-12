@@ -5,12 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR&family=Stylish&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b71304786948cbe7995d40be3007bd8e"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b71304786948cbe7995d40be3007bd8e"></script>
 <title>Insert title here</title>
 	<style type="text/css">
 		#area{
@@ -41,8 +42,12 @@
         	margin: 0 auto 40px auto;
 		}
 		
-		div.infowindow{
+		div.infowindow div{
 			text-align: center;
+			width: 210px;
+		}
+		
+		div.infowindow div img{
 			width: 210px;
 		}
 		
@@ -61,31 +66,63 @@
 			background-color: #618E6E;
 		}
 		
-		table tr:nth-child(1) th{
-			background-color: #dfdfdf;
-			text-align: center;
-			border-right: 1px solid #b7b7b7;
+		table.table th, table.table td{
+		    text-align: center; /* 가운데 정렬 */
+		    vertical-align: middle; /* 수직 정렬 */
+		    border : 2px solid lightgray;
+		    border-collapse: collapse;
 		}
 		
-		table tr:nth-child(1) th:nth-child(3){
-			border-right: none;
+		table th:first-child,
+		table td:first-child {
+			border-left: 0;
+		}
+		table th:last-child,
+		table td:last-child {
+			border-right: 0;
 		}
 		
-		table tr th:nth-child(2n-1){
-			width: 30%;
+		.line{
+			border-top: 3px solid darkgray;
+			border-bottom: 3px solid darkgray;
 		}
 		
-		table tr td:nth-child(1){
+		a:link{
+			color : black;
+			text-decoration: none;
+		}
+		
+		a:visited {
+			color : black;
+			text-decoration: none;
+		}
+		
+		a:hover{
+			color: #0897B4;
+		}
+		
+		a:active{
+			color: black;
+		}
+		
+		ul{
 			cursor: pointer;
-		}
-		
-		table tr td{
-			font-size: 14px;
 		}
 
 	</style>
 	<script>
 		$(function(){
+			var map=createMap();
+			
+			showCurrentPosition(map);
+			
+			hugesoMarking(map);
+			
+			getPagingList(1);
+		});
+		
+		// 지도생성
+		function createMap(){
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
 		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -95,7 +132,12 @@
 			// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 			var map = new kakao.maps.Map(mapContainer, mapOption);
 			
-			// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+			return map;
+		}
+		
+		//현재위치 표기
+		function showCurrentPosition(map){
+			// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 (현재위치파악) 
 			if (navigator.geolocation) {
 			    
 			    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -110,7 +152,8 @@
 			     	// 마커를 생성합니다
 			        var marker = new kakao.maps.Marker({  
 			            map: map, 
-			            position: locPosition
+			            position: locPosition,
+			            zIndex: 9999
 			        }); 
 			        
 			        var iwContent = message, // 인포윈도우에 표시할 내용
@@ -131,7 +174,10 @@
 			      });
 			    
 			}
-			
+		}
+		
+		// 지도에 휴게소 마킹
+		function hugesoMarking(map){
 			$.ajax({
 	        	type:"get",
 	        	url:"hugesoinfo/mapaction.jsp",
@@ -140,8 +186,8 @@
 	        		
 	        		$.each(res,function(i,elt){
 	        				        			
-	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-			            	message = '<div class="infowindow">'+elt.h_name+'</div>'; // 인포윈도우에 표시될 내용입니다
+	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue),
+			            	message = '<div class="infowindow"><div><img src=image/hugeso/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
 			            
 			            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다    
 			                imageSize = new kakao.maps.Size(24, 35); // 마커이미지의 크기입니다
@@ -171,9 +217,7 @@
 	        		});	        		
 	        	}
 	        });
-			
-			getPagingList(1);
-		});
+		}
 		
 		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
 		function makeOverListener(map, marker, infowindow) {
@@ -198,13 +242,17 @@
 				data:{"h_name":h_name},
 				success:function(res){
 					if(res.length){
-						var s="<table class='table table-bordered'>";
-		        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
+						var s="<table class='table'>";
+						s+="<thead>";
+		        		s+="<tr class='line'><th style='width: 30%; background-color: #DFE8E2;'>휴게소이름</th><th style='width: 40%; background-color: #DFE8E2;'>주소</th><th style='width: 30%; background-color: #DFE8E2;'>번호</th></tr>";
+		        		s+="</thead>";
+		        		s+="<tbody>";
 		        		
 		        		$.each(res,function(i,elt){
-		        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+		        			s+="<tr><td><a href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'>"+elt.h_name+"</a></td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 		        		});
 		        		
+		        		s+="</tbody>";
 		        		s+="</table>";
 					} else{
 						var s="검색결과가 없습니다";
@@ -225,14 +273,18 @@
 				dataType:"json",
 				data:{"currentPage":currentPage},
 				success:function(res){
-					var s="<table class='table table-bordered'>";
-	        		s+="<tr><th>휴게소이름</th><th>주소</th><th>번호</th></tr>";
+					var s="<table class='table'>";
+					s+="<thead>";
+	        		s+="<tr class='line'><th style='width: 30%; background-color: #DFE8E2;'>휴게소이름</th><th style='width: 40%; background-color: #DFE8E2;'>주소</th><th style='width: 30%; background-color: #DFE8E2;'>번호</th></tr>";
+	        		s+="</thead>";
+	        		s+="<tbody>";
 	        		
 					$.each(res,function(i,elt){
 	        			
-	        			s+="<tr><td onclick=\"location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'\">"+elt.h_name+"</td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
+	        			s+="<tr><td><a href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'>"+elt.h_name+"</a></td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 	        		});
 					
+					s+="</tbody>";
 					s+="</table>";
 	        		
 	        		$("#tablearea").html(s);

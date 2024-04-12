@@ -9,29 +9,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
 <title>HUEAT</title>
 
 <style type="text/css">
-
-body{
-font-family: 'Nanum Gothic';
-}
-
-
 #titlearea{
 			text-align: center;
-			margin-bottom: 20px;
+			margin-bottom: 40px;
 		}
 		
 		#titlearea hr{
 			margin: 0 auto;
 			width: 10%;
 		}
+
+#contentarea{
+	margin-bottom: 80px;
+}
 		
 .btn{
 	background-color:white;
@@ -39,8 +39,8 @@ font-family: 'Nanum Gothic';
 }
 
 a:link{
-color : black;
-text-decoration: none;
+	color : black;
+	text-decoration: none;
 }
 
 a:visited {
@@ -49,14 +49,12 @@ a:visited {
 }
 
 a:hover{
-color: #0897B4;
+	color: #0897B4;
 }
 
 a:active{
-color: black;
+	color: black;
 }
-
-
 
 </style>
 
@@ -68,8 +66,6 @@ color: black;
 	HugesoInfoDao dao = new HugesoInfoDao();
     //모든 게시글 데이터 가져오기
 	List<HugesoInfoDto> list = dao.getAllDatas();
-	 // 날짜 형식 지정을 위한 SimpleDateFormat 인스턴스 생성
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	 
 	//전체갯수
 	int totalCount=dao.getTotalCount();
@@ -123,6 +119,7 @@ color: black;
 <body>
 
 <script type="text/javascript">
+// 앨범형/목록형 변환
 function List(type){
 		const icon1 = document.querySelector(".icon1");
 		const icon2 = document.querySelector(".icon2");
@@ -139,7 +136,7 @@ function List(type){
 		
 }
 
-
+// 앨범형/목록형 색상변환
 document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
     const color = urlParams.get('color');
@@ -175,6 +172,7 @@ onclick="List(1)" >
 <i class="bi bi-grid-fill icon2" style="font-size: 25px; font-weight: bold;"></i>
 </button>
 
+<div id="contentarea">
 <%
 int count = 0; // 열의 카운터 변수
 for (int i = 0; i < list2.size(); i++) {
@@ -192,7 +190,7 @@ for (int i = 0; i < list2.size(); i++) {
 %>
 	   
 			<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
-          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="text-decoration: none; font-weight:bold;"><%=dto.getH_name() %></a>
+          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
             <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
             <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
         </div>
@@ -206,6 +204,7 @@ for (int i = 0; i < list2.size(); i++) {
     }
 }
 %>
+</div>
 
 <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
