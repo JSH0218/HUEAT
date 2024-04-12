@@ -103,6 +103,27 @@ $(function(){
 		
 	});
 	
+	$("#passsearchbtn").prop("disabled",true).css("background-color","#ccc");
+	
+	function togglepassbtn(){
+		
+		var m_id=$("#m_id").val();
+		var m_name=$("#m_name").val();
+		var m_hp2=$("#m_hp2").val();
+		
+		if(m_id !=="" && m_name!=="" && m_hp2!==""){
+			if(m_hp2.length==11){
+				$("#passsearchbtn").prop("disabled",false).css("background-color","#618E6E");
+			}else{
+				$("#passsearchbtn").prop("disabled",true).css("background-color","#ccc");
+			}
+		}else{
+			$("#passsearchbtn").prop("disabled",true).css("background-color","#ccc");
+		}
+	};
+	
+	$("#m_id,#m_name,#m_hp2").on("input",togglepassbtn);
+	
 })
 
 </script>

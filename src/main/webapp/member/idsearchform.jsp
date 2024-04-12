@@ -23,13 +23,21 @@
   text-align: center;
 }
 
-.nav-link{
+a.nav-link{
 	color: black;
 }
 
+/*마우스를 올려두었을때 파란색으로 빛이나서 그걸 방지하기 위해서 마우스를 올려두었을 시 기존의 글자색으로 빛나게 설정*/
+a.nav-link:hover{
+color: inherit;
+}
+
+/*기존의 navs탭의 배경색 때문에 자꾸 탭의 색이 변경되어서 !inportant를 주어 내가 지정한 색상을 우선하게함 
+아 진짜 이거 색 자꾸 바껴서 너무 힘들었음 ㅠㅠ*/
 .nav-pills .nav-link.active, .nav-pills .nav-link.active:focus, .nav-pills .nav-link.active:hover {
-      background-color: #618E6E;
+      background-color:#618E6E !important;
     }
+
 .nav-link:hover{
 	color: black;
 }
@@ -45,10 +53,7 @@ table th{
 	padding-top:20px;
 	font-size: 0.9em;
 }
-	a{
-	text-decoration: none;
-	color: black;
-	}
+
 	#loginbtn,#passbtn,#idsearchform{
 	background-color: #618E6E;
 		color: white;
@@ -66,6 +71,7 @@ table th{
 	height: 45px;"
 	}
 
+
 </style>
 <script type="text/javascript">
 $(function(){
@@ -74,6 +80,43 @@ $(function(){
 	$("#idfail").hide();
 	$("#idsuccess").hide();
 	
+	//prop을 사용해 처음에 버튼을 비활성화 상태로 둔다.
+	$("#idsearchbtn,#idsearchbtn2").prop("disabled", true).css("background-color","#ccc");
+	
+	//버튼 활성화 비활성화 사용자 함수
+	function toggleIdSearchButton() {
+		var name = $("#m_name").val();
+		var hp2 = $("#m_hp2").val();
+		
+		// 이름과 핸드폰 번호 둘 다 입력되면 버튼 활성화, 그렇지 않으면 비활성화
+		if (name !== "" && hp2 !== "") {
+			if(hp2.length==11){ //핸드폰 번호의 길이가 11자일때 활성화 그 외에 줄어드는 순간 비활성화 
+				$("#idsearchbtn").prop("disabled", false).css("background-color","#618E6E");
+			}else{
+				$("#idsearchbtn").prop("disabled", true).css("background-color","#ccc");
+			}	
+		} else {
+			$("#idsearchbtn").prop("disabled", true).css("background-color","#ccc");
+		}
+	};
+	
+	function toggleemailbtn(){
+		var name=$("#m_name2").val();
+		var email=$("#m_email2").val();
+		
+		if (name !== "" && email !== "") {
+			$("#idsearchbtn2").prop("disabled", false).css("background-color","#618E6E");
+		}else {
+			$("#idsearchbtn2").prop("disabled", true).css("background-color","#ccc");
+		}
+		
+	};
+	
+	// 입력 필드 내용이 변경될 때 toggleIdSearchButton 함수 호출
+	$("#m_name, #m_hp2").on("input", toggleIdSearchButton);
+	$("#m_name2,#m_email2").on("input",toggleemailbtn);
+	
+	//아이디 찾기 버튼을 눌렀을 때
 	$("#idsearchbtn").click(function(){
 		var name=$("#m_name").val();
 		var hp2=$("#m_hp2").val();
@@ -82,7 +125,7 @@ $(function(){
 	
 		$.ajax({
 			type:"post",
-			url:"idsearchaction_hp.jsp",
+			url:"member/idsearchaction_hp.jsp",
 			dataType:"json",
 			data:{"m_name":name,"m_hp2":hp2},
 			success:function(res){
@@ -113,7 +156,7 @@ $(function(){
 		
 		$.ajax({
 			type:"post",
-			url:"idsearchaction_email.jsp",
+			url:"member/idsearchaction_email.jsp",
 			dataType:"json",
 			data:{"m_name2":name2,"m_email2":email2},
 			success:function(res){
@@ -132,14 +175,15 @@ $(function(){
 			}
 		}
 		})
-	});
-
+	});	
 	
 })
+
 </script>
+
 </head>
 <body>
-<div class="container mt-3" align="center" style="padding-top: 160px;" id="idsearch">
+<div class="container mt-3" align="center" style="padding-top: 170px; padding-bottom: 80px;" id="idsearch">
   <h2>아이디 찾기</h2>
 	<br><br>
   <!-- Nav pills -->
@@ -148,7 +192,7 @@ $(function(){
       <a class="nav-link active" data-bs-toggle="pill" href="#hp">핸드폰으로 찾기</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="pill" href="#email">이메일로 찾기</a>
+      <a class="nav-link" data-bs-toggle="pill" href="#email" >이메일로 찾기</a>
     </li>
   </ul>
 
@@ -174,13 +218,13 @@ $(function(){
 						<tr>
 							<td>
 								<input type="text" name="m_hp2" id="m_hp2" placeholder="핸드폰 번호를 입력해 주세요."
-								 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11">
 							</td>
 						</tr>
 					</table>
 					<div align="center">
 						<button type="button" id="idsearchbtn"style="width: 300px;height: 45px;">아이디 찾기</button><br><br>
-						<span> <a href='passSearchform.jsp'>비밀번호 찾기</a></span>
+						<span> <a href='index.jsp?main=member/passSearchform.jsp' style="text-decoration: none; color: black;">비밀번호 찾기</a></span>
 					</div>
 				</form>
 			</div>
@@ -215,7 +259,7 @@ $(function(){
 					</table>
 					<div align="center">
 						<button type="button" id="idsearchbtn2"style="width: 300px;height: 45px;">아이디 찾기</button><br><br>
-						<span> <a href='passSearchform.jsp'>비밀번호 찾기</a></span>
+						<span> <a href='index.jsp?main=member/passSearchform.jsp' style="text-decoration: none; color: black;">비밀번호 찾기</a></span>
 					</div>
 				</form>
 			</div>
@@ -225,30 +269,30 @@ $(function(){
 </div>
 
 <!-- 아이디 찾기를 성공했을 때 바로 로그인하고 비밀번호를 찾을 수 있게 -->
-<div id="idsuccess" style="width: 500px;margin: 0 auto;">
-<h3 style="margin-top:200px; width: 500px; color: green;font-weight: bold; text-align: center;">아이디 확인</h3>
+<div id="idsuccess" style="width: 500px;margin: 0 auto; margin-bottom: 240px;">
+<h3 style="margin-top:230px; width: 500px; color: green;font-weight: bold; text-align: center;">아이디 확인</h3>
 <div style="width: 500px; margin-top: 50px; border: 1px solid gray; border-radius: 10px;">
 	<form style="margin:50px;text-align: center;" action="#" method="post" >
 		<span class="result"></span>
 		<hr>
 		<div align="center">
-			<button type="button" onclick="location.href='loginform.jsp'" id="loginbtn">로그인</button>
-			<button type="button" onclick="location.href='passSearchform.jsp'" id="passbtn">비밀번호 찾기</button>
+			<button type="button" onclick="location.href='member/loginform.jsp'" id="loginbtn">로그인</button>
+			<button type="button" onclick="location.href='index.jsp?main=member/passSearchform.jsp'" id="passbtn">비밀번호 찾기</button>
 		</div>
 	</form>
 </div>
 </div>
 
 <!-- 아이디 찾기를 실패했을 때 다시 아이디 찾기로 돌아갈 수 있게 버튼 아이디 찾기로 변경 -->
-<div id="idfail" style="width: 500px;margin: 0 auto;">
-<h3 style="margin-top:200px; width: 500px; color: green;font-weight: bold; text-align: center;">아이디 확인</h3>
-<div style="width: 500px; margin-top: 50px; border: 1px solid gray; border-radius: 10px;">
+<div id="idfail" style="width: 500px;margin: 0 auto; margin-bottom: 220px;">
+<h3 style="margin-top:230px; width: 500px; color: green;font-weight: bold; text-align: center;">아이디 확인</h3>
+<div style="width: 500px; margin-top: 50px; border: 1px solid gray; border-radius: 10px;" >
 	<form style="margin:50px;text-align: center;" action="#" method="post" >
 		<span class="result"></span>
 		<hr>
 		<div align="center">
-			<button type="button" onclick="location.href='idsearchform.jsp'" id="idsearchform">다시 찾기</button>
-			<button type="button" onclick="location.href='passSearchform.jsp'" id="passbtn">비밀번호 찾기</button>
+			<button type="button" onclick="location.href='index.jsp?main=member/idsearchform.jsp'" id="idsearchform">다시 찾기</button>
+			<button type="button" onclick="location.href='index.jsp?main=member/passSearchform.jsp'" id="passbtn">비밀번호 찾기</button>
 		</div>
 	</form>
 </div>

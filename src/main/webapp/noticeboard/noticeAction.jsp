@@ -51,7 +51,7 @@
     	dao.insertNotice(dto);
     	
     	//공지사항 목록으로 이동
-    	response.sendRedirect("../index.jsp?main=noticeboard/noticeForm.jsp");
+    	response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp");
     	
      } catch(Exception e) {
     	

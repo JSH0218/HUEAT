@@ -14,7 +14,7 @@
 <style type="text/css">
 	input {
 		height: 50px;
-		border-radius:10px;
+		border-radius:5px;
 		border: 1px solid gray;
 		font-family: 'Nanum Gothic';
 	
@@ -43,17 +43,12 @@
 
 	}
 
-@font-face {
-    font-family: 'KCCChassam';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+table.table tr,table.table td,table.table th{
+	border: none;
 }
-@font-face {
-    font-family: 'Orbit-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+.btninsert,.btnreset{
+	height:45px;
+	margin-top: 20px;
 }
 
 </style>
@@ -131,7 +126,7 @@ $(function(){
 		
 	});
 	
-	$("form").submit(function(e){
+	$("#frm").submit(function(e){
 		e.preventDefault();
 		var f=this;
 		
@@ -169,7 +164,7 @@ $(function(){
 <h3 style="width: 500px; margin: 0 auto; margin-top: 50px; text-align: center;">회원가입</h3>
 <div  style="width: 500px; margin: 0 auto; margin-top: 40px; border: 1px solid #ccc; border-radius: 10px;">
 
-	<form style="margin: 60px;width: 400px;" action="gaipaction.jsp" method="post" onsubmit="return check(this)">
+	<form style="width: 400px;padding: 60px;" action="gaipaction.jsp" method="post" onsubmit="return check(this)" id="frm">
 	
 		<table class="table table-bordered-light" style="width: 400px; margin: 0 auto;">
 			<tr>
@@ -239,7 +234,7 @@ $(function(){
 				</td>
 			</tr>
 			<tr>
-				<td align="center">
+				<td align="center" style="padding-right: 40px;">
 					<button type="submit" style="width: 145px;" class="btninsert">회원가입</button>&nbsp;&nbsp;&nbsp;
 					<button type="button" style="width: 145px;" class="btnreset"
 					onclick="goBack();">취소</button>
