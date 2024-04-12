@@ -104,9 +104,9 @@
 		<ul>
 		  <li><a href="#">소개</a>
 		    <ul>
-		      <li><a href="#">공지사항</a></li>
+		      <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
 		      <li><a href="#">소개글</a></li>
-		      <li><a href="#">이벤트</a></li>
+		      <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
 		    </ul>
 		  </li>
 		  
@@ -120,7 +120,7 @@
 		  <li><a href="#">게시판</a>
 		    <ul>
 		      <li class="dir"><a href="#">고객문의</a></li>
-		      <li class="dir"><a href="#">고객후기</a>
+		      <li class="dir"><a href="index.jsp?main=reviewboard/reviewList.jsp">고객후기</a>
 		    </ul>
 		  </li>
 		  <%
@@ -130,10 +130,10 @@
 		  		<li><a href="member/gaipform.jsp">회원가입</a></li>
 		  	<%}else{%>
 		  		<li style="padding-left: 880px;"><a href="member/logoutaction.jsp">로그아웃</a></li>
-		  		<li><a href="#">마이페이지</a>
+		  		<li><a href="index.jsp?main=mypage/updatepassform.jsp">마이페이지</a>
 		  			<ul>
-				      <li><a href="index.jsp?main=mypage/updatepassform.jsp#container">회원정보수정</a></li>
-				      <li><a href="#">나의 활동</a></li>
+				      <li><a href="index.jsp?main=mypage/updatepassform.jsp">회원정보수정</a></li>
+				      <li><a href="index.jsp?main=mypage/myactivelist.jsp">나의 활동</a></li>
 				      <li><a href="#">즐겨찾기</a></li>
 		    		</ul>
 		  		</li>

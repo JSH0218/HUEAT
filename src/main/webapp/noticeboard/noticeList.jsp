@@ -1,7 +1,5 @@
-<%@page import="notice.model.NoticeDto"%>
 <%@page import="notice.model.NoticeDao"%>
 <%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -128,10 +126,10 @@
         	  for(NoticeDto dto:list) {%>
         		
         		  <tr>
-        		    <td align="center"><%=dto.getN_num() %></td>
+        		    <td align="center" valign="<%=dto.getN_num()%>"><%=no-- %></td>
         		    
         		    <!-- 제목 선택하면 디테일 페이지로 이동 -->
-        		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?num=<%=dto.getN_num()%>
+        		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getN_num()%>
         		    &currentPage=<%=currentPage%>">
         		    <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         		    width: 250px; display: block;"><%=dto.getN_subject() %></a></span>

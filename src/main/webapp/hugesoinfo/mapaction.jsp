@@ -21,6 +21,7 @@
 		ob.put("h_name", dto.getH_name());
 		ob.put("h_xvalue", dto.getH_xvalue());
 		ob.put("h_yvalue", dto.getH_yvalue());
+		ob.put("h_photo", dto.getH_photo());
 		ob.put("h_hp", dto.getH_hp());
 		ob.put("h_addr", dto.getH_addr());
 		

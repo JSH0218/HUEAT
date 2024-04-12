@@ -1,7 +1,5 @@
 <%@page import="notice.model.NoticeDto"%>
 <%@page import="notice.model.NoticeDao"%>
-<%@page import="notice.model.NoticeDto"%>
-<%@page import="notice.model.NoticeDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -40,10 +38,10 @@
     	System.out.println(n_image);
     	
     	//dao 선언
-    	NoticeDao dao = new NoticeDao();
+    	NoticeDao dao= new NoticeDao();
     	
     	//dto 데이터담기
-    	NoticeDto dto = new NoticeDto();
+    	NoticeDto dto= new NoticeDto();
     	
     	dto.setN_subject(n_subject);
     	dto.setN_content(n_content);
@@ -53,7 +51,7 @@
     	dao.insertNotice(dto);
     	
     	//공지사항 목록으로 이동
-    	response.sendRedirect("../index.jsp?main=noticeboard/noticeForm.jsp");
+    	response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp");
     	
      } catch(Exception e) {
     	
