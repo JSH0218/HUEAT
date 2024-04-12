@@ -75,7 +75,7 @@
            
            <td>
              <button type="submit" class="btn btn-success col" 
-             style="width: 100px; height: 100px;">등록</button>
+             style="width: 100px; height: 100px;">수정</button>
            </td>
          </tr>
          
