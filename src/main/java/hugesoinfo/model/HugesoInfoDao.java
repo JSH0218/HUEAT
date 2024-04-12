@@ -223,6 +223,7 @@ public class HugesoInfoDao {
 				
 				
 				//휴게소 즐겨찾기 해제 (hugesodetail.jsp)
+				//유지))f_num을 구해도 바로 반영이 되지 않아서 결국 m_num과 h_num이 일치할때 삭제되게끔 수정함
 				public void deleteFavorite(String m_num,String h_num)
 				{
 					Connection conn=db.getConnection();
