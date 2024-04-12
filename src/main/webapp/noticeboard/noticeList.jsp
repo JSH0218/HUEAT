@@ -1,6 +1,5 @@
-
-<%@page import="notice.model.NoticeDto"%>
 <%@page import="notice.model.NoticeDao"%>
+<%@page import="notice.model.NoticeDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

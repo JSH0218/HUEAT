@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR&family=Stylish&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
@@ -19,6 +19,7 @@
   div.banner {
     border: 0px solid yellow;
     font-family: 'Nanum Gothic';
+    display: none;
   }
   
   div.main {
@@ -41,11 +42,12 @@
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
 	   main = request.getParameter("main");
+   }else{
 	   %>
 	   <script type="text/javascript">
 	   	$(function(){
-			$("div.banner").hide();
-		})
+	   		$("div.banner").show();
+	   	});
 	   </script>
 	   <%
    }
