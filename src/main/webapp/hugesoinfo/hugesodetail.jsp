@@ -1,3 +1,4 @@
+<%@page import="grade.model.GradeDto"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="favorite.model.FavoriteDto"%>
@@ -18,7 +19,7 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-   
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <title>HUEAT</title>
 <style type="text/css">
 
@@ -65,6 +66,70 @@ button.brand{
 	border:white;
 }
 
+.nav-pills .nav-link.active{
+	background-color:#618E6E;
+}
+
+
+/* 평점 css  */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
+}
+ 
+.star-rating input {
+  display: none;
+}
+ 
+.star-rating label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
+  cursor: pointer;
+}
+ 
+.star-rating :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+ 
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
+
+.star-ratings {
+  color: #aaa9a9; 
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.3px;
+  -webkit-text-stroke-color: #2b2a29;
+}
+ 
+.star-ratings-fill {
+  color: #fff58c;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  -webkit-text-fill-color: gold;
+}
+ 
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
+}
+
 .red{
 	color: #FFE400;
 }
@@ -83,21 +148,121 @@ button.brand{
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
 	String m_num = mdao.getM_num(m_id);
 	
-     // HugesoInfoDao 객체 생성
-     HugesoInfoDao dao = new HugesoInfoDao();
+  // HugesoInfoDao 객체 생성
+  HugesoInfoDao dao = new HugesoInfoDao();
 	// 휴게소 데이터 가져옴
 	HugesoInfoDto dto = dao.getData(h_num);
+	
+	GradeDto gdto = new GradeDto();
+	
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
 	String f_num=mdao.f_numData(m_num, h_num);
 	int fav=mdao.isFavorite(m_num, h_num);
 %>
 
 <script type="text/javascript">
-
+  
 $(function(){
-	
-$(".brand").click(function() {
-    $(this).toggleClass("active-color");
+  $(".brand").click(function() {
+      $(this).toggleClass("active-color");
 });
+
+	//변수 선언
+	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
+	var diesel = parseInt(<%=dto.getH_disel()%>); // 경유 가격 데이터
+	var lpg = parseInt(<%=dto.getH_lpg()%>); // LPG 가격 데이터
+
+    // 숫자에 천 단위 콤마 추가하는 함수
+    function insertCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+	
+	
+	
+	
+	
+	
+	/* 평점 */
+	ratingToPercent() {
+      const score = +this.restaurant.averageScore * 20;
+      return score + 1.5;
+ }
+	
+	
+	
+$("#btnsend").click(function() {
+	 var login = "<%=loginok%>";
+	 if(login === "null"){
+		 $("#btnsend").hide(); // 로그아웃 상태일 때 숨김
+	        return;
+	    }else {
+	        $("#btnsend").show(); // 로그인 상태일 때 표시
+	    }
+	 
+	    var rating = $("input[name='rating']:checked").val(); // 선택된 별점 값 가져오기
+	    
+	    if (!rating) { // 선택된 별점이 없을 경우
+	        alert("별점을 선택해주세요");
+	        return;
+	    }
+
+	    $.ajax({
+	        type: "GET", // HTTP 요청 메서드 설정 (GET, POST 등)
+	        url: "../grade/insertgrade.jsp",
+	        dataType: "html",
+	        data: {"g_num": g_num, "m_num": m_num, "h_num": h_num, "g_grade": rating}, // rating 변수를 사용하여 데이터 전송
+	        success: function(){
+	            // 기존 입력값 지우기
+	            $(".g_grade").val('');
+	            
+	            list();
+	        },
+	        error: function(xhr, status, error) {
+	            // 오류 발생 시 처리
+	            console.error("AJAX Error: " + error);
+	        }
+	    });
+	});
+
+
+		  
+	
+	
+    function list()
+    {
+  	  console.log("list h_num="+$("#h_num").val());
+  	  
+  	  $.ajax({
+  		  
+  		  type:"get",
+  		  url:"../grade/gradelist.jsp",
+  		  dataType:"json",
+  		  data:{"g_num":$("#g_num").val()},
+  		  success:function(res){
+  			 
+  			  //댓글갯수출력
+  			  $("b.acount>span").text(res.length);
+  			  
+  			  var s="";
+  			  $.each(res,function(idx,item){
+  				  
+  				  s+="<div>"+item.nick+":  "+item.content;
+  				  s+="<span class='aday'>"+item.writeday+"</span>";
+  				  s+="<i class='bi bi-pencil-square amod' idx="+item.idx+"></i>";
+  				  s+="<i class='bi bi-trash adel' idx="+item.idx+"></i>";
+  			  });
+  			  $("div.alist").html(s);
+  			  
+  		  },
+  		  error: function(xhr, status, error) {
+  	            console.error("AJAX Error: " + error);
+  	        }
+  		  
+  	  });
+    } 
+  });
 
 var login = "<%=loginok%>";
 var data=$("#frm").serialize()
@@ -149,16 +314,13 @@ if(login=="null"){
 	};
 		
 }
-	
-
-
 });
 
 })
 </script>
 </head>
 
-<body>
+
 <div style="margin: 100px 100px;">
 
 <div id="titlearea">
@@ -171,12 +333,13 @@ if(login=="null"){
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 <input type="hidden"  class="f_num"  f_num="<%=f_num %>">
 
+<!-- 휴게소 사진 -->
 <div style="float:left; margin-top:50px;">
 <img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:600px; height:400px;">
 </div>
 
-<div style="padding-bottom: 200px; padding-top: 50px; margin-left:50%;">
 
+<div style="padding-bottom: 150px; padding-top: 80px; position: relative; left:4%;">
 
 <!-- 휴게소 이름 출력 -->
 <div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;" class="d-inline-flex">
@@ -190,23 +353,18 @@ if(login=="null"){
 
 </div>
 
-
-
-
-
 <!-- 휴게소 평점 출력 -->
-<div style="font-size: 20px; margin-bottom: 20px; ">
-3.8 <%=dto.getH_grade() %>
-
-<% 
-int i=0;
-for(i=0;i<5;i++){%>
-   <i class="bi bi-star"></i>
-<%} %>
-
-(<%=dto.getH_gradecount() %>)
+<div class="star-ratings">
+	<div 
+    class="star-ratings-fill space-x-2 text-lg"
+    :style="{ width: ratingToPercent + '%' }"
+	>
+		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+	</div>
+	<div class="star-ratings-base space-x-2 text-lg">
+		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+	</div>
 </div>
-
 
 <!-- 휴게소 주소, 영업시간, 전화번호, 편의시설 출력 -->
 <div style="font-size: 20px; margin-bottom: 20px; ">
@@ -279,44 +437,74 @@ for(i=0;i<5;i++){%>
 </div>
 
 
-<div style="float:left; width: 500px; height:600px;">
+<div style="float:left; position: relative; top:-50px;"> 
 
 
+<div class="container mt-3">
 
-<!-- 브랜드 출력  -->
-<% 
-String brands = dto.getH_brand();
-String[] brandArray = brands.split(",");
-for(String brand : brandArray){%>
-	<button type="button" class="btn btn-success brand" style="width:110px; height:50px;">
-	<% out.println(brand); %>
-	</button> 
- <%} %><br>
+  <!-- Nav pills -->
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#home">푸드코트</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#menu1">브랜드</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+   
+      
+     <!-- 상품 사진 출력  --> 
+      <%
+String sangphotos = dto.getH_sangphoto();
+String[] sangPhotoArray = sangphotos.split(",");
+  for(String sangphoto : sangPhotoArray){%>
+	<img alt="" src="image/food/<%=sangphoto%>" style="width: 200px; height:200px; margin-right:20px;">
  
+ <%}%><br>
  
- 
-<%=dto.getH_sangphoto() %>
-
 <!-- 상품이름 출력 -->
 <%
 String sangnames =  dto.getH_sangname();
 String[] sangArray = sangnames.split(",");
 for(String sangname : sangArray){%>
-	<span style="margin-left:20px;"><% out.println(sangname); %></span>
+	<div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;"><% out.println(sangname); %></div>
 <%}%><br>
 
-<!-- 상품가격 출력 -->
+
+ <!-- 상품가격 출력 -->
 <%
 String prices =  dto.getH_sangprice();
 prices = prices.replaceAll("\\{", "").replaceAll("\\}", ""); // {와 }를 제거하여 숫자만 남김
 String[] priceArray = prices.split(","); // 쉼표를 기준으로 문자열 분할
-for(String price : priceArray){
-	 out.println(price+"원");
-}%>
+for(String price : priceArray){%>
+	 <div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;">
+	 <% out.println(price+"원");%></div>
+<%}%>  
+      
+    </div>
+    
+    
+    <div id="menu1" class="container tab-pane fade"><br>
 
+ <!-- 브랜드 출력  -->
+<% 
+String brands = dto.getH_brand();
+String[] brandArray = brands.split(",");
+for(String brand : brandArray){%>
+ <img alt="<%= brand %>" src="image/brand/<%= brand %>.jpg" style="width: 120px; height: 120px;">
+  <% out.println(brand);%>
+ <%}%><br>
+
+    </div>
+  </div>
+</div>
 </div>
 
-<div style="position:relative; margin-left:50%;">
+<div style="position:relative; margin-left:60%; ">
 <h5>주유소/충전소</h5>
 <table class="table">
 <tr>
@@ -325,15 +513,15 @@ for(String price : priceArray){
 </tr>
 <tr>
 <td >휘발유</td>
-<td ><%=dto.getH_gasolin() %>원</td>
+<td ><%=dto.getH_gasolin()%>원</td>
 </tr>
 <tr>
 <td >경유</td>
-<td ><%=dto.getH_disel() %>원</td>
+<td ><%= dto.getH_disel() %>원</td>
 </tr>
 <tr>
 <td >LPG</td>
-<td><%=dto.getH_lpg() %>원</td>
+<td><%= dto.getH_lpg() %>원</td>
 </tr>
 </table>
 <div style="font-size:14px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
@@ -342,12 +530,44 @@ for(String price : priceArray){
 
 
 
+ <table class="table table-bordered"> 
+     <!-- 평점 -->
+     <tr>
+       <td>
+         <b class="acount" >평점<span>0</span></b>
+         <div class="alist" id="alist" >
+             평점 목록
+         </div>
+         <div class="aform input-group">
+          <input type="hidden" id="m_id"><%=m_id%> 
+          
+    <div class="star-rating space-x-4 mx-auto">
+	<input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+	<label for="5-stars" class="star pr-4">★</label>
+	<input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+	<label for="4-stars" class="star">★</label>
+	<input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+	<label for="3-stars" class="star">★</label>
+	<input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+	<label for="2-stars" class="star">★</label>
+	<input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+	<label for="1-star" class="star">★</label>
+    </div>
 
-<!-- <b style="color:gray; font-size">조회</b> -->
+   <button type="button" id="btnsend"
+   class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
+   </div>
+         
+</td>
+</tr>
+</table>
+
+
 
 </form>
 </div>
 
+<body>
  
 </body>
 

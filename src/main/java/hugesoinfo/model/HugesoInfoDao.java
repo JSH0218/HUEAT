@@ -292,4 +292,5 @@ public class HugesoInfoDao {
 		
 		return list;
 	}
+	
 }

@@ -23,7 +23,8 @@ public class ReviewDao {
 	
 		try {
 			pstmt = conn.prepareStatement(sql);
-			            pstmt.setString(1, dto.getR_myid());
+			
+            pstmt.setString(1, dto.getR_myid());
 			pstmt.setString(2, dto.getR_content());
 			pstmt.setString(3, dto.getR_image());
 			
