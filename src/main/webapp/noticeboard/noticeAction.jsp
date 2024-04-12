@@ -38,10 +38,10 @@
     	System.out.println(n_image);
     	
     	//dao 선언
-    	NoticeDao dao = new NoticeDao();
+    	NoticeDao dao= new NoticeDao();
     	
     	//dto 데이터담기
-    	NoticeDto dto = new NoticeDto();
+    	NoticeDto dto= new NoticeDto();
     	
     	dto.setN_subject(n_subject);
     	dto.setN_content(n_content);

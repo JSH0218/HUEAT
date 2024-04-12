@@ -236,7 +236,7 @@ public class MemInfoDao {
 
 	}
 
-	// 아이디를 넣고 getAlldatas 저장된 값 받아오기 (soo)
+	// 아이디를 넣고 getAlldatas 저장된 값 받아오기
 	public MemInfoDto getAlldatas(String m_id) {
 		MemInfoDto dto = new MemInfoDto();
 
@@ -273,7 +273,7 @@ public class MemInfoDao {
 
 	}
 
-	// num과 pass를 넣고 값이 있는지 확인하기 (soo)
+	// num과 pass를 넣고 값이 있는지 확인하기
 	public int numPassCheck(String m_num, String m_nick) {
 		int count = 0;
 		Connection conn = db.getConnection();
@@ -350,7 +350,55 @@ public class MemInfoDao {
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
-	}
+	}	
+		
+		//닉네임을 넣고 현재 닉네임 받아오기
+		public String inputIDGetNick(String m_id)
+		{
+			String m_nick="";
+					
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+					
+			String sql="select * from meminfo where m_num=?";
+					
+			try {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, m_id);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					m_nick=rs.getString("m_nick");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(rs, pstmt, conn);
+			}
+			return m_nick;
+		}
+	
+		//삭제 delete메서드
+		public void deleteMember(String m_num)
+		{
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from meminfo where m_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, m_num);
+				pstmt.execute();
+        
+      } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
 
 	//즐겨찾기 목록 출력
 	public List<HashMap<String, String>> getFavlist(String m_num){
@@ -494,3 +542,6 @@ public class MemInfoDao {
 			return m_nick;
 		}
 }
+
+	
+
