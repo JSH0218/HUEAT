@@ -27,6 +27,7 @@
     border: 0px solid yellow;
     font-family: 'Nanum Gothic';
     margin-top: 100px;
+    display: none;
   }
   
   div.main {
