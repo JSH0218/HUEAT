@@ -545,6 +545,7 @@ public class MemInfoDao {
 			}
 			return m_nick;
 		}
+
 }
 
 	

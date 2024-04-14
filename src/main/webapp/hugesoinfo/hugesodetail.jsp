@@ -1,4 +1,5 @@
 <%@page import="grade.model.GradeDto"%>
+<%@page import="grade.model.GradeDao"%>
 <%@page import="java.util.List"%>
 <%@page import="favorite.model.FavoriteDto"%>
 <%@page import="meminfo.model.MemInfoDao"%>
@@ -32,14 +33,14 @@
 			width: 10%;
 		}
 
-table.table, table.table th, table.table td{
+table.gtable, table.gtable th, table.gtable td{
     text-align: center; /* 가운데 정렬 */
     vertical-align: middle; /* 수직 정렬 */
     border : 2px solid lightgray;
     border-collapse: collapse;
 }
 
-table.table td{
+table.gtable td{
 width:200px;
 }
 
@@ -70,7 +71,7 @@ button.brand{
 .star-rating {
   display: flex;
   flex-direction: row-reverse;
-  font-size: 2.25rem;
+  font-size: 2rem;
   line-height: 2.5rem;
   justify-content: space-around;
   padding: 0 0.2em;
@@ -98,12 +99,12 @@ button.brand{
   -webkit-text-fill-color: #fff58c;
 }
 
-
+/* 휴게소 평균 평점 */
 .star-ratings {
   color: #aaa9a9; 
   position: relative;
   unicode-bidi: bidi-override;
-  width: max-content;
+   width: max-content; 
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1.3px;
   -webkit-text-stroke-color: #2b2a29;
@@ -112,9 +113,9 @@ button.brand{
 .star-ratings-fill {
   color: #fff58c;
   padding: 0;
- /*  position: absolute;
+  position: absolute;
   z-index: 1;
-  display: flex; */
+  display: flex; 
   top: 0;
   left: 0;
   overflow: hidden;
@@ -138,6 +139,8 @@ span.aday{
 	font-size:0.8em;
 	color:#bbb;
 }
+
+
 </style>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
@@ -157,12 +160,14 @@ span.aday{
 	// 휴게소 데이터 가져옴
 	HugesoInfoDto dto = dao.getData(h_num);
 	
-	GradeDto gdto = new GradeDto();
-	
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");
 
 	String f_num=mdao.f_numData(m_num, h_num);
 	int fav=mdao.isFavorite(m_num, h_num);
+	
+	GradeDao gdao = new GradeDao();
+	String avgGrade = gdao.avgGrade(h_num);
+	String getM_id = gdao.getM_id(m_num);
 %>
 
 <script type="text/javascript">
@@ -171,9 +176,42 @@ $(function(){
 	list();
 	
 	var h_num=$("#h_num").val();
-	//alert(h_num);
-	
+	var m_num=$("#m_num").val();
+	//alert(m_num);
+
+
 	var login = "<%=loginok%>";
+	
+	
+ <%-- var avgGrade = "<%= avgGrade %>";
+	if (avgGrade !== null) {
+	    alert("평균 등급: " + avgGrade);
+	} else {
+	    alert("평균 등급을 가져오지 못했습니다.");
+	} --%>
+	
+	/* 휴게소 평점 평균 */
+	  function ratingToPercent(avgGrade) {
+	    const score = avgGrade * 20;
+	    return score + 1.5;
+	  }
+
+	// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
+	var avgGrade = "<%= avgGrade %>"; 
+
+	// HTML 요소에 평균 등급을 적용하는 함수 호출
+	  applyStarRatings(parseFloat(avgGrade));
+
+	  function applyStarRatings(avgGrade) {
+	    const fillWidth = ratingToPercent(avgGrade) + '%';
+	    document.querySelector('.star-ratings-fill').style.width = fillWidth;
+	  
+	    $("div.alist").html("<div>" + avgGrade + "</div>");
+	}
+
+	
+	
+
 	 if(login=="null"){
 		 $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
 	        return;
@@ -184,78 +222,109 @@ $(function(){
 	$("#btnasend").click(function(){
 		
 		    /* var m_num = $("#m_num").val().trim(); */
-		    var g_grade = $("input[name='g_grade']:checked").val(); // 선택된 별점 값 가져오기
+		    var g_grade = $("input[name='g_grade']:checked").val(); // 선택된 평점 값 가져오기
+		    var g_content = $("#g_content").val().trim(); // 사용자가 입력한 내용 가져오기
 		    
-		/*   if(m_num === ''){
-		    	alert("회원번호를 입력해주세요");
-		    	return;
-		    }  */
-		    
-		    if (!g_grade) { // 선택된 별점이 없을 경우
+		    if (!g_grade) { // 선택된 평점이 없을 경우
 		        alert("별점을 선택해주세요");
 		        return;
 		    }
-
+			
+		    if (!g_content) {
+		        alert("평가 내용을 입력해주세요");
+		        return;
+		    }
+		    
 		    $.ajax({
-		        type: "GET", // HTTP 요청 메서드 설정 (GET, POST 등)
+		        type: "get", 
 		        url: "grade/insertgrade.jsp",
 		        dataType: "html",
-		        data: {"h_num": $("#h_num").val(), /* "m_num":m_num, */ "g_grade": g_grade}, // rating 변수를 사용하여 데이터 전송
+		        data: {"h_num": $("#h_num").val(),  "m_num":$("#m_num").val(),  "g_grade": g_grade, "g_content": g_content}, 
 		        success: function(){
 		            // 기존 입력값 지우기
 		           /*  $("#m_num").val(''); */
-		            $("input[name='g_grade']").prop('checked',false);
-		            
-		            //댓글 목록 다시 불러오기
-		            list();
-		        },
+		           /*  $("input[name='g_grade']").prop('checked',false); */
+		             $("#insertgrade").hide(); // 평점 등록 시 숨김
+		            //평점 목록 다시 불러오기
+		            list();     
+		       
+		            updateH_grade();
+		        
+		         },
 		        error: function(xhr, status, error) {
 		            // 오류 발생 시 처리
 		            console.error("AJAX Error: " + error);
 		        }
+		         
+		           
 		    });
-		});
-
-
+		    
+		    });
+	
+		    function updateH_grade() {
+		    $.ajax({ 
+	       		 
+		        type:"post",
+		        dataType:"html",
+		        data: {"h_num":$("#h_num").val(), "h_grade": avgGrade , "h_gradecount":$("b.gradesu>span").text()},
+		        url:"hugesoinfo/updateh_grade.jsp",
+		        success:function(){
+		         
+		        },
+		        error: function(xhr, status, error) {
+		            console.error("AJAX Error: " + error);
+		        }
+	
+	            });
+		    
+		    
+		    }
+		    
+	 
 			  
 		
 		
 	    function list()
 	    {
 	  	  //console.log("list h_num="+$("#h_num").val());
-	  	  
+	  	  /* var m_id=$("#m_id").val();
+	  	console.log(m_id); */
+	  	 var getM_id ="<%= getM_id %>";
 	  	  $.ajax({
 	  		  
 	  		  type:"get",
 	  		  url:"grade/gradelist.jsp",
 	  		  dataType:"json",
-	  		  data:{"h_num":$("#h_num").val()},
+	  		  data:{"h_num":$("#h_num").val(), "m_num":$("#m_num").val()},
 	  		  success:function(res){
 	  			 
-	  			  //댓글갯수출력
-	  			  $("b.acount>span").text(res.length);
+	  			  //평점갯수출력
+	  			  $("b.gradesu>span").text(res.length);
 	  			  
 	  			  var s="";
 	  			  $.each(res,function(idx,item){
-	  				  s+="<div>"+item.m_num+": ";
 	  				  
-	  				  //별점에 따라 별표시 추가
+	  				  //평점에 따라 별표시 추가
 	  				  var starsHTML = "";
 	  				  for(var i=5;i>0;i--){
 	  					  if(i<=item.g_grade){
 	  						  starsHTML +="<span class='star' style='color:gold;'>★</span>";
 	  					  }else{
-	  						 starsHTML +="<span class='star-empty'>☆</span>";
+	  						 starsHTML +="<span class='star-empty' style='color:lightgray;'>★</span>";
 	  					  }
 	  					  
 	  				  }
+	  				  s+="<div>";
 	  				  s+="<div class='star-rating'>" + starsHTML +"</div>";
-	  				 
-	  				  s+="<span class='aday'>"+item.writeday+"</span>";
+	  				  s+="<div style=' font-size:20px;'>" + item.g_grade  +"</div>";
+	  				  s+="<div>"+  getM_id +"</div>";
+	  				  s+="<span class='aday'>"+item.g_content+"</span>";
+	  				  s+="<span class='aday'>"+item.g_writeday+"</span>";
 	  				  s+= "</div>";
 	  			  });
 	  			  $("div.alist").html(s);
 	  			  
+	  			  updateH_grade();
 	  		  },
 	  		  error: function(xhr, status, error) {
 	  	            console.error("AJAX Error: " + error);
@@ -286,18 +355,11 @@ $(function(){
 	
 	
 	
-	
-	
-	
-	/* 휴게소 전체 평점 */
-	 function ratingToPercent() {
-      const score = +this.restaurant.averageScore * 20;
-      return score + 1.5;
-     }
-	
 
   
 
+  
+  
 var login = "<%=loginok%>";
 var data=$("#frm").serialize()
 var f_num=$(".f_num").attr("f_num");
@@ -388,26 +450,28 @@ if(login=="null"){
 </div>
 
 <!-- 휴게소 평점 출력 -->
- <div class="star-ratings">
-	<div 
+
+<div class="star-ratings">
+  <div 
     class="star-ratings-fill space-x-2 text-lg"
-    style="{ width: ratingToPercent + '%' }"
-	>
-		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-	</div>
-	<div class="star-ratings-base space-x-2 text-lg">
-		<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-	</div>
-</div> 
+    :style="{ width: ratingToPercent() + '%' }"
+  >
+    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+  </div>
+  <div class="star-ratings-base space-x-2 text-lg">
+    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+  </div>
+</div>
+
 
 <!-- 휴게소 주소, 영업시간, 전화번호, 편의시설 출력 -->
-<div style="font-size: 20px; margin-bottom: 20px; ">
+<div style="font-size: 20px; margin-bottom: 20px;">
 <i class="bi bi-geo-alt"></i>&nbsp;
 <%=dto.getH_addr() %></div>
 <div style="font-size: 20px; margin-bottom: 20px;">
 <i class="bi bi-clock"></i>&nbsp;
 </div>
-<div style="font-size: 20px; margin-bottom: 20px;">
+<div style="font-size: 20px; margin-bottom: 20px;" >
 <i class="bi bi-telephone"></i>&nbsp;
 <%=dto.getH_hp() %></div>
 <div style="font-size: 20px; margin-bottom: 20px;">
@@ -540,7 +604,7 @@ for(String brand : brandArray){%>
 
 <div style="position:relative; margin-left:60%; ">
 <h5>주유소/충전소</h5>
-<table class="table">
+<table class="gtable">
 <tr>
 <th >유종</th>
 <th >가격</th>
@@ -568,7 +632,7 @@ for(String brand : brandArray){%>
      <!-- 평점 -->
      <tr>
        <td>
-         <b class="acount">평점<span>0</span></b>
+         <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건</b>
          <div class="aform input-group" id="insertgrade" >
           <!-- <input type="text" id="m_num" class="form-control"
           style="width:10px;" placeholder="회원번호"> --><%=m_id %>
@@ -585,7 +649,14 @@ for(String brand : brandArray){%>
 	<input type="radio" id="1-star" name="g_grade" value="1" v-model="ratings" />
 	<label for="1-star" class="star">★</label>
     </div>
-
+    
+	<input type="text" name="g_content" id="g_content" style="width:100px;" placeholder="회원번호">
+	<input type="button"  />
+	<input type="button"  />
+	<input type="button"  />
+	<input type="button"  />
+	<input type="button"  />
+	
    <button type="button" id="btnasend"
    class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
    

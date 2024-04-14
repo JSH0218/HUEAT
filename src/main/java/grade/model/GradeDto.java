@@ -6,6 +6,7 @@ public class GradeDto {
 	private String g_num;
 	private String h_num;
 	private String m_num;
+	private String g_content;
 	private String g_grade;
 	private Timestamp g_writeday;
 	
@@ -26,6 +27,12 @@ public class GradeDto {
 	}
 	public void setM_num(String m_num) {
 		this.m_num = m_num;
+	}
+	public String getG_content() {
+		return g_content;
+	}
+	public void setG_content(String g_content) {
+		this.g_content = g_content;
 	}
 	public String getG_grade() {
 		return g_grade;
