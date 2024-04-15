@@ -213,12 +213,12 @@ span.aday{
 	
 	GradeDao gdao = new GradeDao();
 	String avgGrade = gdao.avgGrade(h_num);
-	String getM_id = gdao.getM_id(h_num);
+
 	//해당 휴게소에 평점을 등록한 사용자의 아이디 목록 가져오기
-	List<String> getM_idGrade = gdao.getM_idGradeList(h_num);
+	List<String> getG_myid = gdao.getG_myid(h_num);
 	
 	//현재 로그인한 사용자의 아이디가 해당 목록에 포함되어 있는지 확인
-	boolean M_idGrade = getM_idGrade.contains(m_id);
+	boolean G_myid = getG_myid.contains(m_id);
 %>
 
 <script type="text/javascript">
@@ -270,13 +270,11 @@ $(function(){
 	 
 	 
 	$("#btnasend").click(function(){
-		
-		    /* var m_num = $("#m_num").val().trim(); */
 		    var g_grade = $("input[name='g_grade']:checked").val(); // 선택된 평점 값 가져오기
 		    var g_content = $("input[name='g_content']:checked").val();// 사용자가 입력한 내용 가져오기
 		    
 		    if (!g_grade) { // 선택된 평점이 없을 경우
-		        alert("별점을 선택해주세요");
+		        alert("평점을 선택해주세요");
 		        return;
 		    }
 		    
@@ -284,24 +282,23 @@ $(function(){
 		        type: "get", 
 		        url: "grade/insertgrade.jsp",
 		        dataType: "html",
-		        data: {"h_num": $("#h_num").val(),  "m_num":$("#m_num").val(),  "g_grade": g_grade, "g_content": g_content}, 
+		        data: {"h_num": $("#h_num").val(),  
+		        	   "m_num":$("#m_num").val(),  
+		        	   "g_myid": $("#g_myid").val(),
+		        	   "g_grade": g_grade, 
+		        	   "g_content": g_content}, 
+		        	   
 		        success: function(){
-		            // 기존 입력값 지우기
-		           /*  $("#m_num").val(''); */
-		           /*  $("input[name='g_grade']").prop('checked',false); */
-		             $("#insertgrade").hide(); // 평점 등록 시 숨김
-		           //평점 목록 다시 불러오기
-		            list();     
+		            $("#insertgrade").hide(); // 평점 등록 시 숨김
+		            list();//평점 목록 다시 불러오기
 		       
 		            updateH_grade();
-		        
 		         },
 		        error: function(xhr, status, error) {
 		            // 오류 발생 시 처리
 		            console.error("AJAX Error: " + error);
 		        }
-		         
-		           
+		            
 		    });
 		    
 		    });
@@ -312,7 +309,9 @@ $(function(){
 	       		 
 		        type:"post",
 		        dataType:"html",
-		        data: {"h_num":$("#h_num").val(), "h_grade": avgGrade , "h_gradecount":$("b.gradesu>span").text()},
+		        data: {"h_num":$("#h_num").val(), 
+		        	"h_grade": avgGrade , 
+		        	"h_gradecount":$("b.gradesu>span").text()},
 		        url:"hugesoinfo/updateh_grade.jsp",
 		        success:function(res){
 		
@@ -330,47 +329,47 @@ $(function(){
 			  
 		
 		// 특정 휴게소의 평점 목록
-	    function list(){
-	
-	  	  $.ajax({ 
-	  		  type:"get",
-	  		  url:"grade/gradelist.jsp",
-	  		  dataType:"json",
-	  		  data:{"h_num":$("#h_num").val(), "m_num":$("#m_num").val()},
-	  		  success:function(res){
-	  			 
-	  			  //평점갯수출력
-	  			  $("b.gradesu>span").text(res.length);
-	  			  
-	  			  var s="";
-	  			  $.each(res,function(idx,item){
-	  				  
-	  				  //평점에 따라 별표시 추가
-	  				  var starsHTML = "";
-	  				  for(var i=5;i>0;i--){
-	  					  if(i<=item.g_grade){
-	  						  starsHTML +="<span class='star' style='color:gold;'>★</span>";
-	  					  }else{
-	  						 starsHTML +="<span class='star-empty' style='color:lightgray;'>★</span>";
-	  					  }
-	  					  
-	  				  }
-	  				  s+="<div><hr>";
-	  				  s+="<span class='star-rating'>"+ item.g_grade+ starsHTML +"</span>";
-	  				  s+="<span class='aday'>"+ item.m_id + " · "+ item.g_writeday+"</span>";
-	  				  s+="<div>"+item.g_content+"</div>";
-	  				  s+= "</div>";
-	  			  });
-	  			  $("div.alist").html(s);
-	  			  
-	  			  updateH_grade();
-	  		  },
-	  		  error: function(xhr, status, error) {
-	  	            console.error("AJAX Error: " + error);
-	  	        }
-	  		  
-	  	  });
-	    } 
+		    function list(){
+		    	
+			  	  $.ajax({ 
+			  		  type:"get",
+			  		  url:"grade/gradelist.jsp",
+			  		  dataType:"json",
+			  		  data:{"h_num":$("#h_num").val()},
+			  		  success:function(res){
+			  			 
+			  			  //평점갯수출력
+			  			  $("b.gradesu>span").text(res.length);
+			  			  
+			  			  var s="";
+			  			  $.each(res,function(idx,item){
+			  				  
+			  				  //평점에 따라 별표시 추가
+			  				  var starsHTML = "";
+			  				  for(var i=5;i>0;i--){
+			  					  if(i<=item.g_grade){
+			  						  starsHTML +="<span class='star' style='color:gold;'>★</span>";
+			  					  }else{
+			  						 starsHTML +="<span class='star-empty' style='color:lightgray;'>★</span>";
+			  					  }
+			  					  
+			  				  }
+			  				  s+="<div><hr>";
+			  				  s+="<span class='star-rating'>"+ item.g_grade+ starsHTML +"</span>";
+			  				  s+="<span class='aday'>"+ item.g_myid + " · "+ item.g_writeday+"</span>";
+			  				  s+="<div>"+item.g_content+"</div>";
+			  				  s+= "</div>";
+			  			  });
+			  			  $("div.alist").html(s);
+			  			  
+			  			  updateH_grade();
+			  		  },
+			  		  error: function(xhr, status, error) {
+			  	            console.error("AJAX Error: " + error);
+			  	        }
+			  		  
+			  	  });
+			    } 
 	
 	
 	
@@ -393,12 +392,7 @@ $(function(){
 
 	
 	
-	
-
-  
-
-  
-  
+// 유지))즐겨찾기
 var login = "<%=loginok%>";
 var data=$("#frm").serialize()
 var f_num=$(".f_num").attr("f_num");
@@ -452,6 +446,8 @@ if(login=="null"){
 });
 
 })
+
+
 </script>
 </head>
 
@@ -466,6 +462,7 @@ if(login=="null"){
 <form id="frm">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
+<input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
 <input type="hidden"  class="f_num"  f_num="<%=f_num %>">
 
 
@@ -643,13 +640,13 @@ for(String brand : brandArray){%>
 
 
 
- <table class="table table-bordered"> 
+ <table class="table table-bordered">
      <!-- 평점 -->
      <tr>
      
        <td>  
         <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건</b>
-          <% if(!M_idGrade) {%>
+          <% if(!G_myid) {%>
          <div class="gradefrm" id="insertgrade">
           
           <%=m_id %>
@@ -701,6 +698,8 @@ for(String brand : brandArray){%>
 </td>
 </tr>
 </table>
+
+
 
 <div style="">
 <h5>주유소/충전소</h5>

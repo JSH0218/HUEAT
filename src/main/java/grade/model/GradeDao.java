@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import favorite.model.FavoriteDto;
-import hugesoinfo.model.HugesoInfoDto;
 import mysql.db.DbConnect;
 
 public class GradeDao {
@@ -27,7 +25,7 @@ public class GradeDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getH_num());
-			pstmt.setString(2, dto.getM_num());
+			pstmt.setString(2, dto.getG_myid());
 			pstmt.setString(3, dto.getG_content());
 			pstmt.setString(4, dto.getG_grade());
 			
@@ -43,26 +41,26 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록
-	public List<GradeDto> getGradeList(String h_num){
+	public List<GradeDto> getGradeList(String g_hunum){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select * from grade where h_num=? order by g_num desc";
+		String sql = "select * from grade where h_num =? order by g_num desc";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, h_num);
+			pstmt.setString(1, g_hunum);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
 				GradeDto dto = new GradeDto();
 				
 				dto.setG_num(rs.getString("g_num"));
-				dto.setM_num(rs.getString("h_num"));
-				dto.setH_num(rs.getString("m_num"));
+				dto.setH_num(rs.getString("h_num"));
+				dto.setG_myid(rs.getString("g_myid"));
 				dto.setG_content(rs.getString("g_content"));
 				dto.setG_grade(rs.getString("g_grade"));
 				dto.setG_writeday(rs.getTimestamp("g_writeday"));
@@ -76,32 +74,6 @@ public class GradeDao {
 		}
 		
 		return list;
-	}
-	
-	// grade의 m_num을 통해 meminfo의 m_id 가져오기
-	public String getM_id(String h_num) {
-	    String m_id = null;
-	    Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select m.m_id from grade g join meminfo m on g.m_num = m.m_num where g.h_num = ? ORDER BY g.g_writeday DESC";
-		
-	    try {
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, h_num);
-	        rs = pstmt.executeQuery();
-
-	        if (rs.next()) {
-	          m_id = rs.getString("m_id");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        db.dbClose(rs, pstmt, conn);
-	    }
-
-	    return m_id;
 	}
 	
 	// 각 휴게소의 평점에 대한 평균
@@ -132,13 +104,13 @@ public class GradeDao {
 	}
 	
 	//특정 휴게소 번호에 대해 평점을 등록한 회원의 아이디 목록 출력
-	public List<String> getM_idGradeList(String h_num) {
-		List<String> M_ids = new ArrayList<>();
+	public List<String> getG_myid(String h_num) {
+		List<String> G_myids = new ArrayList<>();
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select distinct m.m_id from grade g join meminfo m on g.m_num = m.m_num where g.h_num = ?";
+		String sql = "select g_myid from grade where h_num = ?";
 		
 	    try {
 	        pstmt = conn.prepareStatement(sql);
@@ -146,8 +118,8 @@ public class GradeDao {
 	        rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
-	            String m_id = rs.getString("m_id");
-	            M_ids.add(m_id);
+	            String g_myid = rs.getString("g_myid");
+	            G_myids.add(g_myid);
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -155,7 +127,7 @@ public class GradeDao {
 	        db.dbClose(rs, pstmt, conn);
 	    }
 
-	    return  M_ids;
+	    return  G_myids;
 	}
 
 }
