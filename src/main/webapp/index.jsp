@@ -15,18 +15,20 @@
   div.title {
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
-    position: fixed;
+
+    /*position: fixed;
      top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;
+    background-color: white;*/
   }
   
   div.banner {
     border: 0px solid yellow;
     font-family: 'Nanum Gothic';
     margin-top: 100px;
+    display: none;
   }
   
   div.main {

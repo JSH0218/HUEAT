@@ -175,7 +175,7 @@
     	  <table class="table">
     	    <tr>
     	      <td>
-    	        <b>작성자 : <%=name%>(<%=myid %>)</b>
+    	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b>
     	          
     	        
     	        <%
