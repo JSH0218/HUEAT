@@ -79,17 +79,17 @@ public class GradeDao {
 	}
 	
 	// grade의 m_num을 통해 meminfo의 m_id 가져오기
-	public String getM_id(String m_num) {
+	public String getM_id(String h_num) {
 	    String m_id = null;
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select m.m_id from grade g join meminfo m on g.m_num = m.m_num where g.m_num = ?";
+		String sql = "select m.m_id from grade g join meminfo m on g.m_num = m.m_num where g.h_num = ? ORDER BY g.g_writeday DESC";
 		
 	    try {
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, m_num);
+	        pstmt.setString(1, h_num);
 	        rs = pstmt.executeQuery();
 
 	        if (rs.next()) {
@@ -131,5 +131,31 @@ public class GradeDao {
 	    return avgGrade;
 	}
 	
+	//특정 휴게소 번호에 대해 평점을 등록한 회원의 아이디 목록 출력
+	public List<String> getM_idGradeList(String h_num) {
+		List<String> M_ids = new ArrayList<>();
+	    Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select distinct m.m_id from grade g join meminfo m on g.m_num = m.m_num where g.h_num = ?";
+		
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, h_num);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            String m_id = rs.getString("m_id");
+	            M_ids.add(m_id);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        db.dbClose(rs, pstmt, conn);
+	    }
+
+	    return  M_ids;
+	}
 
 }
