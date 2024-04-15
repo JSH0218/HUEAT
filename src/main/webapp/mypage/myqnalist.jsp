@@ -1,3 +1,5 @@
+<%@page import="qa.model.QaDto"%>
+<%@page import="qa.model.QaDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="review.model.ReviewDto"%>
 <%@page import="java.util.List"%>
@@ -11,37 +13,20 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	*{
+	* {
 			font-family: 'Nanum Gothic';
 	}
 		.line {
-		  border: 1px solid #000;
-		  margin-top: 30px;
+		  border: 1px solid black;
+		  margin-top: 10px;
+		  margin-left: auto; /* 좌측 여백을 자동으로 설정 */
+		  margin-right: auto; 
+		  width: 200px;
 		}
-		#container {
-		display: flex;
-		margin-bottom: 100px;
-		border: 1px solid red;
-	}
-		.container {
-		width: 1000px;
-		margin-top: 100px;
-		margin-left: 50px;
-		border: 1px solid red;
-	}
-		#sidebar {
-		width: 300px;
-		height: 300px;
-		margin-top: 100px;
-		margin-left: 200px;
-		border: 1px solid red;
-	}
-
 		ul.tabs{
 			margin: 0px;
 			padding: 0px;
@@ -54,52 +39,154 @@
 			padding: 10px 15px;
 			cursor: pointer;
 		}
-
-		ul.tabs li.current{
-			background: white;
-			color: #009900;
+		ul.tabs li:hover {
+		    color: #0897B4;
 		}
-
+		#first{
+		  background-color: #d3d3d3;
+		  padding: 3px;
+		  border-radius: 100px;
+		}
 		.tab-content{
 			display: none;
 			background: white;
 			padding: 15px;
 		}
 
-		.tab-content.current{
-			display: inherit;
-		}
-	
 		ul.tabs li span {
   		  font-weight: bold;
+		} 
+		  a:link{
+			color : black;
+			text-decoration: none;
+			}
+			
+			a:visited {
+			  color : black;
+			  text-decoration: none;
+			}
+			
+			a:hover{
+			color: #0897B4;
+			}
+			
+			a:active{
+			color: black;
+			}
+		  div.reviewlist {
+			width: 100%;
+			height: 500px;
+			margin-top: 50px;
+			margin-left: auto;
+   			margin-right: auto;
+		}
+		div.container{
+			margin-left: auto;
+   			margin-right: auto;
+   			margin-bottom: 50px;
+		}
+
+		#pagelayout{
+			text-align: center;
+			margin-left: auto;
+   			margin-right: auto;
+			margin-top: 50px;
+		}
+			table.table{
+		margin-bottom: 80px;
+	}
+
+		table.table th, table.table td{
+		    text-align: center; /* 가운데 정렬 */
+		    vertical-align: middle; /* 수직 정렬 */
+		    border : 2px solid lightgray;
+		    border-collapse: collapse;
 		}
 		
-		.table {
-		  width: 100%;
+
+		table th:first-child,
+		table td:first-child {
+			border-left: 0;
+			border-bottom: none;
 		}
+		table th:last-child,
+		table td:last-child {
+			border-right: 0;
+			border-bottom: none;
+		}
+
+		.line1{
+		border: 3px solid darkgray;
+		border-right: none;
+		border-left: none;
+		}
+		
+		tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 영역에만 css 적용(헤더 제외) */
+			 background-color: lightgray;
+		} 
 		
 		.table th, .table td {
-		  border: 1px solid red;
-		  padding: 8px;
-		  text-align: center;
-		  border-collapse: collapse;
+		    padding: 8px; /* 셀의 안쪽 여백을 추가합니다 */
+		    text-align: center; /* 셀의 텍스트를 가운데 정렬합니다 */
 		}
+		input[type="checkbox"] {
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+    }
+    
+
 </style>
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(function(){
+		//메뉴탭기능 클릭하면 리뷰페이지로 이동
+		$("#next").click(function(){
+            location.href="index.jsp?main=mypage/myreviewlist.jsp";
+        });
 		
-		$('ul.tabs li').click(function(){
-			var tab_id = $(this).attr('data-tab');
-	
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-	
-			$(this).addClass('current');
-			$("#"+tab_id).addClass('current');
-		})
+		
+		 //전체체크 클릭시 체크값 얻어서 모든체크값 에 전달
+		  $(".alldelcheck").click(function(){
+			  
+			  //전체 체크값 얻기
+			  var chk=$(this).is(":checked");
+			  console.log(chk);
+			  
+			  //전체체크값을 글앞에 체크에 일괄 전달하기
+			  $(".alldel").prop("checked",chk);
+		  });
+		 
+		  //삭제버튼 클릭시 삭제
+		  $("#btndel").click(function(){
+			  
+			  var len=$(".alldel:checked").length;
+			  //alert(len);
+			  
+			  if(len==0){
+				  alert("최소 1개이상의 글을 선택해 주세요");
+			  }else{
+				  
+				  var a=confirm(len+"개의 글을 삭제하려면 [확인]을 눌러주세요");
+				  
+				  if(a){
+				  //체크된 곳의 value값(num)얻기
+				  var n="";
+				  $(".alldel:checked").each(function(idx){
+					  n+=$(this).val()+",";
+				  });
+				  
+				  //마지막 컴마 제거
+				  n=n.substring(0,n.length-1);
+				  //console.log(n);
+				  
+				  //삭제파일로 전송
+				  location.href="mypage/deleteqna.jsp?nums="+n;
+				  }
+			  }
+		  })
 		
 	
-	})
+	});
 </script>
 </head>
 <%
@@ -108,10 +195,10 @@
 	String loginok=(String)session.getAttribute("loginok");
 	String myid=(String)session.getAttribute("myid");
 
-	ReviewDao dao=new ReviewDao();
+	QaDao dao=new QaDao();
 	
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=dao.getMyPageTotalCount(myid);
 	int perPage=5; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -151,93 +238,95 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<ReviewDto> list = dao.getmypagelist(startNum, perPage, myid);
+	List<QaDto> list = dao.getmypagelist(startNum, perPage, myid);
 		
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
 	//마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
 		if(list.size()==0 && currentPage !=1) {%>
 			<script type="text/javascript">
-			  location.href="index.jsp?main=reviewboard/reviewList.jsp?currentPage=<%=currentPage-1%>";
+			  location.href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=currentPage-1%>";
 			</script>
 		<%}
 	
 	//날짜변경
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	%>
 <body>
-<div id="container">
-<div id="sidebar">
-			<b style="font-size: 30px; color: black;">마이휴잇</b>
-			<table style="width: 300px; margin-top: 50px;">
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">회원정보수정</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">나의활동</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">즐겨찾기</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-			</table>
-		</div>
 <div class="container">
-	<b style="font-size: 25px; color: black;">나의활동</b>
-
-	<hr class="line">
+<div style="margin-top: 100px; text-align: center;" class="subject"><h4><b>나의활동</b></h4>
+<hr class="line">
+</div>
+<div class="reviewlist">
 	<ul class="tabs">
-		<li class="tab-link current" data-tab="tab-1"><span>내가 작성한 Q&A</span></li>
-		<li class="tab-link" data-tab="tab-2"><span>내가 작성한 리뷰(<span style="color: red;"><%=totalCount %></span>)</span></li>
+		<li id="first"><span style="font-size: 15px;">내가 작성한 Q&A</span></li>
+		<li id="next"><span style="font-size: 15px;">내가 작성한 리뷰</span></li>
 	</ul>
-
-	<div id="tab-1" class="tab-content current">
-		1233213
-	</div>
-	<div id="tab-2" class="tab-content">
+	<div id="tab2" class="tab2">
 		<table class="table">
-			<tr>
-				<th>닉네임</th>
-				<th>리뷰</th>
-				<th>추천</th>
-				<th>작성일</th>
+			<tr class="line1" style="height: 30px;">
+				<th width="120" style="background-color: #DFE8E2;">번호</th>
+				<th width="120" style="background-color: #DFE8E2;">닉네임</th>
+				<th width="150" style="background-color: #DFE8E2;">카테고리</th>
+				<th width="400" style="background-color: #DFE8E2;">제목</th>
+				<th width="200" style="background-color: #DFE8E2;">작성일</th>
 			</tr>
 		<%
 	      MemInfoDao mdao=new MemInfoDao();
 		  String name=mdao.getId(myid);
 		  
-	      for(ReviewDto dto:list) {
-	    	  
-	    	  
-	    	   
-	    	    
+		 
+	        
+          //게시물이 없는 경우
+          if(totalCount == 0) {%>
+            <tr>
+              <td colspan="5">
+                <h6><b>등록된 게시글이 없습니다</b></h6>
+              </td>
+            </tr>
+          
+          <%}
+          
+          //내용 넣으면 각 주제별로 게시물 추출
+          else {
+		  
+	      for(QaDto dto: list) {
 		%>
 		<tr>
+			<td><input type="checkbox" class="alldel" value="<%=dto.getQ_num() %>">
+			<%=no-- %>
+			</td>
 			<td>
 				<%=name %>
 			</td>
 			<td>
-		        <%=dto.getR_content()%>
+		        <%=dto.getQ_category()%>
 		    </td>
 		    <td>
-		        <%=dto.getR_chu()%>
+		    <a href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
 		    </td>
 		    <td>
-		        <%=sdf.format(dto.getR_writeday())%>
+		        <%=sdf.format(dto.getQ_writeday())%>
 		    </td>		
 		</tr>
     	<%}
     	%> 
+    	<tr>
+        	  <td colspan="5">
+        	     <label style="float: left"><input type="checkbox" class="alldelcheck"> 전체선택</label>
+        	     <span style="float: right;">
+        	        <button type="button" class="btn btn-danger btn-sm" id="btndel"><i class="bi bi-x-circle"></i>삭제</button>
+        	     </span>
+        	  </td>
+        	</tr>
     	</table>  
     </div>
     
     
     
     
-   <div style="width: 1000px; text-align: center;" id="pagelayout">
+   <div id="pagelayout">
 
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
@@ -246,7 +335,7 @@
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -254,12 +343,12 @@
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -268,10 +357,11 @@
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=mypage/myactivelist.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=endPage+1%>"
     		style="color: black;">다음</a>
     	</li>
     <%}
+          }
   %>
   
   </ul>
