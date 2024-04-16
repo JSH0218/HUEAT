@@ -140,7 +140,7 @@
 		  			<ul>
 				      <li><a href="index.jsp?main=mypage/updatepassform.jsp">회원정보수정</a></li>
 				      <li><a href="index.jsp?main=mypage/myactivelist.jsp">나의 활동</a></li>
-				      <li><a href="#">즐겨찾기</a></li>
+				      <li><a href="index.jsp?main=mypage/favlist.jsp">즐겨찾기</a></li>
 		    		</ul>
 		  		</li>
 		  	<%}}

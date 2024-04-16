@@ -315,7 +315,7 @@ if(login=="null"){
             var a=confirm("즐겨찾기에 저장하였습니다\n즐겨찾기로 이동하려면 [확인]을 눌러주세요");
             
             if(a){
-                location.href="index.jsp?main=/.jsp";
+                location.href="index.jsp?main=mypage/favlist.jsp";
             }
             
         }

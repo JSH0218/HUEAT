@@ -401,20 +401,19 @@ public class MemInfoDao {
 			}
 		}
 
-	//즐겨찾기 목록 출력
-
-	public List<HashMap<String, String>> getFavlist(String m_num){
+	//유지)즐겨찾기 목록 출력
+	public List<HashMap<String, String>> getFavlist(String m_id){
 		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
 		
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
-		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon,h.h_brand from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_num=?";
+		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon,h.h_brand from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
+			pstmt.setString(1, m_id);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -437,30 +436,6 @@ public class MemInfoDao {
 		
 	}
 	
-	//유지))m_num과 h_num이 일치할때의 f_num을 구하는 메서드
-	public String f_numData(String m_num,String h_num) {
-		String fnum="";
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="select f_num from favorite where m_num=? and h_num=?";
-		
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
-			pstmt.setString(2, h_num);
-			rs=pstmt.executeQuery();
-			
-			if(rs.next()) {
-				fnum=rs.getString("f_num");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return fnum;
-	}
 	
 	//유지))즐겨찾기한 휴게소인지 여부 판단하는 거
 	public int isFavorite(String m_num, String h_num) {
@@ -490,36 +465,6 @@ public class MemInfoDao {
 	}
 
 	
-	public List<FavoriteDto> getFavData(String m_num){
-		List<FavoriteDto> list=new ArrayList<FavoriteDto>();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select * from favorite where m_num=?";
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				FavoriteDto dto=new FavoriteDto();
-				dto.setF_num(rs.getString("f_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setM_num(rs.getString("m_num"));
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		
-		return list;
-	}
-	
 	// 닉네임, 아이디불러오기 (리뷰에 연동)
 		public String getId(String m_id) {
 			String m_nick = "";
@@ -546,7 +491,7 @@ public class MemInfoDao {
 			return m_nick;
 		}
 		
-		//관리자가 회원관리하기 위한 회원전체목록 출력
+		//유지)관리자가 회원관리하기 위한 회원전체목록 출력
 		public List<MemInfoDto> getMemDatas(){
 			List<MemInfoDto> list=new ArrayList<MemInfoDto>();
 			Connection conn=db.getConnection();
@@ -583,7 +528,7 @@ public class MemInfoDao {
 			return list;
 		}
 		
-		//관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것 
+		//유지)관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것 
 		public List<MemInfoDto> searchMem(String m_name){
 			List<MemInfoDto> list=new ArrayList<MemInfoDto>();
 			Connection conn=db.getConnection();
@@ -618,6 +563,25 @@ public class MemInfoDao {
 			}
 			
 			return list;
+		}
+		
+		//유지)휴게소 즐겨찾기 f_num으로 삭제
+		public void favDelete(String f_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from favorite where f_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, f_num);
+				pstmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				db.dbClose(pstmt, conn);
+			}
 		}
 		
 }

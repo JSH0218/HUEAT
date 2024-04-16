@@ -16,10 +16,9 @@
 	button{
 		background-color: #618E6E;
 		color: white;
-		border-radius: 5px;
 		border:0px;
 		height: 30px;
-
+		width: 100px;
 	}
 </style>
 <script type="text/javascript">
@@ -41,28 +40,28 @@ $(function(){
 				//alert(data.length);
 				if(data.length){
 					var s="<table class='table table-bordered-light'>";
-					s+="<tr align='center'><th>회원번호</th>";
-					s+="<th>이름</th>";
-					s+="<th>아이디</th>";
-					s+="<th>닉네임</th>";
-					s+="<th>연락처</th>";
-					s+="<th>이메일</th>";
-					s+="<th>생일</th>";
-					s+="<th>가입일</th>";
-					s+="<th>비고</th>";
+					s+="<tr align='center'><th style='background-color: #DFE8E2;'>회원번호</th>";
+					s+="<th style='background-color: #DFE8E2;'>이름</th>";
+					s+="<th style='background-color: #DFE8E2;'>아이디</th>";
+					s+="<th style='background-color: #DFE8E2;'>닉네임</th>";
+					s+="<th style='background-color: #DFE8E2;'>연락처</th>";
+					s+="<th style='background-color: #DFE8E2;'>이메일</th>";
+					s+="<th style='background-color: #DFE8E2;'>생일</th>";
+					s+="<th style='background-color: #DFE8E2;'>가입일</th>";
+					s+="<th style='background-color: #DFE8E2;'>비고</th>";
 					s+="</tr>";
 					
 				$.each(data,function(i,elt){
-					s+="<tr><td align='center'>"+elt.m_num+"</td>";
-					s+="<td align='center'>"+elt.m_name+"</td>";
-					s+="<td align='center'>"+elt.m_id+"</td>";
-					s+="<td align='center'>"+elt.m_nick+"</td>";
+					s+="<tr align='center'><td>"+elt.m_num+"</td>";
+					s+="<td>"+elt.m_name+"</td>";
+					s+="<td >"+elt.m_id+"</td>";
+					s+="<td>"+elt.m_nick+"</td>";
 					s+="<td>"+elt.m_hp1+"-"+elt.m_hp2+"</td>";
 					s+="<td>"+(elt.m_email==null?"":elt.m_email)+"</td>";
-					s+="<td align='center'>"+elt.m_birth+"</td>";
-					s+="<td align='center'>"+elt.m_gaipday+"</td>";
-					s+="<td align='center'><button type='button' onclick='delemem("+elt.m_num+")'>강퇴</button></td>"
-					s+="</tr>";
+					s+="<td>"+elt.m_birth+"</td>";
+					s+="<td>"+elt.m_gaipday+"</td>";
+					s+="<td><button type='button' onclick='delemem("+elt.m_num+")'>강퇴</button></td>"
+					s+="</tr><br><br>";
 					})
 					s+="</table>";
 					$("#list").hide();
@@ -108,28 +107,28 @@ SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	<div id="list" style="margin: 0 auto; width: 100%; height:100%;padding: 20px 20px 20px 20px;">
 	<table class="table table-bordered-light">
 		<tr align="center">
-			<th width="100">회원번호</th>
-			<th>이름</th>
-			<th>아이디</th>
-			<th>닉네임</th>
-			<th>연락처</th>
-			<th>이메일</th>
-			<th>생일</th>
-			<th>가입일</th>
-			<th>비고</th>
+			<th style="background-color: #DFE8E2;">회원번호</th>
+			<th style="background-color: #DFE8E2;">이름</th>
+			<th style="background-color: #DFE8E2;">아이디</th>
+			<th style="background-color: #DFE8E2;">닉네임</th>
+			<th style="background-color: #DFE8E2;">연락처</th>
+			<th style="background-color: #DFE8E2;">이메일</th>
+			<th style="background-color: #DFE8E2;">생일</th>
+			<th style="background-color: #DFE8E2;">가입일</th>
+			<th style="background-color: #DFE8E2;">비고</th>
 		</tr>
 		<%
 		for(MemInfoDto dto:list){%>
-		<tr>
-			<td align="center"><%=dto.getM_num() %></td>
-			<td align="center"><%=dto.getM_name() %></td>
-			<td align="center"><%=dto.getM_id() %></td>
-			<td align="center"><%=dto.getM_nick() %></td>
+		<tr align='center'>
+			<td><%=dto.getM_num() %></td>
+			<td><%=dto.getM_name() %></td>
+			<td><%=dto.getM_id() %></td>
+			<td><%=dto.getM_nick() %></td>
 			<td><%=dto.getM_hp1() %>-<%=dto.getM_hp2() %></td>
 			<td><%=dto.getM_email()==null?"":dto.getM_email() %></td>
-			<td align="center"><%=dto.getM_birth() %></td>
-			<td align="center"><%=sdf.format(dto.getM_gaipday())%></td>
-			<td align="center">
+			<td><%=dto.getM_birth() %></td>
+			<td><%=sdf.format(dto.getM_gaipday())%></td>
+			<td>
 				<button type="button" class="deletemem" onclick="delemem('<%=dto.getM_num()%>')">강퇴</button>
 			</td>
 		</tr>
