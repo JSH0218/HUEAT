@@ -22,7 +22,12 @@
      color: gray;
   }
   
-  i.mod, i.del {
+  a.mod {
+    cursor: pointer;
+    color: black;
+  }
+  
+  i.del {
     cursor: pointer;
   }
   
@@ -188,8 +193,8 @@
     	    	if (loginok != null && myid != null && dto.getR_myid() != null && dto.getR_myid().equals(myid)) {%>
     	    	
     	    	   <span>
-    	    	     <i onclick="location.href='index.jsp?main=reviewboard/reviewUpdateForm.jsp?r_num=<%=dto.getR_num()%>
-    	    	     &currentPage=<%=currentPage%>'" class="bi bi-pencil-square mod"></i>
+    	    	     <a href="index.jsp?main=reviewboard/reviewUpdateForm.jsp?r_num=<%=dto.getR_num()%>&currentPage=<%=currentPage%>" 
+    	    	     class="bi bi-pencil-square mod"><i></i></a>
     	    	     <i r_num=<%=dto.getR_num() %> currentPage=<%=currentPage %> class="bi bi-trash del"></i></span> 
     	    	   
 
