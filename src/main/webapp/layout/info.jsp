@@ -91,9 +91,7 @@
       
     </div>
     
-    <%-- <div>
-     <a href="#"><img alt="" src="<%=root%>/image/sns5.png" style="width: 20px;"></a>
-    </div>  --%>
+ 
    </div>
 
 </body>

@@ -22,8 +22,9 @@
   
     #showing {
     width: 300px;
+    height: 250px;
     display: block;
-        margin: auto;
+    margin: auto;
   }
   
   
@@ -78,7 +79,7 @@
            
            <td>
              <button type="submit" class="btn btn-success col" 
-             style="width: 100px; height: 100px;">수정</button>
+             style="width: 100px; height: 100px; margin-top: 298%;">수정</button>
            </td>
          </tr>
          

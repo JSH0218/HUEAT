@@ -26,34 +26,40 @@
 
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
-     <form action="qaboard/qaAction.jsp" method="post" enctype="multipart/form-data">
+     <form action="qaboard/qaAction.jsp" method="post">
        <table class="table">
          <caption align="top"><h5><b>글쓰기</b></h5></caption>
            <tr>
              <td>
-               <input type="text" name="n_subject" class="form-control" required="required"
-               placeholder="제목을 입력하세요" style="width: 800px;">
+               <select name="q_category" id="q_category" class="form-control" required="required" 
+               style="width: 200px;">
+                 <option value="회원가입 문의">회원가입 문의</option>
+                 <option value="홈페이지 문의">홈페이지 문의</option>
+                 <option value="공지사항 문의">공지사항 문의</option>
+                 <option value="이벤트 문의">이벤트 문의</option>
+                 <option value="휴게소 문의">휴게소 문의</option>
+                 <option value="주유소 문의">주유소 문의</option>
+               </select>
+             </td>
+           
+             <td>
+               <input type="text" name="q_subject" id="q_subject" class="form-control" required="required"
+               placeholder="제목을 입력하세요" style="width: 590px; margin-left: -102.5%;">
              </td>
            </tr>
            
            <tr>
              <td>
-               <textarea type="text" name="n_content" class="form-control" required="required"
+               <textarea type="text" name="q_content" id="q_content" class="form-control" required="required"
                placeholder="내용을 입력하세요" style="width: 800px; height: 300px;"></textarea>
              </td>
            </tr>
-           
-           <tr>
-             <td>
-                <input type="file" name="n_image" class="form-control" style="width: 800px;">
-             </td>
-           </tr>
-           
+         
            <tr>
              <td colspan="1" align="right">
                <button type="submit" class="btn btn-success col" style="width: 80px; height: 40px;">등록</button>
                <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
-               onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
+               onclick="location.href='index.jsp?main=qaboard/qaList.jsp'">목록</button>
              </td>
            </tr>
            

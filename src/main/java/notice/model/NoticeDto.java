@@ -6,6 +6,7 @@ public class NoticeDto {
 
 	
 	private String n_num;
+	private String n_myid;
     private String n_subject;
     private String n_content;
     private String n_image;
@@ -13,11 +14,18 @@ public class NoticeDto {
     private int n_chu;
     private Timestamp n_writeday;
     
+    
 	public String getN_num() {
 		return n_num;
 	}
 	public void setN_num(String n_num) {
 		this.n_num = n_num;
+	}
+	public String getN_myid() {
+		return n_myid;
+	}
+	public void setN_myid(String n_myid) {
+		this.n_myid = n_myid;
 	}
 	public String getN_subject() {
 		return n_subject;
@@ -56,6 +64,7 @@ public class NoticeDto {
 		this.n_writeday = n_writeday;
 	}
     
+	
     
 	
 }
