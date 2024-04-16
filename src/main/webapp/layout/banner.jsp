@@ -100,11 +100,11 @@
   <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style="width: 100%; height: 550px; display: block;" src="<%=root%>/image/mainbanner/main00.jpg"> </div>
-      <div class="swiper-slide"><img style="width: 100%; height: 550px; display: block;" src="<%=root%>/image/mainbanner/main01.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 550px; display: block;" src="<%=root%>/image/mainbanner/main02.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 550px; display: block;" src="<%=root%>/image/mainbanner/main03.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 550px; display: block;" src="<%=root%>/image/mainbanner/main04.jpg"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main00.jpg"> </div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main01.jpg"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main02.jpg"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main03.jpg"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main04.jpg"></div>
 
     </div>
     <div class="swiper-button-next"></div>

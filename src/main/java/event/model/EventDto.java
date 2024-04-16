@@ -6,6 +6,7 @@ public class EventDto {
 
 	
 	private String e_num;
+	private String e_myid;
     private String e_subject;
     private String e_content;
     private String e_image;
@@ -19,6 +20,12 @@ public class EventDto {
 	}
 	public void setE_num(String e_num) {
 		this.e_num = e_num;
+	}
+	public String getE_myid() {
+		return e_myid;
+	}
+	public void setE_myid(String e_myid) {
+		this.e_myid = e_myid;
 	}
 	public String getE_subject() {
 		return e_subject;
@@ -56,5 +63,7 @@ public class EventDto {
 	public void setE_writeday(Timestamp e_writeday) {
 		this.e_writeday = e_writeday;
 	}
+    
+    
     
 }

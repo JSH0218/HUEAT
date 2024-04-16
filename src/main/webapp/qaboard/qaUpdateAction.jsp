@@ -20,27 +20,28 @@
 	String loginok=(String)session.getAttribute("loginok");
 	//아이디 얻기
 	String myid=(String)session.getAttribute("myid");
-  
-    String q_category = request.getParameter("q_category");
-    String q_subject = request.getParameter("q_subject");
-    String q_content = request.getParameter("q_content");
+    
+	String q_num = request.getParameter("q_num");
+	String q_category = request.getParameter("q_category");
+	String q_subject = request.getParameter("q_subject");
+	String q_content = request.getParameter("q_content");
+	String currentPage = request.getParameter("currentPage");
     
     QaDto dto = new QaDto();
     
-    dto.setQ_myid(myid);
+    dto.setQ_num(q_num);
     dto.setQ_category(q_category);
     dto.setQ_subject(q_subject);
     dto.setQ_content(q_content);
     
     QaDao dao = new QaDao();
-    dao.insertQa(dto);
+    dao.updateQa(dto);
+    
+    
     
     //insert후 디테일 내용보기
-    response.sendRedirect("../index.jsp?main=qaboard/qaList.jsp");
+    response.sendRedirect("../index.jsp?main=qaboard/qaDetail.jsp?q_num="+q_num+"&currentPage="+currentPage);
   %>
-  
-  
-  
 
 </body>
 </html>
