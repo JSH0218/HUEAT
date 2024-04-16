@@ -446,4 +446,27 @@ public class HugesoInfoDao {
 		return h_num;
 	}
 	
+	//평균 평점(h_grade),평점 갯수(h_gradecount) hugesoinfo에 update
+		public void updateH_grade(HugesoInfoDto dto) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="update hugesoinfo set h_grade=?, h_gradecount=? where h_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, dto.getH_grade());
+				pstmt.setString(2, dto.getH_gradecount());
+				pstmt.setString(3, dto.getH_num());
+				
+				pstmt.execute();
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    }finally {
+				db.dbClose(pstmt, conn);
+			}
+			
+		}
+	
 }

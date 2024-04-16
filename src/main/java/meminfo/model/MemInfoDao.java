@@ -583,9 +583,6 @@ public class MemInfoDao {
 				db.dbClose(pstmt, conn);
 			}
 		}
-		
-
-		
 }
 
 	
