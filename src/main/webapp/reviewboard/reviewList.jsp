@@ -17,14 +17,18 @@
 <style type="text/css">
 
   span.day{
-     margin-left: 62%;
+     float: right;
      font-size: 10pt;
      color: gray;
   }
   
-  i.mod, i.del {
+  a.mod {
     cursor: pointer;
-    float: right;
+    color: black;
+  }
+  
+  i.del {
+    cursor: pointer;
   }
   
    i.icon1 {
@@ -61,9 +65,12 @@
 			  
 		  })
 		  
-	  })
+	  });
 		
-	});
+	$("i.mod").click(function () {
+		//alert("성공");
+		
+	})
   
   
     //후기 삭제
@@ -72,7 +79,7 @@
     	var r_num = $(this).attr("r_num");
     	var currentPage = $(this).attr("currentPage");
     	
-    	alert(r_num+","+currentPage);
+    	//alert(r_num+","+currentPage);
     	
     	var ans=confirm("삭제하려면 [확인]을 눌러주세요");
  	   
@@ -80,6 +87,8 @@
  		   location.href='reviewboard/reviewDelete.jsp?r_num='+r_num+"&currentPage="+currentPage;
  	   } 
     })
+    
+  });
   
 </script>
 </head>
@@ -150,11 +159,11 @@
 
 	<%
 	//로그인을 한경우 리뷰폼이 나오도록 설정
-	if (loginok != null) {
-	%>
+	if (loginok != null) {%>
+	
 	<jsp:include page="reviewForm.jsp" />
-	<%
-	}
+	
+	<%}
 	%>
 
     
@@ -167,28 +176,27 @@
       for(ReviewDto dto:list) {
     	  
     	   //아이디 얻기
-    	    String myid=(String)session.getAttribute("myid"); 
-    	    String name=rdao.getId(myid);
-    	 
+    	    String name = rdao.getId(dto.getR_myid());
+
     	  %>
     	  
     	  <table class="table">
     	    <tr>
     	      <td>
     	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b>
-    	          
+
     	        
     	        <%
-    	        
+    	        String myid=(String)session.getAttribute("myid"); 
     	    	
     	    	
     	    	//로그인한 아이디와 글을 쓴 아이디가 같을경우에만 수정, 삭제 보이게 함.
     	    	if (loginok != null && myid != null && dto.getR_myid() != null && dto.getR_myid().equals(myid)) {%>
     	    	
     	    	   <span>
-    	    	     <i onclick="location.href='index.jsp?main=reviewboard/reviewUpdateForm.jsp?r_num=<%=dto.getR_num()%>
-    	    	     &currentPage=<%=currentPage%>'"class="bi bi-pencil-square mod"></i>
-    	    	  <i r_num=<%=dto.getR_num() %> currentPage=<%=currentPage %> class="bi bi-trash del"></i></span> 
+    	    	     <a href="index.jsp?main=reviewboard/reviewUpdateForm.jsp?r_num=<%=dto.getR_num()%>&currentPage=<%=currentPage%>" 
+    	    	     class="bi bi-pencil-square mod"><i></i></a>
+    	    	     <i r_num=<%=dto.getR_num() %> currentPage=<%=currentPage %> class="bi bi-trash del"></i></span> 
     	    	   
 
     	    	<%}

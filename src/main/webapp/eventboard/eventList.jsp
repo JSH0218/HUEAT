@@ -1,3 +1,4 @@
+<%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="event.model.EventDto"%>
 <%@page import="java.util.List"%>
@@ -40,7 +41,8 @@
 
   <%
    //로그인상태확인
-   //String loginok=(String)session.getAttribute("loginok");
+  String loginok=(String)session.getAttribute("loginok");
+  String myid=(String)session.getAttribute("myid");
 
 	EventDao dao=new EventDao();
 	
@@ -90,6 +92,13 @@
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
+	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
+    //마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
+    if(list.size()==0 && currentPage !=1) {%>
+	  <script type="text/javascript">
+	    location.href="index.jsp?main=eventboard/eventList.jsp?currentPage=<%=currentPage-1%>";
+	  </script>
+			<%}
 	
 	%>
 <body>
@@ -123,13 +132,20 @@
           
           //내용 넣으면 각 주제별로 게시물 추출
           else {
-        	  for(EventDto dto:list) {%>
+        	  
+        	  MemInfoDao edao = new MemInfoDao();
+        	  
+        	  for(EventDto dto:list) {
+        	  
+        	   //아이디 얻기
+        	   String name = edao.getId(dto.getE_myid());
+        		%>
         		
         		  <tr>
         		    <td align="center" valign="<%=dto.getE_num()%>"><%=no-- %></td>
         		    
         		    <!-- 제목 선택하면 디테일 페이지로 이동 -->
-        		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getE_num()%>
+        		    <td><a href="index.jsp?main=eventboard/eventDetail.jsp?e_num=<%=dto.getE_num()%>
         		    &currentPage=<%=currentPage%>">
         		    <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         		    width: 250px; display: block;"><%=dto.getE_subject() %></a></span>
@@ -143,7 +159,8 @@
         		  </tr>  
         	  <%}
           }
-        %>
+      //로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+    	if (loginok!=null && myid.equals("admin")) {%>
         
       <tr>
         <td colspan="6" align="right">
@@ -151,6 +168,8 @@
           class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
         </td>
     </tr>
+    
+     <%}%>
     </table>
   </div>
   

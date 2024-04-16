@@ -20,14 +20,15 @@ public class NoticeDao {
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		
-		String sql = "insert into noticeboard values(null,?,?,?,0,0,now())";
+		String sql = "insert into noticeboard values(null,?,?,?,?,0,0,now())";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getN_subject());
-			pstmt.setString(2, dto.getN_content());
-			pstmt.setString(3, dto.getN_image());
+			pstmt.setString(1, dto.getN_myid());
+			pstmt.setString(2, dto.getN_subject());
+			pstmt.setString(3, dto.getN_content());
+			pstmt.setString(4, dto.getN_image());
 			
 			pstmt.execute();
 			
@@ -58,6 +59,7 @@ public class NoticeDao {
 				NoticeDto dto = new NoticeDto();
 				
 				dto.setN_num(rs.getString("n_num"));
+				dto.setN_myid(rs.getString("n_myid"));;
 				dto.setN_subject(rs.getString("n_subject"));
 				dto.setN_content(rs.getString("n_content"));
 				dto.setN_readcount(rs.getInt("n_readcount"));
@@ -132,6 +134,7 @@ public class NoticeDao {
 					NoticeDto dto = new NoticeDto();
 
 					dto.setN_num(rs.getString("n_num"));
+					dto.setN_myid(rs.getString("n_myid"));
 					dto.setN_subject(rs.getString("n_subject"));
 					dto.setN_content(rs.getString("n_content"));
 					dto.setN_readcount(rs.getInt("n_readcount"));
@@ -171,6 +174,7 @@ public class NoticeDao {
 				while(rs.next()) {
 					
 					dto.setN_num(rs.getString("n_num"));
+					dto.setN_myid(rs.getString("n_myid"));
 					dto.setN_subject(rs.getString("n_subject"));
 					dto.setN_content(rs.getString("n_content"));
 					dto.setN_image(rs.getString("n_image"));

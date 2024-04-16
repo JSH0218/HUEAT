@@ -1,3 +1,4 @@
+<%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="notice.model.NoticeDto"%>
 <%@page import="notice.model.NoticeDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -57,7 +58,7 @@
 	  $("i.icon1").click(function () {
 		  
 		  var n_num = $(this).attr("n_num");
-		  //alert(n_num);
+		  //alert(e_num);
 		  var tag = $(this); 
 		  
 		  
@@ -101,6 +102,9 @@
 </head>
 
   <%
+    //로그인상태확인
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");
   
     String n_num = request.getParameter("n_num");
     NoticeDao dao = new NoticeDao();
@@ -128,9 +132,19 @@
      <table class="table">
       <caption align="top"><h5><b><%=dto.getN_subject() %></b></h5></caption>
       
+       <%
+        MemInfoDao rdao = new MemInfoDao();
+      
+    	  
+    	   //아이디 얻기
+    	    String name = rdao.getId(dto.getN_myid());
+
+    	  %>
+      
+      
       <tr>
         <td>
-          <b style="position: absolute; margin-top: 3%;">작성자 : <%=dto.getN_subject() %></b><br>
+          <b style="position: absolute; margin-top: 3%;">작성자 : <%=name %></b><br>
           <span class="day"><%=sdf.format(dto.getN_writeday()) %></span><br>
           <span class="read">조회 : <%=dto.getN_readcount()%></span>
           <i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>></i>
@@ -148,24 +162,41 @@
         </td>
      </tr>
       
-      
-      <!-- 버튼 -->
+      <% 
+       //버튼
+      //로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+    	if (loginok!=null && myid.equals("admin")) {%>
        
       <tr>
        <td colspan="1" align="right">
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'">글쓰기</button>
-         <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
-         onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
          onclick="location.href='index.jsp?main=noticeboard/noticeUpdateForm.jsp?n_num=<%=n_num%>&currentPage=<%=currentPage%>'">
          수정</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="funcdel(<%=n_num%>,<%=currentPage%>)">삭제</button>
-      
+         <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
+         onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
+         
        </td>
-		</tr>		
-			
+      </tr>
+         
+      <%}
+      
+    	else {%>
+    	  <tr>
+            <td colspan="1" align="right">
+    		 <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
+             onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
+             
+            </td>
+          </tr>   
+    	<%}
+        
+      %>   
+       
+
 		</table> 
 	  </form>	
    </div>

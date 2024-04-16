@@ -22,7 +22,7 @@
 	String realPath = getServletContext().getRealPath("/reviewsave");
 	System.out.println(realPath);
 
-	int uploadSize = 1024 * 1024 * 3;
+	int uploadSize = 1024 * 1024 * 5;
 
 	MultipartRequest multi = null;
 	try {

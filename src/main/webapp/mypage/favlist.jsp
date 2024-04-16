@@ -43,7 +43,7 @@
 				delfav(f_num);
 			})
 			
-			location.reload();
+			
 		});
 	
 	})
@@ -55,7 +55,7 @@
 			dataType:"html",
 			data:{"f_num":f_num},
 			success:function(){
-				
+				location.reload();
 			}
 			
 		})
