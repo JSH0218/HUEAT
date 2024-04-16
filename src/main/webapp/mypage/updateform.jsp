@@ -24,17 +24,13 @@
 	margin-bottom: 100px;
 }
 
-#sidebar {
-	width: 300px;
-	height: 300px;
-	margin-top: 100px;
-	margin-left: 200px;
-}
 
 #updatemember {
 	width: 1000px;
 	margin-top: 100px;
-	margin-left: 50px;
+	margin-left: auto;
+    margin-right: auto;
+
 }
 
 .line {
@@ -150,24 +146,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 </head>
 <body>
 	<div id="container">
-		<div id="sidebar">
-			<b style="font-size: 30px; color: black;">마이휴잇</b>
-			<table style="width: 300px; margin-top: 50px;">
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">회원정보수정</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">나의활동</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-				<tr height="60px;" style="border: 1px solid gray;">
-					<td style="vertical-align: middle; padding-left: 20px;">즐겨찾기</td>
-					<td><i class="bi bi-chevron-right"></i></td>
-				</tr>
-			</table>
-		</div>
-
 		<div id="updatemember">
 			<b style="font-size: 25px; color: black;">개인 정보 수정</b>
 

@@ -17,124 +17,148 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	* {
-			font-family: 'Nanum Gothic';
-	}
-		.line {
-		  border: 1px solid black;
-		  margin-top: 10px;
-		  margin-left: auto; /* 좌측 여백을 자동으로 설정 */
-		  margin-right: auto; 
-		  width: 200px;
-		}
-		ul.tabs{
-			margin: 0px;
-			padding: 0px;
-			list-style: none;
-		}
-		ul.tabs li{
-			background: none;
-			color: #222;
-			display: inline-block;
-			padding: 10px 15px;
-			cursor: pointer;
-		}
-		ul.tabs li:hover {
-		    color: #0897B4;
-		}
-		#first{
-		  background-color: #d3d3d3;
-		  padding: 3px;
-		  border-radius: 100px;
-		}
-		.tab-content{
-			display: none;
-			background: white;
-			padding: 15px;
-		}
+* {
+	font-family: 'Nanum Gothic';
+}
 
-		ul.tabs li span {
-  		  font-weight: bold;
-		} 
-		  a:link{
-			color : black;
-			text-decoration: none;
-			}
-			
-			a:visited {
-			  color : black;
-			  text-decoration: none;
-			}
-			
-			a:hover{
-			color: #0897B4;
-			}
-			
-			a:active{
-			color: black;
-			}
-		  div.reviewlist {
-			width: 100%;
-			height: 500px;
-			margin-top: 50px;
-			margin-left: auto;
-   			margin-right: auto;
-		}
-		div.container{
-			margin-left: auto;
-   			margin-right: auto;
-   			margin-bottom: 50px;
-		}
+.line {
+	border: 1px solid black;
+	margin-top: 10px;
+	margin-left: auto; /* 좌측 여백을 자동으로 설정 */
+	margin-right: auto;
+	width: 200px;
+}
 
-		#pagelayout{
-			text-align: center;
-			margin-left: auto;
-   			margin-right: auto;
-			margin-top: 50px;
-		}
-			table.table{
-		margin-bottom: 80px;
-	}
+ul.tabs {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	display: flex;
+	justify-content: center;
+}
 
-		table.table th, table.table td{
-		    text-align: center; /* 가운데 정렬 */
-		    vertical-align: middle; /* 수직 정렬 */
-		    border : 2px solid lightgray;
-		    border-collapse: collapse;
-		}
-		
+ul.tabs li {
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 18px;
+	cursor: pointer;
+}
 
-		table th:first-child,
-		table td:first-child {
-			border-left: 0;
-			border-bottom: none;
-		}
-		table th:last-child,
-		table td:last-child {
-			border-right: 0;
-			border-bottom: none;
-		}
+ul.tabs li#next {
+	border: 1px solid #ccc;
+	margin-left: 20px;
+	    border-radius: 100px;
+	    text-align: center;
+}
+ul.tabs li#next:hover {
+    background-color: #d3d3d3;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent;
+      color: #fff;
+}
 
-		.line1{
-		border: 3px solid darkgray;
-		border-right: none;
-		border-left: none;
-		}
-		
-		tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 영역에만 css 적용(헤더 제외) */
-			 background-color: lightgray;
-		} 
-		
-		.table th, .table td {
-		    padding: 8px; /* 셀의 안쪽 여백을 추가합니다 */
-		    text-align: center; /* 셀의 텍스트를 가운데 정렬합니다 */
-		}
-		input[type="checkbox"] {
-        width: 10px;
-        height: 10px;
-        cursor: pointer;
-    }
-    
+
+#first {
+	background-color: #d3d3d3;
+	border-radius: 100px;
+}
+
+.tab-content {
+	display: none;
+	background: white;
+	padding: 15px;
+}
+
+ul.tabs li span {
+	font-weight: bold;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #0897B4;
+}
+
+a:active {
+	color: black;
+}
+
+div.reviewlist {
+	width: 100%;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.container {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 50px;
+}
+
+#pagelayout {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+
+table.table {
+	margin-bottom: 80px;
+}
+
+table.table th, table.table td {
+	text-align: center; /* 가운데 정렬 */
+	vertical-align: middle; /* 수직 정렬 */
+	border: 2px solid lightgray;
+	border-collapse: collapse;
+}
+
+table th:first-child, table td:first-child {
+	border-left: 0;
+	border-bottom: none;
+}
+
+table th:last-child, table td:last-child {
+	border-right: 0;
+	border-bottom: none;
+}
+
+.line1 {
+	border: 3px solid darkgray;
+	border-right: none;
+	border-left: none;
+}
+
+tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 영역에만 css 적용(헤더 제외) */
+	background-color: lightgray;
+}
+
+.table th, .table td {
+	padding: 8px; /* 셀의 안쪽 여백을 추가합니다 */
+	text-align: center; /* 셀의 텍스트를 가운데 정렬합니다 */
+}
+
+input[type="checkbox"] {
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+}
+td{
+font-size: 14px;
+}
+td.day {
+font-size: 12px;
+}
 
 </style>
 <script type="text/javascript">
@@ -260,10 +284,10 @@
 </div>
 <div class="reviewlist">
 	<ul class="tabs">
-		<li id="first"><span style="font-size: 15px;">내가 작성한 Q&A</span></li>
-		<li id="next"><span style="font-size: 15px;">내가 작성한 리뷰</span></li>
+			<li id="first"><span style="font-size: 14px;">Q&A</span></li>
+			<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
 	</ul>
-	<div id="tab2" class="tab2">
+	<div id="tab2" class="tab2" style="margin-top: 40px;">
 		<table class="table">
 			<tr class="line1" style="height: 30px;">
 				<th width="120" style="background-color: #DFE8E2;">번호</th>
@@ -306,7 +330,7 @@
 		    <td>
 		    <a href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
 		    </td>
-		    <td>
+		    <td class="day">
 		        <%=sdf.format(dto.getQ_writeday())%>
 		    </td>		
 		</tr>
@@ -316,7 +340,7 @@
         	  <td colspan="5">
         	     <label style="float: left"><input type="checkbox" class="alldelcheck"> 전체선택</label>
         	     <span style="float: right;">
-        	        <button type="button" class="btn btn-danger btn-sm" id="btndel"><i class="bi bi-x-circle"></i>삭제</button>
+        	        <button type="button" class="btn btn-danger btn-sm" id="btndel">삭제</button>
         	     </span>
         	  </td>
         	</tr>
