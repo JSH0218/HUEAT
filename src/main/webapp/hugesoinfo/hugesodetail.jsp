@@ -41,7 +41,7 @@ table.gtable, table.gtable th, table.gtable td{
 }
 
 table.gtable td{
-width:130px;
+width:200px;
 }
 
 button.brand{
@@ -448,6 +448,40 @@ if(login=="null"){
 })
 
 
+
+var imageWrapper = document.getElementById("imageWrapper");
+var imageContainer = document.getElementById("imageContainer");
+var prevButton = document.getElementById("prevButton");
+var nextButton = document.getElementById("nextButton");
+
+// 이미지 슬라이드 속도
+var slideSpeed = 300;
+
+// 이전 버튼 클릭 시 처리
+prevButton.addEventListener("click", function() {
+    // 이미지를 오른쪽으로 한 번 슬라이드
+    imageWrapper.style.transition = `transform ${slideSpeed}ms ease-in-out`;
+    imageWrapper.style.transform = `translateX(0px)`; // 한 번만 오른쪽으로 이동
+});
+
+// 다음 버튼 클릭 시 처리
+nextButton.addEventListener("click", function() {
+    // 이미지를 왼쪽으로 한 번 슬라이드
+    imageWrapper.style.transition = `transform ${slideSpeed}ms ease-in-out`;
+    imageWrapper.style.transform = `translateX(-200px)`; // 한 번만 왼쪽으로 이동
+});
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </head>
 
@@ -473,7 +507,7 @@ if(login=="null"){
 </div> 
 
 
-<div style="padding-top: 80px; position: relative; left:4%;">
+<div style="padding-top: 60px; position: relative; left:4%;">
 
 <!-- 휴게소 이름 출력 -->
 <div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;" class="d-inline-flex">
@@ -578,7 +612,7 @@ if(login=="null"){
 </div>
 </div>
 
-<div style="float:left; position: relative; top:-50px;"> 
+<div style="position: relative; top:-50px;"> 
 <div class="container mt-3">
   <!-- Nav pills -->
   <ul class="nav nav-pills" role="tablist">
@@ -622,25 +656,63 @@ for(String price : priceArray){%>
 <%}%>  
       
     </div>
+  
     
-    <div id="menu1" class="container tab-pane fade"><br>
+
+  <div id="menu1" class="container tab-pane fade"><br>
 
  <!-- 브랜드 출력  -->
+  <span style="display: flex; flex-wrap: wrap;">
 <% 
 String brands = dto.getH_brand();
 String[] brandArray = brands.split(",");
 for(String brand : brandArray){%>
+ <span style=" margin-right: 20px; text-align: center;">
  <img alt="<%= brand %>" src="image/brand/<%= brand %>.jpg" style="width: 200px; height:200px; margin-right:20px;">
-  <div style=" text-align: center; margin-right: 20px; "><% out.println(brand);%></div>
+  <div ><% out.println(brand);%></div></span>
  <%}%><br>
-    </div>
-  </div>
+    
+  </span>
 </div>
 </div>
 
 
 
- <table class="table table-bordered">
+
+
+
+
+
+
+
+
+<div style=" float: right; margin-right:8%;">
+<h5>주유소/충전소</h5>
+<table class="gtable">
+<tr>
+<th >유종</th>
+<th >가격</th>
+</tr>
+<tr>
+<td >휘발유</td>
+<td ><%=dto.getH_gasolin()%>원</td>
+</tr>
+<tr>
+<td >경유</td>
+<td ><%= dto.getH_disel() %>원</td>
+</tr>
+<tr>
+<td >LPG</td>
+<td><%= dto.getH_lpg() %>원</td>
+</tr>
+</table>
+<div style="font-size:15px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
+제공&nbsp;<span style="color:#0897B4;">한국도로공사</span></div>
+</div>
+
+
+
+ <table style="width:50%; margin-left:8%;"> <!-- class="table table-bordered" -->
      <!-- 평점 -->
      <tr>
      
@@ -700,30 +772,6 @@ for(String brand : brandArray){%>
 </table>
 
 
-
-<div style="">
-<h5>주유소/충전소</h5>
-<table class="gtable">
-<tr>
-<th >유종</th>
-<th >가격</th>
-</tr>
-<tr>
-<td >휘발유</td>
-<td ><%=dto.getH_gasolin()%>원</td>
-</tr>
-<tr>
-<td >경유</td>
-<td ><%= dto.getH_disel() %>원</td>
-</tr>
-<tr>
-<td >LPG</td>
-<td><%= dto.getH_lpg() %>원</td>
-</tr>
-</table>
-<div style="font-size:10px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
-제공&nbsp;<span style="color:#0897B4;">한국도로공사</span></div>
-</div>
 
 </form>
 </div>
