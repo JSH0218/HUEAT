@@ -119,6 +119,15 @@
 			hugesoMarking(map);
 			
 			getPagingList(1);
+			
+			//엔터 검색
+			$("#searchH_name").on("keyup", function(event) {
+		        // keyCode 13은 Enter 키를 나타냅니다.
+		        if (event.keyCode == 13) {
+		            // 검색 액션 실행
+		            serachHugesoInfo($('#searchH_name').val());
+		        }
+		    });
 		});
 		
 		// 지도생성
@@ -187,7 +196,7 @@
 	        		$.each(res,function(i,elt){
 	        				        			
 	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue),
-			            	message = '<div class="infowindow"><div><img src=image/hugeso/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
+			            	message = '<div class="infowindow"><div><img src=hugesosave/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
 			            
 			            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다    
 			                imageSize = new kakao.maps.Size(24, 35); // 마커이미지의 크기입니다
@@ -255,7 +264,7 @@
 		        		s+="</tbody>";
 		        		s+="</table>";
 					} else{
-						var s="검색결과가 없습니다";
+						var s="<div style='text-align: center;'>검색결과가 없습니다</div>";
 					}
 	        		
 	        		$("#tablearea").html(s);
@@ -328,8 +337,6 @@
 	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
 	        		no=totalCount-(currentPage-1)*perPage;
 	        		
-	        		//alert("startPage:"+startPage+"\n(currentPage-1)/perBlock:"+Math.floor((currentPage-1)/perBlock));
-	        			        		
 	        		var s="<ul class='pagination justify-content-center'>";
 	        		
 	        		//이전

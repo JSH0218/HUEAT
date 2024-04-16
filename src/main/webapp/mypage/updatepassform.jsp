@@ -17,22 +17,21 @@
 	*{
 		font-family: 'Nanum Gothic';
 	}
-	#container{
-		display: flex;
-		margin-bottom: 100px;
-	}
-	
-	#sidebar{
-     	width: 300px;
-		height: 300px;
-		margin-top: 100px;
-		margin-left: 200px;
-	}
-	#updatepassform{
-	    width: 1000px;
-     	margin-top: 100px;
-     	margin-left: 50px;
-	}
+	div.container {
+    position: relative;
+    width:  1500px; 
+    height: 1000px; 
+    margin: 0 auto;
+}
+
+#updatepassform {
+    position: absolute;
+    top: 50%; /* 부모 요소의 50% 지점에서 상단 정렬 */
+    left: 50%; /* 부모 요소의 50% 지점에서 좌측 정렬 */
+    transform: translate(-50%, -50%); /* 요소의 가로, 세로 중앙 정렬을 위한 변형(transform) */
+    width: 1000px; /* 원하는 너비로 설정하세요 */
+}
+
 	.line {
 	  border: 1px solid #000;
 	  margin-top: 40px;
@@ -56,25 +55,7 @@
 	
 %>
 <body>
-<div id="container">
-<div id="sidebar">
-<b style="font-size: 30px; color: black;">마이휴잇</b>
-<table style="width: 300px; margin-top: 50px;">
-	<tr height="60px;" style="border: 1px solid gray;">
-		<td style="vertical-align: middle; padding-left: 20px;">회원정보수정</td>
-		<td><i class="bi bi-chevron-right"></i></td>
-	</tr>
-	<tr height="60px;" style="border: 1px solid gray;">
-		<td style="vertical-align: middle; padding-left: 20px;">나의활동</td>
-		<td><i class="bi bi-chevron-right"></i></td>
-	</tr>
-	<tr height="60px;" style="border: 1px solid gray;">
-		<td style="vertical-align: middle; padding-left: 20px;">즐겨찾기</td>
-		<td><i class="bi bi-chevron-right"></i></td>
-	</tr>
-</table>
-</div>
-
+<div class="container">
 <div id="updatepassform">
 <b style="font-size: 25px; color: black;">개인 정보 수정</b><br><br>
 
