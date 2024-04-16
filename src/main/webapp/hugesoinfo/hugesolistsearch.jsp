@@ -42,6 +42,10 @@
 	margin-bottom: 80px;
 }
 
+table.table{
+	margin-bottom: 80px;
+}
+
 table.table th, table.table td{
     text-align: center; /* 가운데 정렬 */
     vertical-align: middle; /* 수직 정렬 */
@@ -62,16 +66,9 @@ table td:last-child {
 	border-right: 0;
 }
 
-#pyeoniconarea{
-	display: flex;
-	justify-content: space-between;
-	padding: 0 10%;
-	margin-bottom: 40px;
-}
-
 .pyeonicon1{
-	width: 30px;
-	height: 30px;
+	width: 2%;
+	height: 2%;
 }
 
 .pyeonicon2{
@@ -119,13 +116,16 @@ color: black;
 </style>
 </head>
 <%	
+	//검색어 받기
+	request.setCharacterEncoding("utf-8");
+	String h_name=request.getParameter("h_name");
     //UploadBoardDao 인스턴스 생성
 	HugesoInfoDao dao = new HugesoInfoDao();
     //모든 게시글 데이터 가져오기
 	List<HugesoInfoDto> list = dao.getAllDatas();
 	 
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=dao.getSearchTotalCount(h_name);
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -169,7 +169,7 @@ color: black;
 	no=totalCount-(currentPage-1)*perPage;
 
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=dao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto>list2=dao.getSearchPagingList(h_name, startNum, perPage);
 
 	
 %>
@@ -186,7 +186,6 @@ $(function(){
         }
     });
 });
-
 
 // 앨범형/목록형 변환
 function List(type){
@@ -234,15 +233,13 @@ function searchAction(h_name){
 		</div>
 
 <!-- 편의시설 아이콘  -->
-<div style="width:100%; text-align:center;" id="pyeoniconarea">
+<div style="width:100%; text-align:center;">
     <% 
     String[] pyeonIcons = {"수면실", "샤워실", "세탁실", "세차장", "경정비", "수유실", "쉼터", "ATM", "매점", "약국"};
     for (int i = 0; i < pyeonIcons.length; i++) { 
     %>
-    	<div>
         <img src="image/pyeon/<%= pyeonIcons[i] %>.jpg" alt="<%= pyeonIcons[i] %>" class="pyeonicon1">
         <%= pyeonIcons[i] %>
-        </div>
     <% } %>
 </div>
 
@@ -279,96 +276,101 @@ onclick="List(1)" >
 <th style="width: 250px; background-color: #DFE8E2;">주유소</th>
 </tr>
 <% 
-for(int i=0;i<list2.size();i++){
-    //1번열에 출력할 번호
-    int num = list2.size()-i;
-    
-    //i번째 dto얻기
-    HugesoInfoDto dto = list2.get(i);
-    %>
-    <tr>
-    <td>
-    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=dto.getH_num() %>">
-    <%=dto.getH_name() %></a></td>
-    <td><%=dto.getH_addr() %> </td>
-    <td><%=dto.getH_hp() %> </td>
-    <td>
- <% 
-        String pyeons = dto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
-        String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
-        for(String pyeon : pyeonArray){
-        	 switch(pyeon){
-        	 case "수면실":{
-        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" class="pyeonicon2"><%
-        	 break;
-        	 }
-        	 case "샤워실":{
-        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "세탁실":{
-        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "세차장":{
-        		 %><img src="image/pyeon/세차장.jpg" alt="세차장" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "경정비":{
-        		 %><img src="image/pyeon/경정비.jpg" alt="경정비" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "수유실":{
-        		 %><img src="image/pyeon/수유실.jpg" alt="수유실" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "쉼터":{
-        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "ATM":{
-        		 %><img src="image/pyeon/ATM.jpg" alt="ATM" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "매점":{
-        		 %><img src="image/pyeon/매점.jpg" alt="매점" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 case "약국":{
-        		 %><img src="image/pyeon/약국.jpg" alt="약국" class="pyeonicon2"><%
-        				 break;
-        	 }
-        	 default:{ /* 기타 */
-        		 break;
-        	 }
-        	 
-        	 }
-          /*   out.println(pyeon); */ // 각 편의시설 출력
-        }
-        %>
-        
-    </td>
-    <td>휘발유<%=dto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=dto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=dto.getH_lpg().equals("없음")?"X":"O" %></td>
-    <td>
-    <%
-     String brands = dto.getH_brand();
-     String[] brandArray = brands.split(",");
-     int brandSu = brandArray.length;
-     
-     if(brandSu ==1){%>
-    	 <%=dto.getH_brand() %>
-     <%}else{
-    	out.println(brandArray[0]+" 외 "+brandSu ); 
-     } %>
-     </td>
-    </tr>
-<%}
+if(list2.isEmpty()){
+	%>
+	<tr>
+		<td colspan="6">검색결과가 없습니다</td>
+	</tr>
+	<%
+}else{
+	for(int i=0;i<list2.size();i++){
+	    //1번열에 출력할 번호
+	    int num = list2.size()-i;
+	    
+	    //i번째 dto얻기
+	    HugesoInfoDto dto = list2.get(i);
+	    %>
+	    <tr>
+	    <td>
+	    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=dto.getH_num() %>">
+	    <%=dto.getH_name() %></a></td>
+	    <td><%=dto.getH_addr() %> </td>
+	    <td><%=dto.getH_hp() %> </td>
+	    <td>
+	 <% 
+	        String pyeons = dto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
+	        String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
+	        for(String pyeon : pyeonArray){
+	        	 switch(pyeon){
+	        	 case "수면실":{
+	        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" class="pyeonicon2"><%
+	        	 break;
+	        	 }
+	        	 case "샤워실":{
+	        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "세탁실":{
+	        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "세차장":{
+	        		 %><img src="image/pyeon/세차장.jpg" alt="세차장" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "경정비":{
+	        		 %><img src="image/pyeon/경정비.jpg" alt="경정비" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "수유실":{
+	        		 %><img src="image/pyeon/수유실.jpg" alt="수유실" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "쉼터":{
+	        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "ATM":{
+	        		 %><img src="image/pyeon/ATM.jpg" alt="ATM" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "매점":{
+	        		 %><img src="image/pyeon/매점.jpg" alt="매점" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 case "약국":{
+	        		 %><img src="image/pyeon/약국.jpg" alt="약국" class="pyeonicon2"><%
+	        				 break;
+	        	 }
+	        	 default:{ /* 기타 */
+	        		 break;
+	        	 }
+	        	 
+	        	 }
+	          /*   out.println(pyeon); */ // 각 편의시설 출력
+	        }
+	        %>
+	        
+	    </td>
+	    <td>휘발유<%=dto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=dto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=dto.getH_lpg().equals("없음")?"X":"O" %></td>
+	    <td>
+	    <%
+	     String brands = dto.getH_brand();
+	     String[] brandArray = brands.split(",");
+	     int brandSu = brandArray.length;
+	     
+	     if(brandSu ==1){%>
+	    	 <%=dto.getH_brand() %>
+	     <%}else{
+	    	out.println(brandArray[0]+" 외 "+brandSu ); 
+	     } %>
+	     </td>
+	    </tr>
+	<%}
+}
 %>
 
 </table>
-	<div style="text-align: right;">
-		<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
-	</div>
 </div>
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
@@ -377,7 +379,7 @@ for(int i=0;i<list2.size();i++){
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolistsearch.jsp?currentPage=<%=startPage-1%>&h_name=<%=h_name %>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -385,12 +387,12 @@ for(int i=0;i<list2.size();i++){
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolistsearch.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolistsearch.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -399,7 +401,7 @@ for(int i=0;i<list2.size();i++){
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolist.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolistsearch.jsp?currentPage=<%=endPage+1%>&h_name=<%=h_name %>"
     		style="color: black;">다음</a>
     	</li>
     <%}

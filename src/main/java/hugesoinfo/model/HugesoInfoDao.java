@@ -294,4 +294,91 @@ public class HugesoInfoDao {
 		return list;
 	}
 	
+	// 검색 결과 총 갯수
+	public int getSearchTotalCount(String h_name)
+	{
+		
+		int total=0;
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select count(*) from hugesoinfo where h_name like ?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+h_name+"%");
+			rs=pstmt.executeQuery();
+			
+			if(rs.next())
+				total=rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		
+		return total;
+	}
+	
+	//검색결과 부분조회
+	public List<HugesoInfoDto> getSearchPagingList(String h_name,int startNum,int perPage)
+	{
+		List<HugesoInfoDto> list=new ArrayList<HugesoInfoDto>();
+		
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String sql="select * from hugesoinfo where h_name like ? order by h_num limit ?,?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+h_name+"%");
+			pstmt.setInt(2, startNum);
+			pstmt.setInt(3, perPage);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				HugesoInfoDto dto=new HugesoInfoDto();
+				
+				dto.setH_num(rs.getString("h_num"));
+				dto.setH_name(rs.getString("h_name"));
+				dto.setH_xvalue(rs.getString("h_xvalue"));
+				dto.setH_yvalue(rs.getString("h_yvalue"));
+				dto.setH_photo(rs.getString("h_photo"));
+				dto.setH_hp(rs.getString("h_hp"));
+				dto.setH_addr(rs.getString("h_addr"));
+				dto.setH_pyeon(rs.getString("h_pyeon"));
+				dto.setH_brand(rs.getString("h_brand"));
+				dto.setH_sangname(rs.getString("h_sangname"));
+				dto.setH_sangphoto(rs.getString("h_sangphoto"));
+				dto.setH_sangprice(rs.getString("h_sangprice"));
+				dto.setH_gasolin(rs.getString("h_gasolin"));
+				dto.setH_disel(rs.getString("h_disel"));
+				dto.setH_lpg(rs.getString("h_lpg"));
+				dto.setH_grade(rs.getString("h_grade"));
+				dto.setH_gradecount(rs.getString("h_gradecount"));
+				
+				list.add(dto);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		
+		return list;
+		
+	}
+	
 }
