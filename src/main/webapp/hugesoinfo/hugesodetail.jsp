@@ -338,7 +338,6 @@ if(login=="null"){
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 
-
 <!-- 휴게소 사진 -->
 <div style="float:left; margin-top:50px;">
 <img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:600px; height:400px;">

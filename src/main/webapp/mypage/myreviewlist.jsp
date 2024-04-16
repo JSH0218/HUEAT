@@ -58,6 +58,7 @@ ul.tabs li#first:hover {
     background-color: #d3d3d3;
     transition: all 0.3s ease-in-out;
     border: 1px solid transparent;
+    color: #fff;
 }
 
 
@@ -154,6 +155,12 @@ input[type="checkbox"] {
 	width: 10px;
 	height: 10px;
 	cursor: pointer;
+}
+td{
+font-size: 14px;
+}
+td.day {
+font-size: 12px;
 }
 </style>
 <script type="text/javascript">
@@ -283,9 +290,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		</div>
 		<div class="reviewlist">
 			<ul class="tabs">
-				<li id="first"><span
-					style="font-size: 14px;">내가 작성한 Q&A</span></li>
-				<li id="next"><span style="font-size: 14px;">내가 작성한 리뷰</span></li>
+				<li id="first"><span style="font-size: 14px;">Q&A</span></li>
+				<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
 			</ul>
 			<div id="tab2" class="tab2" style="margin-top: 40px;">
 				<table class="table">
@@ -327,7 +333,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							href="index.jsp?main=reviewboard/reviewList.jsp?currentPage=<%=currentPage%>&r_num=<%=dto.getR_num()%>"><%=dto.getR_content()%></a>
 						</td>
 						<td><%=dto.getR_chu()%></td>
-						<td><%=sdf.format(dto.getR_writeday())%></td>
+						<td class="day"><%=sdf.format(dto.getR_writeday())%></td>
 					</tr>
 					<%
 					}
@@ -337,7 +343,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 								type="checkbox" class="alldelcheck"> 전체선택</label> <span
 							style="float: right;">
 								<button type="button" class="btn btn-danger btn-sm" id="btndel">
-									<i class="bi bi-x-circle"></i>삭제
+									삭제
 								</button>
 						</span></td>
 					</tr>
