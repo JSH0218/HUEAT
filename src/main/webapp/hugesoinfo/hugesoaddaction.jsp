@@ -1,142 +1,101 @@
-<%@page import="org.apache.tomcat.util.http.fileupload.FileUploadException"%>
+<%@page import="food.model.FoodDao"%>
+<%@page import="food.model.FoodDto"%>
+<%@page import="brand.model.BrandDao"%>
+<%@page import="brand.model.BrandDto"%>
+<%@page import="hugesoinfo.model.HugesoInfoDao"%>
+<%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="java.io.File"%>
-<%@page import="java.util.Date"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory"%>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
-</head>
-<body>
 <%
-	request.setCharacterEncoding("utf-8");
-	response.setCharacterEncoding("utf-8");
-
-	//파일 업로드 처리
-	DiskFileItemFactory factory = new DiskFileItemFactory();
-	ServletFileUpload upload = new ServletFileUpload(factory);
-	upload.setHeaderEncoding("utf-8");
+	//이미지 업로드 경로
+	String uploadPath = getServletContext().getRealPath("/hugesosave");
+	System.out.println(uploadPath);
 	
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmSS");
+	//업로드할 사이즈
+	int uploadSize = 1024*1024*5;
 	
-	ArrayList<String> b_photo = new ArrayList<>();
-    ArrayList<String> f_photo = new ArrayList<>();
-    ArrayList<String> b_name = new ArrayList<>();
-    ArrayList<String> f_name = new ArrayList<>();
-    ArrayList<String> b_addr = new ArrayList<>();
-    ArrayList<String> f_price = new ArrayList<>();
-    
-    String h_photo="없음";
-    
+	MultipartRequest multi = null;
 	
 	try {
-	    List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
-	    
-	    // 각 파일에 대한 처리
-	    for (FileItem item : items) {
-	        if (!item.isFormField()) { // 파일 필드인 경우
-	            // 파일 업로드 처리
-	            String fieldName = item.getFieldName(); // 필드 이름
-	            String fileName = item.getName(); // 파일 이름
-	         	// 중복 파일명 방지를 위해 유니크한 파일명 생성
-	         	String currentTime = sdf.format(new Date());
-	            String uniqueFileName = currentTime + "_" + fileName;
-	            
-	            // 파일 저장 디렉토리 설정
-	            String uploadPath = getServletContext().getRealPath("/hugesosave");
-	            
-	            // 파일 저장 경로와 파일명을 결합하여 파일 객체 생성
-	            File uploadedFile = new File(uploadPath + File.separator + uniqueFileName);
-	            
-	            // 파일 저장
-	            item.write(uploadedFile);
-	            
-	            if(fieldName.equals("b_photo")){
-	            	b_photo.add(uniqueFileName);
-	            } else if(fieldName.equals("f_photo")){
-	            	f_photo.add(uniqueFileName);
-	            } else if(fieldName.equals("h_photo")){
-	            	h_photo=uniqueFileName;
-	            }
-	            
-	        } else {
-	            // 텍스트 필드인 경우
-	            String fieldName = item.getFieldName(); // 필드 이름
-	            String value = item.getString(); // 필드 값
-	            
-	            // 필요한 작업을 수행합니다.
-	            if(fieldName.equals("h_name")) {
-	                String h_name = value;
-	                System.out.println("h_name: " + h_name);
-	            } else if(fieldName.equals("h_hp")) {
-	                String h_hp = value;
-	                System.out.println("h_hp: " + h_hp);
-	            } else if(fieldName.equals("h_addr")) {
-	                String h_addr = value;
-	                System.out.println("h_addr: " + h_addr);
-	            } else if(fieldName.equals("h_xvalue")) {
-	                String h_xvalue = value;
-	                System.out.println("h_xvalue: " + h_xvalue);
-	            } else if(fieldName.equals("h_yvalue")) {
-	                String h_yvalue = value;
-	                System.out.println("h_yvalue: " + h_yvalue);
-	            } else if(fieldName.equals("h_pyeon")) {
-	                String[] h_pyeon = request.getParameterValues("h_pyeon");
-	                if(h_pyeon != null) {
-	                    System.out.println("h_pyeon: " + Arrays.toString(h_pyeon));
-	                }
-	            } else if(fieldName.equals("h_gasolin")) {
-	                String h_gasolin = value;
-	                System.out.println("h_gasolin: " + h_gasolin);
-	            } else if(fieldName.equals("h_disel")) {
-	                String h_disel = value;
-	                System.out.println("h_disel: " + h_disel);
-	            } else if(fieldName.equals("h_lpg")) {
-	                String h_lpg = value;
-	                System.out.println("h_lpg: " + h_lpg);
-	            } else if(fieldName.equals("b_name")){
-	            	b_name.add(value);
-	            } else if(fieldName.equals("f_name")){
-	            	f_name.add(value);
-	            } else if(fieldName.equals("b_addr")){
-	            	b_addr.add(value);
-	            } else if(fieldName.equals("f_price")){
-	            	f_price.add(value);
-	            }
-	        }
-	    }
-	    
-	    System.out.println("h_photo: " + h_photo);
-	    System.out.println("b_photo: " + b_photo.toString());
-	    System.out.println("f_photo: " + f_photo.toString());
-	    System.out.println("b_name: " + b_name.toString());
-	    System.out.println("b_addr: " + b_addr.toString());
-	    System.out.println("f_name: " + f_name.toString());
-	    System.out.println("f_price: " + f_price.toString());
-	    System.out.println("다잘되나? ");
-	} catch (FileUploadException e) {
-	    e.printStackTrace();
-	} catch (Exception e) {
-	    e.printStackTrace();
+		
+		multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
+		
+		HugesoInfoDto hdto=new HugesoInfoDto();
+		HugesoInfoDao hdao=new HugesoInfoDao();
+		
+		String h_name = multi.getParameter("h_name");
+		hdto.setH_name(h_name);
+		String h_photo = multi.getFilesystemName("h_photo");
+		hdto.setH_photo(h_photo);
+		String h_hp = multi.getParameter("h_hp");
+		hdto.setH_hp(h_hp);
+		String h_addr = multi.getParameter("h_addr");
+		hdto.setH_addr(h_addr);
+		String h_xvalue = multi.getParameter("h_xvalue");
+		hdto.setH_xvalue(h_xvalue);
+		String h_yvalue = multi.getParameter("h_yvalue");
+		hdto.setH_yvalue(h_yvalue);
+		String [] h_pyeon=multi.getParameterValues("h_pyeon");
+		String h_pyeon2=Arrays.toString(h_pyeon);
+		String h_pyeon3=h_pyeon2.substring(1, h_pyeon2.length()-1);
+		String h_pyeon4=h_pyeon3.replaceAll("\\s+", "");
+		hdto.setH_pyeon(h_pyeon4);
+		String h_gasolin = multi.getParameter("h_gasolin");
+		hdto.setH_gasolin(h_gasolin.equals("")?"없음":h_gasolin);
+		String h_disel = multi.getParameter("h_disel");
+		hdto.setH_disel(h_disel.equals("")?"없음":h_disel);
+		String h_lpg = multi.getParameter("h_lpg");
+		hdto.setH_lpg(h_lpg.equals("")?"없음":h_lpg);
+		
+		hdao.insertHugesoinfo(hdto);
+		
+		String h_num=hdao.selectHugesoNum(h_xvalue, h_yvalue);
+		
+		BrandDto bdto=new BrandDto();
+		BrandDao bdao=new BrandDao();
+		
+		bdto.setH_num(h_num);
+		
+		int brandcount=Integer.parseInt(multi.getParameter("brandcount"));
+		if(brandcount>0){
+			for(int i=1;i<=brandcount;i++){
+				String b_name = multi.getParameter("b_name"+i);
+				bdto.setB_name(b_name);
+				String b_photo = multi.getFilesystemName("b_photo"+i);
+				bdto.setB_photo(b_photo);
+				String b_addr = multi.getParameter("b_addr"+i);
+				bdto.setB_addr(b_addr);
+				
+				bdao.insertBrand(bdto);
+			}
+		}
+		
+		FoodDto fdto=new FoodDto();
+		FoodDao fdao=new FoodDao();
+		
+		fdto.setH_num(h_num);
+		
+		int foodcount=Integer.parseInt(multi.getParameter("foodcount"));
+		if(foodcount>0){
+			for(int i=1;i<=foodcount;i++){
+				String f_name = multi.getParameter("f_name"+i);
+				fdto.setF_name(f_name);
+				String f_photo = multi.getFilesystemName("f_photo"+i);
+				fdto.setF_photo(f_photo);
+				String f_price = multi.getParameter("f_price"+i);
+				fdto.setF_price(f_price);
+				
+				fdao.insertFood(fdto);
+			}
+		}
+		
+		//공지사항 목록으로 이동
+		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
+		
+	 } catch(Exception e) {
+		
 	}
 %>
-
-<h1>b_addr: <%=b_addr.toString() %></h1>
-</body>
-</html>

@@ -51,8 +51,6 @@
 	<script type="text/javascript">
 		$(function(){
 			var map=createMap();
-			var foodCount=0;
-			var brandCount=0;
 			
 			// 휴게소 주소 입력란의 내용이 변경될 때마다 searchHugeso 함수 실행
 	        $("#h_addr").keyup(function(){
@@ -61,35 +59,70 @@
 	        });
 			
 			$("#addbrand").click(function(){
-				brandCount++; // 가게 카운트 증가
+				var brandCount=$("#brandcount").val();
+				brandCount++;
 				
 				var s="<div>";
-				s+="<div style='display: flex; justify-content: space-between;'><div>브랜드 이름: " + brandCount + ": <input type='text' name='b_name'></div><i class='bi bi-x-lg' onclick='removeField(this)'></i></div>";
-				s+="<div>브랜드 로고: " + brandCount + ": <input type='file' name='b_photo'></div>";
-				s+="<div>브랜드 홈페이지 주소: " + brandCount + ": <input type='text' name='b_addr'></div>";
+				s+="<div style='display: flex; justify-content: space-between;'><div>브랜드 이름: " + brandCount + ": <input type='text' name='b_name"+brandCount+"'></div><i class='bi bi-x-lg' onclick='removeBrandField(this)'></i></div>";
+				s+="<div>브랜드 로고: " + brandCount + ": <input type='file' name='b_photo"+brandCount+"'></div>";
+				s+="<div>브랜드 홈페이지 주소: " + brandCount + ": <input type='text' name='b_addr"+brandCount+"'></div>";
 
                 // 입력 필드를 생성
                 $("#brandaddarea").append(s);
+                
+                $("#brandcount").val(brandCount);
 			});
 			
 			$("#addfood").click(function(){
-				foodCount++; // 가게 카운트 증가
+				var foodCount=$("#foodcount").val();
+				foodCount++;
 				
 				var s="<div>";
-				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: " + foodCount + ": <input type='text' name='f_name'></div><i class='bi bi-x-lg' onclick='removeField(this)'></i></div>";
-				s+="<div>음식 이미지: " + foodCount + ": <input type='file' name='f_photo'></div>";
-				s+="<div>음식 가격: " + foodCount + ": <input type='text' name='f_price'></div>";
+				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: " + foodCount + ": <input type='text' name='f_name"+foodCount+"'></div><i class='bi bi-x-lg' onclick='removeFoodField(this)'></i></div>";
+				s+="<div>음식 이미지: " + foodCount + ": <input type='file' name='f_photo"+foodCount+"'></div>";
+				s+="<div>음식 가격: " + foodCount + ": <input type='text' name='f_price"+foodCount+"'></div>";
 
                 // 가게 이름과 이미지 입력 필드를 추가
                 $("#foodaddarea").append(s);
+                
+                $("#foodcount").val(foodCount);
 			});
 			
 		});
 		
-		function removeField(element) {
-            $(element).parent().parent().remove();
-            brandCount--;
-        }
+		function removeBrandField(element) {
+		    $(element).parent().parent().remove();
+		    var count = $("#brandcount").val();
+		    count--;
+		    $("#brandcount").val(count);
+		    // 제거된 필드보다 큰 번호를 가진 필드의 이름을 수정
+		    $("#brandaddarea input[type='text'][name^='b_name']").each(function(index) {
+		        $(this).attr("name", "b_name" + (index + 1));
+		    });
+		    $("#brandaddarea input[type='file'][name^='b_photo']").each(function(index) {
+		        $(this).attr("name", "b_photo" + (index + 1));
+		    });
+		    $("#brandaddarea input[type='text'][name^='b_addr']").each(function(index) {
+		        $(this).attr("name", "b_addr" + (index + 1));
+		    });
+		}
+
+		function removeFoodField(element) {
+		    $(element).parent().parent().remove();
+		    var count = $("#foodcount").val();
+		    count--;
+		    $("#foodcount").val(count);
+		    // 제거된 필드보다 큰 번호를 가진 필드의 이름을 수정
+		    $("#foodaddarea input[type='text'][name^='f_name']").each(function(index) {
+		        $(this).attr("name", "f_name" + (index + 1));
+		    });
+		    $("#foodaddarea input[type='file'][name^='f_photo']").each(function(index) {
+		        $(this).attr("name", "f_photo" + (index + 1));
+		    });
+		    $("#foodaddarea input[type='text'][name^='f_price']").each(function(index) {
+		        $(this).attr("name", "f_price" + (index + 1));
+		    });
+		}
 		
 		function goBack() {
 			history.back();
@@ -182,11 +215,15 @@
 					<input type="checkbox" name="h_pyeon" value="약국">약국
 				</div>
 				<hr>
-				<div id="brandaddarea"></div>
-				<div class="btnarea"><button type="button" id="addbrand">가게추가</button></div>
+				<div id="brandaddarea">
+					<input type="hidden" name="brandcount" id="brandcount" value="0">
+				</div>
+				<div class="btnarea"><button type="button" id="addbrand" class="btn btn-warning">가게추가</button></div>
 				<hr>
-				<div id="foodaddarea"></div>
-				<div class="btnarea"><button type="button" id="addfood">음식추가</button></div>
+				<div id="foodaddarea">
+					<input type="hidden" name="foodcount" id="foodcount" value="0">
+				</div>
+				<div class="btnarea"><button type="button" id="addfood" class="btn btn-warning">음식추가</button></div>
 				<hr>
 				<div>
 					휘발유: <input type="text" name="h_gasolin">원&nbsp;

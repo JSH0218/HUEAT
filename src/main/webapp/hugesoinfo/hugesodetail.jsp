@@ -156,7 +156,6 @@ button.brand{
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-	String f_num=mdao.f_numData(m_num, h_num);
 	int fav=mdao.isFavorite(m_num, h_num);
 %>
 
@@ -338,7 +337,6 @@ if(login=="null"){
 <form id="frm">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
-<input type="hidden"  class="f_num"  f_num="<%=f_num %>">
 
 <!-- 휴게소 사진 -->
 <div style="float:left; margin-top:50px;">

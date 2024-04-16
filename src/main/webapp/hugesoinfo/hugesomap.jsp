@@ -196,7 +196,7 @@
 	        		$.each(res,function(i,elt){
 	        				        			
 	        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue),
-			            	message = '<div class="infowindow"><div><img src=image/hugeso/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
+			            	message = '<div class="infowindow"><div><img src=hugesosave/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
 			            
 			            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다    
 			                imageSize = new kakao.maps.Size(24, 35); // 마커이미지의 크기입니다

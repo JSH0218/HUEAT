@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="brand.model.BrandDao"%>
+<%@page import="brand.model.BrandDto"%>
 <%@page import="java.util.List"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
@@ -120,12 +123,10 @@ color: black;
 </head>
 <%	
     //UploadBoardDao 인스턴스 생성
-	HugesoInfoDao dao = new HugesoInfoDao();
-    //모든 게시글 데이터 가져오기
-	List<HugesoInfoDto> list = dao.getAllDatas();
+	HugesoInfoDao hdao = new HugesoInfoDao();
 	 
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=hdao.getTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -169,7 +170,7 @@ color: black;
 	no=totalCount-(currentPage-1)*perPage;
 
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=dao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto>list2=hdao.getPagingList(startNum, perPage);
 
 	
 %>
@@ -284,17 +285,17 @@ for(int i=0;i<list2.size();i++){
     int num = list2.size()-i;
     
     //i번째 dto얻기
-    HugesoInfoDto dto = list2.get(i);
+    HugesoInfoDto hdto = list2.get(i);
     %>
     <tr>
     <td>
-    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=dto.getH_num() %>">
-    <%=dto.getH_name() %></a></td>
-    <td><%=dto.getH_addr() %> </td>
-    <td><%=dto.getH_hp() %> </td>
+    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=hdto.getH_num() %>">
+    <%=hdto.getH_name() %></a></td>
+    <td><%=hdto.getH_addr() %> </td>
+    <td><%=hdto.getH_hp() %> </td>
     <td>
  <% 
-        String pyeons = dto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
+        String pyeons = hdto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
         String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
@@ -348,17 +349,27 @@ for(int i=0;i<list2.size();i++){
         %>
         
     </td>
-    <td>휘발유<%=dto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=dto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=dto.getH_lpg().equals("없음")?"X":"O" %></td>
+    <td>휘발유<%=hdto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=hdto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=hdto.getH_lpg().equals("없음")?"X":"O" %></td>
     <td>
     <%
-     String brands = dto.getH_brand();
-     String[] brandArray = brands.split(",");
-     int brandSu = brandArray.length;
+    BrandDao bdao=new BrandDao();
+    List<BrandDto> blist=bdao.selectBrand(hdto.getH_num());
+    List<String> brandList=new ArrayList<String>();
+    
+    if(blist.size()>0){
+    	for(int j=0;j<blist.size();j++){
+        	BrandDto bdto=blist.get(j);
+        	brandList.add(bdto.getB_name());
+        }
+    } else{
+    	brandList.add("없음");
+    }
      
-     if(brandSu ==1){%>
-    	 <%=dto.getH_brand() %>
+     if(brandList.size()==1){%>
+    	 <%=brandList.get(0) %>
      <%}else{
-    	out.println(brandArray[0]+" 외 "+brandSu ); 
+    	 int brandCount=brandList.size()-1;
+    	 out.println(brandList.get(0)+" 외 "+brandCount);
      } %>
      </td>
     </tr>
