@@ -277,7 +277,37 @@ public class HugesoInfoDao {
 		
 		return list;
 	}
-	
+
+	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음.
+	public List<HugesoInfoDto> getH_numH_name(){
+		List<HugesoInfoDto> list = new Vector<HugesoInfoDto>();
+		
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql ="select h_num,h_name from hugesoinfo order by h_num";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HugesoInfoDto dto = new HugesoInfoDto();
+				
+				dto.setH_num(rs.getString("h_num"));
+				dto.setH_name(rs.getString("h_name"));
+				list.add(dto);
+			}
+     } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+    return list;
+  }
+
 	// 검색 결과 총 갯수
 	public int getSearchTotalCount(String h_name)
 	{
@@ -347,16 +377,12 @@ public class HugesoInfoDao {
 				
 				list.add(dto);
 			}
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
-		}
-		
-		
+		}		
 		return list;
 		
 	}

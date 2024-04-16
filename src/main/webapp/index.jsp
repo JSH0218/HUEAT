@@ -14,12 +14,14 @@
   div.title {
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
-    position: fixed;
+
+   /*position: fixed;
      top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;  */
+    background-color: white;*/
+
   }
   
   div.banner {
@@ -37,12 +39,7 @@
     background-color: #F2F2F2;
     
   }
-  	@font-face {
-    font-family: 'Orbit-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+
 </style>
 </head>
 <%

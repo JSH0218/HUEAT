@@ -184,6 +184,7 @@
     	    <tr>
     	      <td>
     	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b>
+
     	        
     	        <%
     	        String myid=(String)session.getAttribute("myid"); 
