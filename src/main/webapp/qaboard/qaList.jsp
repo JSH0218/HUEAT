@@ -112,7 +112,6 @@
 	
 	%>
 <body>
-
   <!-- 메뉴 타이틀 -->
   <div style="margin-top: 70px; text-align: center;"><h4><b>고객문의</b></h4></div>
   
@@ -244,7 +243,6 @@
  
   
 </div>
-        
 
 </body>
 </html>

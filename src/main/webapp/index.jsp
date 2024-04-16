@@ -13,12 +13,13 @@
 <style type="text/css">
   div.title {
     border: 0px solid gray; 
+    font-family: 'Nanum Gothic';
     position: fixed;
      top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;
+    background-color: white;  */
   }
   
   div.banner {
