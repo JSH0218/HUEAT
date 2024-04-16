@@ -72,13 +72,16 @@ a:active{
 </head>
 
 <%	
+	//검색어 받기
+	request.setCharacterEncoding("utf-8");
+	String h_name=request.getParameter("h_name");
     //UploadBoardDao 인스턴스 생성
 	HugesoInfoDao dao = new HugesoInfoDao();
     //모든 게시글 데이터 가져오기
 	List<HugesoInfoDto> list = dao.getAllDatas();
 	 
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=dao.getSearchTotalCount(h_name);
 	int perPage=9; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -122,7 +125,8 @@ a:active{
 	no=totalCount-(currentPage-1)*perPage;
 
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=dao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto>list2=dao.getSearchPagingList(h_name, startNum, perPage);
+
 	
 %>
 
@@ -204,34 +208,40 @@ onclick="List(1)" >
 
 <div id="contentarea">
 <%
-int count = 0; // 열의 카운터 변수
-for (int i = 0; i < list2.size(); i++) {
-    if (count % 3 == 0) {
-%>
-<div class="container" style="margin-bottom: 40px;">
-    <div class="row" style="display: flex; justify-content: center;">
-<% 
-    }
-%>
-        <div class="col-md-3" style="text-align: center; margin-bottom: 20px;">
-<%
-	    // 각 게시물 정보를 가져오기
-	    HugesoInfoDto dto = list2.get(i);
-%>
-	   
-			<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
-          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
-            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
-            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
-        </div>
-<%
-    count++;
-    if (count % 3 == 0 || i == list2.size() - 1) {
-%>
-    </div>
-</div>
-<%
-    }
+if(list2.isEmpty()){
+	%>
+	<div style="text-align: center;">검색결과가 없습니다</div>
+	<%
+}else{
+	int count = 0; // 열의 카운터 변수
+	for (int i = 0; i < list2.size(); i++) {
+	    if (count % 3 == 0) {
+	%>
+	<div class="container" style="margin-bottom: 40px;">
+	    <div class="row" style="display: flex; justify-content: center;">
+	<% 
+	    }
+	%>
+	        <div class="col-md-3" style="text-align: center; margin-bottom: 20px;">
+	<%
+		    // 각 게시물 정보를 가져오기
+		    HugesoInfoDto dto = list2.get(i);
+	%>
+		   
+				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
+	          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
+	            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
+	            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
+	        </div>
+	<%
+	    count++;
+	    if (count % 3 == 0 || i == list2.size() - 1) {
+	%>
+	    </div>
+	</div>
+	<%
+	    }
+	}
 }
 %>
 </div>
@@ -243,7 +253,7 @@ for (int i = 0; i < list2.size(); i++) {
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=startPage-1%>&h_name=<%=h_name %>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -251,12 +261,12 @@ for (int i = 0; i < list2.size(); i++) {
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -265,7 +275,7 @@ for (int i = 0; i < list2.size(); i++) {
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=endPage+1%>&h_name=<%=h_name %>"
     		style="color: black;">다음</a>
     	</li>
     <%}

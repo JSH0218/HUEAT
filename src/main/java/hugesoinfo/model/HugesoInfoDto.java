@@ -10,10 +10,6 @@ public class HugesoInfoDto {
 	private String h_hp;
 	private String h_addr;
 	private String h_pyeon;
-	private String h_brand;
-	private String h_sangname;
-	private String h_sangphoto;
-	private String h_sangprice;
 	private String h_gasolin;
 	private String h_disel;
 	private String h_lpg;
@@ -68,30 +64,6 @@ public class HugesoInfoDto {
 	public void setH_pyeon(String h_pyeon) {
 		this.h_pyeon = h_pyeon;
 	}
-	public String getH_brand() {
-		return h_brand;
-	}
-	public void setH_brand(String h_brand) {
-		this.h_brand = h_brand;
-	}
-	public String getH_sangname() {
-		return h_sangname;
-	}
-	public void setH_sangname(String h_sangname) {
-		this.h_sangname = h_sangname;
-	}
-	public String getH_sangphoto() {
-		return h_sangphoto;
-	}
-	public void setH_sangphoto(String h_sangphoto) {
-		this.h_sangphoto = h_sangphoto;
-	}
-	public String getH_sangprice() {
-		return h_sangprice;
-	}
-	public void setH_sangprice(String h_sangprice) {
-		this.h_sangprice = h_sangprice;
-	}
 	public String getH_gasolin() {
 		return h_gasolin;
 	}
@@ -122,4 +94,6 @@ public class HugesoInfoDto {
 	public void setH_gradecount(String h_gradecount) {
 		this.h_gradecount = h_gradecount;
 	}
+	
+	
 }
