@@ -13,7 +13,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
  <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -41,7 +40,8 @@ table.gtable, table.gtable th, table.gtable td{
 }
 
 table.gtable td{
-width:200px;
+width:300px;
+height: 50px;
 }
 
 button.brand{
@@ -187,6 +187,18 @@ span.aday{
 			color: #666;
 		}
 
+@media (min-width: 1400px) {
+  .food .container,
+  .food .container-lg,
+  .food .container-md,
+  .food .container-sm,
+  .food .container-xl,
+  .food .container-xxl {
+    max-width: 1700px;
+  }
+}
+
+
 </style>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
@@ -208,7 +220,6 @@ span.aday{
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");
 
-	String f_num=mdao.f_numData(m_num, h_num);
 	int fav=mdao.isFavorite(m_num, h_num);
 	
 	GradeDao gdao = new GradeDao();
@@ -242,7 +253,7 @@ $(function(){
 	} --%>
 	
 	/* 휴게소 평점 평균 */
-	  function ratingToPercent(avgGrade) {
+	 function ratingToPercent(avgGrade) {
 	    const score = avgGrade * 20;
 	    return score + 1.5;
 	  }
@@ -290,7 +301,7 @@ $(function(){
 		        	   
 		        success: function(){
 		            $("#insertgrade").hide(); // 평점 등록 시 숨김
-		            list();//평점 목록 다시 불러오기
+		            /* list();//평점 목록 다시 불러오기 */
 		       
 		            updateH_grade();
 		         },
@@ -315,6 +326,7 @@ $(function(){
 		        url:"hugesoinfo/updateh_grade.jsp",
 		        success:function(res){
 		
+		       
 		        },
 		        error: function(xhr, status, error) {
 		            console.error("AJAX Error: " + error);
@@ -373,6 +385,15 @@ $(function(){
 	
 	
 	
+		    $('.writegrade').click(function() {
+		        if(!G_myid) {
+		            $('#insertgrade').show(); 
+		        }
+		    });
+		   
+		
+		
+		
 	
 	
 	
@@ -449,39 +470,6 @@ if(login=="null"){
 
 
 
-var imageWrapper = document.getElementById("imageWrapper");
-var imageContainer = document.getElementById("imageContainer");
-var prevButton = document.getElementById("prevButton");
-var nextButton = document.getElementById("nextButton");
-
-// 이미지 슬라이드 속도
-var slideSpeed = 300;
-
-// 이전 버튼 클릭 시 처리
-prevButton.addEventListener("click", function() {
-    // 이미지를 오른쪽으로 한 번 슬라이드
-    imageWrapper.style.transition = `transform ${slideSpeed}ms ease-in-out`;
-    imageWrapper.style.transform = `translateX(0px)`; // 한 번만 오른쪽으로 이동
-});
-
-// 다음 버튼 클릭 시 처리
-nextButton.addEventListener("click", function() {
-    // 이미지를 왼쪽으로 한 번 슬라이드
-    imageWrapper.style.transition = `transform ${slideSpeed}ms ease-in-out`;
-    imageWrapper.style.transform = `translateX(-200px)`; // 한 번만 왼쪽으로 이동
-});
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 </head>
 
@@ -497,8 +485,6 @@ nextButton.addEventListener("click", function() {
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 <input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
-<input type="hidden"  class="f_num"  f_num="<%=f_num %>">
-
 
 <div style="padding-top: 80px; position: relative; left:4%; display:flex;">
 <!-- 휴게소 사진 -->
@@ -507,19 +493,19 @@ nextButton.addEventListener("click", function() {
 </div> 
 
 
-<div style="padding-top: 60px; position: relative; left:4%;">
+<div style="padding-top: 60px; position: relative; left:4%; width: 600px;">
+
 
 <!-- 휴게소 이름 출력 -->
-<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display: inline-block;" class="d-inline-flex">
+<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display:flex;">
 <%=dto.getH_name()%> 
-
 <!-- 즐겨찾기 버튼 -->
 <button type="button" class ="favorite">
 <!-- <i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i> -->
 <i class="bi bi-bookmarks-fill" style="margin-left: 30px;"></i>
 </button>
-
 </div>
+
 
 <!-- 휴게소 평점 출력 -->
 
@@ -609,11 +595,43 @@ nextButton.addEventListener("click", function() {
         %>
         </div>
 </div>
+
+<div style=" float: right; margin-right:8%; margin-top:10%;">
+<h5>주유소/충전소</h5>
+<table class="gtable">
+<tr>
+<th >유종</th>
+<th >가격</th>
+</tr>
+<tr>
+<td >휘발유</td>
+<td ><%=dto.getH_gasolin()%>원</td>
+</tr>
+<tr>
+<td >경유</td>
+<td ><%= dto.getH_disel() %>원</td>
+</tr>
+<tr>
+<td >LPG</td>
+<td><%= dto.getH_lpg() %>원</td>
+</tr>
+</table>
+<div style="font-size:18px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
+제공&nbsp;<span style="color:#0897B4;">한국도로공사</span></div>
+</div>
+
+
+
+
+
 </div>
 </div>
 
+
+
+
 <div style="position: relative; top:-50px;"> 
-<div class="container mt-3">
+<div class="container mt-3 food">
   <!-- Nav pills -->
   <ul class="nav nav-pills" role="tablist">
     <li class="nav-item">
@@ -669,56 +687,25 @@ String[] brandArray = brands.split(",");
 for(String brand : brandArray){%>
  <span style=" margin-right: 20px; text-align: center;">
  <img alt="<%= brand %>" src="image/brand/<%= brand %>.jpg" style="width: 200px; height:200px; margin-right:20px;">
-  <div ><% out.println(brand);%></div></span>
+  <div><% out.println(brand);%></div></span>
  <%}%><br>
     
   </span>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<div style=" float: right; margin-right:8%;">
-<h5>주유소/충전소</h5>
-<table class="gtable">
-<tr>
-<th >유종</th>
-<th >가격</th>
-</tr>
-<tr>
-<td >휘발유</td>
-<td ><%=dto.getH_gasolin()%>원</td>
-</tr>
-<tr>
-<td >경유</td>
-<td ><%= dto.getH_disel() %>원</td>
-</tr>
-<tr>
-<td >LPG</td>
-<td><%= dto.getH_lpg() %>원</td>
-</tr>
-</table>
-<div style="font-size:15px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
-제공&nbsp;<span style="color:#0897B4;">한국도로공사</span></div>
 </div>
-
-
 
  <table style="width:50%; margin-left:8%;"> <!-- class="table table-bordered" -->
      <!-- 평점 -->
      <tr>
      
        <td>  
-        <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건</b>
-          <% if(!G_myid) {%>
+        <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  
+        </b>
+        
+          <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
+      
+          
          <div class="gradefrm" id="insertgrade">
           
           <%=m_id %>
@@ -763,13 +750,14 @@ for(String brand : brandArray){%>
    class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
    
    </div>
-   <%} %>
-   
+ 
+       
    <div class="alist" id="alist" >평점 목록</div>
          
 </td>
 </tr>
 </table>
+</div>
 
 
 
