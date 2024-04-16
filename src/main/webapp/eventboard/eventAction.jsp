@@ -17,6 +17,10 @@
 <body>
 
    <%
+    //로그인상태확인
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");   
+   
     //이미지 업로드 경로
     String uploadPath = getServletContext().getRealPath("/eventsave");
     System.out.println(uploadPath);
@@ -43,6 +47,7 @@
     	//dto 데이터담기
     	EventDto dto = new EventDto();
     	
+    	dto.setE_myid(myid);
     	dto.setE_subject(e_subject);
     	dto.setE_content(e_content);
     	dto.setE_image(e_image);
