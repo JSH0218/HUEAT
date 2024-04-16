@@ -20,14 +20,15 @@ public class EventDao {
 			Connection conn = db.getConnection();
 			PreparedStatement pstmt = null;
 			
-			String sql = "insert into eventboard values(null,?,?,?,0,0,now())";
+			String sql = "insert into eventboard values(null,?,?,?,?,0,0,now())";
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setString(1, dto.getE_subject());
-				pstmt.setString(2, dto.getE_content());
-				pstmt.setString(3, dto.getE_image());
+				pstmt.setString(1, dto.getE_myid());
+				pstmt.setString(2, dto.getE_subject());
+				pstmt.setString(3, dto.getE_content());
+				pstmt.setString(4, dto.getE_image());
 				
 				pstmt.execute();
 				
@@ -60,6 +61,7 @@ public class EventDao {
 					EventDto dto = new EventDto();
 					
 					dto.setE_num(rs.getString("e_num"));
+					dto.setE_myid(rs.getString("e_myid"));
 					dto.setE_subject(rs.getString("e_subject"));
 					dto.setE_content(rs.getString("e_content"));
 					dto.setE_readcount(rs.getInt("e_readcount"));
@@ -134,6 +136,7 @@ public class EventDao {
 						EventDto dto = new EventDto();
 
 						dto.setE_num(rs.getString("e_num"));
+						dto.setE_myid(rs.getString("e_myid"));
 						dto.setE_subject(rs.getString("e_subject"));
 						dto.setE_content(rs.getString("e_content"));
 						dto.setE_readcount(rs.getInt("e_readcount"));
@@ -173,6 +176,7 @@ public class EventDao {
 					while(rs.next()) {
 						
 						dto.setE_num(rs.getString("e_num"));
+						dto.setE_myid(rs.getString("e_myid"));
 						dto.setE_subject(rs.getString("e_subject"));
 						dto.setE_content(rs.getString("e_content"));
 						dto.setE_image(rs.getString("e_image"));

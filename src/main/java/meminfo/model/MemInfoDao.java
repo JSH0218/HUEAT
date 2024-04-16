@@ -437,30 +437,6 @@ public class MemInfoDao {
 		
 	}
 	
-	//유지))m_num과 h_num이 일치할때의 f_num을 구하는 메서드
-	public String f_numData(String m_num,String h_num) {
-		String fnum="";
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="select f_num from favorite where m_num=? and h_num=?";
-		
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
-			pstmt.setString(2, h_num);
-			rs=pstmt.executeQuery();
-			
-			if(rs.next()) {
-				fnum=rs.getString("f_num");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return fnum;
-	}
 	
 	//유지))즐겨찾기한 휴게소인지 여부 판단하는 거
 	public int isFavorite(String m_num, String h_num) {
@@ -489,36 +465,6 @@ public class MemInfoDao {
 		return fav;
 	}
 
-	
-	public List<FavoriteDto> getFavData(String m_num){
-		List<FavoriteDto> list=new ArrayList<FavoriteDto>();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select * from favorite where m_num=?";
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				FavoriteDto dto=new FavoriteDto();
-				dto.setF_num(rs.getString("f_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setM_num(rs.getString("m_num"));
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		
-		return list;
-	}
 	
 	// 닉네임, 아이디불러오기 (리뷰에 연동)
 		public String getId(String m_id) {

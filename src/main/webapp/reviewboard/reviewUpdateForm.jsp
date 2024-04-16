@@ -16,11 +16,15 @@
   button.col {
     background-color: #618E6E;
     margin-left: -118%;
+    margin-top: 347%;
     
   }
   
     #showing {
     width: 300px;
+    height: 250px;
+    display: block;
+    margin: auto;
   }
   
   
@@ -70,12 +74,12 @@
            <td>
              <img id="showing" src="<%=(dto.getR_image()==null?"":"reviewsave/"+dto.getR_image())%>"><br><br>
              <textarea type="text" name="r_content" class="form-control" required="required"
-               style="width: 690px; height: 100px;" value="<%=dto.getR_content() %>"></textarea>
+               style="width: 690px; height: 100px;" ><%=dto.getR_content() %></textarea>
            </td>
            
            <td>
              <button type="submit" class="btn btn-success col" 
-             style="width: 100px; height: 100px;">수정</button>
+             style="width: 100px; height: 100px; margin-top: 298%;">수정</button>
            </td>
          </tr>
          

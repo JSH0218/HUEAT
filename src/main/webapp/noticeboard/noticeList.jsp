@@ -1,3 +1,4 @@
+<%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="notice.model.NoticeDao"%>
 <%@page import="notice.model.NoticeDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -40,8 +41,9 @@
 
   <%
    //로그인상태확인
-   //String loginok=(String)session.getAttribute("loginok");
-
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");
+  
 	NoticeDao dao=new NoticeDao();
 	
 	//전체갯수
@@ -87,6 +89,14 @@
 	//페이지에서 보여질 글만 가져오기
 	List<NoticeDto> list = dao.getList(startNum, perPage);
 		
+	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
+    //마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
+    if(list.size()==0 && currentPage !=1) {%>
+	  <script type="text/javascript">
+	    location.href="index.jsp?main=qaboard/noticeList.jsp?currentPage=<%=currentPage-1%>";
+	  </script>
+			<%}
+	
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
@@ -120,13 +130,18 @@
             </tr>
           
           <%}
-          
+        
           //내용 넣으면 각 주제별로 게시물 추출
           else {
-        	  for(NoticeDto dto:list) {%>
+        	  
+        	  
+        	  for(NoticeDto dto:list) {
+        	  
+        	  %>
         		
         		  <tr>
         		    <td align="center" valign="<%=dto.getN_num()%>"><%=no-- %></td>
+        		    
         		    
         		    <!-- 제목 선택하면 디테일 페이지로 이동 -->
         		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getN_num()%>
@@ -135,7 +150,7 @@
         		    width: 250px; display: block;"><%=dto.getN_subject() %></a></span>
         		    
         		    </td>
-        		    <td align="center"><%=dto.getN_content() %></td>
+        		    <td align="center"><%=dto.getN_myid() %></td>
         		    <td align="center"><%=dto.getN_readcount() %></td>
         		    <td align="center"><%=dto.getN_chu()%></td>
         		    <td align="center"><%=sdf.format(dto.getN_writeday())%></td>
@@ -143,14 +158,22 @@
         		  </tr>  
         	  <%}
           }
-        %>
         
-      <tr>
-        <td colspan="6" align="right">
-          <button type="button" onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'"
-          class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
-        </td>
-    </tr>
+
+    	
+    	//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+    	if (loginok!=null && myid.equals("admin")) {%>
+    	
+    	   <tr>
+             <td colspan="6" align="right">
+             <button type="button" onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'"
+             class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
+             </td>
+             </tr>
+    	   
+
+    	<%}%>
+
     </table>
   </div>
   
