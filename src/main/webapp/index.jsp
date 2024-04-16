@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-		<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="icon" type="image/png" href="image/mainbanner/logo1.png" sizes="32x32">
 <title>HUEAT</title>
@@ -15,7 +14,6 @@
   div.title {
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
-    /*
     position: fixed;
      top: 0;
     left: 0;
@@ -25,21 +23,18 @@
   }
   
   div.banner {
-    border: 0px solid yellow;
-    font-family: 'Nanum Gothic';
+    border: 1px solid yellow;
     margin-top: 100px;
     display: none;
   }
   
   div.main {
-    border: 0px solid red;
-    font-family: 'Nanum Gothic';
+    border: 3px solid red;
   }
   
   div.info {
-    border: 0px solid blue;
-    font-family: 'Nanum Gothic';
-    background-color: #DAE7DE;
+    border: 1px solid blue;
+    background-color: #F2F2F2;
     
   }
   	@font-face {

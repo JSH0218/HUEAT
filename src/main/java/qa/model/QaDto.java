@@ -61,8 +61,5 @@ public class QaDto {
    public void setQ_writeday(Timestamp q_writeday) {
       this.q_writeday = q_writeday;
    }
-   
-   
-
 
 }

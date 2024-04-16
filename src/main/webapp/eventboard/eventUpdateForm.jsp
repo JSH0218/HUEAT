@@ -65,7 +65,7 @@
       <input type="hidden" name=e_num  value="<%=e_num%>">
       <input type="hidden" name="currentPage" value="<%=currentPage%>">
        <table class="table">
-         <caption align="top"><h5><b>공지사항 수정</b></h5></caption>
+         <caption align="top"><h5><b>이벤트 수정</b></h5></caption>
            <tr>
              <td>
                <input type="text" name="e_subject" class="form-control" required="required"
@@ -75,7 +75,7 @@
            
            <tr  align="center">
              <td>
-               <img id="showing" src="<%=(dto.getE_image()==null?"":"noticesave/"+dto.getE_image())%>"><br><br>
+               <img id="showing" src="<%=(dto.getE_image()==null?"":"eventsave/"+dto.getE_image())%>"><br><br>
                <textarea type="text" name="e_content" class="form-control" required="required"
                style="width: 800px; height: 300px; text-align: center;"><%=dto.getE_content() %></textarea>
              </td>

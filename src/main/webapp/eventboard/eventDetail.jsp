@@ -1,3 +1,4 @@
+<%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="event.model.EventDto"%>
 <%@page import="event.model.EventDao"%>
@@ -101,6 +102,8 @@
 </head>
 
   <%
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");
   
     String e_num = request.getParameter("e_num");
     EventDao dao = new EventDao();
@@ -119,7 +122,7 @@
 
   <!-- 메뉴 타이틀 -->
   <input type="hidden" id="e_num" value="<%=e_num%>">
-  <div style="margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
+  <div style="margin-top: 70px; text-align: center;"><h4><b>이벤트</b></h4></div>
   
 
   <!-- 저장폼  -->
@@ -127,6 +130,14 @@
     <form id="frm">
      <table class="table">
       <caption align="top"><h5><b><%=dto.getE_subject() %></b></h5></caption>
+        <%
+        MemInfoDao rdao = new MemInfoDao();
+      
+    	  
+    	   //아이디 얻기
+    	    String name = rdao.getId(dto.getE_myid());
+
+    	  %>
       
       <tr>
         <td>
@@ -150,21 +161,38 @@
       
       
       <!-- 버튼 -->
-       
+      <% 
+       //버튼
+      //로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+    	if (loginok!=null && myid.equals("admin")) {%>
+    	 
       <tr>
        <td colspan="1" align="right">
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="location.href='index.jsp?main=eventboard/eventForm.jsp'">글쓰기</button>
-         <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
-         onclick="location.href='index.jsp?main=eventboard/eventList.jsp'">목록</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
          onclick="location.href='index.jsp?main=eventboard/eventUpdateForm.jsp?e_num=<%=e_num%>&currentPage=<%=currentPage%>'">
          수정</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="funcdel(<%=e_num%>,<%=currentPage%>)">삭제</button>
+         <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
+         onclick="location.href='index.jsp?main=eventboard/eventList.jsp'">목록</button>
       
        </td>
-		</tr>		
+		</tr>	
+      <%}	
+      
+    	else {%>
+  	      <tr>
+            <td colspan="1" align="right">
+  		      <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
+              onclick="location.href='index.jsp?main=eventboard/eventList.jsp'">목록</button>
+           
+            </td>
+          </tr>   
+        <%}
+      
+         %>   
 			
 		</table> 
 	  </form>	
