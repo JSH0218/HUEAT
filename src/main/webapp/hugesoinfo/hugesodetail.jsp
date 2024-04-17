@@ -1,3 +1,7 @@
+<%@page import="food.model.FoodDto"%>
+<%@page import="food.model.FoodDao"%>
+<%@page import="brand.model.BrandDao"%>
+<%@page import="brand.model.BrandDto"%>
 <%@page import="grade.model.GradeDto"%>
 <%@page import="grade.model.GradeDao"%>
 <%@page import="java.util.List"%>
@@ -17,32 +21,289 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <title>HUEAT</title>
 <style type="text/css">
 
+/* 휴게소 이름 css */
+h2.h_name{
+	font-size: 50px;
+    text-align: center;
+    padding-top: 80px;
+	font-weight: bold;
+}
 
-#titlearea{
-			text-align: center;
-			margin-bottom: 20px;
-		}
-		
-		#titlearea hr{
-			margin: 0 auto;
-			width: 10%;
-		}
+
+div.h_body{
+	position: relative;
+    width: 100%;
+    margin-top: 100px;
+}
+
+div.toparea{
+	position: relative;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding-top: 30px;
+
+}
+
+div.location{
+	float: left;
+    padding-top: 10px;
+
+}
+
+div.hugesodetail{
+	position: relative;
+    padding: 0 0 130px;
+    width: 100%;
+
+}
+
+.hugesodetail .home{
+	float: left;
+    display: block;
+    width: 36px;
+    height: 30px;
+    border-right: 1px solid #e1e1e1;
+    background:  no-repeat 0 50%;
+}
+
+.toparea .location > div {
+    float: left;
+    position: relative;
+    margin-left: 20px;
+}
+
+
+a.h_loc {
+	color:black;
+	text-decoration: none;
+}
+.toparea .location > div > a.h_loc{
+	display: block;
+    padding-right: 42px;
+    height: 30px;
+    font-size: 16px;
+    color: #555;
+    line-height: 28px;
+    background:  no-repeat right 0 top 50%;
+}
+
+.toparea .sharearea{
+	float: right;
+}
+
+.toparea .sharearea .share{
+	float: left;
+    position: relative;
+}
+
+.toparea .sharearea .favicon{
+	float: left;
+    margin-left: 10px;
+}
+.toparea .sharearea > i{
+	display: block;
+    width: 50px;
+    height: 50px;
+}
+
+.h_text{
+	font-size: 18px;
+    color: #555;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 28px;
+}
+
+.avggrade{
+	text-align: center;
+    margin-top: 35px;
+}
+
+
+/*  */
+
+div.huinfo{
+    display: flex;
+    justify-content: space-between;
+    padding: 44px 0;
+    margin: 94px auto 150px auto;
+    border-top: 2px solid #e1e1e1;
+    border-bottom: 2px solid #e1e1e1;
+    align-items: center;
+}
+
+div.huinfo{
+	width: 1170px;
+    margin: 80px auto 0;
+}
+
+
+/* 휴게소 이미지 */
+.imgarea {
+    width: 100%;
+    text-align: center;
+    margin-top: 80px;
+    margin-left:20px;
+}
+
+.huinfo .imgarea {
+    width: 574px;
+    height: auto;
+    float: left;
+    margin-top: 0;
+}
+
+
+.huinfo .imgarea {
+    margin: 0;
+}
+
+
+.huinfo .infoarea {
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: calc(100% - 615px);
+    margin-left: 40px;
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+
+/* 휴게소 정보 */
+.huinfo .infoarea{
+    width: 380px;
+    min-height: 512px;
+    height: auto;
+    float: right;
+    padding-top: 50px;
+    box-sizing: border-box;
+}
+
+ .infoarea{
+    padding: 20px 25px 20px 0;
+}
+
+.huinfo .infoarea li {
+    margin-bottom: 20px;
+}
+
+
+.huinfo .infoarea li.op1 {
+    background: url(image/icon/주소.png) no-repeat 0 center;
+}
+
+
+.huinfo .infoarea li.op2 {
+    background: url(image/icon/영업시간.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op3 {
+    background: url(image/icon/전화번호.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op4 {
+    background: url(image/icon/편의시설.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op1,
+.huinfo .infoarea li.op2,
+.huinfo .infoarea li.op3,
+.huinfo .infoarea li.op4 {
+    display: table;
+    min-height: 80px;
+    padding-left: 95px;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+li.op1, li.op2, li.op3, li.op4 {
+    list-style: none;
+}
+
+.huinfo .infoarea li .addr {
+    font-size: 22px;
+    color: #555555;
+}
+
+.huinfo .infoarea li.addr {
+    background:  no-repeat 0 center;
+}
+
+
+.huinfo .infoarea li .tablecell {
+    display: table-cell;
+    vertical-align: middle;
+    min-height: 80px;
+}
+
+
+.huinfo .infoarea li .txt1 {
+    line-height: 30px;
+    font-size: 18px;
+    color: #555555;
+    font-weight:bold;
+}
+
+
+.huinfo .infoarea li .txt2 {
+    margin-top: 8px;
+    color: #555555;
+    line-height: 20px;
+}
+
+
+.pyeonicon{
+	height:40px;
+	width:40px;
+
+}
+
+
+div.contain{
+    width: 1170px;
+    margin: 80px auto 0;
+	border-bottom: 2px solid #e1e1e1; 
+}
+
+div.contain2{
+    width: 1170px;
+    margin: 80px auto 0;
+}
+
+div.food{
+	margin-bottom:100px;
+}
+
+.tab-content>.active {
+    display: block;
+    margin-left: 100px;
+}
+
+p.subtitle{
+	font-size: 28px;
+    color: #000;
+    text-align: center;
+    margin-top: 100px;
+}
 
 table.gtable, table.gtable th, table.gtable td{
     text-align: center; /* 가운데 정렬 */
     vertical-align: middle; /* 수직 정렬 */
     border : 2px solid lightgray;
     border-collapse: collapse;
+    margin: 0 auto;
 }
 
 table.gtable td{
 width:300px;
 height: 50px;
-}
+} 
 
 button.brand{
  background-color: white;
@@ -117,6 +378,7 @@ button.brand{
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   /* -webkit-text-stroke-width: 1.3px; */
  /* -webkit-text-stroke-color: #2b2a29; */ /* 별 테두리 */
+ margin-left: 45%;
 }
  
 .star-ratings-fill {
@@ -198,7 +460,38 @@ span.aday{
   }
 }
 
+.btnArea {
+    text-align: center;
+    margin-top: 60px;
+}
 
+.btnArea.hulist {
+    margin-top: 20px;
+}
+
+.prebtn{
+    display: inline-block;
+    padding: 0 70px;
+    height: 56px;
+    line-height: 54px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    border-radius: 28px;
+    background: #618E6E;
+    background: -ms-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -o-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -moz-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -webkit-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%)
+   background: linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%); */
+
+}
+
+
+/* 카카오 공유하기 */
+.link-icon.kakao { background-image: url(image/icon/kakao.png); background-repeat: no-repeat; }
+.link-icon.twitter { background-image: url(image/icon/twitter.png); background-repeat: no-repeat; }
+.link-icon.facebook { background-image: url(images/icon/facebook.png); background-repeat: no-repeat; } 
 </style>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
@@ -213,9 +506,8 @@ span.aday{
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
 	String m_num = mdao.getM_num(m_id);
 	
-  // HugesoInfoDao 객체 생성
-  HugesoInfoDao dao = new HugesoInfoDao();
-	// 휴게소 데이터 가져옴
+    // HugesoInfoDao 객체 생성 & 휴게소 데이터 가져오기
+    HugesoInfoDao dao = new HugesoInfoDao();
 	HugesoInfoDto dto = dao.getData(h_num);
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");
@@ -230,6 +522,16 @@ span.aday{
 	
 	//현재 로그인한 사용자의 아이디가 해당 목록에 포함되어 있는지 확인
 	boolean G_myid = getG_myid.contains(m_id);
+	
+	//FoodDao 객체 생성 & 음식 데이터 가져오기
+	FoodDao fdao = new FoodDao();
+	List<FoodDto> foodlist = fdao.selectFood(h_num);
+	
+	//BrandDao 객체 생성 & 브랜드 데이터 가져오기
+	BrandDao bdao = new BrandDao();
+	List<BrandDto> brandList = bdao.selectBrand(h_num);
+	
+	
 %>
 
 <script type="text/javascript">
@@ -385,12 +687,12 @@ $(function(){
 	
 	
 	
-		    $('.writegrade').click(function() {
+	/* 	    $('.writegrade').click(function() {
 		        if(!G_myid) {
 		            $('#insertgrade').show(); 
 		        }
 		    });
-		   
+		    */
 		
 		
 		
@@ -468,45 +770,69 @@ if(login=="null"){
 
 })
 
+function shareKakao() {
 
+  // 사용할 앱의 JavaScript 키 설정
+  Kakao.init('	5a77ce427996f7b3cb3de14e9a4e0444');
 
+  // 카카오링크 버튼 생성
+  Kakao.Link.createDefaultButton({
+    container: '#btnKakao', // 카카오공유버튼ID
+    objectType: 'feed',
+    content: {
+      title: "개발새발", // 보여질 제목
+      description: "개발새발 블로그입니다", // 보여질 설명
+      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
+      link: {
+         mobileWebUrl: "devpad.tistory.com/",
+         webUrl: "devpad.tistory.com/"
+      }
+    }
+  });
+}
 </script>
 </head>
 
-
-<div style="margin: 100px 100px;">
-
-<div id="titlearea">
-			<h4>휴게소 상세정보</h4>
-			<hr>
-		</div>
+<body>
+<div class="h_body">
 
 <form id="frm">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 <input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
 
-<div style="padding-top: 80px; position: relative; left:4%; display:flex;">
-<!-- 휴게소 사진 -->
-<div style="margin-top:50px;">
-<img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:600px; height:400px;">
-</div> 
+<div class="hugesodetail">
+<div class="toparea">
+<div class="location">
+	<a href="#" class="home"><i class="bi bi-house-door-fill"></i></a>
 
+<div class="one">
+<a href="#" class="h_loc">휴게소정보</a>
+</div>
+<div class="two">
+<a href="#" class="h_loc">휴게소찾기</a>
+</div>
+<div class="three">휴게소상세
+</div>
+</div>
 
-<div style="padding-top: 60px; position: relative; left:4%; width: 600px;">
-
-
-<!-- 휴게소 이름 출력 -->
-<div style="font-size: 45px; font-weight:bold; margin-bottom: 20px; display:flex;">
-<%=dto.getH_name()%> 
+<div class="sharearea">
+<div class="share">
+<button type="button"><i class="bi bi-share-fill"></i></button>
+</div>
+<div class="favicon">
 <!-- 즐겨찾기 버튼 -->
 <button type="button" class ="favorite">
 <!-- <i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i> -->
 <i class="bi bi-bookmarks-fill" style="margin-left: 30px;"></i>
 </button>
 </div>
-
-
+</div>
+</div>
+<!-- 휴게소 이름 출력 -->
+<h2 class="h_name"><%=dto.getH_name()%></h2> 
+<p class="h_text">휴게소 평점에서 가장 많이 받은 리뷰 여기에 출력하기</p>
+<div class="avggrade">
 <!-- 휴게소 평점 출력 -->
 
  <div><%=dto.getH_grade() %> </div>
@@ -523,69 +849,89 @@ if(login=="null"){
   </div>
 </div>
 <div ><%=dto.getH_gradecount() %></div>
+</div>
+
+
+<div class="huinfo">
+<div class="imgarea">
+<!-- 휴게소 사진 -->
+<img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:700px; height:500px; margin-left:20px;">
+</div>
+
+
+<ul class="infoarea">
 
 
 <!-- 휴게소 주소, 영업시간, 전화번호, 편의시설 출력 -->
-<div style="font-size: 20px; margin-bottom: 20px;">
-<i class="bi bi-geo-alt"></i>&nbsp;
-<%=dto.getH_addr() %></div>
-<div style="font-size: 20px; margin-bottom: 20px;">
-<i class="bi bi-clock"></i>&nbsp;
-24시
+<li class="op1">
+<div class="tablecell">
+<p class="txt1">주소</p>
+<p class="txt2"><%=dto.getH_addr() %></p>
 </div>
-<div style="font-size: 20px; margin-bottom: 20px;" >
-<i class="bi bi-telephone"></i>&nbsp;
-<%=dto.getH_hp() %></div>
-<div style="font-size: 20px; margin-bottom: 20px; display:flex;">
-<i class="bi bi-info-circle"></i>&nbsp;
-편의시설&nbsp;
+</li>
+<li class="op2">
+<div class="tablecell">
+<p class="txt1">영업시간</p>
+<p class="txt2">00:00 - 24:00</p>
+</div>
+</li>
+<li class="op3">
+<div class="tablecell">
+<p class="txt1">전화번호</p>
+<p class="txt2"><%=dto.getH_hp() %></p>
+</div>
+</li>
+<li class="op4">
+<div class="tablecell">
+<p class="txt1">편의시설</p>
+<p class="txt2">
  <% 
         String pyeons = dto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
         String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
         	 case "수면실":{
-        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" width="5%" height="5%"><%
+        		 %><img src="image/pyeon/수면실.jpg" alt="수면실" class="pyeonicon"><%
         	 break;
         	 }
         	 case "샤워실":{
-        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/샤워실.jpg" alt="샤워실" class="pyeonicon" ><%
         				 break;
         	 }
         	 case "세탁실":{
-        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/세탁실.jpg" alt="세탁실" class="pyeonicon"><%
         				 break;
         	 }
         	 case "세차장":{
-        		 %><img src="image/pyeon/세차장.jpg" alt="세차장"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/세차장.jpg" alt="세차장"  class="pyeonicon"><%
         				 break;
         	 }
         	 case "경정비":{
-        		 %><img src="image/pyeon/경정비.jpg" alt="경정비"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/경정비.jpg" alt="경정비"  class="pyeonicon"><%
         				 break;
         	 }
         	 case "수유실":{
-        		 %><img src="image/pyeon/수유실.jpg" alt="수유실"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/수유실.jpg" alt="수유실" class="pyeonicon"><%
         				 break;
         	 }
         	 case "쉼터":{
-        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/쉼터.jpg" alt="쉼터"  class="pyeonicon"><%
         				 break;
         	 }
         	 case "ATM":{
-        		 %><img src="image/pyeon/ATM.jpg" alt="ATM"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/ATM.jpg" alt="ATM"  class="pyeonicon"><%
         				 break;
         	 }
         	 case "매점":{
-        		 %><img src="image/pyeon/매점.jpg" alt="매점"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/매점.jpg" alt="매점" class="pyeonicon"><%
         				 break;
         	 }
         	 case "약국":{
-        		 %><img src="image/pyeon/약국.jpg" alt="약국"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/약국.jpg" alt="약국"  class="pyeonicon"><%
         				 break;
         	 }
         	 default:{ /* 기타 */
-        		 %><img src="image/pyeon/기타.jpg" alt="기타"  width="5%" height="5%"><%
+        		 %><img src="image/pyeon/기타.jpg" alt="기타"  class="pyeonicon"><%
         		 break;
         	 }
         	 
@@ -593,11 +939,94 @@ if(login=="null"){
           /*   out.println(pyeon); */ // 각 편의시설 출력
         }
         %>
+        </p>
         </div>
+    </li>
+</ul>
 </div>
 
-<div style=" float: right; margin-right:8%; margin-top:10%;">
-<h5>주유소/충전소</h5>
+
+
+
+
+
+
+
+
+
+<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();" />트위터
+<a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();" />페이스북  
+<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();" />카카오톡
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="contain">
+
+<div class="container mt-3 food">
+  <!-- Nav pills -->
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#home">푸드코트</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#menu1">브랜드</a>
+    </li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+ <!-- 푸드코트 출력  -->
+ <%
+for(FoodDto fdto : foodlist) {
+    String f_photo = fdto.getF_photo();
+    String f_name = fdto.getF_name();
+%>
+    <div style="display: inline-block; text-align: center; margin-right: 20px; margin-bottom:20px;">
+        <img alt="" src="image/food/<%=f_photo%>" style="width: 200px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
+        <%=f_name%>
+    </div>
+<%}%> 
+    </div>
+  
+    
+  <div id="menu1" class="container tab-pane fade"><br>
+
+ <!-- 브랜드 출력  -->
+  <span style="display: flex; flex-wrap: wrap;">
+<%
+for(BrandDto bdto : brandList) {
+    String b_photo = bdto.getB_photo();
+    String b_name = bdto.getB_name();
+    String b_addr = bdto.getB_addr();
+    %>
+    <span style=" margin-right: 20px; text-align: center; margin-bottom:20px;">
+        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 200px; height:200px; margin-right:20px; margin-bottom:15px;">
+        <div><%=b_name %></div>
+    </span>
+<%}%>
+<br>
+    
+  </span>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="contain">
+
+<p class="subtitle">주유소/충전소</p>
 <table class="gtable">
 <tr>
 <th >유종</th>
@@ -616,84 +1045,19 @@ if(login=="null"){
 <td><%= dto.getH_lpg() %>원</td>
 </tr>
 </table>
-<div style="font-size:18px; font-weight:bold; color: gray;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.<br>
-제공&nbsp;<span style="color:#0897B4;">한국도로공사</span></div>
+<div style="font-size:16px; font-weight:bold; color: gray; text-align:center; margin-bottom:100px;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.
+[제공&nbsp;<span style="color:#0897B4;">한국도로공사]</span></div>
 </div>
 
 
 
 
 
-</div>
-</div>
 
 
+<div class="contain2">
 
-
-<div style="position: relative; top:-50px;"> 
-<div class="container mt-3 food">
-  <!-- Nav pills -->
-  <ul class="nav nav-pills" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="pill" href="#home">푸드코트</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="pill" href="#menu1">브랜드</a>
-    </li>
-  </ul>
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div id="home" class="container tab-pane active"><br>
-     
-     <!-- 상품 사진 출력  --> 
-      <%
-String sangphotos = dto.getH_sangphoto();
-String[] sangPhotoArray = sangphotos.split(",");
-  for(String sangphoto : sangPhotoArray){%>
-	<img alt="" src="image/food/<%=sangphoto%>" style="width: 200px; height:200px; margin-right:20px;">
- 
- <%}%><br>
- 
-<!-- 상품이름 출력 -->
-<%
-String sangnames =  dto.getH_sangname();
-String[] sangArray = sangnames.split(",");
-for(String sangname : sangArray){%>
-	<div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;"><% out.println(sangname); %></div>
-<%}%><br>
-
-
- <!-- 상품가격 출력 -->
-<%
-String prices =  dto.getH_sangprice();
-prices = prices.replaceAll("\\{", "").replaceAll("\\}", ""); // {와 }를 제거하여 숫자만 남김
-String[] priceArray = prices.split(","); // 쉼표를 기준으로 문자열 분할
-for(String price : priceArray){%>
-	 <div style="display: inline-block; text-align: center; margin-right: 20px; width: 200px;">
-	 <% out.println(price+"원");%></div>
-<%}%>  
-      
-    </div>
-  
-    
-
-  <div id="menu1" class="container tab-pane fade"><br>
-
- <!-- 브랜드 출력  -->
-  <span style="display: flex; flex-wrap: wrap;">
-<% 
-String brands = dto.getH_brand();
-String[] brandArray = brands.split(",");
-for(String brand : brandArray){%>
- <span style=" margin-right: 20px; text-align: center;">
- <img alt="<%= brand %>" src="image/brand/<%= brand %>.jpg" style="width: 200px; height:200px; margin-right:20px;">
-  <div><% out.println(brand);%></div></span>
- <%}%><br>
-    
-  </span>
-</div>
-</div>
-</div>
+<p class="subtitle">평점</p>
 
  <table style="width:50%; margin-left:8%;"> <!-- class="table table-bordered" -->
      <!-- 평점 -->
@@ -703,9 +1067,9 @@ for(String brand : brandArray){%>
         <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  
         </b>
         
-          <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
+        <!--   <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button> -->
       
-          
+  <% if(!G_myid) {%>
          <div class="gradefrm" id="insertgrade">
           
           <%=m_id %>
@@ -750,22 +1114,29 @@ for(String brand : brandArray){%>
    class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
    
    </div>
- 
+ <%}%>
        
    <div class="alist" id="alist" >평점 목록</div>
          
 </td>
 </tr>
 </table>
+
+
+
+<div class="btnArea hulist">
+<button type="button" id="btnasend"
+   class="prebtn" >목록</button> 
 </div>
 
-
+</div>
 
 </form>
 </div>
-
-<body>
- 
+</div>
+</div>
+</div>
+ </div>
 </body>
 
 </html>
