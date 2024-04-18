@@ -43,7 +43,7 @@
 #primary_nav_wrap ul li
 {
 	position:relative;
-	float:left;
+	float:left;a
 	margin:0;
 	padding:0
 }

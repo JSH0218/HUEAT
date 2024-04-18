@@ -56,7 +56,15 @@
 	border-radius: 5px;
 	border:0px;
 	height: 40px;
-	
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+.delbtn{
+	background-color: #618E6E;
+	color: white;
+	border-radius: 5px;
+	border:0px;
+	height: 30px;
 }
 div.img{
 	padding: 10px;
@@ -71,6 +79,56 @@ div.img{
   flex-direction: column; /* 요소들을 수직으로 배치합니다. */
   align-items: center; /* 요소들을 수평 가운데로 정렬합니다. */
   margin-bottom: 20px; /* 필요에 따라 여백을 조정합니다. */
+}
+
+div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 300px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	margin-top: -10%;
+  	text-align: center;
+}
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 300px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	margin-top: -16%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+
+div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
+div.font-container{
+  	opacity: 0.4;
+  	background-color: black;
+  	width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 300px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	margin-top: -16.1%;
+  	text-align: center;
+  	z-index: 100;
 }
 
 </style>
@@ -149,10 +207,19 @@ String m_num=mdao.getM_num(m_id);
 HugesoInfoDao hdao=new HugesoInfoDao();
 HugesoInfoDto hdto=hdao.getData(h_num);
 %>
-<div id="title">
-<h3><%=hdto.getH_name() %>의 주문가능 메뉴</h3>
-<span style="font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
+<div class="img-container" style=" border: 0px solid red;">
+		<img alt="" src="image/mainbanner/foodbanner01.jpg">
 </div>
+<%--아오 span과 span사이는 br사용이 안됨 gpt나쁜놈아. 하지만 span과span사이에 span을 하나 더만들면 br사용 가능. --%>
+<div class="span-container" style="border:0px solid black;">
+	<span style="display: block;"> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
+	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
+	</span>
+</div>
+
+<div class="font-container" style=" border: 0px solid yellow;">
+</div>
+
 <div id="container">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
@@ -187,14 +254,14 @@ MemInfoDto dto=mdao.getAlldatas(m_id);
 %>
 </div>
 <div id="foodcart" align="center" >
-	<form >
-		<h3>주문 메뉴</h3><hr>
+	<form >	
 	<table>
+		<caption align="top" style="text-align: center; font-size: 1.6em;">주문 메뉴</caption>
 		<tr align="center">
-			<th width="150px;">음식명</th>
+			<th width="170px;">음식명</th>
 			<th width="50px;">수량</th>
 			<th width="100px;">금액</th>
-			<th width="100px;">취소</th>
+			<th width="70px;">취소</th>
 		</tr>
 		<%
 			int total=0;
@@ -265,7 +332,7 @@ $(function(){
             pg: 'html5_inicis',
             pay_method: "card",
             merchant_uid: myid+new Date().getTime(),
-            //name: foodname,
+            name: "food",
             amount: total,
             buyer_email: "Iamport@chai.finance",
             buyer_name: name,
