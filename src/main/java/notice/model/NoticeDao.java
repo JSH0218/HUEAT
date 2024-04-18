@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mysql.db.DbConnect;
+import qaanswer.model.QaanswerDto;
 
 public class NoticeDao {
 	 
@@ -283,4 +284,76 @@ public class NoticeDao {
 				db.dbClose(pstmt, conn);
 			}
 		}
+		
+		
+				// adminnoticelist.jsp //페이징리스트/ 전체페이지수 반환하기
+				public int getMyPageTotalCount() {
+			      
+			    int total = 0;
+					
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+			  
+			    String sql = "select count(*) from noticeboard where n_myid='admin'";
+					
+					try {
+						pstmt = conn.prepareStatement(sql);
+						rs = pstmt.executeQuery();
+						
+						if(rs.next()) {
+							total = rs.getInt(1);
+						}
+						
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+					
+					return total;
+					
+				}
+				
+				// adminnoticelist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
+				public List<NoticeDto> getmypagelist(int start, int perPage) {
+					List<NoticeDto> mypagelist = new ArrayList<NoticeDto>();
+			  
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+			  
+					String sql = "select * from noticeboard where n_myid='admin' order by n_num desc limit ?,?";
+
+					try {
+						pstmt = conn.prepareStatement(sql);
+						
+						pstmt.setInt(1, start);
+						pstmt.setInt(2, perPage);
+			      
+			      rs = pstmt.executeQuery();
+
+						while (rs.next()) {
+
+							NoticeDto dto = new NoticeDto();
+							
+							dto.setN_num(rs.getString("n_num"));
+							dto.setN_myid(rs.getString("n_myid"));
+							dto.setN_subject(rs.getString("n_subject"));
+							dto.setN_content(rs.getString("n_content"));
+							dto.setN_readcount(rs.getInt("n_readcount"));
+							dto.setN_chu(rs.getInt("n_chu"));
+							dto.setN_writeday(rs.getTimestamp("n_writeday"));
+
+							mypagelist.add(dto);
+						}
+			      } catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+			    return mypagelist;
+				}
 	}

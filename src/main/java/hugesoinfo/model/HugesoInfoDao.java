@@ -468,5 +468,49 @@ public class HugesoInfoDao {
 			}
 			
 		}
+		//승경_메인화면에 휴게소 평점 순위대로 가져오기 위해 생성
+        public List<HugesoInfoDto> getAllGrade(){
+           List<HugesoInfoDto> gradelist = new ArrayList<HugesoInfoDto>();
+           
+           Connection conn = db.getConnection();
+           PreparedStatement pstmt = null;
+           ResultSet rs = null;
+           
+           String sql ="select * from hugesoinfo order by h_grade desc";
+           
+           try {
+              pstmt = conn.prepareStatement(sql);
+              rs=pstmt.executeQuery();
+              
+              while(rs.next()) {
+                 HugesoInfoDto dto = new HugesoInfoDto();
+                 
+                 dto.setH_num(rs.getString("h_num"));
+                 dto.setH_name(rs.getString("h_name"));
+                 dto.setH_xvalue(rs.getString("h_xvalue"));
+                 dto.setH_yvalue(rs.getString("h_yvalue"));
+                 dto.setH_photo(rs.getString("h_photo"));
+                 dto.setH_hp(rs.getString("h_hp"));
+                 dto.setH_addr(rs.getString("h_addr"));
+                 dto.setH_pyeon(rs.getString("h_pyeon"));
+                 dto.setH_gasolin(rs.getString("h_gasolin"));
+                 dto.setH_disel(rs.getString("h_disel"));
+                 dto.setH_lpg(rs.getString("h_lpg"));
+                 dto.setH_grade(rs.getString("h_grade"));
+                 dto.setH_gradecount(rs.getString("h_gradecount"));
+                 
+                 
+                 gradelist.add(dto);
+              }
+              
+           } catch (SQLException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+           }finally {
+              db.dbClose(rs, pstmt, conn);
+           }
+              return gradelist;
+              
+        }
 	
 }

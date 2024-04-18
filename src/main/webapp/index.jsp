@@ -15,29 +15,30 @@
     border: 0px solid gray; 
     font-family: 'Nanum Gothic';
 
-   /*position: fixed;
+   position: fixed;
      top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;*/
+    background-color: white;
 
   }
   
   div.banner {
     border: 1px solid yellow;
-    margin-top: 100px;
+    margin-top: 140px;
     display: none;
   }
   
   div.main {
     border: 3px solid red;
+    min-height: calc(100vh - 10rem);
   }
   
   div.info {
     border: 1px solid blue;
     background-color: #F2F2F2;
-    
+    height: 10rem;
   }
 
 </style>
