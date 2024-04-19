@@ -56,6 +56,16 @@ a:active{
 	color: black;
 }
 
+#searcharea{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 80px;
+}
+
+#searcharea input{
+	margin-right: 5px;
+}
+
 </style>
 
 
@@ -119,6 +129,17 @@ a:active{
 <body>
 
 <script type="text/javascript">
+$(function(){
+	//엔터 검색
+	$("#searchbox").on("keyup", function(event) {
+        // keyCode 13은 Enter 키를 나타냅니다.
+        if (event.keyCode == 13) {
+            // 검색 액션 실행
+            searchAction($("#searchbox").val());
+        }
+    });
+});
+
 // 앨범형/목록형 변환
 function List(type){
 		const icon1 = document.querySelector(".icon1");
@@ -146,6 +167,15 @@ document.addEventListener("DOMContentLoaded", function() {
           document.querySelector(".icon2").style.color = "#65774F";
     
 });
+
+//검색기능
+function searchAction(h_name){
+	if(h_name==""){
+		alert("검색어를 입력해주세요");
+	} else{
+		location.href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?h_name="+h_name;
+	}
+}
 
 </script>
 
@@ -245,7 +275,10 @@ for (int i = 0; i < list2.size(); i++) {
   
 
 </div>
-  
+<div id="searcharea">
+	<input type="text" id="searchbox">
+	<button type="button" class="btn btn-success btn-sm" onclick="searchAction($('#searchbox').val())">검색</button>
+</div>
 </body>
 </html>
 

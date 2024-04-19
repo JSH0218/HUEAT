@@ -19,7 +19,6 @@
 
     body {
       background: #eee;
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
       font-size: 14px;
       color: #000;
       margin: 0;
@@ -39,14 +38,13 @@
       justify-content: center;
       align-items: center;
     }
+    
+   .swiper-slide img {
+    margin: 0px !important;
+}
 
-    .swiper-slide img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
 
+    
     .autoplay-progress {
       position: absolute;
       right: 16px;
@@ -78,15 +76,19 @@
     }
     
       .swiper-button-next, .swiper-button-prev{
-       color: white;
+       /*color: white;*/
        border-radius: 30px;
        width: 60px;
        height: 60px;
-       background-color: rgba(33, 33, 33, 0.5);
+       /*background-color: rgba(33, 33, 33, 0.5);*/
        
     }
   </style>
   
+   <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
   
   
 </head>
@@ -100,11 +102,13 @@
   <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main00.jpg"> </div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main01.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main02.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main03.jpg"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main04.jpg"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-01.png"> </div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-02.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-03.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-04.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-05.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-06.png"></div>
+
 
     </div>
     <div class="swiper-button-next"></div>
@@ -118,10 +122,7 @@
     </div>
   </div>
 
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Initialize Swiper -->
+    <!-- Initialize Swiper -->
   <script>
     const progressCircle = document.querySelector(".autoplay-progress svg");
     const progressContent = document.querySelector(".autoplay-progress span");
@@ -149,5 +150,7 @@
       }
     });
   </script>
+  
+ 
 </body>
 </html>

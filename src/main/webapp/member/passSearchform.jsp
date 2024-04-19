@@ -70,7 +70,7 @@ $(function(){
 
 			$.ajax({
 				type:"post",
-				url:"passSearchaction.jsp",
+				url:"member/passSearchaction.jsp",
 				dataType:"json",
 				data:{"m_name":name,"m_hp2":hp2,"m_id":id},
 				success:function(res){

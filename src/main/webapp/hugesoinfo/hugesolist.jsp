@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="brand.model.BrandDao"%>
+<%@page import="brand.model.BrandDto"%>
 <%@page import="java.util.List"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
@@ -42,10 +45,6 @@
 	margin-bottom: 80px;
 }
 
-table.table{
-	margin-bottom: 80px;
-}
-
 table.table th, table.table td{
     text-align: center; /* 가운데 정렬 */
     vertical-align: middle; /* 수직 정렬 */
@@ -66,9 +65,16 @@ table td:last-child {
 	border-right: 0;
 }
 
+#pyeoniconarea{
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10%;
+	margin-bottom: 40px;
+}
+
 .pyeonicon1{
-	width: 2%;
-	height: 2%;
+	width: 30px;
+	height: 30px;
 }
 
 .pyeonicon2{
@@ -117,12 +123,10 @@ color: black;
 </head>
 <%	
     //UploadBoardDao 인스턴스 생성
-	HugesoInfoDao dao = new HugesoInfoDao();
-    //모든 게시글 데이터 가져오기
-	List<HugesoInfoDto> list = dao.getAllDatas();
+	HugesoInfoDao hdao = new HugesoInfoDao();
 	 
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=hdao.getTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -166,13 +170,24 @@ color: black;
 	no=totalCount-(currentPage-1)*perPage;
 
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=dao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto>list2=hdao.getPagingList(startNum, perPage);
 
 	
 %>
 <body>
 
 <script>
+$(function(){
+	//엔터 검색
+	$("#searchbox").on("keyup", function(event) {
+        // keyCode 13은 Enter 키를 나타냅니다.
+        if (event.keyCode == 13) {
+            // 검색 액션 실행
+            searchAction($("#searchbox").val());
+        }
+    });
+});
+
 
 // 앨범형/목록형 변환
 function List(type){
@@ -201,7 +216,14 @@ document.addEventListener("DOMContentLoaded", function() {
    
 });
 
-
+//검색기능
+function searchAction(h_name){
+	if(h_name==""){
+		alert("검색어를 입력해주세요");
+	} else{
+		location.href="index.jsp?main=hugesoinfo/hugesolistsearch.jsp?h_name="+h_name;
+	}
+}
 
 </script>
 
@@ -213,13 +235,15 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 
 <!-- 편의시설 아이콘  -->
-<div style="width:100%; text-align:center;">
+<div style="width:100%; text-align:center;" id="pyeoniconarea">
     <% 
     String[] pyeonIcons = {"수면실", "샤워실", "세탁실", "세차장", "경정비", "수유실", "쉼터", "ATM", "매점", "약국"};
     for (int i = 0; i < pyeonIcons.length; i++) { 
     %>
+    	<div>
         <img src="image/pyeon/<%= pyeonIcons[i] %>.jpg" alt="<%= pyeonIcons[i] %>" class="pyeonicon1">
         <%= pyeonIcons[i] %>
+        </div>
     <% } %>
 </div>
 
@@ -261,17 +285,17 @@ for(int i=0;i<list2.size();i++){
     int num = list2.size()-i;
     
     //i번째 dto얻기
-    HugesoInfoDto dto = list2.get(i);
+    HugesoInfoDto hdto = list2.get(i);
     %>
     <tr>
     <td>
-    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=dto.getH_num() %>">
-    <%=dto.getH_name() %></a></td>
-    <td><%=dto.getH_addr() %> </td>
-    <td><%=dto.getH_hp() %> </td>
+    <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=hdto.getH_num() %>">
+    <%=hdto.getH_name() %></a></td>
+    <td><%=hdto.getH_addr() %> </td>
+    <td><%=hdto.getH_hp() %> </td>
     <td>
  <% 
-        String pyeons = dto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
+        String pyeons = hdto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
         String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
         for(String pyeon : pyeonArray){
         	 switch(pyeon){
@@ -325,17 +349,27 @@ for(int i=0;i<list2.size();i++){
         %>
         
     </td>
-    <td>휘발유<%=dto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=dto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=dto.getH_lpg().equals("없음")?"X":"O" %></td>
+    <td>휘발유<%=hdto.getH_gasolin().equals("없음")?"X":"O" %> 경유<%=hdto.getH_disel().equals("없음")?"X":"O" %> 천연가스<%=hdto.getH_lpg().equals("없음")?"X":"O" %></td>
     <td>
     <%
-     String brands = dto.getH_brand();
-     String[] brandArray = brands.split(",");
-     int brandSu = brandArray.length;
+    BrandDao bdao=new BrandDao();
+    List<BrandDto> blist=bdao.selectBrand(hdto.getH_num());
+    List<String> brandList=new ArrayList<String>();
+    
+    if(blist.size()>0){
+    	for(int j=0;j<blist.size();j++){
+        	BrandDto bdto=blist.get(j);
+        	brandList.add(bdto.getB_name());
+        }
+    } else{
+    	brandList.add("없음");
+    }
      
-     if(brandSu ==1){%>
-    	 <%=dto.getH_brand() %>
+     if(brandList.size()==1){%>
+    	 <%=brandList.get(0) %>
      <%}else{
-    	out.println(brandArray[0]+" 외 "+brandSu ); 
+    	 int brandCount=brandList.size()-1;
+    	 out.println(brandList.get(0)+" 외 "+brandCount);
      } %>
      </td>
     </tr>
@@ -343,8 +377,10 @@ for(int i=0;i<list2.size();i++){
 %>
 
 </table>
+	<div style="text-align: right;">
+		<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
+	</div>
 </div>
-
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
   <%
@@ -381,12 +417,11 @@ for(int i=0;i<list2.size();i++){
   %>
   
   </ul>
-  
 
 </div>
 <div id="searcharea">
-	<input type="text">
-	<button type="button" class="btn btn-success btn-sm">검색</button>
+	<input type="text" id="searchbox">
+	<button type="button" class="btn btn-success btn-sm" onclick="searchAction($('#searchbox').val())">검색</button>
 </div>
 
 </body>
