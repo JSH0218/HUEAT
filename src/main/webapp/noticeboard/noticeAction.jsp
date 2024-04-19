@@ -17,6 +17,9 @@
 <body>
 
   <%
+   //로그인상태확인
+    String loginok=(String)session.getAttribute("loginok");
+    String myid=(String)session.getAttribute("myid");
     //이미지 업로드 경로
     String uploadPath = getServletContext().getRealPath("/noticesave");
     System.out.println(uploadPath);
@@ -43,6 +46,7 @@
     	//dto 데이터담기
     	NoticeDto dto= new NoticeDto();
     	
+    	dto.setN_myid(myid);
     	dto.setN_subject(n_subject);
     	dto.setN_content(n_content);
     	dto.setN_image(n_image);

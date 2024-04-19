@@ -63,9 +63,10 @@
 				brandCount++;
 				
 				var s="<div>";
-				s+="<div style='display: flex; justify-content: space-between;'><div>브랜드 이름: " + brandCount + ": <input type='text' name='b_name"+brandCount+"'></div><i class='bi bi-x-lg' onclick='removeBrandField(this)'></i></div>";
-				s+="<div>브랜드 로고: " + brandCount + ": <input type='file' name='b_photo"+brandCount+"'></div>";
-				s+="<div>브랜드 홈페이지 주소: " + brandCount + ": <input type='text' name='b_addr"+brandCount+"'></div>";
+				s+="<div style='display: flex; justify-content: space-between;'><div>브랜드 이름: <input type='text' name='b_name"+brandCount+"' required='required'></div><i class='bi bi-x-lg' onclick='removeBrandField(this)'></i></div>";
+				s+="<div>브랜드 로고: <input type='file' name='b_photo"+brandCount+"' required='required'></div>";
+				s+="<div>브랜드 홈페이지 주소: <input type='text' name='b_addr"+brandCount+"' required='required'></div>";
+				s+="</div>";
 
                 // 입력 필드를 생성
                 $("#brandaddarea").append(s);
@@ -78,9 +79,10 @@
 				foodCount++;
 				
 				var s="<div>";
-				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: " + foodCount + ": <input type='text' name='f_name"+foodCount+"'></div><i class='bi bi-x-lg' onclick='removeFoodField(this)'></i></div>";
-				s+="<div>음식 이미지: " + foodCount + ": <input type='file' name='f_photo"+foodCount+"'></div>";
-				s+="<div>음식 가격: " + foodCount + ": <input type='text' name='f_price"+foodCount+"'></div>";
+				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: <input type='text' name='f_name"+foodCount+"' required='required'></div><i class='bi bi-x-lg' onclick='removeFoodField(this)'></i></div>";
+				s+="<div>음식 이미지: <input type='file' name='f_photo"+foodCount+"' required='required'></div>";
+				s+="<div>음식 가격: <input type='text' name='f_price"+foodCount+"' required='required'></div>";
+				s+="</div>";
 
                 // 가게 이름과 이미지 입력 필드를 추가
                 $("#foodaddarea").append(s);
@@ -195,7 +197,7 @@
 				<hr>
 				<div>휴게소 사진: <input type="file" name="h_photo" required="required"></div>
 				<hr>
-				<div>휴게소 번호: <input type="text" name="h_hp" required="required"></div>
+				<div>휴게소 번호: <input type="text" name="h_hp1" maxlength="3" size="3" required="required"> - <input type="text" name="h_hp2" maxlength="4" size="4" required="required"> - <input type="text" name="h_hp3" maxlength="4" size="4" required="required"></div>
 				<hr>
 				<div>휴게소 주소: <input type="text" name="h_addr" id="h_addr" required="required"></div>
 				<input type="hidden" name="h_xvalue" id="h_xvalue">
@@ -218,17 +220,17 @@
 				<div id="brandaddarea">
 					<input type="hidden" name="brandcount" id="brandcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addbrand" class="btn btn-warning">가게추가</button></div>
+				<div class="btnarea"><button type="button" id="addbrand" class="btn btn-warning btn-sm">가게추가</button></div>
 				<hr>
 				<div id="foodaddarea">
 					<input type="hidden" name="foodcount" id="foodcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addfood" class="btn btn-warning">음식추가</button></div>
+				<div class="btnarea"><button type="button" id="addfood" class="btn btn-warning btn-sm">음식추가</button></div>
 				<hr>
 				<div>
-					휘발유: <input type="text" name="h_gasolin">원&nbsp;
-					경유: <input type="text" name="h_disel">원&nbsp;
-					천연가스: <input type="text" name="h_lpg">원&nbsp;
+					휘발유: <input type="text" name="h_gasolin" style="text-align: right;">원&nbsp;
+					경유: <input type="text" name="h_disel" style="text-align: right;">원&nbsp;
+					천연가스: <input type="text" name="h_lpg" style="text-align: right;">원&nbsp;
 				</div>
 				<hr>
 				<div class="btnarea">

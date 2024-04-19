@@ -237,7 +237,16 @@ public class GradeDao {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 
-			String sql = "select g_grade from grade where h_num = ?";
+			String sql = "SELECT h_num,\r\n"
+					+ "    SUM(g_grade = 1) AS count_1,\r\n"
+					+ "    SUM(g_grade = 2) AS count_2,\r\n"
+					+ "    SUM(g_grade = 3) AS count_3,\r\n"
+					+ "    SUM(g_grade = 4) AS count_4,\r\n"
+					+ "    SUM(g_grade = 5) AS count_5\r\n"
+					+ "FROM\r\n"
+					+ "    grade\r\n"
+					+ "GROUP BY\r\n"
+					+ "    h_num;";
 			 
 			try {
 		        pstmt = conn.prepareStatement(sql);
@@ -245,8 +254,7 @@ public class GradeDao {
 		        rs = pstmt.executeQuery();
 
 		        if (rs.next()) {
-		            double averageGrade = rs.getDouble("avgGrade");
-		            get_Grade = String.format("%.1f", averageGrade); // 평균 등급을 소수점 첫 번째 자리까지 형식화
+		            double averageGrade = rs.getDouble("get_Grade");
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();

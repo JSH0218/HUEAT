@@ -103,6 +103,7 @@ div.container {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 50px;
+	margin-top: 128px;
 }
 
 #pagelayout {
@@ -290,11 +291,11 @@ font-size: 12px;
 	<div id="tab2" class="tab2" style="margin-top: 40px;">
 		<table class="table">
 			<tr class="line1" style="height: 30px;">
-				<th width="120" style="background-color: #DFE8E2;">번호</th>
+				<th width="50" style="background-color: #DFE8E2;">번호</th>
+				<th width="110" style="background-color: #DFE8E2;">카테고리</th>
+				<th width="500" style="background-color: #DFE8E2;">제목</th>
 				<th width="120" style="background-color: #DFE8E2;">닉네임</th>
-				<th width="150" style="background-color: #DFE8E2;">카테고리</th>
-				<th width="400" style="background-color: #DFE8E2;">제목</th>
-				<th width="200" style="background-color: #DFE8E2;">작성일</th>
+				<th width="100" style="background-color: #DFE8E2;">작성일</th>
 			</tr>
 		<%
 	      MemInfoDao mdao=new MemInfoDao();
@@ -322,14 +323,14 @@ font-size: 12px;
 			<%=no-- %>
 			</td>
 			<td>
-				<%=name %>
-			</td>
-			<td>
 		        <%=dto.getQ_category()%>
 		    </td>
 		    <td>
-		    <a href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
+		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
 		    </td>
+		    <td>
+				<%=name %>
+			</td>
 		    <td class="day">
 		        <%=sdf.format(dto.getQ_writeday())%>
 		    </td>		

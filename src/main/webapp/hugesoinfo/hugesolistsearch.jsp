@@ -106,6 +106,19 @@ a:active{
 color: black;
 }
 
+.pagination .page-item.active .page-link {
+    background-color: #618E6E;
+    border-color: #618E6E;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #618E6E;
+}
+
+.pagination .page-item.active .page-link:hover {
+    color: white;
+}
+
 #searcharea{
 	display: flex;
 	justify-content: center;
@@ -116,9 +129,18 @@ color: black;
 	margin-right: 5px;
 }
 
+#searcharea button{
+	background-color: #618E6E;
+}
+
+
 </style>
 </head>
 <%	
+	//로그인상태확인
+	String loginok=(String)session.getAttribute("loginok");
+	String myid=(String)session.getAttribute("myid");
+	
 	//검색어 받기
 	request.setCharacterEncoding("utf-8");
 	String h_name=request.getParameter("h_name");
@@ -383,6 +405,16 @@ if(list2.isEmpty()){
 %>
 
 </table>
+	<%
+		//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+		if (loginok!=null && myid.equals("admin")){
+			%>
+			<div style="text-align: right;">
+				<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
+			</div>
+			<%
+		}
+	%>
 </div>
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">

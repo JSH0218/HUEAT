@@ -108,6 +108,27 @@
 		ul{
 			cursor: pointer;
 		}
+		
+		.pagination .page-item.active .page-link {
+    		background-color: #618E6E;
+    		border-color: #618E6E;
+		}
+		
+		.pagination .page-item .page-link{
+			color: black;
+		}
+		
+		.pagination .page-item.active .page-link{
+			color: white;
+		}
+		
+		.pagination .page-item .page-link:hover {
+		    color: #618E6E;
+		}
+		
+		.pagination .page-item.active .page-link:hover {
+		    color: white;
+		}
 
 	</style>
 	<script>
