@@ -23,9 +23,8 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5a77ce427996f7b3cb3de14e9a4e0444"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 <title>HUEAT</title>
 
 <%
@@ -52,7 +51,7 @@
 	GradeDao gdao = new GradeDao();
 	GradeDto gdto = gdao.bestContent(h_num);
 	String avgGrade = gdao.avgGrade(h_num);
-	String countGrade = gdao.get_Grade(h_num);
+	String get_Content = gdao.get_Content(h_num);
 
 	//해당 휴게소에 평점을 등록한 사용자의 아이디 목록 가져오기
 	List<String> getG_myid = gdao.getG_myid(h_num);
@@ -120,13 +119,38 @@
  .nav-link{
  	color:black;
  }
+ 
+ 
+ .progress-bar {
+    width: 40%;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .progress-bar-inner {
+    height: 50px; /* 프로그래스 바의 기본 높이 */
+    background-color: #618E6E; /* 기본 프로그래스 바 색상 */
+    border-radius: 4px;
+    transition: width 0.3s; /* 애니메이션 효과 */
+  }
+  .progress-bar-text {
+    position: absolute;
+    top: 50%; /* 수직 정렬을 위해 */
+    left: 50%; /* 수평 정렬을 위해 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    color: #fff; /* 텍스트 색상 */
+    font-size: 12px; /* 텍스트 크기 */
+  }
+  
+
 </style>
 
 <script type="text/javascript">
   
 $(function(){
 	list();
-
+	progressbar();
 	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
@@ -143,7 +167,7 @@ $(function(){
 	    alert("평균 등급을 가져오지 못했습니다.");
 	} --%>
 	
-	/* 휴게소 평점 평균 */
+	 /* 휴게소 평점 평균 */
 	 function ratingToPercent(avgGrade) {
 	    const score = avgGrade * 20;
 	    return score + 1.5;
@@ -158,7 +182,7 @@ $(function(){
 	  function applyStarRatings(avgGrade) {
 	    const fillWidth = ratingToPercent(avgGrade) + '%';
 	    document.querySelector('.star-ratings-fill').style.width = fillWidth;
-	}
+	} 
 
 	
 	
@@ -202,8 +226,9 @@ $(function(){
 		        success: function(){
 		            $("#insertgrade").hide(); // 평점 등록 시 숨김
 		             list();
-		       
+		       		
 		            updateH_grade();
+		            progressbar(); 
 		         },
 		        error: function(xhr, status, error) {
 		            // 오류 발생 시 처리
@@ -215,7 +240,7 @@ $(function(){
 		    });
 	
 	
-			// 특정 휴게소의 평균 평점 및 평점 갯수
+			/* // 특정 휴게소의 평균 평점 및 평점 갯수
 		    function updateH_grade() {
 		    $.ajax({ 
 	       		 
@@ -236,10 +261,78 @@ $(function(){
 	            });
 		    
 		    
-		    }
+		    } */
 		    
 	 
+		    
+		    function updateH_grade() {
+		        $.ajax({ 
+		            type: "post",
+		            dataType: "html",
+		            data: {
+		                "h_num": $("#h_num").val(), 
+		                "h_grade": avgGrade , 
+		                "h_gradecount": $("b.gradesu>span").text()
+		            },
+		            url: "hugesoinfo/updateh_grade.jsp",
+		            success: function(res) {
+		                // JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
+		                var avgGrade = parseFloat(res);
+		                
+		                // HTML 요소에 평균 등급을 적용하는 함수 호출
+		                applyStarRatings(avgGrade);
+		    
+		            },
+		            error: function(xhr, status, error) {
+		                console.error("AJAX Error: " + error);
+		            }
+		        });
+		    }
+
+		    // 페이지 로드 후 프로그래스 바 업데이트 실행
+		    $(document).ready(function () {
+		        updateH_grade();
+		    });
+
+		    /* 휴게소 평점 평균을 적용하는 함수 */
+		    function applyStarRatings(avgGrade) {
+		        const fillWidth = ratingToPercent(avgGrade) + '%';
+		        document.querySelector('.star-ratings-fill').style.width = fillWidth;
+		    }
+
+		    
+		    
+		    
 			  
+		    /* 프로그래스바 업데이트를 위한 Ajax 요청 함수 */
+		    function progressbar() {
+		        $.ajax({
+		            type: "post",
+		            dataType: "json", // 서버에서 JSON 형식으로 데이터를 반환한다고 가정합니다.
+		            data: {
+		                "h_num": $("#h_num").val(),
+		            },
+		            url: "hugesoinfo/contentprogressbar.jsp",
+		            success: function (data) {
+		                var progressBars = document.querySelectorAll('.progress-bar-inner');
+		                data.forEach((entry, index) => {
+		                    var progressBar = progressBars[index];
+		                    progressBar.innerHTML = entry.label + ' : ' + entry.value; // g_content값을 직접 프로그래스 바 내용으로 설정
+		                    progressBar.style.width = (entry.value * 20) + '%'; // 데이터를 퍼센트로 변환하여 적용
+		                });
+		            },
+		            error: function (xhr, status, error) {
+		                console.error("AJAX Error: " + error);
+		            }
+		        });
+		    }
+
+		    // 페이지 로드 후 프로그래스 바 업데이트 실행
+		    $(document).ready(function () {
+		        progressbar();
+		    });
+
+
 			
 			
 		        /* // 버튼 클릭 이벤트 설정
@@ -269,7 +362,6 @@ $(function(){
 			  		  dataType:"json",
 			  		  data:{"h_num":$("#h_num").val()},
 			  		  success:function(res){
-			  			 
 			  			  //평점갯수출력
 			  			  $("b.gradesu>span").text(res.length);
 			  			  
@@ -291,6 +383,8 @@ $(function(){
 			  				  s+="<span class='aday'>"+ item.g_myid + " · "+ item.g_writeday+"</span>";
 			  				  s+="<div>"+item.g_content+"</div>";
 			  				  s+= "</div>";
+			  				  
+			  				  
 			  			  });
 			  			  $("div.alist").html(s);
 			  			  
@@ -452,38 +546,6 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 
 
 
-//막대 그래프를 그릴 Canvas 요소 가져오기
-var ctx = document.getElementById('myChart').getContext('2d');
-
-// 막대 그래프 데이터
-var data = {
-    labels: ['등급 1', '등급 2', '등급 3', '등급 4', '등급 5'],
-    datasets: [{
-        label: '등급 별 갯수',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)', // 막대 색상
-        borderColor: 'rgba(255, 99, 132, 1)', // 막대 테두리 색상
-        borderWidth: 1,
-        data: [count_1, count_2, count_3, count_4, count_5] // 각 등급 별 갯수 데이터
-    }]
-};
-
-// 막대 그래프 옵션
-var options = {
-    scales: {
-        y: {
-            beginAtZero: true // y 축이 0부터 시작하도록 설정
-        }
-    }
-};
-
-// 막대 그래프 생성
-var myChart = new Chart(ctx, {
-    type: 'bar', // 막대 그래프 유형
-    data: data,
-    options: options
-});
-
-
 
 
 })
@@ -493,11 +555,11 @@ var myChart = new Chart(ctx, {
 
 <body>
 <div class="h_body">
-
 <form id="frm">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 <input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
+
 
 <div class="hugesodetail">
 <div class="toparea">
@@ -579,6 +641,7 @@ var myChart = new Chart(ctx, {
 </div>
 <%-- <div ><%=dto.getH_gradecount() %></div> --%>
 </div>
+
 
 
 <div class="huinfo">
@@ -844,11 +907,6 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 </div>
 
 
-
-
-
-
-
 <div class="contain">
 
 <p class="subtitle">평점</p>
@@ -857,7 +915,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 <button id="sortByHigh">평점높은순</button>
 <button id="sortByLow">평점낮은순</button> -->
 
-<div style="display: inline-block;">
+<div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>
     <p style="font-weight:bold; font-size:50px; display: inline-block;">
         <%=dto.getH_grade() %>
@@ -865,14 +923,37 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 </div>
 
 
-<%=countGrade %>
-<canvas id="myChart" width="400" height="400"></canvas>
+<%=get_Content %>
+
+
+<!-- 프로그래스 바 -->
+<div class="progress-bar">
+  <div class="progress-bar-inner" style="width: 0%;">시설이 깨끗해요</div>
+</div>
+<div class="progress-bar">
+  <div class="progress-bar-inner" style="width: 0%;">휴게시설이 잘 되어 있어요</div>
+</div>
+<div class="progress-bar">
+  <div class="progress-bar-inner" style="width: 0%;">음식이 맛있어요</div>
+  <div class="progress-bar-text"></div>
+</div>
+<div class="progress-bar">
+  <div class="progress-bar-inner" style="width: 0%;">특별한 메뉴가 있어요</div>
+  <div class="progress-bar-text"></div>
+</div>
+<div class="progress-bar">
+  <div class="progress-bar-inner" style="width: 0%;">주차하기 편해요</div>
+  <div class="progress-bar-text"></div>
+</div>
+
+
+
+
 
 
  <table style="width:50%; margin-left:auto;">
      <!-- 평점 -->
      <tr>
-     
        <td>  
         <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  
         </b>
@@ -998,6 +1079,8 @@ marker.setMap(map);
 </div>
 </form>
 </div>
+
+
 </body>
 
 </html>

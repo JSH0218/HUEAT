@@ -74,9 +74,9 @@
        //클릭시 공지사항 디테일 페이지로 이동
        $("a.noticeDetail").click(function () {
          var n_num = $(this).attr("n_num");
-         //alert(n_num);
+         alert(n_num);
          
-         location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
+//          location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
       });
        
       
@@ -88,6 +88,7 @@
          location.href = 'index.jsp?main=eventboard/eventDetail.jsp?e_num='+e_num;
       });
 
+    });
 </script>
 
 </head>
@@ -110,7 +111,7 @@
 <body>
   
     <!-- 공지사항 레이아웃-->
-  <div class="container mt-3"  style="width: 550px; margin-left: 10%; padding: 1%;
+  <div class="mt-3"  style="width: 550px; margin-left: 12%; padding: 1%;
     background-color: #F0F0F0; height: 250px;">
  
     <!-- Nav tabs -->
@@ -127,7 +128,7 @@
     
       <!-- 공지사항 list불러오기 -->
     <div class="tab-content">
-      <div id="tabs-notice" class="container tab-pane active"><br>
+      <div id="tabs-notice" class=" tab-pane active"><br>
         <table class="noticetable table">
           <tr>
             <% 
@@ -162,7 +163,7 @@
       
          <!-- 이벤트 list불러오기 -->
    
-      <div id="tabs-event" class="container tab-pane fade"><br>
+      <div id="tabs-event" class="tab-pane fade"><br>
         <table class="eventtable table">
           <tr>
             <% 

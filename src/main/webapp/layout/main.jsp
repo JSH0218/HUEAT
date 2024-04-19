@@ -18,41 +18,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-  
-  /*다양한 즐길거리*/
-   .food {
-    margin-top: 20%;
-    border: 1px solid blue;
-    width: 1350px; /* 원하는 너비로 설정합니다. */
-    margin-left: 100px; /* 원하는 여백으로 설정합니다. */
-    border: 1px solid blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-   }
-   
-   .food_title {
-   text-align: center;
-   }
-   
-   .food_images {
-   display: flex;
-   margin-top: 15%;
-   margin: 10 30px;
-   }
-   
-   .food_images img {
-    width: 100px;
-    height: 300px;
-    cursor: pointer;
-   }
-   div.swiper-backface-hidden{
-      margin-right: 0px;
-   }
-   
+  .category {
+    margin-top: -13.2%;
+    margin-left: 42%;
+    
+  }
 
-   
 </style>
 </head>
   <%
@@ -73,7 +44,6 @@
    List<HugesoInfoDto> hlist = hdao.getAllGrade();
    
    
-   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
   %>
 <body>
   <!-- 공지사항 / 이벤트 -->
@@ -82,7 +52,9 @@
   </div>
   
   <!-- 메뉴 카테고리 -->
+  <div class="category">
   <jsp:include page="../mainlayout/menutag.jsp" />
+  </div>
 
   <div style="margin-top: 100px;"></div>
 

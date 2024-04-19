@@ -230,47 +230,45 @@ public class GradeDao {
 			return list;
 		}
 		
-		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점을 가져오기
-		public String get_Grade(String h_num) {
-		    String get_Grade = null;
+
+		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기
+		public String get_Content(String h_num) {
+		    String get_Content = null;
 		    Connection conn = db.getConnection();
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 
-		    String sql = "SELECT h_num,\n"
-		            + "    SUM(g_grade = 1) AS count_1,\n"
-		            + "    SUM(g_grade = 2) AS count_2,\n"
-		            + "    SUM(g_grade = 3) AS count_3,\n"
-		            + "    SUM(g_grade = 4) AS count_4,\n"
-		            + "    SUM(g_grade = 5) AS count_5\n"
-		            + "FROM\n"
-		            + "    grade\n"
-		            + "WHERE\n"
-		            + "    h_num = ?\n" // 추가: 해당 휴게소 번호에 대한 데이터만 가져옴
-		            + "GROUP BY\n"
-		            + "    h_num;";
+		    String sql = "SELECT g_content, COUNT(g_content) AS g_content_count FROM grade WHERE h_num = ? GROUP BY g_content";
 
 		    try {
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, h_num);
 		        rs = pstmt.executeQuery();
 
-		        if (rs.next()) {
-		            // 쿼리 결과를 이용하여 등급 정보를 만듦
-		            get_Grade = " 1 : " + rs.getInt("count_1")
-		                    + ", 2 : " + rs.getInt("count_2")
-		                    + ", 3 : " + rs.getInt("count_3")
-		                    + ", 4 : " + rs.getInt("count_4")
-		                    + ", 5 : " + rs.getInt("count_5");
+		        StringBuilder result = new StringBuilder(); // 결과를 저장할 StringBuilder 생성
+
+		        while (rs.next()) {
+		            // 각 등급별 등장 횟수를 가져와서 StringBuilder에 추가
+		            result.append(rs.getString("g_content")).append(" : ").append(rs.getString("g_content_count")).append(", ");
 		        }
+
+		        // 마지막 쉼표 제거
+		        if (result.length() > 0) {
+		            result.delete(result.length() - 2, result.length());
+		        }
+
+		        // 최종 결과 문자열 저장
+		        get_Content = result.toString();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		    } finally {
 		        db.dbClose(rs, pstmt, conn);
 		    }
 
-		    return get_Grade;
+		    return get_Content;
 		}
+
+
 
 
 }
