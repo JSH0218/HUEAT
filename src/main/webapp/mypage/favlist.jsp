@@ -68,7 +68,7 @@ String m_id=(String)session.getAttribute("myid");
 MemInfoDao dao=new MemInfoDao();
 List<HashMap<String,String>> list=dao.getFavlist(m_id);
 %>
-<div style="margin: 0 auto; width: 80%;height:100%; padding: 20px 20px 20px 20px; margin-top: 50px;">
+<div style="margin: 0 auto; width: 65%;height:50%; padding: 20px 20px 20px 20px; margin-top: 50px;">
 	<h3><b>휴게소 즐겨찾기 목록</b></h3>
 	<br><br>
 	<button type="button" id="delbtn" style="float: left;">삭제</button>
@@ -81,8 +81,16 @@ List<HashMap<String,String>> list=dao.getFavlist(m_id);
 			<th style="background-color: #DFE8E2;">휴게소</th>
 			<th style="background-color: #DFE8E2;">주소</th>
 			<th style="background-color: #DFE8E2;">편의시설</th>
-			<th style="background-color: #DFE8E2;">입점브랜드</th>
+			<th style="background-color: #DFE8E2;">임점브랜드</th>
+		
 		</tr>
+		<%
+			if(list.size()==0){%>
+				<tr>
+					<td colspan="5" style="text-align: center;"><span>등록된 휴게소가 없습니다.<br>즐겨찾기로 등록해두고 편하게 찾아보세요.</span> </td>
+				</tr>
+			<%}
+		%>
 		<%
 			for(int i=0;i<list.size();i++){
 				HashMap<String,String> map=list.get(i);%>
@@ -94,6 +102,7 @@ List<HashMap<String,String>> list=dao.getFavlist(m_id);
 				<td><%=map.get("h_addr") %></td>
 				<td><%=map.get("h_pyeon") %></td>
 				<td><%=map.get("h_brand") %></td>
+			
 			</tr>	
 		<%}
 		%>

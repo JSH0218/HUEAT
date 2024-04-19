@@ -24,7 +24,8 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;*/
+    background-color: white;
+    height: 15%;
 
   }
   
@@ -35,13 +36,14 @@
   }
   
   div.main {
-    border: 3px solid red;
+    border: 0px solid red;
+    min-height: calc(100vh - 10rem);
   }
   
   div.info {
-    border: 1px solid blue;
+    border: 0px solid blue;
     background-color: #F2F2F2;
-    
+    height: 10rem;
   }
 
 </style>

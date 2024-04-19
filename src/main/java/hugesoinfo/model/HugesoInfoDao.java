@@ -278,7 +278,7 @@ public class HugesoInfoDao {
 		return list;
 	}
 
-	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음.
+	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음. foodcourt/choice에서 사용함
 	public List<HugesoInfoDto> getH_numH_name(){
 		List<HugesoInfoDto> list = new Vector<HugesoInfoDto>();
 		
