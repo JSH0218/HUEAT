@@ -15,9 +15,10 @@
 <style type="text/css">
    /*이달의 휴게소*/
    .h_title {
-    margin-left: 10.5%;
+    margin-left: 22.5%;
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 1%;
     }
    
    .hugesoDetail {
@@ -58,6 +59,11 @@
           transform: rotate(90deg);
         }
       }
+      
+       div.swiper-backface-hidden{
+      margin-right: 0px;
+   }
+   
 </style>
 <script type="text/javascript">
   
@@ -121,8 +127,8 @@
     <!-- Add Navigation -->
 </div>
 <div>
-    <div class="swiper-button-next" style="position:absolute; top: 1230px; right: 330px"></div>
-    <div class="swiper-button-prev" style="position:absolute; top: 1230px; left : 149px"></div>
+    <div class="swiper-button-next" style="position:absolute; top: 985px; right: 970px"></div>
+    <div class="swiper-button-prev" style="position:absolute; top: 985px; left : 149px"></div>
 </div>
 
 </div>

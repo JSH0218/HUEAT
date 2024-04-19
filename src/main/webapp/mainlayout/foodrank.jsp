@@ -14,13 +14,14 @@
 <title>Insert title here</title>
 <style type="text/css">
    
-   .h_title {
-    margin-left: 10.5%;
+   .f_title {
+    margin-left: 22.5%;
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 1%;
     }
    
-   .hugesoDetail {
+   .foodDetail {
     text-decoration: none;
     color: black;
     
@@ -67,8 +68,8 @@
     
       
       //클릭시 휴게소 디테일 페이지로 이동
-      $("a.hugesoDetail").click(function () {
-         var h_num = $(this).attr("h_num");
+      $("a.foodDetail").click(function () {
+         var h_num = $(this).attr("f_num");
          //alert(h_num);
          
          location.href = 'index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num='+h_num;
@@ -77,7 +78,9 @@
 
     });
     
-    
+    div.swiper-backface-hidden{
+        margin-right: 0px;
+     }
       
      
 </script>
@@ -94,7 +97,7 @@
 %>
 <body>
   <!-- 이달의 휴게소 -->
-<div class="h_title">이달의 메뉴</div>
+<div class="f_title">이달의 메뉴</div>
 <div style="margin-left: 200px;">
 <div class="swiper-container">
     <div class="swiper-wrapper">
@@ -106,12 +109,12 @@
         %>
         <div class="swiper-slide">
             <div class="hugeso-content" style="text-align: center; width: 250px;">
-                <a h_num="<%=dto.getH_num() %>" class="hugesoDetail"  style="cursor: pointer;
+                <a h_num="<%=dto.getH_num() %>" class="foodDetail"  style="cursor: pointer;
                 display: inline-block;">
-                    <img alt="" src="image/hugeso/<%=dto.getH_photo() %>" class="h_image">
-                    <div class="h_hugeso">
-                        <div class="h_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
-                        <div class="h_addr" style="font-size: 0.6em;"><%=dto.getH_addr() %></div>
+                    <img alt="" src="image/hugeso/<%=dto.getH_photo() %>" class="f_image">
+                    <div class="f_food">
+                        <div class="f_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
+                        <div class="f_addr" style="font-size: 0.6em;"><%=dto.getH_addr() %></div>
                     </div>
                 </a>
             </div>
@@ -121,8 +124,8 @@
     <!-- Add Navigation -->
 </div>
 <div>
-    <div class="swiper-button-next" style="position:absolute; top: 1230px; right: 330px"></div>
-    <div class="swiper-button-prev" style="position:absolute; top: 1230px; left : 149px"></div>
+    <div class="swiper-button-next" style="position:absolute; top: 985px; right: 65px"></div>
+    <div class="swiper-button-prev" style="position:absolute; top: 985px; left : 1052px"></div>
 </div>
 
 </div>

@@ -11,13 +11,16 @@
 <title>Insert title here</title>
 <style type="text/css">
 
+
   .gain {
+  border: 0px solid cyan;
    display: flex; 
-   justify-content: space-between;
+   width: 100%;
+   justify-content: center;
   }
   
   .gain_title {
-   margin-right: -35px;
+   margin-right: 75px;
    font-size: 0.8em;
    margin-top: 0.3%;
   }
@@ -50,7 +53,7 @@
   %>
 <body>
    <div class="infolist" style="width: 100%">
-      <div class="container gain">
+      <div class="gain">
         <div class="gain_title">회사소개</div>
         <div class="gain_title">개인정보처리방침</div>
         <div class="gain_title">오시는길</div>
