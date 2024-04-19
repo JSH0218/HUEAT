@@ -210,7 +210,7 @@ HugesoInfoDto hdto=hdao.getData(h_num);
 <div class="img-container" style=" border: 0px solid red;">
 		<img alt="" src="image/mainbanner/foodbanner01.jpg">
 </div>
-<%--아오 span과 span사이는 br사용이 안됨 gpt나쁜놈아. 하지만 span과span사이에 span을 하나 더만들면 br사용 가능. --%>
+<%--아오 span과 span사이는 br사용이 안됨 gpt사기꾼. 하지만 span과span사이에 span을 하나 더만들면 br사용 가능. --%>
 <div class="span-container" style="border:0px solid black;">
 	<span style="display: block;"> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
 	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
@@ -321,7 +321,8 @@ $(function(){
 		var b=confirm("총 "+<%=total%>+"원을 결제하시겠습니까?");
 		
 		if(b){
-			requestPay(myid, total, name, hp)
+			requestPay(myid, total, name, hp);
+			
 		}
 	})	
 	function requestPay(myid, total, name, hp) {
@@ -346,6 +347,8 @@ $(function(){
             //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
             	if ( rsp.success ) { //결제 성공
 							console.log(rsp);
+							deleteAllCart();
+							location.reload();
 						} else {
 							alert('결제실패 : ' + rsp.error_msg);
 						}
@@ -367,7 +370,7 @@ function deleteAllCart() {
         data:{"m_num":m_num},
         dataType:"html",
         success: function(response) {
-            alert("주문이 완료되었습니다.");
+            //alert("주문이 완료되었습니다.");
            
         },
         error: function(xhr, status, error) {

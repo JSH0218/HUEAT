@@ -68,7 +68,7 @@ String m_id=(String)session.getAttribute("myid");
 MemInfoDao dao=new MemInfoDao();
 List<HashMap<String,String>> list=dao.getFavlist(m_id);
 %>
-<div style="margin: 0 auto; width: 65%;height:100%; padding: 20px 20px 20px 20px; margin-top: 50px;">
+<div style="margin: 0 auto; width: 65%;height:50%; padding: 20px 20px 20px 20px; margin-top: 50px;">
 	<h3><b>휴게소 즐겨찾기 목록</b></h3>
 	<br><br>
 	<button type="button" id="delbtn" style="float: left;">삭제</button>
