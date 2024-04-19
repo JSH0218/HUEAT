@@ -105,9 +105,7 @@ String loginok = (String) session.getAttribute("loginok");
 String myid = (String) session.getAttribute("myid");
 %>
 <body>
-
    <div class="topbax"></div>
-
    <div class="header">
       <!-- 1. title 상부 만들기 -->
       <!-- 이미지 로고 -->
@@ -115,9 +113,68 @@ String myid = (String) session.getAttribute("myid");
          style="color: black; text-decoration: none; width: 90px; display: block;">
          <img src="<%=root%>/image/mainbanner/logo1.png" style="width: 100%;">
       </a>
+      <nav id="primary_nav_wrap">
+         <ul>
+            <li><a href="#">소개</a>
+               <ul>
+                  <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
+                  <li><a href="#">소개글</a></li>
+                  <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
+               </ul></li>
 
+            <li><a href="#">휴게소정보</a>
+               <ul>
+                  <li><a href="index.jsp?main=hugesoinfo/hugesomap.jsp">휴게소찾기</a></li>
+                  <li><a href="index.jsp?main=hugesoinfo/hugesolist.jsp">휴게소목록</a></li>
+               </ul></li>
 
+            <li><a href="#">고객센터</a>
+               <ul>
+                  <li class="dir"><a href="index.jsp?main=qaboard/qaList.jsp">고객문의</a></li>
+                  <li class="dir"><a
+                     href="index.jsp?main=reviewboard/reviewList.jsp">고객후기</a></li>
+               </ul></li>
 
+            <li><a href="#">식사/간식</a>
+               <ul>
+                  <li class="dir"><a href="index.jsp?main=member/food.jsp">푸드코트</a></li>
+                  <li class="dir"><a href="#">입점브랜드</a></li>
+               </ul></li>
+            <%
+            //로그아웃 상태일때 로그인 버튼이 보이게
+            if (loginok == null) {
+            %>
+            <li style="padding-left: 740px;"><a href="member/loginform.jsp">로그인</a></li>
+            <li><a href="member/gaipform.jsp">회원가입</a></li>
+            <%
+            } else {
+            %>
+            <li style="padding-left: 690px;"><a
+               href="member/logoutaction.jsp">로그아웃</a></li>
+            <%
+            if (loginok != null && myid.equals("admin")) {
+            %>
+            <li><a href="#">관리자 페이지</a>
+               <ul>
+                  <li><a href="index.jsp?main=mypage/memberlist.jsp">회원목록/관리</a></li>
+                  <li><a href="index.jsp?main=mypage/adminqnalist.jsp">나의 활동</a></li>
+                  <%
+                  } else {
+                  %>
+                  <li><a href="index.jsp?main=mypage/myqnalist.jsp">마이페이지</a>
+                     <ul>
+                        <li><a href="index.jsp?main=mypage/updatepassform.jsp">회원정보수정</a></li>
+                        <li><a href="index.jsp?main=mypage/myqnalist.jsp">나의 활동</a></li>
+                        <li><a href="index.jsp?main=mypage/favlist.jsp">즐겨찾기</a></li>
+                     </ul></li>
+                  <%
+                  }
+                  }
+                  %>
+
+               </ul>
+      </nav>
+   </div>
       <nav id="primary_nav_wrap">
          <ul>
             <li><a href="#">소개</a>
@@ -182,7 +239,5 @@ String myid = (String) session.getAttribute("myid");
 
 
    </div>
-
-
 </body>
 </html>

@@ -278,7 +278,7 @@ public class HugesoInfoDao {
 		return list;
 	}
 
-	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음.
+	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음. foodcourt/choice에서 사용함
 	public List<HugesoInfoDto> getH_numH_name(){
 		List<HugesoInfoDto> list = new Vector<HugesoInfoDto>();
 		
@@ -468,6 +468,7 @@ public class HugesoInfoDao {
 			}
 			
 		}
+
 		//승경_메인화면에 휴게소 평점 순위대로 가져오기 위해 생성
         public List<HugesoInfoDto> getAllGrade(){
            List<HugesoInfoDto> gradelist = new ArrayList<HugesoInfoDto>();
@@ -512,5 +513,57 @@ public class HugesoInfoDao {
               return gradelist;
               
         }
-	
+
+		//휴게소정보 업데이트
+		public void updateHugesoinfo(HugesoInfoDto dto) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="update hugesoinfo set h_name=?,h_xvalue=?,h_yvalue=?,h_photo=?,h_hp=?,h_addr=?,h_pyeon=?,h_gasolin=?,h_disel=?,h_lpg=? where h_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, dto.getH_name());
+				pstmt.setString(2, dto.getH_xvalue());
+				pstmt.setString(3, dto.getH_yvalue());
+				pstmt.setString(4, dto.getH_photo());
+				pstmt.setString(5, dto.getH_hp());
+				pstmt.setString(6, dto.getH_addr());
+				pstmt.setString(7, dto.getH_pyeon());
+				pstmt.setString(8, dto.getH_gasolin());
+				pstmt.setString(9, dto.getH_disel());
+				pstmt.setString(10, dto.getH_lpg());
+				pstmt.setString(11, dto.getH_num());
+				
+				pstmt.execute();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+  
+		//휴게소 삭제
+		public void deleteHugesoinfo(String h_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from hugesoinfo where h_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, h_num);
+				
+				pstmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
 }
