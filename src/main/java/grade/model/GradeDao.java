@@ -230,31 +230,38 @@ public class GradeDao {
 			return list;
 		}
 		
-		// 각 휴게소에서 평점 매긴 사용자의 평점을 가져오기
+		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점을 가져오기
 		public String get_Grade(String h_num) {
-			String get_Grade = null;
+		    String get_Grade = null;
 		    Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
 
-			String sql = "SELECT h_num,\r\n"
-					+ "    SUM(g_grade = 1) AS count_1,\r\n"
-					+ "    SUM(g_grade = 2) AS count_2,\r\n"
-					+ "    SUM(g_grade = 3) AS count_3,\r\n"
-					+ "    SUM(g_grade = 4) AS count_4,\r\n"
-					+ "    SUM(g_grade = 5) AS count_5\r\n"
-					+ "FROM\r\n"
-					+ "    grade\r\n"
-					+ "GROUP BY\r\n"
-					+ "    h_num;";
-			 
-			try {
+		    String sql = "SELECT h_num,\n"
+		            + "    SUM(g_grade = 1) AS count_1,\n"
+		            + "    SUM(g_grade = 2) AS count_2,\n"
+		            + "    SUM(g_grade = 3) AS count_3,\n"
+		            + "    SUM(g_grade = 4) AS count_4,\n"
+		            + "    SUM(g_grade = 5) AS count_5\n"
+		            + "FROM\n"
+		            + "    grade\n"
+		            + "WHERE\n"
+		            + "    h_num = ?\n" // 추가: 해당 휴게소 번호에 대한 데이터만 가져옴
+		            + "GROUP BY\n"
+		            + "    h_num;";
+
+		    try {
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, h_num);
 		        rs = pstmt.executeQuery();
 
 		        if (rs.next()) {
-		            double averageGrade = rs.getDouble("get_Grade");
+		            // 쿼리 결과를 이용하여 등급 정보를 만듦
+		            get_Grade = " 1 : " + rs.getInt("count_1")
+		                    + ", 2 : " + rs.getInt("count_2")
+		                    + ", 3 : " + rs.getInt("count_3")
+		                    + ", 4 : " + rs.getInt("count_4")
+		                    + ", 5 : " + rs.getInt("count_5");
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
@@ -264,5 +271,6 @@ public class GradeDao {
 
 		    return get_Grade;
 		}
+
 
 }

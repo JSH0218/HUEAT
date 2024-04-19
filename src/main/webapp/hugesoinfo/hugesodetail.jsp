@@ -23,6 +23,9 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5a77ce427996f7b3cb3de14e9a4e0444"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <title>HUEAT</title>
 
 <%
@@ -49,6 +52,7 @@
 	GradeDao gdao = new GradeDao();
 	GradeDto gdto = gdao.bestContent(h_num);
 	String avgGrade = gdao.avgGrade(h_num);
+	String countGrade = gdao.get_Grade(h_num);
 
 	//해당 휴게소에 평점을 등록한 사용자의 아이디 목록 가져오기
 	List<String> getG_myid = gdao.getG_myid(h_num);
@@ -102,6 +106,20 @@
     color: #fff;
 }
 
+.nav-pills{
+	justify-content:center;
+	width:1150px;
+}
+
+.nav-item{
+	width:50%;
+	text-align:center;
+	font-size:20px;
+}
+
+ .nav-link{
+ 	color:black;
+ }
 </style>
 
 <script type="text/javascript">
@@ -434,6 +452,38 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 
 
 
+//막대 그래프를 그릴 Canvas 요소 가져오기
+var ctx = document.getElementById('myChart').getContext('2d');
+
+// 막대 그래프 데이터
+var data = {
+    labels: ['등급 1', '등급 2', '등급 3', '등급 4', '등급 5'],
+    datasets: [{
+        label: '등급 별 갯수',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)', // 막대 색상
+        borderColor: 'rgba(255, 99, 132, 1)', // 막대 테두리 색상
+        borderWidth: 1,
+        data: [count_1, count_2, count_3, count_4, count_5] // 각 등급 별 갯수 데이터
+    }]
+};
+
+// 막대 그래프 옵션
+var options = {
+    scales: {
+        y: {
+            beginAtZero: true // y 축이 0부터 시작하도록 설정
+        }
+    }
+};
+
+// 막대 그래프 생성
+var myChart = new Chart(ctx, {
+    type: 'bar', // 막대 그래프 유형
+    data: data,
+    options: options
+});
+
+
 
 
 })
@@ -631,10 +681,10 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
   <!-- Nav pills -->
   <ul class="nav nav-pills" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="pill" href="#home">푸드코트</a>
+      <a class="nav-link active" data-bs-toggle="pill" href="#home" >푸드코트</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="pill" href="#menu1">브랜드</a>
+      <a class="nav-link" data-bs-toggle="pill" href="#menu1" >브랜드</a>
     </li>
   </ul>
   <!-- Tab panes -->
@@ -814,6 +864,9 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
     </p>
 </div>
 
+
+<%=countGrade %>
+<canvas id="myChart" width="400" height="400"></canvas>
 
 
  <table style="width:50%; margin-left:auto;">

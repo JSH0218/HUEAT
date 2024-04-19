@@ -300,7 +300,7 @@ button.brand{
 }
 
 .nav-pills .nav-link.active{
-	background-color:#618E6E;
+	background-color:#618E6E !important;
 }
 
 
