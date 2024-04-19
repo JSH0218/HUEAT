@@ -45,7 +45,7 @@
 #primary_nav_wrap ul li
 {
 	position:relative;
-	float:left;
+	float:left;a
 	margin:0;
 	padding:0
 }
@@ -144,7 +144,7 @@
 		  
 		  <li><a href="#">식사/간식</a>
 		    <ul>
-		      <li class="dir"><a href="index.jsp?main=member/food.jsp">푸드코트</a></li>
+		      <li class="dir"><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">푸드코트</a></li>
 		      <li class="dir"><a href="#">입점브랜드</a></li>
 		    </ul>
 		  </li>
