@@ -24,7 +24,7 @@
 	
 	#deletediv{
 	    width: 1000px;
-     	margin-top: 100px;
+     	margin-top: 175px;
      	margin-left: auto;
    	    margin-right: auto;
 	}

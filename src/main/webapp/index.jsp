@@ -12,7 +12,6 @@
 <title>HUEAT</title>
 <style type="text/css">
 
-
   div.title {
     border-bottom: 2px solid gray; 
     padding-bottom:2%;
@@ -24,26 +23,26 @@
     background-color: white;
     font-family: 'Noto Sans KR';
     height: 15%;
-
   }
   
   div.banner {
-    border: 0px solid yellow;
-    margin-top: 100px;
+    border: 1px solid yellow;
+    margin-top: 140px;
     display: none;
     font-family: 'Noto Sans KR';
   }
   
   div.main {
     border: 3px solid red;
+    min-height: calc(100vh - 10rem);
     font-family: 'Noto Sans KR';
   }
   
   div.info {
     border: 1px solid blue;
-    background-color: gray;
+    background-color: #F2F2F2;
+    height: 10rem;
     font-family: 'Noto Sans KR';
-    height: 230px;
   }
 
 </style>
