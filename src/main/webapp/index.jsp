@@ -35,13 +35,14 @@
   div.main {
     border: 3px solid red;
     font-family: 'Noto Sans KR';
+    min-height: calc(100vh - 10rem);
   }
   
   div.info {
     border: 1px solid blue;
     background-color: gray;
     font-family: 'Noto Sans KR';
-    height: 230px;
+    height: 10rem;
   }
 
 </style>
