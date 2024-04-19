@@ -468,5 +468,254 @@ public class HugesoInfoDao {
 			}
 			
 		}
+		
+		//휴게소정보 업데이트
+		public void updateHugesoinfo(HugesoInfoDto dto) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="update hugesoinfo set h_name=?,h_xvalue=?,h_yvalue=?,h_photo=?,h_hp=?,h_addr=?,h_pyeon=?,h_gasolin=?,h_disel=?,h_lpg=? where h_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, dto.getH_name());
+				pstmt.setString(2, dto.getH_xvalue());
+				pstmt.setString(3, dto.getH_yvalue());
+				pstmt.setString(4, dto.getH_photo());
+				pstmt.setString(5, dto.getH_hp());
+				pstmt.setString(6, dto.getH_addr());
+				pstmt.setString(7, dto.getH_pyeon());
+				pstmt.setString(8, dto.getH_gasolin());
+				pstmt.setString(9, dto.getH_disel());
+				pstmt.setString(10, dto.getH_lpg());
+				pstmt.setString(11, dto.getH_num());
+				
+				pstmt.execute();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//휴게소 삭제
+		public void deleteHugesoinfo(String h_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from hugesoinfo where h_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, h_num);
+				
+				pstmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
 	
 }
