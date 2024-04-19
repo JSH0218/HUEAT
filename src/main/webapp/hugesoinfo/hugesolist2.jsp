@@ -56,6 +56,19 @@ a:active{
 	color: black;
 }
 
+.pagination .page-item.active .page-link {
+    background-color: #618E6E;
+    border-color: #618E6E;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #618E6E;
+}
+
+.pagination .page-item.active .page-link:hover {
+    color: white;
+}
+
 #searcharea{
 	display: flex;
 	justify-content: center;
@@ -66,12 +79,21 @@ a:active{
 	margin-right: 5px;
 }
 
+#searcharea button{
+	background-color: #618E6E;
+}
+
+
 </style>
 
 
 </head>
 
 <%	
+	//로그인상태확인
+	String loginok=(String)session.getAttribute("loginok");
+	String myid=(String)session.getAttribute("myid");
+
     //UploadBoardDao 인스턴스 생성
 	HugesoInfoDao dao = new HugesoInfoDao();
     //모든 게시글 데이터 가져오기
@@ -219,7 +241,7 @@ for (int i = 0; i < list2.size(); i++) {
 	    HugesoInfoDto dto = list2.get(i);
 %>
 	   
-			<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
+			<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px; object-fit: cover;"></div>
           	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
             <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
             <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
@@ -233,6 +255,14 @@ for (int i = 0; i < list2.size(); i++) {
 <%
     }
 }
+	//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
+	if (loginok!=null && myid.equals("admin")){
+		%>
+		<div style="text-align: right; padding-right: 10%;">
+			<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
+		</div>
+		<%
+	}
 %>
 </div>
 
