@@ -15,7 +15,7 @@
 
   div.title {
     border-bottom: 1px solid #ddd; 
-    position: fixed;
+    position: sticky;
      top: 0;
     left: 0;
     width: 100%;
@@ -27,7 +27,6 @@
   
   div.banner {
     border: 0px solid yellow;
-    margin-top: 100px;
     display: none;
     font-family: 'Noto Sans KR';
   }
