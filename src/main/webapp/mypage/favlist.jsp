@@ -19,6 +19,42 @@
 		height: 30px;
 		width: 100px;
 	}
+	
+	div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -63,13 +99,20 @@
 </script>
 </head>
 <body>
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/memberbanner01.jpg'); background-size: cover; background-position: center center;">
+	
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>휴게소 즐겨찾기 목록<br><span style="font-size: 15px;">자주 방문하는 휴게소를 빠르게 찾아보세요.</span></span>
+</div>
+
 <%
 String m_id=(String)session.getAttribute("myid");
 MemInfoDao dao=new MemInfoDao();
 List<HashMap<String,String>> list=dao.getFavlist(m_id);
 %>
 <div style="margin: 0 auto; width: 65%;height:50%; padding: 20px 20px 20px 20px; margin-top: 50px;">
-	<h3><b>휴게소 즐겨찾기 목록</b></h3>
+	<%--<h3><b>휴게소 즐겨찾기 목록</b></h3> --%>
 	<br><br>
 	<button type="button" id="delbtn" style="float: left;">삭제</button>
 	<br><br>
@@ -81,7 +124,7 @@ List<HashMap<String,String>> list=dao.getFavlist(m_id);
 			<th style="background-color: #DFE8E2;">휴게소</th>
 			<th style="background-color: #DFE8E2;">주소</th>
 			<th style="background-color: #DFE8E2;">편의시설</th>
-			<th style="background-color: #DFE8E2;">임점브랜드</th>
+			<th style="background-color: #DFE8E2;">연락처</th>
 		
 		</tr>
 		<%
@@ -94,14 +137,15 @@ List<HashMap<String,String>> list=dao.getFavlist(m_id);
 		<%
 			for(int i=0;i<list.size();i++){
 				HashMap<String,String> map=list.get(i);%>
-			<tr>
+			<tr style="text-align: center;">
 				<td>
 					<input type="checkbox" name="f_num" f_num=<%=map.get("f_num") %> class="f_num">
 				</td>
-				<td><%=map.get("h_name") %></td>
+				<td><a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=map.get("h_num") %>"
+				style="text-decoration: none;"><%=map.get("h_name") %></a></td>
 				<td><%=map.get("h_addr") %></td>
 				<td><%=map.get("h_pyeon") %></td>
-				<td><%=map.get("h_brand") %></td>
+				<td><%=map.get("h_hp") %></td>
 			
 			</tr>	
 		<%}

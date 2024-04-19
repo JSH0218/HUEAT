@@ -83,13 +83,13 @@ div.img{
 
 div.img-container{
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
+    height: 250px; /* 원하는 높이로 설정 */
     overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
   	border: 0px solid black;
   	background-position: top;
-  	margin-top: -10%;
   	text-align: center;
 }
+	
 	div.img-container img {
 		top: 0;
     width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
@@ -99,38 +99,22 @@ div.img-container{
 }
 	div.span-container{
 		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
+    height: 250px; /* 원하는 높이로 설정 */
     overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
   	background-position: top;
-  	margin-top: -16%;
+		margin-top:-14%;
   	text-align: center;
   	display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
 	}
 
-
-div.span-container span{
+	div.span-container span{
 		z-index: 9999;
 		color: white;
-		font-size: 3em;
 		position: relative;
 
 }
-div.font-container{
-  	opacity: 0.4;
-  	background-color: black;
-  	width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
-  	background-position: top;
-  	margin-top: -16.1%;
-  	text-align: center;
-  	z-index: 100;
-}
-
 </style>
 <%String loginok=(String)session.getAttribute("loginok"); %>
 
@@ -142,8 +126,8 @@ $(function(){
 		var h_num=$("#h_num").val();
 		var f_num=$(this).attr("f_num");
 		var m_num=$("#m_num").val();
-		var cart_cnt=$(".cart_cnt").val();
-		//alert("음식번호:"+f_num+"회원번호:"+m_num+"수량:"+cart_cnt+"h_num="+h_num);
+		var cart_cnt=$("#cart_cnt_"+f_num).val();
+		alert("음식번호:"+f_num+"회원번호:"+m_num+"수량:"+cart_cnt+"h_num="+h_num);
 	
 		var loginok="<%=loginok%>";
 		  if(loginok == "null"){
@@ -207,17 +191,13 @@ String m_num=mdao.getM_num(m_id);
 HugesoInfoDao hdao=new HugesoInfoDao();
 HugesoInfoDto hdto=hdao.getData(h_num);
 %>
-<div class="img-container" style=" border: 0px solid red;">
-		<img alt="" src="image/mainbanner/foodbanner01.jpg">
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/foodbanner01.png'); background-size: cover; background-position: center center;">
+		<%-- <img alt="" src="image/mainbanner/memberbanner01.jpg">--%>
 </div>
-<%--아오 span과 span사이는 br사용이 안됨 gpt사기꾼. 하지만 span과span사이에 span을 하나 더만들면 br사용 가능. --%>
-<div class="span-container" style="border:0px solid black;">
+<div class="span-container" style="border:0px solid purple; font-size: 2.5em;" >
 	<span style="display: block;"> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
 	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
 	</span>
-</div>
-
-<div class="font-container" style=" border: 0px solid yellow;">
 </div>
 
 <div id="container">
@@ -238,7 +218,7 @@ HugesoInfoDto hdto=hdao.getData(h_num);
 		</div>
 		</a>
 		<div>
-		<input type="number" min="1" max="10" value="1" class="cart_cnt" name="cart_cnt" style="width: 50px;text-align: center;">
+		<input type="number" min="1" max="10" value="1" id="cart_cnt_<%=f_num %>" name="cart_cnt" style="width: 50px;text-align: center;">
 		</div>
 	</div>
 
@@ -271,7 +251,6 @@ MemInfoDto dto=mdao.getAlldatas(m_id);
 			int cnt=Integer.parseInt(map.get("cart_cnt"));
 			FoodCartDto cdto=cdao.getIdx(map.get("f_num"), m_num);
 			String foodname=clist.get(0).get("f_name");
-			
 			
 			price*=cnt;
 			total+=price;
@@ -314,7 +293,7 @@ $(function(){
 		var name='<%=dto.getM_name()%>';
 		var hp='<%=dto.getM_hp2()%>';
 		var myid='<%=dto.getM_id()%>';
-
+		
 		var total=<%=total%>;
 		//alert("이름:"+name+"hp: "+hp+"myid: "+myid+"foodname: "+foodname+"total: "+total);
 		

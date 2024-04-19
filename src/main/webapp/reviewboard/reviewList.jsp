@@ -167,8 +167,8 @@
 	%>
 
     
-    <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
-    <b style="color: gray;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
+    <div style="margin:0 auto; width: 800px; margin-top: 3%;">
+    <b style="color: gray;font-size: 1.2em;padding-left: 24px;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
     
     <%
       MemInfoDao rdao = new MemInfoDao();
@@ -246,7 +246,7 @@
     
     
     
-   <div style="width: 1000px; text-align: center;" id="pagelayout">
+   <div style="margin:0 auto; width: 800px; margin-top: 3%; margin-bottom:3%; text-align: center;" id="pagelayout">
 
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
