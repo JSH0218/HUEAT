@@ -285,5 +285,76 @@ public class EventDao {
 					db.dbClose(pstmt, conn);
 				}
 			}
+			
+			// admineventlist.jsp //페이징리스트/ 전체페이지수 반환하기
+			public int getMyPageTotalCount() {
+		      
+		    int total = 0;
+				
+				Connection conn = db.getConnection();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+		  
+		    String sql = "select count(*) from eventboard where e_myid='admin'";
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						total = rs.getInt(1);
+					}
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					db.dbClose(rs, pstmt, conn);
+				}
+				
+				return total;
+				
+			}
+			
+			// admineventlist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
+			public List<EventDto> getmypagelist(int start, int perPage) {
+				List<EventDto> mypagelist = new ArrayList<EventDto>();
+		  
+				Connection conn = db.getConnection();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+		  
+				String sql = "select * from eventboard where e_myid='admin' order by e_num desc limit ?,?";
+
+				try {
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setInt(1, start);
+					pstmt.setInt(2, perPage);
+		      
+		      rs = pstmt.executeQuery();
+
+					while (rs.next()) {
+
+						EventDto dto = new EventDto();
+				
+						dto.setE_num(rs.getString("e_num"));
+						dto.setE_myid(rs.getString("e_myid"));
+						dto.setE_subject(rs.getString("e_subject"));
+						dto.setE_content(rs.getString("e_content"));
+						dto.setE_readcount(rs.getInt("e_readcount"));
+						dto.setE_chu(rs.getInt("e_chu"));
+						dto.setE_writeday(rs.getTimestamp("e_writeday"));
+						
+						mypagelist.add(dto);
+					}
+		      } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					db.dbClose(rs, pstmt, conn);
+				}
+		    return mypagelist;
+			}
 
 }

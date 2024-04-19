@@ -1,10 +1,8 @@
-<%@page import="qa.model.QaDto"%>
-<%@page import="qa.model.QaDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
-<%@page import="review.model.ReviewDto"%>
+<%@page import="qaanswer.model.QaanswerDto"%>
+<%@page import="qaanswer.model.QaanswerDao"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="review.model.ReviewDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -45,13 +43,13 @@ ul.tabs li {
 	cursor: pointer;
 }
 
-ul.tabs li#next {
+ul.tabs li#next, ul.tabs li#event {
 	border: 1px solid #ccc;
 	margin-left: 20px;
 	    border-radius: 100px;
 	    text-align: center;
 }
-ul.tabs li#next:hover {
+ul.tabs li#next:hover, ul.tabs li#event:hover {
     background-color: #d3d3d3;
     transition: all 0.3s ease-in-out;
     border: 1px solid transparent;
@@ -62,6 +60,7 @@ ul.tabs li#next:hover {
 #first {
 	background-color: #d3d3d3;
 	border-radius: 100px;
+	text-align: center;
 }
 
 .tab-content {
@@ -92,7 +91,7 @@ a:active {
 	color: black;
 }
 
-div.reviewlist {
+div.adminqnalist {
 	width: 100%;
 	margin-top: 50px;
 	margin-left: auto;
@@ -164,9 +163,13 @@ font-size: 12px;
 </style>
 <script type="text/javascript">
 	$(function(){
-		//메뉴탭기능 클릭하면 리뷰페이지로 이동
+		//메뉴탭기능 클릭하면 공지사항페이지로 이동
 		$("#next").click(function(){
-            location.href="index.jsp?main=mypage/myreviewlist.jsp";
+            location.href="index.jsp?main=mypage/adminnoticelist.jsp";
+        });
+		//메뉴탭기능 클릭하면 이벤트페이지로 이동
+		$("#event").click(function(){
+            location.href="index.jsp?main=mypage/admineventlist.jsp";
         });
 		
 		
@@ -188,24 +191,27 @@ font-size: 12px;
 			  //alert(len);
 			  
 			  if(len==0){
-				  alert("최소 1개이상의 글을 선택해 주세요");
+				  alert("최소 1개이상의 답변을 선택해 주세요");
 			  }else{
 				  
-				  var a=confirm(len+"개의 글을 삭제하려면 [확인]을 눌러주세요");
+				  var a=confirm(len+"개의 답변을 삭제하려면 [확인]을 눌러주세요");
 				  
 				  if(a){
 				  //체크된 곳의 value값(num)얻기
-				  var n="";
-				  $(".alldel:checked").each(function(idx){
-					  n+=$(this).val()+",";
-				  });
+				    var n = "";
+					$(".alldel:checked").each(function(idx) {
+					    var values = $(this).val().split("_");
+					    var qNum = values[0]; // Q_num 값
+					    var qaNum = values[1]; // qa_num 값
+					    n += qNum + "," + qaNum + ",";
+					});
+					// 마지막 콤마 제거
+					n = n.substring(0, n.length - 1);
+					//console.log(n);
 				  
-				  //마지막 컴마 제거
-				  n=n.substring(0,n.length-1);
-				  //console.log(n);
 				  
 				  //삭제파일로 전송
-				  location.href="mypage/deleteqna.jsp?nums="+n;
+				  location.href="mypage/deleteadminqna.jsp?nums="+n; 
 				  }
 			  }
 		  })
@@ -220,10 +226,10 @@ font-size: 12px;
 	String loginok=(String)session.getAttribute("loginok");
 	String myid=(String)session.getAttribute("myid");
 
-	QaDao dao=new QaDao();
+	QaanswerDao dao=new QaanswerDao();
 	
 	//전체갯수
-	int totalCount=dao.getMyPageTotalCount(myid);
+	int totalCount=dao.getMyPageTotalCount();
 	int perPage=5; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -263,13 +269,13 @@ font-size: 12px;
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<QaDto> list = dao.getmypagelist(startNum, perPage, myid);
+	List<QaanswerDto> list = dao.getmypagelist(startNum, perPage);
 		
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
 	//마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
 		if(list.size()==0 && currentPage !=1) {%>
 			<script type="text/javascript">
-			  location.href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=currentPage-1%>";
+			  location.href="index.jsp?main=mypage/adminqnalist.jsp?currentPage=<%=currentPage-1%>";
 			</script>
 		<%}
 	
@@ -283,30 +289,30 @@ font-size: 12px;
 <div style="margin-top: 100px; text-align: center;" class="subject"><h4><b>나의활동</b></h4>
 <hr class="line">
 </div>
-<div class="reviewlist">
+<div class="adminqnalist">
 	<ul class="tabs">
 			<li id="first"><span style="font-size: 14px;">Q&A</span></li>
-			<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
+			<li id="next"><span style="font-size: 14px;">NOTICE</span></li>
+			<li id="event"><span style="font-size: 14px;">EVENT</span></li>
 	</ul>
 	<div id="tab2" class="tab2" style="margin-top: 40px;">
 		<table class="table">
 			<tr class="line1" style="height: 30px;">
 				<th width="50" style="background-color: #DFE8E2;">번호</th>
-				<th width="110" style="background-color: #DFE8E2;">카테고리</th>
-				<th width="500" style="background-color: #DFE8E2;">제목</th>
+				<th width="300" style="background-color: #DFE8E2;">고객문의글</th>
+				<th width="500" style="background-color: #DFE8E2;">답변한 내용</th>
 				<th width="120" style="background-color: #DFE8E2;">닉네임</th>
 				<th width="100" style="background-color: #DFE8E2;">작성일</th>
 			</tr>
 		<%
 	      MemInfoDao mdao=new MemInfoDao();
 		  String name=mdao.getId(myid);
-		  
 		 
 	        
           //게시물이 없는 경우
           if(totalCount == 0) {%>
             <tr>
-              <td colspan="5">
+              <td colspan="4">
                 <h6><b>등록된 게시글이 없습니다</b></h6>
               </td>
             </tr>
@@ -316,23 +322,23 @@ font-size: 12px;
           //내용 넣으면 각 주제별로 게시물 추출
           else {
 		  
-	      for(QaDto dto: list) {
+	      for(QaanswerDto dto: list) {
 		%>
 		<tr>
-			<td><input type="checkbox" class="alldel" value="<%=dto.getQ_num() %>">
+			<td><input type="checkbox" class="alldel" value="<%=dto.getQ_num() %>_<%=dto.getQa_num() %>">
 			<%=no-- %>
 			</td>
 			<td>
-		        <%=dto.getQ_category()%>
-		    </td>
+				<%=dao.getTitle(dto.getQ_num())%>
+			</td>
 		    <td>
-		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
+		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQa_content()%></a>
 		    </td>
 		    <td>
 				<%=name %>
 			</td>
 		    <td class="day">
-		        <%=sdf.format(dto.getQ_writeday())%>
+		        <%=sdf.format(dto.getQa_writeday())%>
 		    </td>		
 		</tr>
     	<%}
@@ -360,7 +366,7 @@ font-size: 12px;
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=mypage/adminqnalist.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -368,12 +374,12 @@ font-size: 12px;
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/adminqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=mypage/adminqnalist.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -382,7 +388,7 @@ font-size: 12px;
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=mypage/myqnalist.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=mypage/adminqnalist.jsp?currentPage=<%=endPage+1%>"
     		style="color: black;">다음</a>
     	</li>
     <%}

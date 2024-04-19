@@ -37,7 +37,7 @@
     
     FoodDao fdao=new FoodDao();
     int ftotal=fdao.getRegisteredTotal(h_num);
-    List<FoodDto> flist=fdao.selectRegisteredFood(h_num);
+    List<FoodDto> flist=fdao.getMenu(h_num);
 %>
 	<style type="text/css">
 		#area{

@@ -20,14 +20,14 @@
 	}
 
 #container {
-	display: flex;
+
 	margin-bottom: 100px;
 }
 
 
 #updatemember {
 	width: 1000px;
-	margin-top: 100px;
+	margin-top: 165px;
 	margin-left: auto;
     margin-right: auto;
 
