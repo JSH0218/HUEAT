@@ -14,8 +14,10 @@
 <style type="text/css">
 #primary_nav_wrap
 {
-	margin-top: -3.5%;
-	margin-left: 18%;
+    position: -webkit-sticky; /* iOS Safari 지원 */
+    position: sticky; /* 고정 위치 */
+	margin-top:-3%;
+	margin-left: 20%;
 }
 
 #primary_nav_wrap ul
@@ -63,7 +65,9 @@
 #primary_nav_wrap ul ul li
 {
 	float:none;
-	width:140px
+	width:140px;
+	font-size: 12px;
+	
 }
 
 #primary_nav_wrap ul ul a
@@ -75,7 +79,7 @@
 
 #primary_nav_wrap ul li:hover > a
 {
-	color: green;
+	color: #5DA571;
 }
  
 
@@ -86,10 +90,10 @@
  
  div.topbax {
     width: 100%;
-    background-color: #618E6E; /* 배경색 지정 */
-    padding: 3px; /* 내부 여백 설정 */
+    background-color: #618E6E; 
+    padding: 3px; 
     box-sizing: border-box; /* 내부 여백과 테두리를 요소의 전체 너비와 높이에 포함시킴 */
-    /* 그 외에 필요한 스타일 추가 */
+  
 }
 
 
@@ -109,7 +113,7 @@
     <!-- 1. title 상부 만들기 -->
        <!-- 이미지 로고 -->
        <a href="<%=root%>" style="color: black; text-decoration: none;">
-       <img src="<%=root%>/image/mainbanner/logo1.png" style="width: 7%; margin-top: 1%; margin-left: 10%;">
+       <img src="<%=root%>/image/mainbanner/logo1.png" style="width: 7%; margin-top:1%; margin-left: 10%;">
       </a>
      
      

@@ -83,11 +83,11 @@
     
     
     <div id="snsimg">
-      <a href="#" style="margin-left: 22%;"><img alt="" src="<%=root%>/image/mainbanner/sns2.png" style="width: 20px;"></a>
-      <a href="#"><img alt="" src="<%=root%>/image/mainbanner/sns4.png" style="width: 20px;"></a>
-      <a href="#"><img alt="" src="<%=root%>/image/mainbanner/sns6.png" style="width: 20px;"></a>
-      <a href="#"><img alt="" src="<%=root%>/image/mainbanner/sns3.png" style="width: 20px;"></a>
-      <a href="#"><img alt="" src="<%=root%>/image/mainbanner/sns5.png" style="width: 20px;"></a>
+      <a href="#" style="margin-left: 22%;"><img alt="" src="<%=root%>/image/info/sns2.png" style="width: 20px;"></a>
+      <a href="#"><img alt="" src="<%=root%>/image/info/sns4.png" style="width: 20px;"></a>
+      <a href="#"><img alt="" src="<%=root%>/image/info/sns6.png" style="width: 20px;"></a>
+      <a href="#"><img alt="" src="<%=root%>/image/info/sns3.png" style="width: 20px;"></a>
+      <a href="#"><img alt="" src="<%=root%>/image/info/sns5.png" style="width: 20px;"></a>
       
     </div>
     

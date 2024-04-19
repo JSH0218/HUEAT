@@ -133,10 +133,12 @@
         
           //내용 넣으면 각 주제별로 게시물 추출
           else {
-        	  
+        	  MemInfoDao qdao = new MemInfoDao();
         	  
         	  for(NoticeDto dto:list) {
         	  
+        		  //아이디 얻기
+          	       String name = qdao.getId(dto.getN_myid());
         	  %>
         		
         		  <tr>
@@ -150,7 +152,7 @@
         		    width: 250px; display: block;"><%=dto.getN_subject() %></a></span>
         		    
         		    </td>
-        		    <td align="center"><%=dto.getN_myid() %></td>
+        		    <td align="center"><%=name %></td>
         		    <td align="center"><%=dto.getN_readcount() %></td>
         		    <td align="center"><%=dto.getN_chu()%></td>
         		    <td align="center"><%=sdf.format(dto.getN_writeday())%></td>

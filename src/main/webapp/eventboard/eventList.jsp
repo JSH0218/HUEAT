@@ -151,7 +151,7 @@
         		    width: 250px; display: block;"><%=dto.getE_subject() %></a></span>
         		    
         		    </td>
-        		    <td align="center"><%=dto.getE_content() %></td>
+        		    <td align="center"><%=name %></td>
         		    <td align="center"><%=dto.getE_readcount() %></td>
         		    <td align="center"><%=dto.getE_chu()%></td>
         		    <td align="center"><%=sdf.format(dto.getE_writeday())%></td>
