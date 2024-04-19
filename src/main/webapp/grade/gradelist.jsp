@@ -10,7 +10,7 @@
 <%
 	String h_num=request.getParameter("h_num");
 	GradeDao dao=new GradeDao();
-	List<GradeDto> list=dao.getGradeList(h_num);
+	List<GradeDto> list=dao.getGradeLatest(h_num);
 	
 	JSONArray arr=new JSONArray();
 	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");

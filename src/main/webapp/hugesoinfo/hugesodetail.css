@@ -1,0 +1,461 @@
+@charset "UTF-8";
+
+/* 휴게소 이름 css */
+h2.h_name{
+	font-size: 50px;
+    text-align: center;
+    padding-top: 80px;
+	font-weight: bold;
+}
+
+
+div.h_body{
+	position: relative;
+    width: 100%;
+    margin-top: 100px;
+}
+
+div.toparea{
+	position: relative;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding-top: 30px;
+
+}
+
+div.location{
+	float: left;
+    padding-top: 10px;
+
+}
+
+div.hugesodetail{
+	position: relative;
+    padding: 0 0 130px;
+    width: 100%;
+
+}
+
+.hugesodetail .home{
+	float: left;
+    display: block;
+    width: 36px;
+    height: 30px;
+    border-right: 1px solid #e1e1e1;
+    background:  no-repeat 0 50%;
+}
+
+.toparea .location > div {
+    float: left;
+    position: relative;
+    margin-left: 20px;
+}
+
+
+a.h_loc {
+	color:black;
+	text-decoration: none;
+}
+.toparea .location > div > a.h_loc{
+	display: block;
+    padding-right: 42px;
+    height: 30px;
+    font-size: 16px;
+    color: #555;
+    line-height: 28px;
+    background:  no-repeat right 0 top 50%;
+}
+
+.toparea .sharearea{
+	float: right;
+}
+
+.toparea .sharearea .share{
+	float: left;
+    position: relative;
+}
+
+.toparea .sharearea .favicon{
+	float: left;
+    margin-left: 10px;
+}
+.toparea .sharearea > i{
+	display: block;
+    width: 50px;
+    height: 50px;
+}
+
+.h_text{
+	font-size: 18px;
+    color: lightgray;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 28px;
+}
+
+.avggrade{
+	text-align: center;
+    margin-top: 35px;
+}
+
+
+/*  */
+
+div.huinfo{
+    display: flex;
+    justify-content: space-between;
+    padding: 44px 0;
+    margin: 94px auto 150px auto;
+    border-top: 2px solid #e1e1e1;
+    border-bottom: 2px solid #e1e1e1;
+    align-items: center;
+}
+
+div.huinfo{
+	width: 1170px;
+    margin: 80px auto 0;
+}
+
+
+/* 휴게소 이미지 */
+.imgarea {
+    width: 100%;
+    text-align: center;
+    margin-top: 80px;
+    margin-left:20px;
+}
+
+.huinfo .imgarea {
+    width: 574px;
+    height: auto;
+    float: left;
+    margin-top: 0;
+}
+
+
+.huinfo .imgarea {
+    margin: 0;
+}
+
+
+.huinfo .infoarea {
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: calc(100% - 615px);
+    margin-left: 40px;
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+
+/* 휴게소 정보 */
+.huinfo .infoarea{
+    width: 380px;
+    min-height: 512px;
+    height: auto;
+    float: right;
+    padding-top: 50px;
+    box-sizing: border-box;
+}
+
+ .infoarea{
+    padding: 20px 25px 20px 0;
+}
+
+.huinfo .infoarea li {
+    margin-bottom: 20px;
+}
+
+
+.huinfo .infoarea li.op1 {
+    background: url(../image/icon/주소.png) no-repeat 0 center;
+}
+
+
+.huinfo .infoarea li.op2 {
+    background: url(../image/icon/영업시간.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op3 {
+    background: url(../image/icon/전화번호.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op4 {
+    background: url(../image/icon/편의시설.png) no-repeat 0 center;
+}
+
+.huinfo .infoarea li.op1,
+.huinfo .infoarea li.op2,
+.huinfo .infoarea li.op3,
+.huinfo .infoarea li.op4 {
+    display: table;
+    min-height: 80px;
+    padding-left: 95px;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+li.op1, li.op2, li.op3, li.op4 {
+    list-style: none;
+}
+
+.huinfo .infoarea li .addr {
+    font-size: 22px;
+    color: #555555;
+}
+
+.huinfo .infoarea li.addr {
+    background:  no-repeat 0 center;
+}
+
+
+.huinfo .infoarea li .tablecell {
+    display: table-cell;
+    vertical-align: middle;
+    min-height: 80px;
+}
+
+
+.huinfo .infoarea li .txt1 {
+    line-height: 30px;
+    font-size: 18px;
+    color: #555555;
+    font-weight:bold;
+}
+
+
+.huinfo .infoarea li .txt2 {
+    margin-top: 8px;
+    color: #555555;
+    line-height: 20px;
+}
+
+
+.pyeonicon{
+	height:40px;
+	width:40px;
+
+}
+
+
+div.contain{
+    width: 1170px;
+    margin: 80px auto 0;
+	border-bottom: 2px solid #e1e1e1; 
+}
+
+div.contain2{
+    width: 1170px;
+    margin: 80px auto 0;
+}
+
+div.food{
+	margin-bottom:100px;
+}
+
+.tab-content>.active {
+    display: block;
+    margin-left: 100px;
+}
+
+p.subtitle{
+	font-size: 28px;
+    color: #000;
+    text-align: center;
+    margin-top: 100px;
+    font-weight: bold;
+}
+
+table.gtable, table.gtable th, table.gtable td{
+    text-align: center; /* 가운데 정렬 */
+    vertical-align: middle; /* 수직 정렬 */
+    border : 2px solid lightgray;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+table.gtable td{
+width:300px;
+height: 50px;
+} 
+
+button.brand{
+ background-color: white;
+ color: #618E6E;
+ font-weight: bold;
+ 
+   /* background-color: #618E6E;  */
+	
+}
+
+
+.favorite{
+	display: inline-block; 
+	float:right;
+	vertical-align: top;
+	background-color:white;
+	border:white;
+}
+
+.nav-pills .nav-link.active{
+	background-color:#618E6E;
+}
+
+
+/* 평점 css  */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
+}
+ 
+.star-rating input {
+  display: none;
+}
+ 
+.star-rating label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
+  cursor: pointer;
+}
+ 
+.star-rating :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+ 
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
+
+/* 휴게소 평균 평점 */
+.star-ratings {
+  color: #aaa9a9; 
+  position: relative;
+  unicode-bidi: bidi-override;
+   width: max-content; 
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  /* -webkit-text-stroke-width: 1.3px; */
+ /* -webkit-text-stroke-color: #2b2a29; */ /* 별 테두리 */
+ margin-left: 45%;
+}
+ 
+.star-ratings-fill {
+  color: #fff58c;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex; 
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  -webkit-text-fill-color: gold;
+  font-size: 2.5rem;
+}
+ 
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
+  font-size: 2.5rem;
+  -webkit-text-fill-color: lightgray;
+}
+
+.red{
+	color: #FFE400;
+}
+
+
+div.alist{margin-left: 20px;}
+
+span.aday{
+	font-size:0.8em;
+	color:#bbb;
+}
+
+
+/* g_content css */
+.form_radio_btn {
+			height : 45px;
+    		border: 1px solid #EAE7E7;
+    		border-radius: 10px;
+		}
+		.form_radio_btn input[type=radio] {
+			display: none;
+		}
+		.form_radio_btn label {
+			display: block;
+    		border-radius: 10px;
+   			margin: 0 auto;
+    		text-align: center;
+    		height: -webkit-fill-available;
+    		line-height: 45px;
+		}
+		 
+		/* Checked */
+		.form_radio_btn input[type=radio]:checked + label {
+			background: #184DA0;
+			color: #fff;
+		}
+		 
+		/* Hover */
+		.form_radio_btn label:hover {
+			color: #666;
+		}
+		 
+		/* Disabled */
+		.form_radio_btn input[type=radio] + label {
+			background: #F9FAFC;
+			color: #666;
+		}
+
+@media (min-width: 1400px) {
+  .food .container,
+  .food .container-lg,
+  .food .container-md,
+  .food .container-sm,
+  .food .container-xl,
+  .food .container-xxl {
+    max-width: 1700px;
+  }
+}
+
+div.alist {
+    margin-bottom: 100px;
+}
+
+.btnArea {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.btnArea.hulist {
+    margin-top: 20px;
+}
+
+.prebtn{
+    display: inline-block;
+    padding: 0 70px;
+    height: 56px;
+    line-height: 54px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    border-radius: 28px;
+    background: #618E6E;
+    background: -ms-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -o-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -moz-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: -webkit-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+    background: linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
+
+}
+
+

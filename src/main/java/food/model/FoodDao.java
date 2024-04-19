@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import brand.model.BrandDto;
 import mysql.db.DbConnect;
 
 public class FoodDao {
@@ -286,7 +287,6 @@ public class FoodDao {
 				FoodDto dto=new FoodDto();
 				
 				dto.setF_num(rs.getString("f_num"));
-				dto.setH_num(rs.getString("h_num"));
 				dto.setF_name(rs.getString("f_name"));
 				dto.setF_photo(rs.getString("f_photo"));
 				dto.setF_price(rs.getString("f_price"));

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import hugesoinfo.model.HugesoInfoDto;
 import mysql.db.DbConnect;
 
 public class GradeDao {
@@ -40,8 +41,8 @@ public class GradeDao {
 		
 	}
 	
-	//평점 전체 목록
-	public List<GradeDto> getGradeList(String g_hunum){
+	//평점 전체 목록(최신순)
+	public List<GradeDto> getGradeLatest(String g_hunum){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -129,5 +130,139 @@ public class GradeDao {
 
 	    return  G_myids;
 	}
+	
+	//해당 휴게소 평점 내용 중에 가장 많이 선택된 내용 출력
+	public GradeDto bestContent(String h_num) {
+	    GradeDto dto = new GradeDto();
+	    
+	    Connection conn = db.getConnection();
+	    PreparedStatement pstmt=null;
+	    ResultSet rs = null;
+	    
+	    String sql ="select g_content from grade where h_num = ? group by g_content order by count(*) desc limit 1";
+	    
+	    try {
+	        pstmt=conn.prepareStatement(sql);
+	        pstmt.setString(1, h_num);
+	        rs=pstmt.executeQuery();
+	        
+	        if(rs.next()) {
+	            dto.setH_num(h_num);
+	            dto.setG_content(rs.getString("g_content")); 
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }finally {
+	        db.dbClose(rs, pstmt, conn);
+	    }    
+	    return dto;
+	}
+	
+	//평점 전체 목록(평점높은순)
+	public List<GradeDto> getGradeHigh(String g_hunum){
+		List<GradeDto> list = new ArrayList<GradeDto>();
+		
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select * from grade where h_num =? order by g_grade desc";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, g_hunum);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				GradeDto dto = new GradeDto();
+				
+				dto.setG_num(rs.getString("g_num"));
+				dto.setH_num(rs.getString("h_num"));
+				dto.setG_myid(rs.getString("g_myid"));
+				dto.setG_content(rs.getString("g_content"));
+				dto.setG_grade(rs.getString("g_grade"));
+				dto.setG_writeday(rs.getTimestamp("g_writeday"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		
+		return list;
+	}
+	
+	//평점 전체 목록(평점낮은순)
+		public List<GradeDto> getGradeLow(String g_hunum){
+			List<GradeDto> list = new ArrayList<GradeDto>();
+			
+			Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			String sql = "select * from grade where h_num =? order by g_grade asc";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, g_hunum);
+				rs=pstmt.executeQuery();
+				
+				while(rs.next()) {
+					GradeDto dto = new GradeDto();
+					
+					dto.setG_num(rs.getString("g_num"));
+					dto.setH_num(rs.getString("h_num"));
+					dto.setG_myid(rs.getString("g_myid"));
+					dto.setG_content(rs.getString("g_content"));
+					dto.setG_grade(rs.getString("g_grade"));
+					dto.setG_writeday(rs.getTimestamp("g_writeday"));
+					
+					list.add(dto);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				db.dbClose(rs, pstmt, conn);
+			}
+			
+			return list;
+		}
+		
+		// 각 휴게소에서 평점 매긴 사용자의 평점을 가져오기
+		public String get_Grade(String h_num) {
+			String get_Grade = null;
+		    Connection conn = db.getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			String sql = "SELECT h_num,\r\n"
+					+ "    SUM(g_grade = 1) AS count_1,\r\n"
+					+ "    SUM(g_grade = 2) AS count_2,\r\n"
+					+ "    SUM(g_grade = 3) AS count_3,\r\n"
+					+ "    SUM(g_grade = 4) AS count_4,\r\n"
+					+ "    SUM(g_grade = 5) AS count_5\r\n"
+					+ "FROM\r\n"
+					+ "    grade\r\n"
+					+ "GROUP BY\r\n"
+					+ "    h_num;";
+			 
+			try {
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, h_num);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            double averageGrade = rs.getDouble("get_Grade");
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        db.dbClose(rs, pstmt, conn);
+		    }
+
+		    return get_Grade;
+		}
 
 }
