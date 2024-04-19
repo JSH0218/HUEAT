@@ -132,7 +132,11 @@
 
 	</style>
 	<script>
+		var markers = [];
+		var infowindows = [];
+	
 		$(function(){
+			
 			var map=createMap();
 			
 			showCurrentPosition(map);
@@ -146,7 +150,7 @@
 		        // keyCode 13은 Enter 키를 나타냅니다.
 		        if (event.keyCode == 13) {
 		            // 검색 액션 실행
-		            serachHugesoInfo($('#searchH_name').val());
+		            serachHugesoInfo(map, $('#searchH_name').val());
 		        }
 		    });
 		});
@@ -244,6 +248,9 @@
 				        kakao.maps.event.addListener(marker, 'click', function() {
 				        	location.href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num;
 				        });
+				     	
+				        markers.push(marker);
+				        infowindows.push(infowindow);
 	        		});	        		
 	        	}
 	        });
@@ -264,7 +271,10 @@
 		}
 		
 		//검색기능
-		function serachHugesoInfo(h_name){
+		function serachHugesoInfo(map, h_name){
+			
+			deleteMarkers();
+			
 			$.ajax({
 				type:"get",
 				url:"hugesoinfo/searchaction.jsp",
@@ -279,6 +289,38 @@
 		        		s+="<tbody>";
 		        		
 		        		$.each(res,function(i,elt){
+		        			var locPosition = new kakao.maps.LatLng(elt.h_yvalue, elt.h_xvalue),
+			            	message = '<div class="infowindow"><div><img src=hugesosave/'+elt.h_photo+'></div><div>'+elt.h_name+'</div></div>'; // 인포윈도우에 표시될 내용입니다
+			            
+				            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다    
+				                imageSize = new kakao.maps.Size(24, 35); // 마커이미지의 크기입니다
+				                
+				            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+				            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
+				            
+		        			// 마커를 생성합니다
+					        var marker = new kakao.maps.Marker({  
+					            map: map, 
+					            position: locPosition,
+					            image: markerImage // 마커이미지 설정 
+					        });
+	
+					        // 인포윈도우를 생성합니다
+					        var infowindow = new kakao.maps.InfoWindow({
+					            content : message
+					        });
+					        
+					     	// 인포윈도우를 마커위에 표시합니다 
+					        infowindow.open(map, marker);
+					        
+					     	// 마커에 클릭이벤트를 등록합니다
+					        kakao.maps.event.addListener(marker, 'click', function() {
+					        	location.href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num;
+					        });
+					     	
+					        markers.push(marker);
+					        infowindows.push(infowindow);
+		        			
 		        			s+="<tr><td><a href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num="+elt.h_num+"'>"+elt.h_name+"</a></td><td>"+elt.h_addr+"</td><td>"+elt.h_hp+"</td></tr>";
 		        		});
 		        		
@@ -392,6 +434,21 @@
 	        		$("#pagenumarea").html(s);
 				}
 			});
+		}
+		
+		// 이전에 생성된 마커들을 삭제하는 함수
+	    function deleteMarkers() {
+		    for (var i = 0; i < markers.length; i++) {
+		        // 마커를 지도에서 제거합니다
+		        markers[i].setMap(null);
+		        // 해당 마커의 인포윈도우를 닫습니다
+		        if (infowindows[i]) {
+		            infowindows[i].close();
+		        }
+		    }
+		    // 배열을 비웁니다
+		    markers = [];
+		    infowindows = [];
 		}
 	</script>
 </head>
