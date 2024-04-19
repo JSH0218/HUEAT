@@ -13,6 +13,7 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
@@ -62,6 +63,7 @@ ul.tabs li#next:hover {
 #first {
 	background-color: #d3d3d3;
 	border-radius: 100px;
+	text-align: center;
 }
 
 .tab-content {
@@ -292,7 +294,7 @@ font-size: 12px;
 		<table class="table">
 			<tr class="line1" style="height: 30px;">
 				<th width="50" style="background-color: #DFE8E2;">번호</th>
-				<th width="110" style="background-color: #DFE8E2;">카테고리</th>
+				<th width="160" style="background-color: #DFE8E2;">카테고리</th>
 				<th width="500" style="background-color: #DFE8E2;">제목</th>
 				<th width="120" style="background-color: #DFE8E2;">닉네임</th>
 				<th width="100" style="background-color: #DFE8E2;">작성일</th>
@@ -342,6 +344,7 @@ font-size: 12px;
         	     <label style="float: left"><input type="checkbox" class="alldelcheck"> 전체선택</label>
         	     <span style="float: right;">
         	        <button type="button" class="btn btn-danger btn-sm" id="btndel">삭제</button>
+        	        <button class="custom-btn btn-10">삭제</button>
         	     </span>
         	  </td>
         	</tr>
