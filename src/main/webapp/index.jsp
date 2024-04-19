@@ -14,12 +14,8 @@
 
 
   div.title {
-<<<<<<< HEAD
     border-bottom: 2px solid gray; 
-=======
-    border-bottom: 0px solid gray; 
     padding-bottom:2%;
->>>>>>> 5bda6d5efcaef014c4d9b294a9d2a205a3cee9f3
     position: fixed;
      top: 0;
     left: 0;
@@ -27,6 +23,7 @@
     z-index: 1000;
     background-color: white;
     font-family: 'Noto Sans KR';
+    height: 15%;
 
   }
   

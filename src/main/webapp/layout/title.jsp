@@ -167,7 +167,5 @@ String myid = (String) session.getAttribute("myid");
 
 
    </div>
-
-
 </body>
 </html>

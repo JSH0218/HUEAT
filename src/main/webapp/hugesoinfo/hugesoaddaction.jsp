@@ -30,7 +30,10 @@
 		hdto.setH_name(h_name);
 		String h_photo = multi.getFilesystemName("h_photo");
 		hdto.setH_photo(h_photo);
-		String h_hp = multi.getParameter("h_hp");
+		String h_hp1 = multi.getParameter("h_hp1");
+		String h_hp2 = multi.getParameter("h_hp2");
+		String h_hp3 = multi.getParameter("h_hp3");
+		String h_hp = h_hp1+"-"+h_hp2+"-"+h_hp3;
 		hdto.setH_hp(h_hp);
 		String h_addr = multi.getParameter("h_addr");
 		hdto.setH_addr(h_addr);
@@ -42,6 +45,9 @@
 		String h_pyeon2=Arrays.toString(h_pyeon);
 		String h_pyeon3=h_pyeon2.substring(1, h_pyeon2.length()-1);
 		String h_pyeon4=h_pyeon3.replaceAll("\\s+", "");
+		if(h_pyeon4.equals("ul")){
+			h_pyeon4="없음";
+		}
 		hdto.setH_pyeon(h_pyeon4);
 		String h_gasolin = multi.getParameter("h_gasolin");
 		hdto.setH_gasolin(h_gasolin.equals("")?"없음":h_gasolin);
