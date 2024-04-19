@@ -13,43 +13,53 @@
   /* 사이트도우미 */
   .main_1 {
     border: 0px solid yellow;
-    max-width: 1200px;
-    margin: 2% auto;
-    padding: 20px;
-    margin-top: 2%;
+    max-width: 700px;
+    background-color: #F0F0F0;
+    padding: 1%;
   }
+  
+  .font_section {
+    display: flex;
+    align-items: center; /* 제목과 부제목을 수직 가운데 정렬 */
+    margin-left: 5%; /* 제목과 부제목의 좌측 여백 조절 */
+}
+  
   
   .font_title {
     font-size: 24px;
     font-weight: bold;
-    margin-left: 3%;
+    margin-top: 1%;
   }
   
   .font_subtitle {
     font-size: 12px;
     color: #666;
-    margin-left: 3%;
+    margin-top: 3%;
+    margin-left: 3%; /* 추가된 부분 */
+    margin-right: 3%; /* 추가된 부분 */
   }
   
   /* 픽토그램 섹션 스타일 */
   .icon_section {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     margin-top: 2%;
     margin-left: 38px;
    }
    
    .icon {
     text-align: center;
-     padding-right: 10px;
+     padding-right: 65px;
      cursor: pointer;
+      width: 20%;
    }
    
-   .icon img {
+  /* .icon img {
     width: 70px; 
     height: 70px;
     margin-bottom: 10px;
-    }
+    }*/
     
     .icon-font {
     font-size: 12px;
@@ -66,10 +76,10 @@
 <body>
 
   <!-- 정보제공 레이아웃 -->
-  <div class="main_1 container">
+  <div class="main_1 container" style="width: 840px; margin-left: 0%;">
     <section class="font_section">
-      <div class="font_title">정보 도우미</div>
-      <div class="font_subtitle">정보를 제공해드립니다</div>
+      <div class="font_title">자주가는 메뉴</div>
+      <div class="font_subtitle">회원여러분의 편리성을 제공합니다</div>
     </section>
     
     
@@ -99,7 +109,9 @@
         <img alt="" src="<%=root%>/image/main/pic-05.png">
         <div class="icon-font">전문시방서</div>
       </div>
-      
+    </section>
+    
+    <section class="icon_section">
       <div class="icon" onclick="#">
         <img alt="" src="<%=root%>/image/main/pic-05.png">
         <div class="icon-font">휴게소찾기</div>
@@ -114,8 +126,8 @@
         <img alt="" src="<%=root%>/image/main/pic-05.png">
         <div class="icon-font">회원문의</div>
       </div>
-
     </section>
+    
   </div>
 </body>
 </html>

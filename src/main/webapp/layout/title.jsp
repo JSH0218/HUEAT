@@ -78,7 +78,6 @@
    display: flex;
    align-items: center;
    padding: 0 8%;
-   border-bottom: 1px solid #ddd;
    margin-left: 6%;
 }
 </style>

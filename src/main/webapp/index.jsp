@@ -14,8 +14,7 @@
 
 
   div.title {
-    border-bottom: 2px solid gray; 
-    padding-bottom:2%;
+    border-bottom: 1px solid #ddd; 
     position: fixed;
      top: 0;
     left: 0;
@@ -23,7 +22,6 @@
     z-index: 1000;
     background-color: white;
     font-family: 'Noto Sans KR';
-    height: 15%;
 
   }
   
