@@ -4,20 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="icon" type="image/png" href="image/mainbanner/logo1.png" sizes="32x32">
 <title>HUEAT</title>
 <style type="text/css">
-  
-  body {
-    font-family: 'Nanum Gothic';
-  }
+
 
   div.title {
-    border-bottom: 0px solid gray; 
+    border-bottom: 2px solid gray; 
     padding-bottom:2%;
     position: fixed;
      top: 0;
@@ -25,6 +22,7 @@
     width: 100%;
     z-index: 1000;
     background-color: white;
+    font-family: 'Noto Sans KR';
     height: 15%;
 
   }
@@ -33,17 +31,19 @@
     border: 0px solid yellow;
     margin-top: 100px;
     display: none;
+    font-family: 'Noto Sans KR';
   }
   
   div.main {
-    border: 0px solid red;
-    min-height: calc(100vh - 10rem);
+    border: 3px solid red;
+    font-family: 'Noto Sans KR';
   }
   
   div.info {
-    border: 0px solid blue;
-    background-color: #F2F2F2;
-    height: 10rem;
+    border: 1px solid blue;
+    background-color: gray;
+    font-family: 'Noto Sans KR';
+    height: 230px;
   }
 
 </style>
@@ -54,15 +54,15 @@
    
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
    if(request.getParameter("main") != null) {
-	   main = request.getParameter("main");
+      main = request.getParameter("main");
    }else{
-	   %>
-	   <script type="text/javascript">
-	   	$(function(){
-	   		$("div.banner").show();
-	   	});
-	   </script>
-	   <%
+      %>
+      <script type="text/javascript">
+         $(function(){
+            $("div.banner").show();
+         });
+      </script>
+      <%
    }
 %>
 <body>

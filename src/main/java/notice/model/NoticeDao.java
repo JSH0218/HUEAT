@@ -63,6 +63,7 @@ public class NoticeDao {
 				dto.setN_subject(rs.getString("n_subject"));
 				dto.setN_content(rs.getString("n_content"));
 				dto.setN_readcount(rs.getInt("n_readcount"));
+				dto.setN_image(rs.getString("n_image"));;
 				dto.setN_chu(rs.getInt("n_chu"));
 				dto.setN_writeday(rs.getTimestamp("n_writeday"));
 				
