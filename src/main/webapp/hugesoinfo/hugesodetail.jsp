@@ -17,482 +17,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <link href="https: //fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="hugesoinfo/hugesodetail.css">
+ <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5a77ce427996f7b3cb3de14e9a4e0444"></script>
 <title>HUEAT</title>
-<style type="text/css">
 
-/* 휴게소 이름 css */
-h2.h_name{
-	font-size: 50px;
-    text-align: center;
-    padding-top: 80px;
-	font-weight: bold;
-}
-
-
-div.h_body{
-	position: relative;
-    width: 100%;
-    margin-top: 100px;
-}
-
-div.toparea{
-	position: relative;
-    max-width: 1170px;
-    margin: 0 auto;
-    padding-top: 30px;
-
-}
-
-div.location{
-	float: left;
-    padding-top: 10px;
-
-}
-
-div.hugesodetail{
-	position: relative;
-    padding: 0 0 130px;
-    width: 100%;
-
-}
-
-.hugesodetail .home{
-	float: left;
-    display: block;
-    width: 36px;
-    height: 30px;
-    border-right: 1px solid #e1e1e1;
-    background:  no-repeat 0 50%;
-}
-
-.toparea .location > div {
-    float: left;
-    position: relative;
-    margin-left: 20px;
-}
-
-
-a.h_loc {
-	color:black;
-	text-decoration: none;
-}
-.toparea .location > div > a.h_loc{
-	display: block;
-    padding-right: 42px;
-    height: 30px;
-    font-size: 16px;
-    color: #555;
-    line-height: 28px;
-    background:  no-repeat right 0 top 50%;
-}
-
-.toparea .sharearea{
-	float: right;
-}
-
-.toparea .sharearea .share{
-	float: left;
-    position: relative;
-}
-
-.toparea .sharearea .favicon{
-	float: left;
-    margin-left: 10px;
-}
-.toparea .sharearea > i{
-	display: block;
-    width: 50px;
-    height: 50px;
-}
-
-.h_text{
-	font-size: 18px;
-    color: #555;
-    line-height: 30px;
-    text-align: center;
-    margin-top: 28px;
-}
-
-.avggrade{
-	text-align: center;
-    margin-top: 35px;
-}
-
-
-/*  */
-
-div.huinfo{
-    display: flex;
-    justify-content: space-between;
-    padding: 44px 0;
-    margin: 94px auto 150px auto;
-    border-top: 2px solid #e1e1e1;
-    border-bottom: 2px solid #e1e1e1;
-    align-items: center;
-}
-
-div.huinfo{
-	width: 1170px;
-    margin: 80px auto 0;
-}
-
-
-/* 휴게소 이미지 */
-.imgarea {
-    width: 100%;
-    text-align: center;
-    margin-top: 80px;
-    margin-left:20px;
-}
-
-.huinfo .imgarea {
-    width: 574px;
-    height: auto;
-    float: left;
-    margin-top: 0;
-}
-
-
-.huinfo .imgarea {
-    margin: 0;
-}
-
-
-.huinfo .infoarea {
-    border: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: calc(100% - 615px);
-    margin-left: 40px;
-    word-wrap: break-word;
-    word-break: keep-all;
-}
-
-/* 휴게소 정보 */
-.huinfo .infoarea{
-    width: 380px;
-    min-height: 512px;
-    height: auto;
-    float: right;
-    padding-top: 50px;
-    box-sizing: border-box;
-}
-
- .infoarea{
-    padding: 20px 25px 20px 0;
-}
-
-.huinfo .infoarea li {
-    margin-bottom: 20px;
-}
-
-
-.huinfo .infoarea li.op1 {
-    background: url(image/icon/주소.png) no-repeat 0 center;
-}
-
-
-.huinfo .infoarea li.op2 {
-    background: url(image/icon/영업시간.png) no-repeat 0 center;
-}
-
-.huinfo .infoarea li.op3 {
-    background: url(image/icon/전화번호.png) no-repeat 0 center;
-}
-
-.huinfo .infoarea li.op4 {
-    background: url(image/icon/편의시설.png) no-repeat 0 center;
-}
-
-.huinfo .infoarea li.op1,
-.huinfo .infoarea li.op2,
-.huinfo .infoarea li.op3,
-.huinfo .infoarea li.op4 {
-    display: table;
-    min-height: 80px;
-    padding-left: 95px;
-    color: #000;
-    margin-bottom: 40px;
-}
-
-li.op1, li.op2, li.op3, li.op4 {
-    list-style: none;
-}
-
-.huinfo .infoarea li .addr {
-    font-size: 22px;
-    color: #555555;
-}
-
-.huinfo .infoarea li.addr {
-    background:  no-repeat 0 center;
-}
-
-
-.huinfo .infoarea li .tablecell {
-    display: table-cell;
-    vertical-align: middle;
-    min-height: 80px;
-}
-
-
-.huinfo .infoarea li .txt1 {
-    line-height: 30px;
-    font-size: 18px;
-    color: #555555;
-    font-weight:bold;
-}
-
-
-.huinfo .infoarea li .txt2 {
-    margin-top: 8px;
-    color: #555555;
-    line-height: 20px;
-}
-
-
-.pyeonicon{
-	height:40px;
-	width:40px;
-
-}
-
-
-div.contain{
-    width: 1170px;
-    margin: 80px auto 0;
-	border-bottom: 2px solid #e1e1e1; 
-}
-
-div.contain2{
-    width: 1170px;
-    margin: 80px auto 0;
-}
-
-div.food{
-	margin-bottom:100px;
-}
-
-.tab-content>.active {
-    display: block;
-    margin-left: 100px;
-}
-
-p.subtitle{
-	font-size: 28px;
-    color: #000;
-    text-align: center;
-    margin-top: 100px;
-}
-
-table.gtable, table.gtable th, table.gtable td{
-    text-align: center; /* 가운데 정렬 */
-    vertical-align: middle; /* 수직 정렬 */
-    border : 2px solid lightgray;
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-table.gtable td{
-width:300px;
-height: 50px;
-} 
-
-button.brand{
- background-color: white;
- color: #618E6E;
- font-weight: bold;
- 
-   /* background-color: #618E6E;  */
-	
-}
-
-
-.favorite{
-	display: inline-block; 
-	float:right;
-	vertical-align: top;
-	background-color:white;
-	border:white;
-}
-
-.nav-pills .nav-link.active{
-	background-color:#618E6E;
-}
-
-.gradefrm{
-	/* position: relative; */
-    display: flex;
-  /*   flex-wrap: wrap; */
-   /*  align-items: stretch; */
-   /*  width: 80%; */
-
-}
-
-
-/* 평점 css  */
-.star-rating {
-  display: flex;
-  flex-direction: row-reverse;
-  font-size: 2rem;
-  line-height: 2.5rem;
-  justify-content: space-around;
-  padding: 0 0.2em;
-  text-align: center;
-  width: 5em;
-}
- 
-.star-rating input {
-  display: none;
-}
- 
-.star-rating label {
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 2.3px;
-  -webkit-text-stroke-color: #2b2a29;
-  cursor: pointer;
-}
- 
-.star-rating :checked ~ label {
-  -webkit-text-fill-color: gold;
-}
- 
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-  -webkit-text-fill-color: #fff58c;
-}
-
-/* 휴게소 평균 평점 */
-.star-ratings {
-  color: #aaa9a9; 
-  position: relative;
-  unicode-bidi: bidi-override;
-   width: max-content; 
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  /* -webkit-text-stroke-width: 1.3px; */
- /* -webkit-text-stroke-color: #2b2a29; */ /* 별 테두리 */
- margin-left: 45%;
-}
- 
-.star-ratings-fill {
-  color: #fff58c;
-  padding: 0;
-  position: absolute;
-  z-index: 1;
-  display: flex; 
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  -webkit-text-fill-color: gold;
-  font-size: 2.5rem;
-}
- 
-.star-ratings-base {
-  z-index: 0;
-  padding: 0;
-  font-size: 2.5rem;
-  -webkit-text-fill-color: lightgray;
-}
-
-.red{
-	color: #FFE400;
-}
-
-
-div.alist{margin-left: 20px;}
-
-span.aday{
-	font-size:0.8em;
-	color:#bbb;
-}
-
-
-/* g_content css */
-.form_radio_btn {
-			height : 45px;
-    		border: 1px solid #EAE7E7;
-    		border-radius: 10px;
-		}
-		.form_radio_btn input[type=radio] {
-			display: none;
-		}
-		.form_radio_btn label {
-			display: block;
-    		border-radius: 10px;
-   			margin: 0 auto;
-    		text-align: center;
-    		height: -webkit-fill-available;
-    		line-height: 45px;
-		}
-		 
-		/* Checked */
-		.form_radio_btn input[type=radio]:checked + label {
-			background: #184DA0;
-			color: #fff;
-		}
-		 
-		/* Hover */
-		.form_radio_btn label:hover {
-			color: #666;
-		}
-		 
-		/* Disabled */
-		.form_radio_btn input[type=radio] + label {
-			background: #F9FAFC;
-			color: #666;
-		}
-
-@media (min-width: 1400px) {
-  .food .container,
-  .food .container-lg,
-  .food .container-md,
-  .food .container-sm,
-  .food .container-xl,
-  .food .container-xxl {
-    max-width: 1700px;
-  }
-}
-
-.btnArea {
-    text-align: center;
-    margin-top: 60px;
-}
-
-.btnArea.hulist {
-    margin-top: 20px;
-}
-
-.prebtn{
-    display: inline-block;
-    padding: 0 70px;
-    height: 56px;
-    line-height: 54px;
-    font-size: 18px;
-    color: #fff;
-    text-align: center;
-    border-radius: 28px;
-    background: #618E6E;
-    background: -ms-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
-    background: -o-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
-    background: -moz-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%);
-    background: -webkit-linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%)
-   background: linear-gradient(to bottom right, rgba(97,142,110) 0%, rgba(97,142,110) 100%); */
-
-}
-
-
-/* 카카오 공유하기 */
-.link-icon.kakao { background-image: url(image/icon/kakao.png); background-repeat: no-repeat; }
-.link-icon.twitter { background-image: url(image/icon/twitter.png); background-repeat: no-repeat; }
-.link-icon.facebook { background-image: url(images/icon/facebook.png); background-repeat: no-repeat; } 
-</style>
 <%
     //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
 	String h_num = request.getParameter("h_num");
@@ -515,6 +47,7 @@ span.aday{
 	int fav=mdao.isFavorite(m_num, h_num);
 	
 	GradeDao gdao = new GradeDao();
+	GradeDto gdto = gdao.bestContent(h_num);
 	String avgGrade = gdao.avgGrade(h_num);
 
 	//해당 휴게소에 평점을 등록한 사용자의 아이디 목록 가져오기
@@ -530,14 +63,52 @@ span.aday{
 	//BrandDao 객체 생성 & 브랜드 데이터 가져오기
 	BrandDao bdao = new BrandDao();
 	List<BrandDto> brandList = bdao.selectBrand(h_num);
-	
-	
 %>
+
+<style type="text/css">
+.toparea .shareArea .share > div {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    display: none;
+}
+
+.toparea .shareArea .share > div a.kakao {
+    background: url(path/to/kakao.png) no-repeat 50% 50%;
+    /* Add fallback background color */
+    background-color: #ffeb3b; /* Example color */
+}
+
+.toparea .shareArea .share > div a.naver {
+    background: url(path/to/naver.png) no-repeat 50% 50%;
+    /* Add fallback background color */
+    background-color: #00c3ff; /* Example color */
+}
+
+.toparea .shareArea .share > div a.facebook {
+    background: url(path/to/facebook.png) no-repeat 50% 50%;
+    /* Add fallback background color */
+    background-color: #3b5998; /* Example color */
+}
+
+.toparea .shareArea .share > div a.twitter {
+    background: url(path/to/twitter.png) no-repeat 50% 50%;
+    /* Add fallback background color */
+    background-color: #1da1f2; /* Example color */
+}
+
+.form_radio_btn input[type=radio]:checked + label {
+    background: #618E6E;
+    color: #fff;
+}
+
+</style>
 
 <script type="text/javascript">
   
 $(function(){
 	list();
+
 	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
@@ -574,12 +145,21 @@ $(function(){
 	
 	
 
-	 if(login=="null"){
+      if(login=="null"){
 		 $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
 	        return;
 	    }else {
 	        $("#insertgrade").show(); // 로그인 상태일 때 표시
 	    } 
+	
+	 
+	 /* $(".writegrade").click(function() {
+		    if (login !== "null") {
+		        $("#insertgrade").show();
+		    } else {
+		        $("#insertgrade").hide();
+		    }
+		}); */
 	 
 	 
 	$("#btnasend").click(function(){
@@ -603,7 +183,7 @@ $(function(){
 		        	   
 		        success: function(){
 		            $("#insertgrade").hide(); // 평점 등록 시 숨김
-		            /* list();//평점 목록 다시 불러오기 */
+		             list();
 		       
 		            updateH_grade();
 		         },
@@ -616,6 +196,7 @@ $(function(){
 		    
 		    });
 	
+	
 			// 특정 휴게소의 평균 평점 및 평점 갯수
 		    function updateH_grade() {
 		    $.ajax({ 
@@ -627,7 +208,7 @@ $(function(){
 		        	"h_gradecount":$("b.gradesu>span").text()},
 		        url:"hugesoinfo/updateh_grade.jsp",
 		        success:function(res){
-		
+		        	
 		       
 		        },
 		        error: function(xhr, status, error) {
@@ -641,10 +222,29 @@ $(function(){
 		    
 	 
 			  
+			
+			
+		        /* // 버튼 클릭 이벤트 설정
+		        $('#sortByLatest').click(function(event) {
+		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+		            list("latest"); // '최신순'을 선택한 경우
+		        });
+
+		        $('#sortByHigh').click(function(event) {
+		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+		            list("high"); // '높은 순'을 선택한 경우
+		        });
+
+		        $('#sortByLow').click(function(event) {
+		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+		            list("low"); // '낮은 순'을 선택한 경우
+		        }); */
+		
+			
 		
 		// 특정 휴게소의 평점 목록
 		    function list(){
-		    	
+		    		
 			  	  $.ajax({ 
 			  		  type:"get",
 			  		  url:"grade/gradelist.jsp",
@@ -703,6 +303,7 @@ $(function(){
       $(this).toggleClass("active-color");
 });
 
+		    
 	//변수 선언
 	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
 	var diesel = parseInt(<%=dto.getH_disel()%>); // 경유 가격 데이터
@@ -768,28 +369,75 @@ if(login=="null"){
 }
 });
 
+
+
+$(document).ready(function() {
+    $('.shareicon').click(function(event) {
+        //event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+        $('#hiddenButtons').slideToggle(); // 숨겨진 버튼들을 토글하여 나타나거나 사라지게 함
+    });
+});
+
+
+
+/* 음식평점 남기긱 */
+$("#btnsendfood").click(function(){
+    var g_grade = $("input[name='fg_grade']:checked").val(); // 선택된 평점 값 가져오기
+    
+    if (!fg_grade) { // 선택된 평점이 없을 경우
+        alert("평점을 선택해주세요");
+        return;
+    }
+    
+    $.ajax({
+        type: "get", 
+        url: "foodgrade/insertfoodgrade.jsp",
+        dataType: "html",
+        data: {"fg_hugesonum": $("#h_num").val(),
+        	   "fg_foodnum": $("#fg_myid").val(),
+        	   "fg_myid": $("#fg_myid").val(),
+        	   "fg_grade": fg_grade, 
+        	   "g_content": g_content}, 
+        	   
+        success: function(){
+            $("#insertfoodgrade").hide(); // 평점 등록 시 숨김
+       
+            updateH_grade();
+         },
+        error: function(xhr, status, error) {
+            // 오류 발생 시 처리
+            console.error("AJAX Error: " + error);
+        }
+            
+    });
+    
+    });
+
+
+var moreButton = document.getElementById("moreButton");
+var foldButton = document.getElementById("foldButton");
+var moreButton1 = document.getElementById("moreButton1");
+var foldButton1 = document.getElementById("foldButton1");
+
+if (document.querySelector('a[href="#home"]').classList.contains("active")) {
+    moreButton.style.display = "block";
+    foldButton.style.display = "none";
+    moreButton1.style.display = "none";
+    foldButton1.style.display = "none";
+} else if (document.querySelector('a[href="#menu1"]').classList.contains("active")) {
+    moreButton.style.display = "none";
+    foldButton.style.display = "none";
+    moreButton1.style.display = "block";
+    foldButton1.style.display = "none";
+}
+
+
+
+
+
+
 })
 
-function shareKakao() {
-
-  // 사용할 앱의 JavaScript 키 설정
-  Kakao.init('	5a77ce427996f7b3cb3de14e9a4e0444');
-
-  // 카카오링크 버튼 생성
-  Kakao.Link.createDefaultButton({
-    container: '#btnKakao', // 카카오공유버튼ID
-    objectType: 'feed',
-    content: {
-      title: "개발새발", // 보여질 제목
-      description: "개발새발 블로그입니다", // 보여질 설명
-      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-      link: {
-         mobileWebUrl: "devpad.tistory.com/",
-         webUrl: "devpad.tistory.com/"
-      }
-    }
-  });
-}
 </script>
 </head>
 
@@ -806,8 +454,8 @@ function shareKakao() {
 <div class="location">
 	<a href="#" class="home"><i class="bi bi-house-door-fill"></i></a>
 
-<div class="one">
-<a href="#" class="h_loc">휴게소정보</a>
+<div class="one" style="display:flex;">
+<a href="#" class="h_loc">휴게소정보 </a>
 </div>
 <div class="two">
 <a href="#" class="h_loc">휴게소찾기</a>
@@ -816,26 +464,57 @@ function shareKakao() {
 </div>
 </div>
 
+<!-- sns 공유하기 -->
+
+
 <div class="sharearea">
-<div class="share">
-<button type="button"><i class="bi bi-share-fill"></i></button>
-</div>
-<div class="favicon">
+    <div class="share">
+        <button type="button" class="shareicon" onclick="toggleHiddenMenu()"
+        style="border: none; background: none; cursor: pointer; width:40px; height:40px;">
+            <i class="bi bi-share-fill" style="font-size:30px;"></i>
+        </button>
+        <div id="hiddenButtons" style="display: none;">
+        <div style="display: flex; flex-direction: column;">
+           <jsp:include page="sns_share.jsp" />
+           </div>
+        </div>
+    </div>
+    
+    <div class="favicon">
 <!-- 즐겨찾기 버튼 -->
 <button type="button" class ="favorite">
 <!-- <i class="bi bi-bookmark" style="margin-left: 10px; font-size:200%;"></i> -->
-<i class="bi bi-bookmarks-fill" style="margin-left: 30px;"></i>
+<i class="bi bi-bookmarks-fill" style="margin-left: 30px; font-size:30px;"></i>
 </button>
 </div>
+
+</div>
+
+
+<script>
+    function toggleHiddenMenu() {
+        var hiddenMenu = document.getElementById("hiddenButtons");
+        if (hiddenMenu.style.display === "none") {
+            hiddenMenu.style.display = "block";
+        } else {
+            hiddenMenu.style.display = "none";
+        }
+    }
+</script>
+
 </div>
 </div>
 <!-- 휴게소 이름 출력 -->
 <h2 class="h_name"><%=dto.getH_name()%></h2> 
-<p class="h_text">휴게소 평점에서 가장 많이 받은 리뷰 여기에 출력하기</p>
+<p class="h_text">
+<% if (gdto.getG_content() != null) { %>
+    #<%= gdto.getG_content() %>
+<% }%>
+</p>
 <div class="avggrade">
 <!-- 휴게소 평점 출력 -->
 
- <div><%=dto.getH_grade() %> </div>
+<%--  <div><%=dto.getH_grade() %> </div> --%>
 <div class="star-ratings">
   <div 
     class="star-ratings-fill space-x-2 text-lg"
@@ -848,7 +527,7 @@ function shareKakao() {
     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
   </div>
 </div>
-<div ><%=dto.getH_gradecount() %></div>
+<%-- <div ><%=dto.getH_gradecount() %></div> --%>
 </div>
 
 
@@ -946,29 +625,6 @@ function shareKakao() {
 </div>
 
 
-
-
-
-
-
-
-
-
-<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();" />트위터
-<a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();" />페이스북  
-<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();" />카카오톡
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="contain">
 
 <div class="container mt-3 food">
@@ -984,42 +640,130 @@ function shareKakao() {
   <!-- Tab panes -->
   <div class="tab-content">
     <div id="home" class="container tab-pane active"><br>
- <!-- 푸드코트 출력  -->
- <%
-for(FoodDto fdto : foodlist) {
-    String f_photo = fdto.getF_photo();
-    String f_name = fdto.getF_name();
-%>
-    <div style="display: inline-block; text-align: center; margin-right: 20px; margin-bottom:20px;">
-        <img alt="" src="image/food/<%=f_photo%>" style="width: 200px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
-        <%=f_name%>
-    </div>
-<%}%> 
-    </div>
-  
-    
-  <div id="menu1" class="container tab-pane fade"><br>
+    <!-- 푸드코트 출력  -->
+    <%
+    int count = 0; // 이미지 개수를 세기 위한 변수
+    for(FoodDto fdto : foodlist) {
+        String f_photo = fdto.getF_photo();
+        String f_name = fdto.getF_name();
+        count++; // 이미지가 추가될 때마다 개수 증가
 
- <!-- 브랜드 출력  -->
-  <span style="display: flex; flex-wrap: wrap;">
-<%
-for(BrandDto bdto : brandList) {
-    String b_photo = bdto.getB_photo();
-    String b_name = bdto.getB_name();
-    String b_addr = bdto.getB_addr();
+        // 이미지 출력
     %>
-    <span style=" margin-right: 20px; text-align: center; margin-bottom:20px;">
-        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 200px; height:200px; margin-right:20px; margin-bottom:15px;">
-        <div><%=b_name %></div>
-    </span>
-<%}%>
-<br>
-    
-  </span>
+        <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px;">
+            <img alt="<%=f_name%>" src="image/food/<%=f_photo%>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
+            <%=f_name%>
+        </div>
+    <% if (count == 4) break; %> <%-- 이미지가 4개가 되면 반복문 중단 --%>
+    <%}%>
+        <div id="hiddenContent" style="display: none;">
+            <!-- 추가 이미지들 -->
+            <% 
+            for (int i = 4; i < foodlist.size(); i++) {
+                FoodDto fdto = foodlist.get(i);
+                String f_photo = fdto.getF_photo();
+                String f_name = fdto.getF_name();
+            %>
+                <div class="food-item" style="display: inline-block; text-align:center; font-weight:bold; margin-bottom: 20px;">
+                    <img alt="<%=f_name%>" src="image/food/<%=f_photo%>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
+                    <%=f_name%>
+                </div>
+            <% } %>
+        </div>
+</div>
+
+  <div id="menu1" class="container tab-pane fade"><br>
+    <!-- 브랜드 출력  -->
+   <div style="display: flex; flex-wrap: wrap;">
+        <% 
+        int count1 = 0; // 브랜드 개수를 세기 위한 변수
+        for(BrandDto bdto : brandList) {
+            String b_photo = bdto.getB_photo();
+            String b_name = bdto.getB_name();
+            String b_addr = bdto.getB_addr();
+            count1++; // 브랜드가 추가될 때마다 개수 증가
+
+            // 브랜드 출력
+        %>
+            <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px;">
+                <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;">
+                <div><%=b_name %></div>
+            </div>
+        <% if (count1 == 4) break; %> <%-- 브랜드가 4개가 되면 반복문 중단 --%>
+        <%}%>
+            <div id="hiddenContent1" style="display: none;">
+                <!-- 추가 브랜드들 -->
+                <% 
+                for (int i = 4; i < brandList.size(); i++) {
+                    BrandDto bdto = brandList.get(i);
+                    String b_photo = bdto.getB_photo();
+                    String b_name = bdto.getB_name();
+                    String b_addr = bdto.getB_addr();
+                %>
+                    <div class="brand-item" style="display: none;">
+                        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;">
+                        <div><%=b_name %></div>
+                    </div>
+                <% } %>
+            </div>
+    </div>
 </div>
 </div>
+
+<div style="text-align: center; margin-top: 30px;">
+  <button id="moreButton" style="border: none; background: none; cursor: pointer;">
+        <i class="bi bi-chevron-down" style="font-size:30px;"></i>
+    </button>
+    <button id="foldButton" style="display: none; border: none; background: none; cursor: pointer;">
+        <i class="bi bi-chevron-up" style="font-size:30px;"></i>
+    </button>
+</div> 
 </div>
 </div>
+
+<!-- <div style="text-align: center; margin-top: 30px;">
+    <button id="moreButton1" style="border: none; background: none; cursor: pointer;">
+        <i class="bi bi-chevron-down" style="font-size:30px;"></i>
+    </button>
+    <button id="foldButton1" style="display: none; border: none; background: none; cursor: pointer;">
+        <i class="bi bi-chevron-up" style="font-size:30px;"></i>
+    </button>
+</div>  -->
+
+<script>
+function toggleContent(hiddenContentId, moreButtonId, foldButtonId, className, maxVisibleItems) {
+    var hiddenContent = document.getElementById(hiddenContentId);
+    if (!hiddenContent) return;
+
+    var hiddenItems = hiddenContent.querySelectorAll("." + className);
+    hiddenItems.forEach(function(item, index) {
+        item.style.display = index < maxVisibleItems ? "inline-block" : "inline-block";
+    });
+
+    var moreButton = document.getElementById(moreButtonId);
+    var foldButton = document.getElementById(foldButtonId);
+
+    moreButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        hiddenContent.style.display = "block";
+        moreButton.style.display = "none";
+        foldButton.style.display = "inline";
+    });
+
+    foldButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        hiddenContent.style.display = "none";
+        foldButton.style.display = "none";
+        moreButton.style.display = "inline";
+    });
+}
+
+// 각 섹션의 토글 버튼 기능을 할당
+toggleContent("hiddenContent", "moreButton", "foldButton", "food-item", document.querySelectorAll(".food-item").length);
+toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", document.querySelectorAll(".brand-item").length);
+
+</script>
+
 
 
 
@@ -1055,11 +799,24 @@ for(BrandDto bdto : brandList) {
 
 
 
-<div class="contain2">
+<div class="contain">
 
 <p class="subtitle">평점</p>
 
- <table style="width:50%; margin-left:8%;"> <!-- class="table table-bordered" -->
+<!-- <button id="sortByLatest">최신순</button>
+<button id="sortByHigh">평점높은순</button>
+<button id="sortByLow">평점낮은순</button> -->
+
+<div style="display: inline-block;">
+    <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>
+    <p style="font-weight:bold; font-size:50px; display: inline-block;">
+        <%=dto.getH_grade() %>
+    </p>
+</div>
+
+
+
+ <table style="width:50%; margin-left:auto;">
      <!-- 평점 -->
      <tr>
      
@@ -1067,13 +824,14 @@ for(BrandDto bdto : brandList) {
         <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  
         </b>
         
-        <!--   <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button> -->
+      <!-- <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>  -->
       
   <% if(!G_myid) {%>
          <div class="gradefrm" id="insertgrade">
-          
-          <%=m_id %>
-          
+          <div style="display: inline-block;">
+          <p style="margin-top:80px; font-size 20px; font-weight:bold;"><%=m_id %></p>
+
+
     <div class="star-rating space-x-4 mx-auto" id="g_grade";>
 	<input type="radio" id="5-stars" name="g_grade" value="5" v-model="ratings" />
 	<label for="5-stars" class="star pr-4">★</label>
@@ -1086,57 +844,107 @@ for(BrandDto bdto : brandList) {
 	<input type="radio" id="1-star" name="g_grade" value="1" v-model="ratings" />
 	<label for="1-star" class="star">★</label>
     </div>
+    <br>
+    </div>
     
-   <div id="g_content">
-   <div class="form_radio_btn">
+    
+    <div><span style="font-weight:bold; font-size:20px;"><%=dto.getH_name()%></span>는 이런 점이 좋아요!(1개 선택)</div><br>
+   <div id="g_content" style="display: flex; width:1000px;">
+   <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="clean_facility" value="시설이 깨끗해요" checked>
     <label for="clean_facility">시설이 깨끗해요</label>
     </div>
-    <div class="form_radio_btn">
+    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="good_facility" value="휴게시설이 잘 되어 있어요">
     <label for="good_facility">휴게시설이 잘 되어 있어요</label>
     </div>
-    <div class="form_radio_btn">
+    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="delicious_food" value="음식이 맛있어요">
     <label for="delicious_food">음식이 맛있어요</label>
     </div>
-    <div class="form_radio_btn">
+    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="special_menu" value="특별한 메뉴가 있어요">
     <label for="special_menu">특별한 메뉴가 있어요</label>
     </div>
-    <div class="form_radio_btn">
+    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="convenient_parking" value="주차하기 편해요">
     <label for="convenient_parking">주차하기 편해요</label>
     </div>
     </div>
-	
-   <button type="button" id="btnasend"
-   class="btn btn-info btn-sm" style="margin-left: 10px;">등록</button>    
-   
+	<br>
+	<div class="btnArea hulist">
+   <button type="button" id="btnasend" class="prebtn" >등록</button>    
+   </div>
    </div>
  <%}%>
-       
-   <div class="alist" id="alist" >평점 목록</div>
-         
+ 
+   <div class="alist" id="alist">평점 목록</div>
+
 </td>
 </tr>
 </table>
 
+</div>
+
+
+
+<div class="contain2">
+<p class="subtitle">위치정보</p>
+
+<div id="map" style="width: 70%;height:500px; margin:auto;"></div>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(<%=dto.getH_yvalue()%>,<%=dto.getH_xvalue()%>), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 마커가 표시될 위치입니다 
+var markerPosition  = new kakao.maps.LatLng(<%=dto.getH_yvalue()%>,<%=dto.getH_xvalue()%>); 
+
+// 마커를 생성합니다
+var marker = new kakao.maps.Marker({
+    position: markerPosition
+});
+
+// 마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
+  
+</script>
+
+
+
 
 
 <div class="btnArea hulist">
-<button type="button" id="btnasend"
+<button type="button" id="prebtn"
    class="prebtn" >목록</button> 
 </div>
 
+<script>
+    $(document).ready(function() {
+        $("#prebtn").click(function() {
+            history.back(); // 이전 페이지로 이동
+        });
+    });
+</script>
+
+
+
+</div>
+<button type="button" >수정</button> 
+<button type="button" style="background-color:">삭제</button> 
 </div>
 
+</div>
+
+
+
+</div>
 </form>
 </div>
-</div>
-</div>
-</div>
- </div>
 </body>
 
 </html>
