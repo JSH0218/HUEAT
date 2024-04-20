@@ -74,9 +74,9 @@
        //클릭시 공지사항 디테일 페이지로 이동
        $("a.noticeDetail").click(function () {
          var n_num = $(this).attr("n_num");
-         alert(n_num);
+         //alert(n_num);
          
-//          location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
+        location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
       });
        
       
@@ -111,7 +111,7 @@
 <body>
   
     <!-- 공지사항 레이아웃-->
-  <div class="mt-3"  style="width: 550px; margin-left: 12%; padding: 1%;
+  <div class="mt-3"  style="width: 673px; margin-left: 10.7%; padding: 1%;
     background-color: #F0F0F0; height: 250px;">
  
     <!-- Nav tabs -->

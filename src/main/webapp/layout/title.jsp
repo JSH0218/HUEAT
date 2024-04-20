@@ -58,6 +58,10 @@
    width: 140px
 }
 
+ #primary_nav_wrap ul ul li a { 
+   margin-left: 0px; 
+ }  
+
 #primary_nav_wrap ul ul a {
    line-height: 120%;
    padding: 10px 15px;
@@ -104,7 +108,7 @@ String myid = (String) session.getAttribute("myid");
 
       <nav id="primary_nav_wrap">
          <ul>
-            <li><a href="#">소개</a>
+            <li><a href="#">휴잇소식</a>
                <ul>
                   <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
                   <li><a href="#">소개글</a></li>

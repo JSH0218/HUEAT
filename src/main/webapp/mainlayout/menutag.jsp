@@ -26,16 +26,16 @@
   
   
   .font_title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    margin-top: 1%;
+
   }
   
   .font_subtitle {
     font-size: 12px;
     color: #666;
-    margin-top: 3%;
-    margin-left: 3%; /* 추가된 부분 */
+    margin-top: 2.5%;
+    margin-left: 2%; /* 추가된 부분 */
     margin-right: 3%; /* 추가된 부분 */
   }
   
@@ -76,7 +76,7 @@
 <body>
 
   <!-- 정보제공 레이아웃 -->
-  <div class="main_1 container" style="width: 840px; margin-left: 0%;">
+  <div class="main_1 container" style="width: 673px; margin-left: 19.6%; height: 250px;">
     <section class="font_section">
       <div class="font_title">자주가는 메뉴</div>
       <div class="font_subtitle">회원여러분의 편리성을 제공합니다</div>
@@ -86,7 +86,7 @@
     <!-- 픽토그램 레이아웃 -->
     <section class="icon_section">
       <div class="icon" onclick="window.open('http://www.roadplus.co.kr/main/main.do', '_blank')">
-        <img alt="" src="<%=root%>/image/main/pic_01.png">
+        <img alt="" src="<%=root%>/image/main/pic-01.png">
         <div class="icon-font">교통정보</div>
       </div>
       
@@ -112,18 +112,18 @@
     </section>
     
     <section class="icon_section">
-      <div class="icon" onclick="#">
-        <img alt="" src="<%=root%>/image/main/pic-05.png">
+      <div class="icon" onclick="location.href='index.jsp?main=hugesoinfo/hugesomap.jsp'">
+        <img alt="" src="<%=root%>/image/main/pic-06.png">
         <div class="icon-font">휴게소찾기</div>
       </div>
       
-      <div class="icon" onclick="#">
-        <img alt="" src="<%=root%>/image/main/pic-05.png">
+      <div class="icon" onclick="location.href='index.jsp?main=foodcourt/choicehuegeso.jsp'">
+        <img alt="" src="<%=root%>/image/main/pic-07.png">
         <div class="icon-font">푸드결제</div>
       </div>
       
-      <div class="icon" onclick="#">
-        <img alt="" src="<%=root%>/image/main/pic-05.png">
+      <div class="icon" onclick="location.href='index.jsp?main=qaboard/qaList.jsp'">
+        <img alt="" src="<%=root%>/image/main/pic-08.png">
         <div class="icon-font">회원문의</div>
       </div>
     </section>

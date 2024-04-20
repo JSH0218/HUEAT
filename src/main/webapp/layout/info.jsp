@@ -54,10 +54,18 @@
 <body>
    <div class="infolist" style="width: 100%">
       <div class="gain">
-        <div class="gain_title">회사소개</div>
-        <div class="gain_title">개인정보처리방침</div>
-        <div class="gain_title">오시는길</div>
-        <div class="gain_title">한국도로공사사이트</div>
+        <div class="gain_title">
+        <a onclick="window.open('https://www.youtube.com/user/koreaexpressway', '_blank')">
+        회사소개</a></div>
+        <div class="gain_title">
+        <a onclick="window.open('https://www.youtube.com/user/koreaexpressway', '_blank')">
+        개인정보처리방침</a></div>
+        <div class="gain_title">
+        <a onclick="window.open('https://www.youtube.com/user/koreaexpressway', '_blank')">
+        단체주문</a></div>
+        <div class="gain_title">
+        <a onclick="window.open('https://www.dpecoland.com/about.do', '_blank')">
+        한국도로공사사이트</a></div>
       </div>
       <hr style="margin-top:0.5%;">
 

@@ -1,3 +1,5 @@
+<%@page import="food.model.FoodDto"%>
+<%@page import="food.model.FoodDao"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="java.util.List"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
@@ -69,18 +71,15 @@
       
       //클릭시 휴게소 디테일 페이지로 이동
       $("a.foodDetail").click(function () {
-         var h_num = $(this).attr("f_num");
-         //alert(h_num);
+         var f_num = $(this).attr("f_num");
+         //alert(f_num);
          
-         location.href = 'index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num='+h_num;
+         location.href = 'index.jsp?main=hugesoinfo/hugesodetail.jsp?f_num='+f_num;
       });
       
 
     });
-    
-    div.swiper-backface-hidden{
-        margin-right: 0px;
-     }
+
       
      
 </script>
@@ -90,31 +89,31 @@
    String root = request.getContextPath();  
 
    //휴게소
-   HugesoInfoDao hdao = new HugesoInfoDao();
-   List<HugesoInfoDto> hlist = hdao.getAllGrade();
+   FoodDao fdao = new FoodDao();
+   List<FoodDto> hlist = fdao.getAllFood();
 
 
 %>
 <body>
   <!-- 이달의 휴게소 -->
 <div class="f_title">이달의 메뉴</div>
-<div style="margin-left: 200px;">
-<div class="swiper-container">
+<div style="margin-left: 200px; ">
+<div class="swiper-container menu">
     <div class="swiper-wrapper">
         <% 
-            List<HugesoInfoDto> recenthugeso = hdao.getAllGrade();
-            int size = Math.min(recenthugeso.size(), 5);
-            for (int h = 0; h < size; h++) { 
-                HugesoInfoDto dto = recenthugeso.get(h); 
+            List<FoodDto> recentfood = fdao.getAllFood();
+            int size = Math.min(recentfood.size(), 5);
+            for (int f = 0; f < size; f++) { 
+            	FoodDto dto = recentfood.get(f); 
         %>
         <div class="swiper-slide">
             <div class="hugeso-content" style="text-align: center; width: 250px;">
-                <a h_num="<%=dto.getH_num() %>" class="foodDetail"  style="cursor: pointer;
+                <a f_num="<%=dto.getF_num() %>" class="foodDetail"  style="cursor: pointer;
                 display: inline-block;">
-                    <img alt="" src="image/hugeso/<%=dto.getH_photo() %>" class="f_image">
+                    <img alt="" src="image/food/<%=dto.getF_photo() %>" class="f_image">
                     <div class="f_food">
-                        <div class="f_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
-                        <div class="f_addr" style="font-size: 0.6em;"><%=dto.getH_addr() %></div>
+                        <div class="f_name" style="font-size: 0.85em;"><%=dto.getF_name() %></div>
+                        <div class="f_addr" style="font-size: 0.7em;"><%=dto.getF_price() %>원</div>
                     </div>
                 </a>
             </div>
@@ -124,8 +123,8 @@
     <!-- Add Navigation -->
 </div>
 <div>
-    <div class="swiper-button-next" style="position:absolute; top: 985px; right: 65px"></div>
-    <div class="swiper-button-prev" style="position:absolute; top: 985px; left : 1052px"></div>
+    <div class="swiper-button-next menu" style="position:absolute; top: 1365px; right: 160px"></div>
+    <div class="swiper-button-prev menu" style="position:absolute; top: 1365px; left : 960px"></div>
 </div>
 
 </div>
@@ -134,13 +133,13 @@
 
 <!-- Initialize Swiper -->
 <script>
-    var swiper = new Swiper('.swiper-container', {
+    var menu_swiper = new Swiper('.menu', {
         slidesPerView: 3, // 한 번에 보여질 슬라이드 개수
         loop : true,
         spaceBetween: 30, // 슬라이드 간의 간격
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next.menu',
+            prevEl: '.swiper-button-prev.menu',
         },
     });
 </script>
