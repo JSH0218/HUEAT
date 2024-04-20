@@ -338,7 +338,7 @@ button.brand{
 
 /* 휴게소 평균 평점 */
 .star-ratings {
-  color: #aaa9a9; 
+  color: lightgray; 
   position: relative;
   unicode-bidi: bidi-override;
    width: max-content; 
@@ -441,6 +441,7 @@ div.alist {
 }
 
 .prebtn{
+	border: none;
     display: inline-block;
     padding: 0 70px;
     height: 56px;

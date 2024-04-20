@@ -231,14 +231,14 @@ public class GradeDao {
 		}
 		
 
-		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기
+		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기(프로그래스바)
 		public String get_Content(String h_num) {
 		    String get_Content = null;
 		    Connection conn = db.getConnection();
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 
-		    String sql = "SELECT g_content, COUNT(g_content) AS g_content_count FROM grade WHERE h_num = ? GROUP BY g_content";
+		    String sql = "select g_content, count(g_content) as g_content_count from grade where h_num = ? group by g_content";
 
 		    try {
 		        pstmt = conn.prepareStatement(sql);
@@ -267,8 +267,27 @@ public class GradeDao {
 
 		    return get_Content;
 		}
-
-
+		
+		
+		// 등록된 평점 삭제 (관리자 페이지)
+		public void deleteGrade(String g_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from grade where g_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, g_num);
+				
+				pstmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
 
 
 }

@@ -117,45 +117,47 @@
 }
 
  .nav-link{
- 	color:black;
+ 	color:black ;
+ }
+ 
+ .nav-link.ative{
+ 	color:white ;
  }
  
  
  .progress-bar {
     width: 40%;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
+    background-color: #f7f7f9 !important;
+    /* border: 1px solid #ccc; */
     border-radius: 4px;
     margin-bottom: 10px;
   }
   .progress-bar-inner {
     height: 50px; /* 프로그래스 바의 기본 높이 */
-    background-color: #618E6E; /* 기본 프로그래스 바 색상 */
+    background-color: #dce5d2; /* 기본 프로그래스 바 색상 */
     border-radius: 4px;
     transition: width 0.3s; /* 애니메이션 효과 */
   }
-  .progress-bar-text {
-    position: absolute;
-    top: 50%; /* 수직 정렬을 위해 */
-    left: 50%; /* 수평 정렬을 위해 */
-    transform: translate(-50%, -50%); /* 중앙 정렬 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 12px; /* 텍스트 크기 */
-  }
-  
 
+
+.delete-button{
+	border:none; 
+	background-color:white;
+
+}
 </style>
 
 <script type="text/javascript">
   
 $(function(){
+	
 	list();
 	progressbar();
+	
 	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
 	//alert(m_num);
-
 
 	var login = "<%=loginok%>";
 	
@@ -166,25 +168,6 @@ $(function(){
 	} else {
 	    alert("평균 등급을 가져오지 못했습니다.");
 	} --%>
-	
-	 /* 휴게소 평점 평균 */
-	 function ratingToPercent(avgGrade) {
-	    const score = avgGrade * 20;
-	    return score + 1.5;
-	  }
-
-	// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
-	var avgGrade = "<%= avgGrade %>"; 
-
-	// HTML 요소에 평균 등급을 적용하는 함수 호출
-	  applyStarRatings(parseFloat(avgGrade));
-
-	  function applyStarRatings(avgGrade) {
-	    const fillWidth = ratingToPercent(avgGrade) + '%';
-	    document.querySelector('.star-ratings-fill').style.width = fillWidth;
-	} 
-
-	
 	
 
       if(login=="null"){
@@ -225,10 +208,9 @@ $(function(){
 		        	   
 		        success: function(){
 		            $("#insertgrade").hide(); // 평점 등록 시 숨김
-		             list();
-		       		
 		            updateH_grade();
-		            progressbar(); 
+		            progressbar();  
+		            list();
 		         },
 		        error: function(xhr, status, error) {
 		            // 오류 발생 시 처리
@@ -238,94 +220,137 @@ $(function(){
 		    });
 		    
 		    });
-	
-	
-			/* // 특정 휴게소의 평균 평점 및 평점 갯수
-		    function updateH_grade() {
-		    $.ajax({ 
-	       		 
-		        type:"post",
-		        dataType:"html",
-		        data: {"h_num":$("#h_num").val(), 
-		        	"h_grade": avgGrade , 
-		        	"h_gradecount":$("b.gradesu>span").text()},
-		        url:"hugesoinfo/updateh_grade.jsp",
-		        success:function(res){
-		        	
-		       
-		        },
-		        error: function(xhr, status, error) {
-		            console.error("AJAX Error: " + error);
-		        }
-	
-	            });
 		    
 		    
-		    } */
-		    
-	 
-		    
-		    function updateH_grade() {
-		        $.ajax({ 
-		            type: "post",
-		            dataType: "html",
-		            data: {
-		                "h_num": $("#h_num").val(), 
-		                "h_grade": avgGrade , 
-		                "h_gradecount": $("b.gradesu>span").text()
-		            },
-		            url: "hugesoinfo/updateh_grade.jsp",
-		            success: function(res) {
-		                // JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
-		                var avgGrade = parseFloat(res);
-		                
-		                // HTML 요소에 평균 등급을 적용하는 함수 호출
-		                applyStarRatings(avgGrade);
-		    
-		            },
-		            error: function(xhr, status, error) {
-		                console.error("AJAX Error: " + error);
-		            }
-		        });
-		    }
+	 	
+		 <%--    /* 휴게소 평점 평균 */
+			 function ratingToPercent(avgGrade) {
+			    const score = avgGrade * 20;
+			    return score + 1.5;
+			  }
 
-		    // 페이지 로드 후 프로그래스 바 업데이트 실행
-		    $(document).ready(function () {
-		        updateH_grade();
-		    });
+			// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
+			var avgGrade = "<%= avgGrade %>"; 
 
-		    /* 휴게소 평점 평균을 적용하는 함수 */
-		    function applyStarRatings(avgGrade) {
-		        const fillWidth = ratingToPercent(avgGrade) + '%';
-		        document.querySelector('.star-ratings-fill').style.width = fillWidth;
-		    }
+			// HTML 요소에 평균 등급을 적용하는 함수 호출
+			  applyStarRatings(parseFloat(avgGrade));
 
-		    
-		    
-		    
+			  function applyStarRatings(avgGrade) {
+			    const fillWidth = ratingToPercent(avgGrade) + '%';
+			    document.querySelector('.star-ratings-fill').style.width = fillWidth;
+			} 
 			  
+		    
+			   function updateH_grade() {
+				    $.ajax({ 
+				        type: "post",
+				        dataType: "html",
+				        data: {
+				            "h_num": $("#h_num").val(), 
+				            "h_grade": avgGrade , 
+				            "h_gradecount": $("b.gradesu>span").text()
+				        },
+				        url: "hugesoinfo/updateh_grade.jsp",
+				        success: function(res) {
+				            // JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당하지 않고
+				            // 이미 전역 변수로 설정된 avgGrade를 사용하여 등급을 적용합니다.
+				            applyStarRatings(parseFloat(avgGrade));
+				        },
+				        error: function(xhr, status, error) {
+				            console.error("AJAX Error: " + error);
+				        }
+				    });
+				} --%>
+ 
+ 
+ 
+ 
+ 
+ 
+			   function ratingToPercent(avgGrade) {
+				    const score = avgGrade * 20;
+				    return score + 1.5;
+				}
+
+			// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
+				var avgGrade = "<%= avgGrade %>"; 
+
+				// HTML 요소에 평균 등급을 적용하는 함수 호출
+				  applyStarRatings(parseFloat(avgGrade));
+			   
+			   
+				// HTML 요소에 평균 등급을 적용하는 함수 호출
+				function applyStarRatings(avgGrade) {
+				    const fillWidth = ratingToPercent(avgGrade) + '%';
+				    document.querySelector('.star-ratings-fill').style.width = fillWidth;
+				}
+
+				function updateH_grade() {
+				    $.ajax({ 
+				        type: "post",
+				        dataType: "html",
+				        data: {
+				            "h_num": $("#h_num").val(), 
+				            "h_grade": avgGrade , 
+				            "h_gradecount": $("b.gradesu>span").text()
+				        },
+				        url: "hugesoinfo/updateh_grade.jsp",
+				        success: function(res) {
+
+				            
+				        },
+				        error: function(xhr, status, error) {
+				            console.error("AJAX Error: " + error);
+				        }
+				    });
+				}
+
+
+				$(document).ready(function () {
+				    updateH_grade();
+				});
+
+
+ 
 		    /* 프로그래스바 업데이트를 위한 Ajax 요청 함수 */
 		    function progressbar() {
-		        $.ajax({
-		            type: "post",
-		            dataType: "json", // 서버에서 JSON 형식으로 데이터를 반환한다고 가정합니다.
-		            data: {
-		                "h_num": $("#h_num").val(),
-		            },
-		            url: "hugesoinfo/contentprogressbar.jsp",
-		            success: function (data) {
-		                var progressBars = document.querySelectorAll('.progress-bar-inner');
-		                data.forEach((entry, index) => {
-		                    var progressBar = progressBars[index];
-		                    progressBar.innerHTML = entry.label + ' : ' + entry.value; // g_content값을 직접 프로그래스 바 내용으로 설정
-		                    progressBar.style.width = (entry.value * 20) + '%'; // 데이터를 퍼센트로 변환하여 적용
-		                });
-		            },
-		            error: function (xhr, status, error) {
-		                console.error("AJAX Error: " + error);
-		            }
-		        });
-		    }
+    $.ajax({
+        type: "post",
+        dataType: "json", // 서버에서 JSON 형식으로 데이터를 반환한다고 가정합니다.
+        data: {
+            "h_num": $("#h_num").val(),
+        },
+        url: "hugesoinfo/contentprogressbar.jsp",
+        success: function (data) {
+            var progressContainer = document.getElementById('progress-container');
+
+            // 기존의 프로그래스 바 제거
+            progressContainer.innerHTML = '';
+
+            // 새로운 프로그래스 바 생성 및 적용
+            data.forEach((entry, index) => {
+                var progressBarDiv = document.createElement('div');
+                progressBarDiv.classList.add('progress-bar');
+                
+                var progressBarInnerDiv = document.createElement('div');
+                progressBarInnerDiv.classList.add('progress-bar-inner');
+                progressBarInnerDiv.style.width = (entry.value * 20) + '%'; // 데이터를 퍼센트로 변환하여 적용
+                progressBarInnerDiv.innerHTML = '<div style=" width:420px; display: flex; align-items: center; margin-left: 20px; margin-top:10px;">' +
+                '<span style="font-size: 20px; font-weight: bold; text-align: center;">' + entry.label + '</span>' +
+                '<span style="font-weight: bold; text-align: right; flex-grow: 1;">' + entry.value + '</span>' +
+                '</div>';
+                    // g_content값을 직접 프로그래스 바 내용으로 설정
+                
+                progressBarDiv.appendChild(progressBarInnerDiv);
+                progressContainer.appendChild(progressBarDiv);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: " + error);
+        }
+    });
+}
+
 
 		    // 페이지 로드 후 프로그래스 바 업데이트 실행
 		    $(document).ready(function () {
@@ -333,29 +358,44 @@ $(function(){
 		    });
 
 
-			
-			
-		        /* // 버튼 클릭 이벤트 설정
-		        $('#sortByLatest').click(function(event) {
-		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
-		            list("latest"); // '최신순'을 선택한 경우
-		        });
 
-		        $('#sortByHigh').click(function(event) {
-		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
-		            list("high"); // '높은 순'을 선택한 경우
-		        });
+		        // 평점 삭제
+		        $("div.alist").on("click", ".delete-button", function(event) {
+		        	event.preventDefault(); // 버튼 기본 동작 중지
+		        	var g_num = $(this).data("gnum"); // 평점의 g_num을 가져오기
+		        	var g_myid = $(this).data("gmyid");// 평점의 g_myid을 가져오기
+		        	
+		        	 var confirmation = confirm(g_myid+"님의 평점을 삭제하시겠습니까?");
+		        	 if (confirmation) {
+		            $.ajax({
+		                type: "post",
+		                url: "grade/deletegrade.jsp",
+		                dataType: "html",
+		                data: {"g_num": g_num}, // g_num을 사용하여 데이터를 전송
+		                success: function() {
+		                    alert("정상적으로 삭제되었습니다.");
+		                    updateH_grade();
+		                    progressbar();
+		                    list();
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error("AJAX Error: " + error);
+		                }
+		            });
+		        } else {
+		            // 취소 버튼을 누르면 아무런 작업을 하지 않습니다.
+		            return;
+		        }
+		    });
 
-		        $('#sortByLow').click(function(event) {
-		            event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
-		            list("low"); // '낮은 순'을 선택한 경우
-		        }); */
-		
 			
 		
+		  var login = "<%=loginok%>";
+		  var g_myid=$("#g_myid").val();
+	      //alert(g_myid); 
+		        
 		// 특정 휴게소의 평점 목록
 		    function list(){
-		    		
 			  	  $.ajax({ 
 			  		  type:"get",
 			  		  url:"grade/gradelist.jsp",
@@ -378,17 +418,29 @@ $(function(){
 			  					  }
 			  					  
 			  				  }
-			  				  s+="<div><hr>";
-			  				  s+="<span class='star-rating'>"+ item.g_grade+ starsHTML +"</span>";
-			  				  s+="<span class='aday'>"+ item.g_myid + " · "+ item.g_writeday+"</span>";
-			  				  s+="<div>"+item.g_content+"</div>";
-			  				  s+= "</div>";
-			  				  
-			  				  
-			  			  });
-			  			  $("div.alist").html(s);
-			  			  
-			  			  updateH_grade();
+			  				s += "<hr>";
+			  				  s += "<div style='display: flex; align-items: center; justify-content: space-between;'>";
+			  				
+			  				s += "<div>";
+			  				s += "<span class='star-rating' style= 'margin-left:40px;'>" + item.g_grade + starsHTML + "</span>";
+			  				s += "<span class='aday' style= 'margin-left:25px; font-size:18px;'>" + item.g_myid + " · " + item.g_writeday + "</span>";
+			  				s += "</div>";
+			  				s += "<div style='margin-top: 10px; font-size:20px;'>" + item.g_content + "</div>";
+			  				s += "<div class='delete-button-wrapper'>";
+			  				s += "<button class='delete-button' data-gnum='" + item.g_num + "' data-gmyid='" + item.g_myid + "'><i class='bi bi-x-lg'></i></button>";
+			  				s += "</div>";
+			  				s += "</div>";
+
+			                 
+			  			});
+			              $("div.alist").html(s);
+			              
+			              // 관리자가 아니거나 로그인 상태가 아닐 경우 삭제 버튼 숨기기
+			              if (login == "null" || g_myid !== "admin") {
+			                  $(".delete-button-wrapper").hide();
+			              }
+			              
+			              updateH_grade();
 			  		  },
 			  		  error: function(xhr, status, error) {
 			  	            console.error("AJAX Error: " + error);
@@ -397,16 +449,10 @@ $(function(){
 			  	  });
 			    } 
 	
-	
-	
-	/* 	    $('.writegrade').click(function() {
-		        if(!G_myid) {
-		            $('#insertgrade').show(); 
-		        }
-		    });
-		    */
 		
-		
+
+	
+
 		
 	
 	
@@ -485,7 +531,7 @@ if(login=="null"){
 
 $(document).ready(function() {
     $('.shareicon').click(function(event) {
-        //event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+        event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
         $('#hiddenButtons').slideToggle(); // 숨겨진 버튼들을 토글하여 나타나거나 사라지게 함
     });
 });
@@ -542,7 +588,6 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
     moreButton1.style.display = "block";
     foldButton1.style.display = "none";
 }
-
 
 
 
@@ -628,7 +673,7 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 
 <%--  <div><%=dto.getH_grade() %> </div> --%>
 <div class="star-ratings">
-  <div 
+<div 
     class="star-ratings-fill space-x-2 text-lg"
     :style="{ width: ratingToPercent() + '%' }"
   >
@@ -637,7 +682,7 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
   </div>
   <div class="star-ratings-base space-x-2 text-lg">
     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-  </div>
+  </div> 
 </div>
 <%-- <div ><%=dto.getH_gradecount() %></div> --%>
 </div>
@@ -920,34 +965,14 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
     <p style="font-weight:bold; font-size:50px; display: inline-block;">
         <%=dto.getH_grade() %>
     </p>
-</div>
+</div> 
 
 
 <%=get_Content %>
 
 
 <!-- 프로그래스 바 -->
-<div class="progress-bar">
-  <div class="progress-bar-inner" style="width: 0%;">시설이 깨끗해요</div>
-</div>
-<div class="progress-bar">
-  <div class="progress-bar-inner" style="width: 0%;">휴게시설이 잘 되어 있어요</div>
-</div>
-<div class="progress-bar">
-  <div class="progress-bar-inner" style="width: 0%;">음식이 맛있어요</div>
-  <div class="progress-bar-text"></div>
-</div>
-<div class="progress-bar">
-  <div class="progress-bar-inner" style="width: 0%;">특별한 메뉴가 있어요</div>
-  <div class="progress-bar-text"></div>
-</div>
-<div class="progress-bar">
-  <div class="progress-bar-inner" style="width: 0%;">주차하기 편해요</div>
-  <div class="progress-bar-text"></div>
-</div>
-
-
-
+<div id="progress-container"></div>
 
 
 
