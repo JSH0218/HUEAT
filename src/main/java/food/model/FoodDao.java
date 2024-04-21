@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import brand.model.BrandDto;
 import mysql.db.DbConnect;
 
 public class FoodDao {
@@ -329,4 +328,28 @@ public class FoodDao {
 		}	
 		return f_num;
 	}
+	
+	
+	// 음식 평균 평점 update (hugesodetail.jsp)
+	public void updateF_grade(FoodDto dto) {
+	    Connection conn = db.getConnection();
+	    PreparedStatement pstmt = null;
+
+	    String sql = "update food set f_grade=? where f_num=? and h_num=?";
+
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, dto.getF_grade());
+	        pstmt.setString(2, dto.getF_num());
+	        pstmt.setString(3, dto.getH_num());
+
+	        pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        db.dbClose(pstmt, conn);
+	    }
+	}
+
 }

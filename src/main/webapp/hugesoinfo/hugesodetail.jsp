@@ -1,3 +1,5 @@
+<%@page import="foodgrade.model.FoodGradeDto"%>
+<%@page import="foodgrade.model.FoodGradeDao"%>
 <%@page import="food.model.FoodDto"%>
 <%@page import="food.model.FoodDao"%>
 <%@page import="brand.model.BrandDao"%>
@@ -35,6 +37,8 @@
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
+	String fg_foodnum = request.getParameter("fg_foodnum");
+	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
@@ -66,6 +70,9 @@
 	//BrandDao 객체 생성 & 브랜드 데이터 가져오기
 	BrandDao bdao = new BrandDao();
 	List<BrandDto> brandList = bdao.selectBrand(h_num);
+	
+	FoodGradeDao fgdao = new FoodGradeDao();
+    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum); 
 %>
 
 <style type="text/css">
@@ -144,6 +151,55 @@
 	border:none; 
 	background-color:white;
 
+}
+
+.food-item.selected {
+    cursor:pointer;
+}
+
+.food-item.selected {
+    border:3px solid #618E6E;
+    cursor:pointer;
+}
+
+.brand-item{
+    cursor:pointer;
+}
+
+
+.writegrade{
+	border:none;
+	background-color:white;
+}
+
+
+#popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
+  z-index: 1;
+}
+
+#popup.hide {
+  display: none;
+}
+
+#popup.has-filter {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+#popup .content {
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
 }
 </style>
 
@@ -267,7 +323,7 @@ $(function(){
  
  
  
-			   function ratingToPercent(avgGrade) {
+				function ratingToPercent(avgGrade) {
 				    const score = avgGrade * 20;
 				    return score + 1.5;
 				}
@@ -296,14 +352,15 @@ $(function(){
 				        },
 				        url: "hugesoinfo/updateh_grade.jsp",
 				        success: function(res) {
-
+				        	$(".avggrade3").text(avgGrade); 
 				            
 				        },
 				        error: function(xhr, status, error) {
 				            console.error("AJAX Error: " + error);
 				        }
 				    });
-				}
+				} 
+
 
 
 				$(document).ready(function () {
@@ -425,7 +482,7 @@ $(function(){
 			  				s += "<span class='star-rating' style= 'margin-left:40px;'>" + item.g_grade + starsHTML + "</span>";
 			  				s += "<span class='aday' style= 'margin-left:25px; font-size:18px;'>" + item.g_myid + " · " + item.g_writeday + "</span>";
 			  				s += "</div>";
-			  				s += "<div style='margin-top: 10px; font-size:20px;'>" + item.g_content + "</div>";
+			  				s += "<div class='gradecontent'style='margin-top: 10px; font-size:20px;'>" + item.g_content + "</div>";
 			  				s += "<div class='delete-button-wrapper'>";
 			  				s += "<button class='delete-button' data-gnum='" + item.g_num + "' data-gmyid='" + item.g_myid + "'><i class='bi bi-x-lg'></i></button>";
 			  				s += "</div>";
@@ -438,6 +495,7 @@ $(function(){
 			              // 관리자가 아니거나 로그인 상태가 아닐 경우 삭제 버튼 숨기기
 			              if (login == "null" || g_myid !== "admin") {
 			                  $(".delete-button-wrapper").hide();
+			                  //$(".delete-button-wrapper").append("<div><button></button></div>");
 			              }
 			              
 			              updateH_grade();
@@ -538,41 +596,9 @@ $(document).ready(function() {
 
 
 
-/* 음식평점 남기긱 */
-$("#btnsendfood").click(function(){
-    var g_grade = $("input[name='fg_grade']:checked").val(); // 선택된 평점 값 가져오기
-    
-    if (!fg_grade) { // 선택된 평점이 없을 경우
-        alert("평점을 선택해주세요");
-        return;
-    }
-    
-    $.ajax({
-        type: "get", 
-        url: "foodgrade/insertfoodgrade.jsp",
-        dataType: "html",
-        data: {"fg_hugesonum": $("#h_num").val(),
-        	   "fg_foodnum": $("#fg_myid").val(),
-        	   "fg_myid": $("#fg_myid").val(),
-        	   "fg_grade": fg_grade, 
-        	   "g_content": g_content}, 
-        	   
-        success: function(){
-            $("#insertfoodgrade").hide(); // 평점 등록 시 숨김
-       
-            updateH_grade();
-         },
-        error: function(xhr, status, error) {
-            // 오류 발생 시 처리
-            console.error("AJAX Error: " + error);
-        }
-            
-    });
-    
-    });
 
 
-var moreButton = document.getElementById("moreButton");
+/* var moreButton = document.getElementById("moreButton");
 var foldButton = document.getElementById("foldButton");
 var moreButton1 = document.getElementById("moreButton1");
 var foldButton1 = document.getElementById("foldButton1");
@@ -587,7 +613,111 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
     foldButton.style.display = "none";
     moreButton1.style.display = "block";
     foldButton1.style.display = "none";
+} */
+
+
+
+
+document.querySelector('.writegrade').addEventListener('click', function() {
+	event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+    // 버튼을 클릭했을 때 실행될 코드
+    document.querySelectorAll('.food-item').forEach(image => {
+    	 image.addEventListener('click', function() {
+    		 showPopup(image, image.getAttribute('data-fnum')); // 클로저를 사용하여 image와 f_num 값을 전달
+    });
+});
+});
+
+function showPopup(image, fg_foodnum) {
+    // 이미지를 검정 사각형으로 변하도록 클래스를 추가
+    image.classList.toggle('selected');
+
+    
+    if (fg_foodnum) {
+    	//alert(fg_foodnum);
+        // 해당 음식번호가 존재하면 팝업 표시
+        showPopup2();
+    } else {
+        console.error('해당 음식번호가 존재하지 않습니다.');
+    }
 }
+
+
+   
+function showPopup2() {
+    const popup = document.querySelector('#popup');
+    popup.classList.remove('has-filter');
+    popup.classList.remove('hide');
+}
+
+
+
+var avgFoodGrade = "<%= avgFoodGrade %>"; 
+
+// 음식 평균 평점
+function updateF_grade(fg_foodnum, avgFoodGrade) {
+	console.log("fg_foodnum:", fg_foodnum);
+	console.log("avgFoodGrade:", avgFoodGrade);
+    $.ajax({ 
+        type: "post",
+        dataType: "html",
+        data: {
+            "fg_hugesonum": $("#h_num").val(),
+            "f_num": fg_foodnum, 
+            "f_grade": avgFoodGrade
+        },
+        url: "foodgrade/updatef_grade.jsp",
+        
+        success: function(res) {
+        	console.log("요청 성공:", res);
+            $(".avggrade2").text(avgFoodGrade); 
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: " + error);
+        }
+    });
+}
+
+
+/* 등록 버튼 클릭 시 음식평점 남기기 */
+$("#btnsendfood").click(function(){
+    var fg_grade = $("input[name='fg_grade']:checked").val(); // 선택된 평점 값 가져오기
+    const fg_foodnum = $(".food-item.selected").attr("data-fnum"); // 선택된 음식 번호 가져오기
+    if (!fg_grade) { // 선택된 평점이 없을 경우
+        alert("평점을 선택해주세요");
+        return;
+    }
+    
+    $.ajax({
+        type: "get", 
+        dataType: "html",
+        data: {"fg_hugesonum": $("#h_num").val(),
+        	   "fg_foodnum": fg_foodnum,
+        	   "fg_myid": $("#g_myid").val(),
+        	   "fg_grade": fg_grade}, 
+        url: "foodgrade/insertfoodgrade.jsp",	   
+        success: function(){
+            //$("#insertfoodgrade").hide(); // 평점 등록 시 숨김
+       
+            //updateH_grade();
+            
+            //alert("평점등록 완료!!!");
+           
+           
+            $("#popup").hide(); 
+            location.reload();
+            updateF_grade(fg_foodnum, avgFoodGrade); 
+            //closePopup();
+            
+         },
+        error: function(xhr, status, error) {
+            // 오류 발생 시 처리
+            console.error("AJAX Error: " + error);
+        }
+            
+    });
+    
+    });
 
 
 
@@ -620,6 +750,7 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 <div class="three">휴게소상세
 </div>
 </div>
+
 
 <!-- sns 공유하기 -->
 
@@ -660,7 +791,9 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 </script>
 
 </div>
-</div>
+<!-- </div> -->
+
+  
 <!-- 휴게소 이름 출력 -->
 <h2 class="h_name"><%=dto.getH_name()%></h2> 
 <p class="h_text">
@@ -783,7 +916,41 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 </div>
 
 
+
+
 <div class="contain">
+
+
+
+
+
+
+<button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
+
+  <div id="popup" class="hide">
+  <div class="content">
+  
+f_num
+  <div class="gradecontent2">
+    <p>
+      <div class="star-rating space-x-4 mx-auto" id="fg_grade";>
+	<input type="radio" id="5-stars" name="fg_grade" value="5" v-model="ratings" />
+	<label for="5-stars" class="star pr-4">★</label>
+	<input type="radio" id="4-stars" name="fg_grade" value="4" v-model="ratings" />
+	<label for="4-stars" class="star">★</label>
+	<input type="radio" id="3-stars" name="fg_grade" value="3" v-model="ratings" />
+	<label for="3-stars" class="star">★</label>
+	<input type="radio" id="2-stars" name="fg_grade" value="2" v-model="ratings" />
+	<label for="2-stars" class="star">★</label>
+	<input type="radio" id="1-star" name="fg_grade" value="1" v-model="ratings" />
+	<label for="1-star" class="star">★</label>
+    </div>
+    </p>
+    <button id="btnsendfood" onclick="closePopup()" class="prebtn">등록</button>
+  </div>
+  </div>
+</div>
+
 
 <div class="container mt-3 food">
   <!-- Nav pills -->
@@ -804,14 +971,21 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
     for(FoodDto fdto : foodlist) {
         String f_photo = fdto.getF_photo();
         String f_name = fdto.getF_name();
+        String f_num = fdto.getF_num();
         count++; // 이미지가 추가될 때마다 개수 증가
 
         // 이미지 출력
     %>
-        <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px;">
-            <img alt="<%=f_name%>" src="image/food/<%=f_photo%>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
-            <%=f_name%>
-        </div>
+        <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; 
+        text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px;" data-fnum="<%=f_num%>">
+            <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
+            style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
+     <div style="display: inline-block;" class="starrating">
+    <label style="-webkit-text-fill-color: gold; font-size: 2rem;">★</label>
+    <p class="avgfgrade" style="font-weight:bold; font-size:20px; display: inline-block;">
+        <%-- <%=dto.getH_grade() %> --%>
+    </p></div> <%=f_name%>
+    </div>
     <% if (count == 4) break; %> <%-- 이미지가 4개가 되면 반복문 중단 --%>
     <%}%>
         <div id="hiddenContent" style="display: none;">
@@ -821,14 +995,23 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
                 FoodDto fdto = foodlist.get(i);
                 String f_photo = fdto.getF_photo();
                 String f_name = fdto.getF_name();
+                String f_num = fdto.getF_num(); 
             %>
-                <div class="food-item" style="display: inline-block; text-align:center; font-weight:bold; margin-bottom: 20px;">
-                    <img alt="<%=f_name%>" src="image/food/<%=f_photo%>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;"><br>
-                    <%=f_name%>
+                <div class="food-item"  style="display: inline-block;
+                text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px;" data-fnum="<%=f_num%>">
+                    <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
+                    style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
+                    <div style="display: inline-block;" class="starrating">
+    <label style="-webkit-text-fill-color: gold; font-size: 2rem;">★</label>
+    <p class="avggrade2" style="font-weight:bold; font-size:20px; display: inline-block;">
+        <%-- <%=dto.getH_grade() %> --%><% %>
+    </p></div><%=f_name%>
                 </div>
             <% } %>
         </div>
 </div>
+
+
 
   <div id="menu1" class="container tab-pane fade"><br>
     <!-- 브랜드 출력  -->
@@ -843,8 +1026,10 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 
             // 브랜드 출력
         %>
-            <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px;">
-                <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;">
+            <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px; margin-right:20px;">
+                <a href="<%=b_addr %>">
+                <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" 
+                style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;"></a>
                 <div><%=b_name %></div>
             </div>
         <% if (count1 == 4) break; %> <%-- 브랜드가 4개가 되면 반복문 중단 --%>
@@ -858,8 +1043,10 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
                     String b_name = bdto.getB_name();
                     String b_addr = bdto.getB_addr();
                 %>
-                    <div class="brand-item" style="display: none;">
-                        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" style="width: 220px; height:200px; margin-right:20px; margin-bottom:15px;">
+                    <div class="brand-item" style="display: none; margin-right:20px;">
+                     <a href="<%=b_addr %>">
+                        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" 
+                        style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;" ></a>
                         <div><%=b_name %></div>
                     </div>
                 <% } %>
@@ -962,8 +1149,8 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 
 <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>
-    <p style="font-weight:bold; font-size:50px; display: inline-block;">
-        <%=dto.getH_grade() %>
+    <p class="avggrade3" style="font-weight:bold; font-size:50px; display: inline-block;">
+        <%-- <%=dto.getH_grade() %> --%>
     </p>
 </div> 
 
@@ -984,7 +1171,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
         </b>
         
       <!-- <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>  -->
-      
+ 
   <% if(!G_myid) {%>
          <div class="gradefrm" id="insertgrade">
           <div style="display: inline-block;">
@@ -1035,6 +1222,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
    <button type="button" id="btnasend" class="prebtn" >등록</button>    
    </div>
    </div>
+
  <%}%>
  
    <div class="alist" id="alist">평점 목록</div>
@@ -1095,17 +1283,11 @@ marker.setMap(map);
 </div>
 <button type="button" >수정</button> 
 <button type="button" style="background-color:">삭제</button> 
-</div>
-
-</div>
 
 
 
 </div>
-</form>
 </div>
-
-
+</form> 
 </body>
-
 </html>
