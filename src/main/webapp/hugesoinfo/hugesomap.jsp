@@ -44,11 +44,12 @@
 		
 		div.infowindow div{
 			text-align: center;
-			width: 210px;
 		}
 		
 		div.infowindow div img{
-			width: 210px;
+			width: 200px;
+			height: 100px;
+			object-fit: cover;
 		}
 		
 		#searcharea{
