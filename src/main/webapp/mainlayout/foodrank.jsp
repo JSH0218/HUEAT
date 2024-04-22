@@ -17,7 +17,7 @@
 <style type="text/css">
    
    .f_title {
-    margin-left: 22.5%;
+    margin-left: 23.5%;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 1%;
@@ -123,8 +123,8 @@
     <!-- Add Navigation -->
 </div>
 <div>
-    <div class="swiper-button-next menu" style="position:absolute; top: 1365px; right: 160px"></div>
-    <div class="swiper-button-prev menu" style="position:absolute; top: 1365px; left : 960px"></div>
+    <div class="swiper-button-next menu" style="position:absolute; top: 1365px; right: 142px"></div>
+    <div class="swiper-button-prev menu" style="position:absolute; top: 1365px; left : 973px"></div>
 </div>
 
 </div>

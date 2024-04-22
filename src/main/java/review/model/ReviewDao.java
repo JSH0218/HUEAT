@@ -14,19 +14,22 @@ public class ReviewDao {
 	
 	DbConnect db = new DbConnect();
 	
+	//insert
 	public void insertReview(ReviewDto dto) {
 		
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		
-		String sql = "insert into reviewboard values(null,?,?,?,0,now())";
+		String sql = "insert into reviewboard values(null,?,?,?,?,0,now())";
 	
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
             pstmt.setString(1, dto.getR_myid());
-			pstmt.setString(2, dto.getR_content());
-			pstmt.setString(3, dto.getR_image());
+            pstmt.setString(2, dto.getR_category());;
+			pstmt.setString(3, dto.getR_content());
+			pstmt.setString(4, dto.getR_image());
+			
 			
 			pstmt.execute();
 			
@@ -59,6 +62,7 @@ public class ReviewDao {
 					
 					dto.setR_num(rs.getString("r_num"));
 					dto.setR_myid(rs.getString("r_myid"));
+					dto.setR_category(rs.getString("r_category"));
 					dto.setR_content(rs.getString("r_content"));
 					dto.setR_image(rs.getString("r_image"));
 					dto.setR_chu(rs.getInt("r_chu"));
@@ -134,6 +138,7 @@ public class ReviewDao {
 
 					dto.setR_num(rs.getString("r_num"));
 					dto.setR_myid(rs.getString("r_myid"));
+					dto.setR_category(rs.getString("r_category"));
 					dto.setR_content(rs.getString("r_content"));
 					dto.setR_image(rs.getString("r_image"));
 					dto.setR_chu(rs.getInt("r_chu"));
@@ -159,14 +164,15 @@ public class ReviewDao {
 			Connection conn = db.getConnection();
 			PreparedStatement pstmt = null;
 
-			String sql = "update reviewboard set r_content=?, r_image=? where r_num=?";
+			String sql = "update reviewboard set r_category=? ,r_content=?, r_image=? where r_num=?";
 
 			try {
 				pstmt = conn.prepareStatement(sql);
 
-				pstmt.setString(1, dto.getR_content());
-				pstmt.setString(2, dto.getR_image());
-				pstmt.setString(3, dto.getR_num());
+				pstmt.setString(1, dto.getR_category());
+				pstmt.setString(2, dto.getR_content());
+				pstmt.setString(3, dto.getR_image());
+				pstmt.setString(4, dto.getR_num());
 
 				pstmt.execute();
 				;
@@ -245,6 +251,7 @@ public class ReviewDao {
 
 					dto.setR_num(rs.getString("r_num"));
 					dto.setR_myid(rs.getString("r_myid"));
+					dto.setR_category(rs.getString("r_category"));
 					dto.setR_content(rs.getString("r_content"));
 					dto.setR_image(rs.getString("r_image"));
 					dto.setR_chu(rs.getInt("r_chu"));
@@ -313,6 +320,7 @@ public class ReviewDao {
 
 							dto.setR_num(rs.getString("r_num"));
 							dto.setR_myid(rs.getString("r_myid"));
+							dto.setR_category(rs.getString("r_category"));
 							dto.setR_content(rs.getString("r_content"));
 							dto.setR_image(rs.getString("r_image"));
 							dto.setR_chu(rs.getInt("r_chu"));

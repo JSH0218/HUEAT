@@ -38,10 +38,8 @@
   }
   
   div.info {
-    border: 1px solid blue;
-    background-color: gray;
+    border: 0px solid blue;
     font-family: 'Noto Sans KR';
-    height: 10rem;
   }
 
 </style>

@@ -43,11 +43,36 @@
   text-align: center; /* 가로 가운데 정렬 */
   color: gray;          
   }
-  
-  #total_main {
-  padding-bottom: 50px;
+
+  .bottom_img {
+  width: 1500px;
+  display: block;
+  margin: 0 auto;
   }
 
+  .caption {
+  position: absolute;
+  bottom: 280px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px; /* 텍스트 내용과 테두리 사이 여백 */
+  }
+
+  h3 {
+  text-align: center;
+  margin: 0;
+  }
+  
+  button.btn {
+  position: absolute;
+  bottom: 230px;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+   }
+   
+   button.col {
+    background-color: #618E6E;
+  }
 </style>
 </head>
   <%
@@ -107,10 +132,17 @@
   
   
   <!-- 이달의 메뉴 -->
-  <div style="display: inline-block; margin-left: -5%;">
+  <div style="display: inline-block; margin-left: -4%;">
   <jsp:include page="../mainlayout/foodrank.jsp" />
   </div>
   
+  <!-- 쇼핑몰 -->
+  <div  style="text-align: center; position: relative; padding-top: 4%;">
+    <img alt="" src="<%=root%>/image/main/main.jpg" class="bottom_img">
+    <h2 class="caption">다양한 브랜드를 합리적인 가격으로 만나보세요</h2>
+    <button class="btn btn-success col" onclick="location.href='index.jsp?main=shop/shopList.jsp'">
+    자세히보기</button>
+  </div>
   
   
  </div>

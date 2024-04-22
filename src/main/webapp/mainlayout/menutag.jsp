@@ -76,7 +76,7 @@
 <body>
 
   <!-- 정보제공 레이아웃 -->
-  <div class="main_1 container" style="width: 673px; margin-left: 19.6%; height: 250px;">
+  <div class="main_1 container" style="width: 673px; margin-left: 20.8%; height: 250px;">
     <section class="font_section">
       <div class="font_title">자주가는 메뉴</div>
       <div class="font_subtitle">회원여러분의 편리성을 제공합니다</div>

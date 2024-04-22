@@ -15,7 +15,7 @@
 <style type="text/css">
    /*이달의 휴게소*/
    .h_title {
-    margin-left: 22.5%;
+    margin-left: 23.5%;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 1%;
