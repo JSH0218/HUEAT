@@ -20,7 +20,7 @@
   - 담당 기능 :
 
 ## ERD
-<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/aaf57326-94fc-4df3-9391-ab0fa2a02708">
+<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/9b671d2b-feea-4bf8-926a-c044ff88843b">
 
 ## Tech Stacks
 <img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/8b655efb-5bcd-4629-9f69-9dca23cb1292">
