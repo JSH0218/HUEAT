@@ -159,6 +159,12 @@ $(function(){
 		var cart_idx=$(this).val();
 		//alert(cart_idx);
 		
+		 var a=confirm("취소하시겠습니까?");
+		 
+		 if(a){
+			 
+		 
+		
 		$.ajax({
 			type:"get",
 			url:"foodcourt/foodcartdelete.jsp",
@@ -170,6 +176,7 @@ $(function(){
 			}
 			
 	})
+}
 });
 		
 
