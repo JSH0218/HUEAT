@@ -1,3 +1,5 @@
+<%@page import="hugesoinfo.model.HugesoInfoDto"%>
+<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="review.model.ReviewDto"%>
@@ -25,10 +27,12 @@
   a.mod {
     cursor: pointer;
     color: black;
+    float: right;
   }
   
   i.del {
     cursor: pointer;
+    float: right;
   }
   
    i.icon1 {
@@ -133,7 +137,10 @@
    
     //로그인 세션얻기
 	String loginok=(String)session.getAttribute("loginok");
-
+    
+    
+  
+  
 	ReviewDao dao=new ReviewDao();
 	
 	//전체갯수
@@ -216,6 +223,9 @@
     
     <%
       MemInfoDao rdao = new MemInfoDao();
+      //휴게소
+      HugesoInfoDao hdao = new HugesoInfoDao();
+      List<HugesoInfoDto> hlist = hdao.getAllDatas();
       
       for(ReviewDto dto:list) {
     	  
@@ -227,8 +237,9 @@
     	  <table class="table">
     	    <tr>
     	      <td>
-    	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b>
-
+    	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b><br>
+    	        <p style="margin-bottom: -3%;"><%=dto.getR_category() %></p>
+                
     	        
     	        <%
     	        String myid=(String)session.getAttribute("myid"); 
