@@ -111,8 +111,8 @@ String myid = (String) session.getAttribute("myid");
             <li><a href="#">휴잇소식</a>
                <ul>
                   <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
-                  <li><a href="index.jsp?main=intro/intro.jsp">소개글</a></li>
                   <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
+                  <li><a href="index.jsp?main=intro/intro.jsp">소개글</a></li>
                </ul></li>
 
             <li><a href="#">휴게소정보</a>
