@@ -33,6 +33,63 @@
     color: black;
   
   }
+   div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		position: relative;
+		font-size: 3em;
+}
+
+		div.alldiv{
+		margin: 0 auto;
+		width: 80%;
+		border: 0px solid black;
+
+	}
+	
+	div.tablediv{
+		margin:0 auto;
+		padding-top: 5%;
+		border: 0px solid red;
+		width: 70%;
+		display: block;
+	}
+	
+	#pagelayout{
+		margin:0 auto;
+		border: 0px solid yellow;
+		padding-top: 4%;
+		width: 70%;
+		display: block;
+	}
   
   
 </style>
@@ -102,13 +159,18 @@
 	
 	%>
 <body>
-  <!-- 메뉴 타이틀 -->
-  <div style="margin-top: 70px; text-align: center;"><h4><b>이벤트</b></h4></div>
+
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/boardbanner01.jpg'); background-size: cover; background-position: center center;">
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>이벤트<br><span style="font-size: 20px;">다양한 이벤트 소식을 전달합니다.</span></span>
+</div>
+
   
-  
-  <div style="margin: 100px 200px; width: 1000px; margin-left: 18%;">
+ <div class="alldiv">
+  <div class="tablediv">
     <table class="table table-bordered">
-      <caption align="top"><h5><b>목록</b></h5></caption>
+      <caption align="top" style="font-size: 1.2em;padding-left: 24px;"><b>목록</b></caption>
         <tr class="table-" align="center" style="height: 30px;">
           <th width="120">번호</th>
           <th width="450">제목</th>
@@ -124,7 +186,7 @@
           if(totalCount == 0) {%>
             <tr>
               <td colspan="6">
-                <h6><b>등록된 게시글이 없습니다</b></h6>
+                <h6 style="text-align: center;"><b>등록된 게시글이 없습니다</b></h6>
               </td>
             </tr>
           
@@ -215,6 +277,6 @@
  
   
 </div>
-
+</div><!-- 전체감싼 div -->
 </body>
 </html>
