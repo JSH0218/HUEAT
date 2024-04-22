@@ -114,7 +114,7 @@
             <div class="hugeso-content" style="text-align: center; width: 250px;">
                 <a h_num="<%=dto.getH_num() %>" class="hugesoDetail"  style="cursor: pointer;
                 display: inline-block;">
-                    <img alt="" src="image/hugeso/<%=dto.getH_photo() %>" class="h_image">
+                    <img alt="" src="hugesosave/<%=dto.getH_photo() %>" class="h_image">
                     <div class="h_hugeso">
                         <div class="h_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
                         <div class="h_addr" style="font-size: 0.7em;"><%=dto.getH_addr() %></div>

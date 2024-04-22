@@ -130,12 +130,11 @@
   <jsp:include page="../mainlayout/hugesorank.jsp" />
   </div>
   
-  
   <!-- 이달의 메뉴 -->
   <div style="display: inline-block; margin-left: -4%;">
   <jsp:include page="../mainlayout/foodrank.jsp" />
   </div>
-  
+
   <!-- 쇼핑몰 -->
   <div  style="text-align: center; position: relative; padding-top: 4%;">
     <img alt="" src="<%=root%>/image/main/main.jpg" class="bottom_img">
