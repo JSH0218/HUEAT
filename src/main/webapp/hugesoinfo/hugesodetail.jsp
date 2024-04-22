@@ -37,8 +37,6 @@
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
-	/* String fg_foodnum = request.getParameter("fg_foodnum"); */
-	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
@@ -65,14 +63,13 @@
 	
 	//FoodDao 객체 생성 & 음식 데이터 가져오기
 	FoodDao fdao = new FoodDao();
+	FoodDto ffdto = fdao.bestFood(h_num);
 	List<FoodDto> foodlist = fdao.selectFood(h_num);
 	
 	//BrandDao 객체 생성 & 브랜드 데이터 가져오기
 	BrandDao bdao = new BrandDao();
 	List<BrandDto> brandList = bdao.selectBrand(h_num);
 	
-	/* FoodGradeDao fgdao = new FoodGradeDao();
-    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum);  */
 %>
 
 <style type="text/css">
@@ -401,12 +398,16 @@ $(function(){
 	      //alert(g_myid); 
 		        
 		// 특정 휴게소의 평점 목록
-		    function list(){
+		    function list(sortType){
+		    	if (!sortType) {
+		            sortType = "latest";
+		        }
+		
 			  	  $.ajax({ 
 			  		  type:"get",
 			  		  url:"grade/gradelist.jsp",
 			  		  dataType:"json",
-			  		  data:{"h_num":$("#h_num").val()},
+			  		  data:{"h_num":$("#h_num").val(),"sortType": sortType},
 			  		  success:function(res){
 			  			  //평점갯수출력
 			  			  $("b.gradesu>span").text(res.length);
@@ -468,18 +469,6 @@ $(function(){
       $(this).toggleClass("active-color");
 });
 
-		    
-	//변수 선언
-	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
-	var diesel = parseInt(<%=dto.getH_disel()%>); // 경유 가격 데이터
-	var lpg = parseInt(<%=dto.getH_lpg()%>); // LPG 가격 데이터
-
-    // 숫자에 천 단위 콤마 추가하는 함수
-    function insertCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-	
 	
 // 유지))즐겨찾기
 var login = "<%=loginok%>";
@@ -660,6 +649,62 @@ $("#btnsendfood").click(function(){
 };
 
 
+// 휴게소 평점 정렬
+$(document).ready(function() {
+    $('#sortByLatest').click(function(event) {
+        list('latest');
+    });
+
+    $('#sortByHigh').click(function(event) {
+        list('high');
+    });
+
+    $('#sortByLow').click(function(event) {
+        list('low');
+    });
+});
+
+
+
+//휴게소 평점 정렬
+$(document).ready(function() {
+    $('#foodLatest').click(function(event) {
+    	sortFood('latest');
+    });
+
+    $('#foodHigh').click(function(event) {
+        sortFood('high');
+    });
+
+    $('#foodLow').click(function(event) {
+        sortFood('low');
+    });
+});
+
+
+function updateFoodSort(html) {
+    // 푸드코트를 비우고, 서버에서 받은 HTML로 채웁니다.
+    $("#home .food-item").remove(); // 기존 음식 아이템 삭제
+    $("#home").append(html); // 정렬된 음식 목록 추가
+}
+
+
+function sortFood(sortType) {
+    $.ajax({
+    	type:"get",
+		  url:"foodgrade/foodgradesort.jsp",
+		  dataType:"html",
+		  data:{"h_num":$("#h_num").val(),"sortType": sortType},
+		  success:function(html){
+			  updateFoodSort(html);
+        },
+        error: function(xhr, status, error) {
+            // 요청 실패 시의 처리
+            console.error("Error:", status, error);
+        }
+    });
+}
+
 
 })
 
@@ -677,15 +722,15 @@ $("#btnsendfood").click(function(){
 <div class="hugesodetail">
 <div class="toparea">
 <div class="location">
-	<a href="#" class="home"><i class="bi bi-house-door-fill"></i></a>
+	<a href="index.jsp?main" class="home"><!-- <i class="bi bi-house-door-fill"> --></i></a>
 
 <div class="one" style="display:flex;">
-<a href="#" class="h_loc">휴게소정보 </a>
+<a href="#" class="h_loc"></a>
 </div>
 <div class="two">
-<a href="#" class="h_loc">휴게소찾기</a>
+<a href="#" class="h_loc"></a>
 </div>
-<div class="three">휴게소상세
+<div class="three">
 </div>
 </div>
 
@@ -737,6 +782,9 @@ $("#btnsendfood").click(function(){
 <p class="h_text">
 <% if (gdto.getG_content() != null) { %>
     #<%= gdto.getG_content() %>
+<% }%>&nbsp;
+<% if (ffdto.getF_name() != null) { %>
+    #<%= ffdto.getF_name() %>
 <% }%>
 </p>
 <div class="avggrade">
@@ -860,7 +908,9 @@ $("#btnsendfood").click(function(){
 
 
 
-
+<button type="button" id="foodLatest">최신순</button>
+<button type="button" id="foodHigh">평점높은순</button>
+<button type="button" id="foodLow">평점낮은순</button>
 
 
 <button type="button" class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
@@ -1061,17 +1111,18 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 <th >가격</th>
 </tr>
 <tr>
-<td >휘발유</td>
-<td ><%=dto.getH_gasolin()%>원</td>
+    <td>휘발유</td>
+    <td><%= "없음".equals(dto.getH_gasolin()) ? "-" : dto.getH_gasolin() %>원</td>
 </tr>
 <tr>
-<td >경유</td>
-<td ><%= dto.getH_disel() %>원</td>
+    <td>경유</td>
+    <td><%= "없음".equals(dto.getH_disel()) ? "-" : dto.getH_disel() %>원</td>
 </tr>
 <tr>
-<td >LPG</td>
-<td><%= dto.getH_lpg() %>원</td>
+    <td>LPG</td>
+    <td><%= "없음".equals(dto.getH_lpg()) ? "-" : dto.getH_lpg() %>원</td>
 </tr>
+
 </table>
 <div style="font-size:16px; font-weight:bold; color: gray; text-align:center; margin-bottom:100px;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.
 [제공&nbsp;<span style="color:#0897B4;">한국도로공사]</span></div>
