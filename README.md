@@ -1,6 +1,8 @@
+<div align=center> 
 휴게소 정보 제공사이트 HUEAT
 <br>
 손쉽게 휴게소 정보를 얻고 추천받을 수 있는 HUEAT에 오신것을 환영합니다.
+</div>
 
 ## 팀소개 및 담당기능
 - 송승경 : 메인화면, 공지사항, 소개글, 이벤트, 고객센터, 쇼핑몰
@@ -40,7 +42,6 @@
 
 <div><h4>communication</h4>
   <img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white">
-  <img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=Github&logoColor=white">
 </div>
 
 ## 기능설명
