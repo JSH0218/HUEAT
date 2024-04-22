@@ -61,6 +61,7 @@
 		z-index: 9999;
 		color: white;
 		position: relative;
+		font-size: 3em;
 }
 
 		div.alldiv{
@@ -169,8 +170,8 @@
 <body>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner02.jpg'); background-size: cover; background-position: center center;">
 </div>
-<div class="span-container" style="border:0px solid purple;font-size: 2.5em;">
-	<span>고객문의</span>
+<div class="span-container" style="border:0px solid purple;">
+	<span>고객문의<br><span style="font-size: 20px;">문의를 남겨주시면 빠른 시일 내에 답변드리겠습니다.</span></span>
 </div>
 
 

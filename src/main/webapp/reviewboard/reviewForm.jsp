@@ -16,40 +16,6 @@
     margin-left: -118%;
     
   }
-  
-   div.img-container{
-    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 250px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
-  	background-position: top;
-  	text-align: center;
-}
-	
-	div.img-container img {
-		top: 0;
-    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
-    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
-    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
-    
-}
-	div.span-container{
-		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 250px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	background-position: top;
-		margin-top:-14%;
-  	text-align: center;
-  	display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-	}
-
-	div.span-container span{
-		z-index: 9999;
-		color: white;
-		position: relative;
-}
 
 	table tr,table td{
 	border: none;
@@ -58,12 +24,7 @@
 </style>
 </head>
 <body>
-  <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner02.jpg'); background-size: cover; background-position: center center;">
-</div>
-<div class="span-container" style="border:0px solid purple;font-size: 2.5em;">
-	<span>후기등록</span>
-</div>
-  
+
   
    <!-- 메뉴 타이틀 -->
   <%-- <div style="margin-top: 70px; text-align: center;"><h4><b>고객후기</b></h4></div>--%>

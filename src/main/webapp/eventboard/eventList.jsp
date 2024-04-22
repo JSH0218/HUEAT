@@ -65,6 +65,7 @@
 		z-index: 9999;
 		color: white;
 		position: relative;
+		font-size: 3em;
 }
 
 		div.alldiv{
@@ -161,8 +162,8 @@
 
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/boardbanner01.jpg'); background-size: cover; background-position: center center;">
 </div>
-<div class="span-container" style="border:0px solid purple;font-size: 2.5em;">
-	<span>이벤트</span>
+<div class="span-container" style="border:0px solid purple;">
+	<span>이벤트<br><span style="font-size: 20px;">다양한 이벤트 소식을 전달합니다.</span></span>
 </div>
 
   

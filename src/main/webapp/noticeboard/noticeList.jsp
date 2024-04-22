@@ -66,6 +66,7 @@
 		z-index: 9999;
 		color: white;
 		position: relative;
+		font-size: 3em;
 }
 
 	div.alldiv{
@@ -161,8 +162,8 @@
 <body>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/boardbanner01.jpg'); background-size: cover; background-position: center center;">
 </div>
-<div class="span-container" style="border:0px solid purple;font-size: 2.5em;">
-	<span>공지사항</span>
+<div class="span-container" style="border:0px solid purple;">
+	<span>공지사항<br><span style="font-size: 20px;">HUEAT의 소식을 알 수 있습니다.</span></span>
 </div>
 
   <!-- 메뉴 타이틀 -->
