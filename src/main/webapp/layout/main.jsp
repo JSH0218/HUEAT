@@ -125,8 +125,9 @@
      <h5>최고의 품질과 양으로 고객님들께 웃음을 드리도록 노력하겠습니다.</h5>
    </div>
 
+ <div style="margin-top: 2%;">
   <!-- 이달의 휴게소 -->
-  <div style="display: inline-block; margin-right: 20px; margin-top: 2%;">
+  <div style="display: inline-block; margin-right: 20px; ">
   <jsp:include page="../mainlayout/hugesorank.jsp" />
   </div>
   
@@ -134,6 +135,7 @@
   <!-- 이달의 메뉴 -->
   <div style="display: inline-block; margin-left: -4%;">
   <jsp:include page="../mainlayout/foodrank.jsp" />
+  </div>
   </div>
   
   <!-- 쇼핑몰 -->

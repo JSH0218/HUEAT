@@ -31,7 +31,7 @@
     .n_subject {
     flex: 1; /* 제목이 최대한 넓게 확장되도록 설정합니다. */
     padding: 2px;
-    max-width: 200px; /* 제목의 최대 너비를 200px로 설정합니다. */
+    max-width: 350px; /* 제목의 최대 너비를 200px로 설정합니다. */
     white-space: nowrap; /* 제목이 한 줄로 유지되도록 설정합니다. */
     overflow: hidden; /* 너무 긴 제목은 자동으로 잘리도록 설정합니다. */
     text-overflow: ellipsis;
@@ -55,7 +55,7 @@
     .e_subject {
     flex: 1; /* 제목이 최대한 넓게 확장되도록 설정합니다. */
     padding: 2px;
-    max-width: 200px; /* 제목의 최대 너비를 200px로 설정합니다. */
+    max-width: 350px; /* 제목의 최대 너비를 200px로 설정합니다. */
     white-space: nowrap; /* 제목이 한 줄로 유지되도록 설정합니다. */
     overflow: hidden; /* 너무 긴 제목은 자동으로 잘리도록 설정합니다. */
     text-overflow: ellipsis;
