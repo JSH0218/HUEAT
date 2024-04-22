@@ -17,7 +17,7 @@
     top: 30%;
     left: 50%;
     text-align: center;
-		margin-top:8%;
+		margin-top:6%;
     border: 0px solid red;
 	}
 
@@ -50,13 +50,13 @@
 	}
 	div.img-container{
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
+    height: 250px; /* 원하는 높이로 설정 */
     overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
   	border: 0px solid black;
   	background-position: top;
-  	margin-top: -10%;
   	text-align: center;
 }
+	
 	div.img-container img {
 		top: 0;
     width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
@@ -66,36 +66,21 @@
 }
 	div.span-container{
 		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
+    height: 250px; /* 원하는 높이로 설정 */
     overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
   	background-position: top;
-  	margin-top: -16%;
+		margin-top:-14%;
   	text-align: center;
   	display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
 	}
 
-
-div.span-container span{
+	div.span-container span{
 		z-index: 9999;
 		color: white;
-		font-size: 3em;
 		position: relative;
 
-}
-div.font-container{
-  	opacity: 0.4;
-  	background-color: black;
-  	width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 300px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
-  	background-position: top;
-  	margin-top: -16.1%;
-  	text-align: center;
-  	z-index: 100;
 }
 </style>
 <%
@@ -105,13 +90,10 @@ List<HugesoInfoDto> list=dao.getH_numH_name();
 </head>
 <body>
 <%--여기서부터  --%>
-<div class="img-container" style=" border: 0px solid red;">
-		<img alt="" src="image/mainbanner/foodbanner01.jpg">
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/foodbanner01.png'); background-size: cover; background-position: center center;">
 </div>
-<div class="span-container" style="border:0px solid black;">
-	<span>푸드코트<br>더 편리하고 빠르게 주문하세요</span>
-</div>
-<div class="font-container" style=" border: 0px solid yellow;">
+<div class="span-container" style="border:0px solid purple; font-size: 2.5em;" >
+	<span>푸드코트<br><span>더 편리하고 빠르게 주문하세요.</span></span>
 </div>
 <%--여기까지 foodbanner영역 --%>
 

@@ -19,7 +19,10 @@
     margin-left: -118%;
     
   }
-  
+
+	table tr,table td{
+	border: none;
+}
   
 </style>
 </head>
@@ -29,9 +32,10 @@
   
 %>
 <body>
+
   
    <!-- 메뉴 타이틀 -->
-  <div style="margin-top: 70px; text-align: center;"><h4><b>고객후기</b></h4></div>
+  <%-- <div style="margin-top: 70px; text-align: center;"><h4><b>고객후기</b></h4></div>--%>
   
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
@@ -46,23 +50,23 @@
                  <% } %>=
                </select>
              </td>
-         
          <tr>
            <td>
              <textarea type="text" name="r_content" class="form-control" required="required"
                placeholder="후기를 작성해주세요" style="width: 690px; height: 100px;"></textarea>
            </td>
            
-           <td>
+           <td style="text-align: center;">
              <button type="submit" class="btn btn-success col" 
-             style="width: 100px; height: 100px;">등록</button>
+             style="width: 100px; height: 100px;margin-left: 1px;">등록</button>
            </td>
          </tr>
          
          <tr>
-             <td>
+             <td colspan="2"style="text-align: center;">
                 <input type="file" name="r_image" class="form-control" style="width: 800px;">
              </td>
+           
          </tr>
        </table>
      </form>

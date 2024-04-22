@@ -409,7 +409,7 @@ public class MemInfoDao {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
-		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon,h.h_brand, h.h_num from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
+		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon, h.h_num,h.h_hp from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -423,7 +423,8 @@ public class MemInfoDao {
 				map.put("h_name", rs.getString("h_name"));
 				map.put("h_addr", rs.getString("h_addr"));
 				map.put("h_pyeon", rs.getString("h_pyeon"));
-				map.put("h_brand", rs.getString("h_brand"));
+				map.put("h_hp", rs.getString("h_hp"));
+				
 				list.add(map);
 			}
 			
