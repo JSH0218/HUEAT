@@ -46,7 +46,4 @@ public class FoodDto {
 		this.f_grade = f_grade;
 	}
 	
-	
-	
-	
 }

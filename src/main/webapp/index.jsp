@@ -27,7 +27,6 @@
   
   div.banner {
     border: 0px solid yellow;
-
     display: none;
     font-family: 'Noto Sans KR';
   }

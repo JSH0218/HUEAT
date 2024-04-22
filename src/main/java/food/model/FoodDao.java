@@ -17,7 +17,7 @@ public class FoodDao {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
 		
-		String sql="insert into food(h_num,f_name,f_photo,f_price) values(?,?,?,?)";
+		String sql="insert into food(h_num,f_name,f_photo,f_price,f_grade) values(?,?,?,?,0)";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
