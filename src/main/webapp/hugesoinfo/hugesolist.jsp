@@ -286,7 +286,7 @@ function searchAction(h_name){
 	
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>휴게소 목록<br><span style="font-size: 20px;">휴게소 이름을 누르면 상세정보를 볼 수 있습니다.</span></span>
+	<span>휴게소 목록<br><span style="display: block;font-size: 20px;">휴게소 이름을 누르면 상세정보를 볼 수 있습니다.</span></span>
 </div>
 
 

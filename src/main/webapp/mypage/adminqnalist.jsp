@@ -160,6 +160,42 @@ td.day {
 font-size: 12px;
 }
 
+	div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
+
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -230,7 +266,7 @@ font-size: 12px;
 	
 	//전체갯수
 	int totalCount=dao.getMyPageTotalCount();
-	int perPage=5; //한페이지당 보여질 글의 갯수
+	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
 	int startPage; //각블럭당 보여질 시작페이지
@@ -285,10 +321,15 @@ font-size: 12px;
 	
 	%>
 <body>
-<div class="container">
-<div style="margin-top: 100px; text-align: center;" class="subject"><h4><b>나의활동</b></h4>
-<hr class="line">
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/memberbanner01.jpg'); background-size: cover; background-position: center center;">
+	
 </div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>나의 활동<br><span style="display: block;font-size: 20px;">Q&A</span></span>
+</div>
+
+<div class="container">
+
 <div class="adminqnalist">
 	<ul class="tabs">
 			<li id="first"><span style="font-size: 14px;">Q&A</span></li>

@@ -48,6 +48,41 @@
   cursor: pointer; /* 마우스 커서 모양 변경 (옵션) */
   }
 
+	div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
  
 </style>
 
@@ -116,14 +151,22 @@ $(function(){
  
  %>
 <body>
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/shopbanner01.png'); background-size: cover; background-position: center center;">
+	
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>쇼핑몰<br><span style="display: block;font-size: 20px;"><p> 아웃도어, 스포츠, 골프, 캐주얼 등 다양한 브랜드가 입점한 아울렛 쇼핑몰에서<br>
+	편안한 휴식과 함께 즐거운 쇼핑도 즐기세요</p></span></span>
+</div>
+
   <div id="s_list" class="s_list">
-    <div class="s_title">
+    <%-- <div class="s_title">
       <div class="main_title">
         <h3>쇼핑몰</h3>
         <p>아웃도어, 스포츠, 골프, 캐주얼 등 다양한 브랜드가 입점한 아울렛 쇼핑몰에서<br>
         편안한 휴식과 함께 즐거운 쇼핑도 즐기세요</p>
       </div>
-    </div>
+    </div>--%>
     
     
      <!-- 공지사항 레이아웃-->

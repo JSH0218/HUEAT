@@ -165,7 +165,7 @@
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/boardbanner01.jpg'); background-size: cover; background-position: center center;">
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>이벤트<br><span style="font-size: 20px;">다양한 이벤트 소식을 전달합니다.</span></span>
+	<span>이벤트<br><span style="display: block;font-size: 20px;">다양한 이벤트 소식을 전달합니다.</span></span>
 </div>
 
   
