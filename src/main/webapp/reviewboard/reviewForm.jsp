@@ -43,7 +43,7 @@
                style="width: 200px;">
                  <% for (HugesoInfoDto hugeso : hlist) { %>
                      <option value="<%= hugeso.getH_name() %>"><%= hugeso.getH_name() %></option>
-                 <% } %>=
+                 <% } %>
                </select>
              </td>
          
