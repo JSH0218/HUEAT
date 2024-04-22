@@ -13,10 +13,12 @@
     String[] grades = g_content.split(", "); // 등급 데이터 파싱
     for (String grade : grades) {
         String[] parts = grade.split(" : ");
-        JSONObject entry = new JSONObject();
-        entry.put("label", parts[0]);
-        entry.put("value", Integer.parseInt(parts[1]));
-        jsonArray.add(entry);
+        if (parts.length == 2) { // 등급 데이터가 " : "로 올바르게 구분되었는지 확인
+            JSONObject entry = new JSONObject();
+            entry.put("label", parts[0]);
+            entry.put("value", Integer.parseInt(parts[1]));
+            jsonArray.add(entry);
+        }
     }
     String jsonResult = jsonArray.toString();
     response.setContentType("application/json");

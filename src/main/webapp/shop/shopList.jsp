@@ -205,7 +205,7 @@ $(function(){
                   if( count == 0 ) {
                 //관리자만 체크 보이게 
                 if (loginok != null && myid.equals("admin")) { %>
-                <input type="checkbox" class="alldelcheck2"> 전체선택
+                <input type="checkbox" class="alldelcheck1"> 전체선택
               <% } %>
                
                 

@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 .intro {
-  margin-top: 10%;
+  margin-top: 4%;
 }
 
 .title1 {
@@ -21,7 +21,8 @@
 
   .subtitle {
   margin-top: 4%;
-  text-align: center; /* 가로 가운데 정렬 */       
+  text-align: center; /* 가로 가운데 정렬 */    
+  margin-bottom: 4%;  
   }
   
   .intro_img {

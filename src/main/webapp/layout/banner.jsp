@@ -86,6 +86,36 @@
        
     }
   </style>
+  <!-- Initialize Swiper -->
+  <script>
+  	$(function(){
+  		const progressCircle = document.querySelector(".autoplay-progress svg");
+  	    const progressContent = document.querySelector(".autoplay-progress span");
+  	    var swiper = new Swiper(".mySwiper", {
+  	      loop: true,
+  	      spaceBetween: 30,
+  	      centeredSlides: true,
+  	      autoplay: {
+  	        delay: 2500,
+  	        disableOnInteraction: false
+  	      },
+  	      pagination: {
+  	        el: ".swiper-pagination",
+  	        clickable: true
+  	      },
+  	      navigation: {
+  	        nextEl: ".swiper-button-next",
+  	        prevEl: ".swiper-button-prev"
+  	      },
+  	      on: {
+  	        autoplayTimeLeft(s, time, progress) {
+  	          progressCircle.style.setProperty("--progress", 1 - progress);
+  	          
+  	        }
+  	      }
+  	    });
+  	});
+  </script>
 </head>
 <%
     //1.íë¡ì í¸ ì ë ê²½ë¡ ì¤ì 
@@ -122,33 +152,5 @@
       <span></span>
     </div>
   </div>
-    <!-- Initialize Swiper -->
-  <script>
-    const progressCircle = document.querySelector(".autoplay-progress svg");
-    const progressContent = document.querySelector(".autoplay-progress span");
-    var swiper = new Swiper(".mySwiper", {
-      loop: true,
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      on: {
-        autoplayTimeLeft(s, time, progress) {
-          progressCircle.style.setProperty("--progress", 1 - progress);
-          
-        }
-      }
-    });
-  </script>
 </body>
 </html>

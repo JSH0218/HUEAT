@@ -37,8 +37,6 @@
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
-	/* String fg_foodnum = request.getParameter("fg_foodnum"); */
-	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
@@ -65,14 +63,13 @@
 	
 	//FoodDao 객체 생성 & 음식 데이터 가져오기
 	FoodDao fdao = new FoodDao();
+	FoodDto ffdto = fdao.bestFood(h_num);
 	List<FoodDto> foodlist = fdao.selectFood(h_num);
 	
 	//BrandDao 객체 생성 & 브랜드 데이터 가져오기
 	BrandDao bdao = new BrandDao();
 	List<BrandDto> brandList = bdao.selectBrand(h_num);
 	
-	/* FoodGradeDao fgdao = new FoodGradeDao();
-    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum);  */
 %>
 
 <style type="text/css">
@@ -212,36 +209,16 @@ $(function(){
 	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
-	//alert(m_num);
 
 	var login = "<%=loginok%>";
-	
-	
- <%-- var avgGrade = "<%= avgGrade %>";
-	if (avgGrade !== null) {
-	    alert("평균 등급: " + avgGrade);
-	} else {
-	    alert("평균 등급을 가져오지 못했습니다.");
-	} --%>
-	
 
-      if(login=="null"){
-		 $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
-	        return;
-	    }else {
-	        $("#insertgrade").show(); // 로그인 상태일 때 표시
-	    } 
+    // 로그인 상태에 따라 평점 입력 폼을 보이거나 숨김
+    if (login === "null") {
+        $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
+    } else {
+        $("#insertgrade").show(); // 로그인 상태일 때 표시
+    }
 	
-	 
-	 /* $(".writegrade").click(function() {
-		    if (login !== "null") {
-		        $("#insertgrade").show();
-		    } else {
-		        $("#insertgrade").hide();
-		    }
-		}); */
-	 
-	 
 		function resetStarRating() {
 		    // 모든 별점 input 요소를 초기화
 		    document.querySelectorAll('.star-rating input').forEach(function(input) {
@@ -291,51 +268,6 @@ $(function(){
 		    
 		    });
 		    
-		    
-	 	
-		 <%--    /* 휴게소 평점 평균 */
-			 function ratingToPercent(avgGrade) {
-			    const score = avgGrade * 20;
-			    return score + 1.5;
-			  }
-
-			// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
-			var avgGrade = "<%= avgGrade %>"; 
-
-			// HTML 요소에 평균 등급을 적용하는 함수 호출
-			  applyStarRatings(parseFloat(avgGrade));
-
-			  function applyStarRatings(avgGrade) {
-			    const fillWidth = ratingToPercent(avgGrade) + '%';
-			    document.querySelector('.star-ratings-fill').style.width = fillWidth;
-			} 
-			  
-		    
-			   function updateH_grade() {
-				    $.ajax({ 
-				        type: "post",
-				        dataType: "html",
-				        data: {
-				            "h_num": $("#h_num").val(), 
-				            "h_grade": avgGrade , 
-				            "h_gradecount": $("b.gradesu>span").text()
-				        },
-				        url: "hugesoinfo/updateh_grade.jsp",
-				        success: function(res) {
-				            // JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당하지 않고
-				            // 이미 전역 변수로 설정된 avgGrade를 사용하여 등급을 적용합니다.
-				            applyStarRatings(parseFloat(avgGrade));
-				        },
-				        error: function(xhr, status, error) {
-				            console.error("AJAX Error: " + error);
-				        }
-				    });
-				} --%>
- 
- 
- 
- 
- 
  
 				function ratingToPercent(avgGrade) {
 				    const score = avgGrade * 20;
@@ -466,12 +398,16 @@ $(function(){
 	      //alert(g_myid); 
 		        
 		// 특정 휴게소의 평점 목록
-		    function list(){
+		    function list(sortType){
+		    	if (!sortType) {
+		            sortType = "latest";
+		        }
+		
 			  	  $.ajax({ 
 			  		  type:"get",
 			  		  url:"grade/gradelist.jsp",
 			  		  dataType:"json",
-			  		  data:{"h_num":$("#h_num").val()},
+			  		  data:{"h_num":$("#h_num").val(),"sortType": sortType},
 			  		  success:function(res){
 			  			  //평점갯수출력
 			  			  $("b.gradesu>span").text(res.length);
@@ -533,18 +469,6 @@ $(function(){
       $(this).toggleClass("active-color");
 });
 
-		    
-	//변수 선언
-	var gasolin = parseInt(<%=dto.getH_gasolin()%>); // 휘발유 가격 데이터
-	var diesel = parseInt(<%=dto.getH_disel()%>); // 경유 가격 데이터
-	var lpg = parseInt(<%=dto.getH_lpg()%>); // LPG 가격 데이터
-
-    // 숫자에 천 단위 콤마 추가하는 함수
-    function insertCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-	
 	
 // 유지))즐겨찾기
 var login = "<%=loginok%>";
@@ -610,27 +534,6 @@ $(document).ready(function() {
 
 
 
-
-
-/* var moreButton = document.getElementById("moreButton");
-var foldButton = document.getElementById("foldButton");
-var moreButton1 = document.getElementById("moreButton1");
-var foldButton1 = document.getElementById("foldButton1");
-
-if (document.querySelector('a[href="#home"]').classList.contains("active")) {
-    moreButton.style.display = "block";
-    foldButton.style.display = "none";
-    moreButton1.style.display = "none";
-    foldButton1.style.display = "none";
-} else if (document.querySelector('a[href="#menu1"]').classList.contains("active")) {
-    moreButton.style.display = "none";
-    foldButton.style.display = "none";
-    moreButton1.style.display = "block";
-    foldButton1.style.display = "none";
-} */
-
-
-
 $(".writegrade").click(function(){
 //document.querySelector('.food-item').addEventListener('click', function() {
     // 버튼을 클릭했을 때 실행될 코드
@@ -664,31 +567,6 @@ function showPopup2() {
 }
 
 
-<%-- var avgFoodGrade = "<%= avgFoodGrade %>"; 
-
-function updateF_grade(fg_foodnum) {
-    console.log("fg_foodnum:", fg_foodnum);
-    console.log("avgFoodGrade:", avgFoodGrade);
-    $.ajax({ 
-        type: "post",
-        dataType: "html",
-        data: {
-            "h_num": $("#h_num").val(),
-            "f_num": fg_foodnum,
-            "f_grade":
-        },
-        url: "foodgrade/updatef_grade.jsp",
-        success: function(res) {
-            // 서버에서 응답으로 받은 평균 평점을 사용하여 업데이트
-            var avgFoodGrade = parseFloat(res); // 서버에서 문자열로 반환하므로 숫자로 변환
-            $(".avggrade2").text(avgFoodGrade.toFixed(1)); // 평균 평점을 소수점 한 자리까지 표시
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX Error: " + error);
-        }
-    });
-}
- --%>
 
  function updateF_grade(fg_foodnum) {
 	    //console.log("fg_foodnum:", fg_foodnum);
@@ -771,6 +649,62 @@ $("#btnsendfood").click(function(){
 };
 
 
+// 휴게소 평점 정렬
+$(document).ready(function() {
+    $('#sortByLatest').click(function(event) {
+        list('latest');
+    });
+
+    $('#sortByHigh').click(function(event) {
+        list('high');
+    });
+
+    $('#sortByLow').click(function(event) {
+        list('low');
+    });
+});
+
+
+
+//휴게소 평점 정렬
+$(document).ready(function() {
+    $('#foodLatest').click(function(event) {
+    	sortFood('latest');
+    });
+
+    $('#foodHigh').click(function(event) {
+        sortFood('high');
+    });
+
+    $('#foodLow').click(function(event) {
+        sortFood('low');
+    });
+});
+
+
+function updateFoodSort(html) {
+    // 푸드코트를 비우고, 서버에서 받은 HTML로 채웁니다.
+    $("#home .food-item").remove(); // 기존 음식 아이템 삭제
+    $("#home").append(html); // 정렬된 음식 목록 추가
+}
+
+
+function sortFood(sortType) {
+    $.ajax({
+    	type:"get",
+		  url:"foodgrade/foodgradesort.jsp",
+		  dataType:"html",
+		  data:{"h_num":$("#h_num").val(),"sortType": sortType},
+		  success:function(html){
+			  updateFoodSort(html);
+        },
+        error: function(xhr, status, error) {
+            // 요청 실패 시의 처리
+            console.error("Error:", status, error);
+        }
+    });
+}
+
 
 })
 
@@ -788,15 +722,15 @@ $("#btnsendfood").click(function(){
 <div class="hugesodetail">
 <div class="toparea">
 <div class="location">
-	<a href="#" class="home"><i class="bi bi-house-door-fill"></i></a>
+	<a href="index.jsp?main" class="home"><!-- <i class="bi bi-house-door-fill"> --></i></a>
 
 <div class="one" style="display:flex;">
-<a href="#" class="h_loc">휴게소정보 </a>
+<a href="#" class="h_loc"></a>
 </div>
 <div class="two">
-<a href="#" class="h_loc">휴게소찾기</a>
+<a href="#" class="h_loc"></a>
 </div>
-<div class="three">휴게소상세
+<div class="three">
 </div>
 </div>
 
@@ -848,6 +782,9 @@ $("#btnsendfood").click(function(){
 <p class="h_text">
 <% if (gdto.getG_content() != null) { %>
     #<%= gdto.getG_content() %>
+<% }%>&nbsp;
+<% if (ffdto.getF_name() != null) { %>
+    #<%= ffdto.getF_name() %>
 <% }%>
 </p>
 <div class="avggrade">
@@ -971,7 +908,9 @@ $("#btnsendfood").click(function(){
 
 
 
-
+<button type="button" id="foodLatest">최신순</button>
+<button type="button" id="foodHigh">평점높은순</button>
+<button type="button" id="foodLow">평점낮은순</button>
 
 
 <button type="button" class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
@@ -1172,17 +1111,18 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 <th >가격</th>
 </tr>
 <tr>
-<td >휘발유</td>
-<td ><%=dto.getH_gasolin()%>원</td>
+    <td>휘발유</td>
+    <td><%= "없음".equals(dto.getH_gasolin()) ? "-" : dto.getH_gasolin() %>원</td>
 </tr>
 <tr>
-<td >경유</td>
-<td ><%= dto.getH_disel() %>원</td>
+    <td>경유</td>
+    <td><%= "없음".equals(dto.getH_disel()) ? "-" : dto.getH_disel() %>원</td>
 </tr>
 <tr>
-<td >LPG</td>
-<td><%= dto.getH_lpg() %>원</td>
+    <td>LPG</td>
+    <td><%= "없음".equals(dto.getH_lpg()) ? "-" : dto.getH_lpg() %>원</td>
 </tr>
+
 </table>
 <div style="font-size:16px; font-weight:bold; color: gray; text-align:center; margin-bottom:100px;">본 정보는 특정 시점에 수집되어 실제 가격과 다를 수 있습니다.
 [제공&nbsp;<span style="color:#0897B4;">한국도로공사]</span></div>
@@ -1193,9 +1133,9 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 
 <p class="subtitle">평점</p>
 
-<!-- <button id="sortByLatest">최신순</button>
-<button id="sortByHigh">평점높은순</button>
-<button id="sortByLow">평점낮은순</button> -->
+<button type="button" id="sortByLatest">최신순</button>
+<button type="button" id="sortByHigh">평점높은순</button>
+<button type="button" id="sortByLow">평점낮은순</button>
 <div class="gradearea2"style="display: flex; justify-content: center; margin-left:10%;">
 <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>

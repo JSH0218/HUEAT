@@ -110,7 +110,7 @@
             <div class="hugeso-content" style="text-align: center; width: 250px;">
                 <a f_num="<%=dto.getF_num() %>" class="foodDetail"  style="cursor: pointer;
                 display: inline-block;">
-                    <img alt="" src="image/food/<%=dto.getF_photo() %>" class="f_image">
+                    <img alt="" src="hugesosave/<%=dto.getF_photo() %>" class="f_image">
                     <div class="f_food">
                         <div class="f_name" style="font-size: 0.85em;"><%=dto.getF_name() %></div>
                         <div class="f_addr" style="font-size: 0.7em;"><%=dto.getF_price() %>원</div>
