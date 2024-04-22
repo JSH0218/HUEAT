@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import hugesoinfo.model.HugesoInfoDto;
 import mysql.db.DbConnect;
 
 public class GradeDao {
@@ -230,39 +229,64 @@ public class GradeDao {
 			return list;
 		}
 		
-		// 각 휴게소에서 평점 매긴 사용자의 평점을 가져오기
-		public String get_Grade(String h_num) {
-			String get_Grade = null;
-		    Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
 
-			String sql = "SELECT h_num,\r\n"
-					+ "    SUM(g_grade = 1) AS count_1,\r\n"
-					+ "    SUM(g_grade = 2) AS count_2,\r\n"
-					+ "    SUM(g_grade = 3) AS count_3,\r\n"
-					+ "    SUM(g_grade = 4) AS count_4,\r\n"
-					+ "    SUM(g_grade = 5) AS count_5\r\n"
-					+ "FROM\r\n"
-					+ "    grade\r\n"
-					+ "GROUP BY\r\n"
-					+ "    h_num;";
-			 
-			try {
+		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기(프로그래스바)
+		public String get_Content(String h_num) {
+		    String get_Content = null;
+		    Connection conn = db.getConnection();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+
+		    String sql = "select g_content, count(g_content) as g_content_count from grade where h_num = ? group by g_content";
+
+		    try {
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, h_num);
 		        rs = pstmt.executeQuery();
 
-		        if (rs.next()) {
-		            double averageGrade = rs.getDouble("get_Grade");
+		        StringBuilder result = new StringBuilder(); // 결과를 저장할 StringBuilder 생성
+
+		        while (rs.next()) {
+		            // 각 등급별 등장 횟수를 가져와서 StringBuilder에 추가
+		            result.append(rs.getString("g_content")).append(" : ").append(rs.getString("g_content_count")).append(", ");
 		        }
+
+		        // 마지막 쉼표 제거
+		        if (result.length() > 0) {
+		            result.delete(result.length() - 2, result.length());
+		        }
+
+		        // 최종 결과 문자열 저장
+		        get_Content = result.toString();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		    } finally {
 		        db.dbClose(rs, pstmt, conn);
 		    }
 
-		    return get_Grade;
+		    return get_Content;
 		}
+		
+		
+		// 등록된 평점 삭제 (관리자 페이지)
+		public void deleteGrade(String g_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+			
+			String sql="delete from grade where g_num=?";
+			
+			try {
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, g_num);
+				
+				pstmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+
 
 }
