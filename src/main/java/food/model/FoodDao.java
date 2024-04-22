@@ -289,6 +289,7 @@ public class FoodDao {
 				dto.setF_name(rs.getString("f_name"));
 				dto.setF_photo(rs.getString("f_photo"));
 				dto.setF_price(rs.getString("f_price"));
+				dto.setF_grade(rs.getString("f_grade"));
 				
 				list.add(dto);
 			}

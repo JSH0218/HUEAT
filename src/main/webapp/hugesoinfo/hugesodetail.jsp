@@ -37,7 +37,7 @@
 	
 	String loginok=(String)session.getAttribute("loginok");
 	
-	String fg_foodnum = request.getParameter("fg_foodnum");
+	/* String fg_foodnum = request.getParameter("fg_foodnum"); */
 	
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
@@ -71,8 +71,8 @@
 	BrandDao bdao = new BrandDao();
 	List<BrandDto> brandList = bdao.selectBrand(h_num);
 	
-	FoodGradeDao fgdao = new FoodGradeDao();
-    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum); 
+	/* FoodGradeDao fgdao = new FoodGradeDao();
+    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum);  */
 %>
 
 <style type="text/css">
@@ -133,7 +133,7 @@
  
  
  .progress-bar {
-    width: 40%;
+    width:500px;
     background-color: #f7f7f9 !important;
     /* border: 1px solid #ccc; */
     border-radius: 4px;
@@ -210,7 +210,6 @@ $(function(){
 	list();
 	progressbar();
 	
-	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
 	//alert(m_num);
@@ -243,6 +242,19 @@ $(function(){
 		}); */
 	 
 	 
+		function resetStarRating() {
+		    // 모든 별점 input 요소를 초기화
+		    document.querySelectorAll('.star-rating input').forEach(function(input) {
+		        input.checked = false;
+		    });
+
+		    // 레이블 색상을 초기 상태로 변경
+		    document.querySelectorAll('.star-rating label').forEach(function(label) {
+		        label.style.color = 'transparent';
+		    });
+		}
+		
+		
 	$("#btnasend").click(function(){
 		    var g_grade = $("input[name='g_grade']:checked").val(); // 선택된 평점 값 가져오기
 		    var g_content = $("input[name='g_content']:checked").val();// 사용자가 입력한 내용 가져오기
@@ -263,7 +275,9 @@ $(function(){
 		        	   "g_content": g_content}, 
 		        	   
 		        success: function(){
-		            $("#insertgrade").hide(); // 평점 등록 시 숨김
+		        	
+		        	resetStarRating();
+		            //$("#insertgrade").hide(); // 평점 등록 시 숨김
 		            updateH_grade();
 		            progressbar();  
 		            list();
@@ -392,7 +406,7 @@ $(function(){
                 var progressBarInnerDiv = document.createElement('div');
                 progressBarInnerDiv.classList.add('progress-bar-inner');
                 progressBarInnerDiv.style.width = (entry.value * 20) + '%'; // 데이터를 퍼센트로 변환하여 적용
-                progressBarInnerDiv.innerHTML = '<div style=" width:420px; display: flex; align-items: center; margin-left: 20px; margin-top:10px;">' +
+                progressBarInnerDiv.innerHTML = '<div style="width: 500px; width:420px; display: flex; align-items: center; margin-left: 20px; margin-top:10px;">' +
                 '<span style="font-size: 20px; font-weight: bold; text-align: center;">' + entry.label + '</span>' +
                 '<span style="font-weight: bold; text-align: right; flex-grow: 1;">' + entry.value + '</span>' +
                 '</div>';
@@ -469,9 +483,9 @@ $(function(){
 			  				  var starsHTML = "";
 			  				  for(var i=5;i>0;i--){
 			  					  if(i<=item.g_grade){
-			  						  starsHTML +="<span class='star' style='color:gold;'>★</span>";
+			  						  starsHTML +="<span class='star'id='g_grade' style='color:gold;'>★</span>";
 			  					  }else{
-			  						 starsHTML +="<span class='star-empty' style='color:lightgray;'>★</span>";
+			  						 starsHTML +="<span class='star-empty' id='g_grade' style='color:lightgray;'>★</span>";
 			  					  }
 			  					  
 			  				  }
@@ -479,7 +493,7 @@ $(function(){
 			  				  s += "<div style='display: flex; align-items: center; justify-content: space-between;'>";
 			  				
 			  				s += "<div>";
-			  				s += "<span class='star-rating' style= 'margin-left:40px;'>" + item.g_grade + starsHTML + "</span>";
+			  				s += "<span class='star-rating' id='g_grade' style= 'margin-left:40px;'>" + item.g_grade + starsHTML + "</span>";
 			  				s += "<span class='aday' style= 'margin-left:25px; font-size:18px;'>" + item.g_myid + " · " + item.g_writeday + "</span>";
 			  				s += "</div>";
 			  				s += "<div class='gradecontent'style='margin-top: 10px; font-size:20px;'>" + item.g_content + "</div>";
@@ -617,9 +631,8 @@ if (document.querySelector('a[href="#home"]').classList.contains("active")) {
 
 
 
-
-document.querySelector('.writegrade').addEventListener('click', function() {
-	event.preventDefault(); // 버튼의 기본 동작인 폼 전송 방지
+$(".writegrade").click(function(){
+//document.querySelector('.food-item').addEventListener('click', function() {
     // 버튼을 클릭했을 때 실행될 코드
     document.querySelectorAll('.food-item').forEach(image => {
     	 image.addEventListener('click', function() {
@@ -651,32 +664,53 @@ function showPopup2() {
 }
 
 
+<%-- var avgFoodGrade = "<%= avgFoodGrade %>"; 
 
-var avgFoodGrade = "<%= avgFoodGrade %>"; 
-
-// 음식 평균 평점
-function updateF_grade(fg_foodnum, avgFoodGrade) {
-	console.log("fg_foodnum:", fg_foodnum);
-	console.log("avgFoodGrade:", avgFoodGrade);
+function updateF_grade(fg_foodnum) {
+    console.log("fg_foodnum:", fg_foodnum);
+    console.log("avgFoodGrade:", avgFoodGrade);
     $.ajax({ 
         type: "post",
         dataType: "html",
         data: {
-            "fg_hugesonum": $("#h_num").val(),
-            "f_num": fg_foodnum, 
-            "f_grade": avgFoodGrade
+            "h_num": $("#h_num").val(),
+            "f_num": fg_foodnum,
+            "f_grade":
         },
         url: "foodgrade/updatef_grade.jsp",
-        
         success: function(res) {
-        	console.log("요청 성공:", res);
-            $(".avggrade2").text(avgFoodGrade); 
+            // 서버에서 응답으로 받은 평균 평점을 사용하여 업데이트
+            var avgFoodGrade = parseFloat(res); // 서버에서 문자열로 반환하므로 숫자로 변환
+            $(".avggrade2").text(avgFoodGrade.toFixed(1)); // 평균 평점을 소수점 한 자리까지 표시
         },
         error: function(xhr, status, error) {
             console.error("AJAX Error: " + error);
         }
     });
 }
+ --%>
+
+ function updateF_grade(fg_foodnum) {
+	    //console.log("fg_foodnum:", fg_foodnum);
+	    $.ajax({ 
+	        type: "post",
+	        dataType: "html",
+	        data: {
+	            "h_num": $("#h_num").val(),
+	            "f_num": fg_foodnum
+	        },
+	        url: "foodgrade/updatef_grade.jsp",
+	        success: function(res) {
+	            // 서버에서 응답으로 받은 평균 평점을 사용하여 업데이트
+	            //$(".avggrade2").text(res); // 평균 평점을 페이지에 업데이트
+	        	location.reload();
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("AJAX Error: " + error);
+	        }
+	    });
+	}
+
 
 
 /* 등록 버튼 클릭 시 음식평점 남기기 */
@@ -689,7 +723,7 @@ $("#btnsendfood").click(function(){
     }
     
     $.ajax({
-        type: "get", 
+        type: "post", 
         dataType: "html",
         data: {"fg_hugesonum": $("#h_num").val(),
         	   "fg_foodnum": fg_foodnum,
@@ -703,10 +737,10 @@ $("#btnsendfood").click(function(){
             
             //alert("평점등록 완료!!!");
            
-           
+           resetStarRating();
             $("#popup").hide(); 
-            location.reload();
-            updateF_grade(fg_foodnum, avgFoodGrade); 
+            //location.reload();
+            updateF_grade(fg_foodnum);
             //closePopup();
             
          },
@@ -719,7 +753,22 @@ $("#btnsendfood").click(function(){
     
     });
 
+  window.onload = function() {
+    // 모든 .food-item 요소를 선택
+    var foodItems = document.querySelectorAll('.food-item');
 
+    // 각 요소에 대해 반복
+    foodItems.forEach(function(item) {
+        // 해당 요소의 f_grade 값을 가져옴
+        var grade = parseFloat(item.querySelector('.avggrade2').textContent);
+        
+        // 만약 f_grade가 0.0이라면
+        if (grade === 0.0) {
+            // 해당 요소의 .starrating div를 숨김
+            item.querySelector('.starrating').style.display = 'none';
+        }
+    });
+};
 
 
 
@@ -791,7 +840,7 @@ $("#btnsendfood").click(function(){
 </script>
 
 </div>
-<!-- </div> -->
+</div>
 
   
 <!-- 휴게소 이름 출력 -->
@@ -925,28 +974,29 @@ $("#btnsendfood").click(function(){
 
 
 
-<button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
+<button type="button" class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>
 
   <div id="popup" class="hide">
   <div class="content">
   
-f_num
+
   <div class="gradecontent2">
     <p>
-      <div class="star-rating space-x-4 mx-auto" id="fg_grade";>
-	<input type="radio" id="5-stars" name="fg_grade" value="5" v-model="ratings" />
-	<label for="5-stars" class="star pr-4">★</label>
-	<input type="radio" id="4-stars" name="fg_grade" value="4" v-model="ratings" />
-	<label for="4-stars" class="star">★</label>
-	<input type="radio" id="3-stars" name="fg_grade" value="3" v-model="ratings" />
-	<label for="3-stars" class="star">★</label>
-	<input type="radio" id="2-stars" name="fg_grade" value="2" v-model="ratings" />
-	<label for="2-stars" class="star">★</label>
-	<input type="radio" id="1-star" name="fg_grade" value="1" v-model="ratings" />
-	<label for="1-star" class="star">★</label>
-    </div>
+      <div class="star-rating space-x-4 mx-auto" id="fg_grade">
+    <input type="radio" id="fg_5-stars" name="fg_grade" value="5" v-model="fg_ratings" />
+    <label for="fg_5-stars" class="star pr-4">★</label>
+    <input type="radio" id="fg_4-stars" name="fg_grade" value="4" v-model="fg_ratings" />
+    <label for="fg_4-stars" class="star">★</label>
+    <input type="radio" id="fg_3-stars" name="fg_grade" value="3" v-model="fg_ratings" />
+    <label for="fg_3-stars" class="star">★</label>
+    <input type="radio" id="fg_2-stars" name="fg_grade" value="2" v-model="fg_ratings" />
+    <label for="fg_2-stars" class="star">★</label>
+    <input type="radio" id="fg_1-star" name="fg_grade" value="1" v-model="fg_ratings" />
+    <label for="fg_1-star" class="star">★</label>
+</div>
+
     </p>
-    <button id="btnsendfood" onclick="closePopup()" class="prebtn">등록</button>
+    <button type="button" id="btnsendfood" class="prebtn">등록</button>
   </div>
   </div>
 </div>
@@ -972,19 +1022,19 @@ f_num
         String f_photo = fdto.getF_photo();
         String f_name = fdto.getF_name();
         String f_num = fdto.getF_num();
+        String f_grade = fdto.getF_grade();
         count++; // 이미지가 추가될 때마다 개수 증가
 
         // 이미지 출력
     %>
         <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; 
-        text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px;" data-fnum="<%=f_num%>">
+        text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
             <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
             style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
      <div style="display: inline-block;" class="starrating">
-    <label style="-webkit-text-fill-color: gold; font-size: 2rem;">★</label>
-    <p class="avgfgrade" style="font-weight:bold; font-size:20px; display: inline-block;">
-        <%-- <%=dto.getH_grade() %> --%>
-    </p></div> <%=f_name%>
+    <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
+    <p class="avggrade2" style="font-weight:bold; font-size:15px; display: inline-block;">
+    <%=f_grade %></p></div> <%=f_name%>
     </div>
     <% if (count == 4) break; %> <%-- 이미지가 4개가 되면 반복문 중단 --%>
     <%}%>
@@ -995,17 +1045,17 @@ f_num
                 FoodDto fdto = foodlist.get(i);
                 String f_photo = fdto.getF_photo();
                 String f_name = fdto.getF_name();
-                String f_num = fdto.getF_num(); 
+                String f_num = fdto.getF_num();
+                String f_grade = fdto.getF_grade();
             %>
                 <div class="food-item"  style="display: inline-block;
-                text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px;" data-fnum="<%=f_num%>">
+                text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
                     <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
                     style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
                     <div style="display: inline-block;" class="starrating">
-    <label style="-webkit-text-fill-color: gold; font-size: 2rem;">★</label>
-    <p class="avggrade2" style="font-weight:bold; font-size:20px; display: inline-block;">
-        <%-- <%=dto.getH_grade() %> --%><% %>
-    </p></div><%=f_name%>
+    <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
+    <p class="avggrade2" style="font-weight:bold; font-size:15px; display: inline-block;">
+    <%=f_grade %></p></div><%=f_name%>
                 </div>
             <% } %>
         </div>
@@ -1066,14 +1116,14 @@ f_num
 </div>
 </div>
 
-<!-- <div style="text-align: center; margin-top: 30px;">
+<div style="text-align: center; margin-top: 30px;">
     <button id="moreButton1" style="border: none; background: none; cursor: pointer;">
         <i class="bi bi-chevron-down" style="font-size:30px;"></i>
     </button>
     <button id="foldButton1" style="display: none; border: none; background: none; cursor: pointer;">
         <i class="bi bi-chevron-up" style="font-size:30px;"></i>
     </button>
-</div>  -->
+</div>
 
 <script>
 function toggleContent(hiddenContentId, moreButtonId, foldButtonId, className, maxVisibleItems) {
@@ -1146,33 +1196,28 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 <!-- <button id="sortByLatest">최신순</button>
 <button id="sortByHigh">평점높은순</button>
 <button id="sortByLow">평점낮은순</button> -->
-
+<div class="gradearea2"style="display: flex; justify-content: center; margin-left:10%;">
 <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>
-    <p class="avggrade3" style="font-weight:bold; font-size:50px; display: inline-block;">
+    <p class="avggrade3" style="font-weight:bold; font-size:50px; display: inline-block; margin-top: -30px;">
         <%-- <%=dto.getH_grade() %> --%>
     </p>
 </div> 
 
 
-<%=get_Content %>
-
-
 <!-- 프로그래스 바 -->
-<div id="progress-container"></div>
+<div id="progress-container" style="flex-grow: 1;margin-left: 300px;"></div>
+</div>
 
 
-
- <table style="width:50%; margin-left:auto;">
+ <table style="width:80%; margin-left:75px;">
      <!-- 평점 -->
      <tr>
        <td>  
-        <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  
-        </b>
         
       <!-- <button class="writegrade"><i class="bi bi-pencil"></i>평점남기기</button>  -->
  
-  <% if(!G_myid) {%>
+<% if(!G_myid) {%> 
          <div class="gradefrm" id="insertgrade">
           <div style="display: inline-block;">
           <p style="margin-top:80px; font-size 20px; font-weight:bold;"><%=m_id %></p>
@@ -1195,7 +1240,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
     
     
     <div><span style="font-weight:bold; font-size:20px;"><%=dto.getH_name()%></span>는 이런 점이 좋아요!(1개 선택)</div><br>
-   <div id="g_content" style="display: flex; width:1000px;">
+   <div id="g_content" style="display: inline-flex; width:1000px;">
    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="clean_facility" value="시설이 깨끗해요" checked>
     <label for="clean_facility">시설이 깨끗해요</label>
@@ -1223,8 +1268,8 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
    </div>
    </div>
 
- <%}%>
- 
+ <%}%> 
+  <b class="gradesu" style="text-align:left;">평점&nbsp;<span>0</span>건  </b>
    <div class="alist" id="alist">평점 목록</div>
 
 </td>
