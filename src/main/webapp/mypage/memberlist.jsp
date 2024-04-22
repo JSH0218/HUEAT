@@ -20,6 +20,42 @@
 		height: 30px;
 		width: 100px;
 	}
+	
+		div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -93,10 +129,14 @@ List<MemInfoDto> list=dao.getMemDatas();
 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 %>
 
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/memberbanner01.jpg'); background-size: cover; background-position: center center;">	
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>회원 관리<br><span style="display: block;font-size: 20px;">총<%=list.size() %>명의 회원이 있습니다.</span></span>
+</div>
+
 <div style="margin: 0 auto; width: 80%;height:100%; padding: 20px 20px 20px 20px; margin-top: 50px;">
-	<h3><b>회원목록/관리</b></h3>
-	<h6>총<%=list.size() %>명의 회원이 있습니다.</h6>
-	<hr><br><br>
+
 	<div style="margin: 0 auto;" align="center">
 		<input name="m_name" id="m_name" style="width: 200px;" placeholder="검색할 이름을 입력하세요">
 		<button type="button" class="search">검색</button>	

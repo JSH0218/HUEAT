@@ -168,10 +168,10 @@
 	
 	%>
 <body>
-<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner02.jpg'); background-size: cover; background-position: center center;">
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner03.png'); background-size: cover; background-position: center center;">
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>고객문의<br><span style="font-size: 20px;">문의를 남겨주시면 빠른 시일 내에 답변드리겠습니다.</span></span>
+	<span >고객문의<span style="display: block;font-size: 20px;">문의를 남겨주시면 빠른 시일 내에 답변드리겠습니다.</span></span>
 </div>
 
 

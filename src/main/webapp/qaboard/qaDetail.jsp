@@ -63,6 +63,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
   i.adel, i.amod {
     cursor: pointer;
   }
+  span.aday{
+  color:#ccc;
+  font-size: 0.8em;
+  }
 </style>
 
 <script type="text/javascript">
@@ -213,9 +217,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             var s = "";
             $.each(res, function (idx, item) {
-            	s += "<div>"+item.qa_myid;
+            	s += "<div>"+item.qa_myid+" : ";
                 s += "<span>" +item.qa_content+ "</span>";
-                s += "<span class='aday'>" + item.qa_writeday + "</span>";
+                s += "<span class='aday' >(" + item.qa_writeday + ")</span>";
                 s += "<span class='icon'><i class='bi bi-trash adel' q_num=" + item.q_num + " qa_num="+item.qa_num+" ></i>";
                 s += "<i class='bi bi-pencil-square amod' q_num=" + item.q_num + " qa_num="+item.qa_num+"></i></span>";
                 s += "</div>";

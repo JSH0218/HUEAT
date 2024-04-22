@@ -126,11 +126,23 @@ List<HugesoInfoDto> list=dao.getH_numH_name();
     		$(".bb").show();
     	      $("#myList").css("overflow-y", "auto"); // input을 클릭하면 스크롤바를 보이도록 변경합니다.
     	    });
-
-    	    $("#searchInput").on("blur", function() {
-    	      $("#myList").css("overflow-y", "hidden"); // input을 벗어나면 스크롤바를 숨깁니다.
-    	    });
     	
+    	    /*$("#searchInput").on("blur", function() {
+    	    	$(".bb").hide();
+    	      $("#myList").css("overflow-y", "hidden"); // input을 벗어나면 스크롤바를 숨깁니다.
+    	    });*/
+    	    
+    	    $(document).on("click", function(event) {
+    	        var target = $(event.target);
+
+    	        // 만약 클릭된 요소가 검색 입력창이나 메뉴 목록에 속하지 않으면
+    	        // 메뉴를 숨깁니다.
+    	        if (!target.is("#searchInput") && !target.closest("#myList").length) {
+    	            $(".bb").hide();
+    	            $("#myList").css("overflow-y", "hidden");
+    	        }
+    	    });
+    	    
     	
       $("#searchInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();

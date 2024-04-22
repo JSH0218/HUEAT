@@ -494,7 +494,7 @@
 	
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>휴게소 찾기<br><span style="font-size: 20px;">현재 위치에서 원하는 휴게소를 찾아보세요.</span></span>
+	<span>휴게소 찾기<br><span style="display: block;font-size: 20px;">현재 위치에서 원하는 휴게소를 찾아보세요.</span></span>
 </div>
 
 	<div id="area">
