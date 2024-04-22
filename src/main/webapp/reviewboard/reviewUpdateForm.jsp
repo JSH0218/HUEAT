@@ -1,3 +1,6 @@
+<%@page import="hugesoinfo.model.HugesoInfoDto"%>
+<%@page import="java.util.List"%>
+<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="review.model.ReviewDto"%>
 <%@page import="review.model.ReviewDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -56,7 +59,12 @@
    
    ReviewDao dao = new ReviewDao();
    ReviewDto dto = dao.getDataReview(r_num);
-%>
+   
+  
+   HugesoInfoDao hdao = new HugesoInfoDao();
+   List<HugesoInfoDto> hlist = hdao.getAllDatas();
+   
+ %>
 <body>
   
    <!-- 메뉴 타이틀 -->
@@ -69,6 +77,15 @@
       <input type="hidden" name="currentPage" value="<%=currentPage%>">
        <table class="table">
          <caption align="top"><h5><b>후기 수정</b></h5></caption>
+         <td>
+               <select name="r_category" id="r_category" class="form-control" required="required" 
+               style="width: 200px;">
+                 <% for (HugesoInfoDto hugeso : hlist) { %>
+                     <option value="<%= hugeso.getH_name() %>"><%= hugeso.getH_name() %></option>
+                 <% } %>
+               </select>
+             </td>
+         
          
          <tr>
            <td>

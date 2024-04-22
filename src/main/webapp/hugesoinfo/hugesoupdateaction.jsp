@@ -99,11 +99,17 @@
 					String b_name = multi.getParameter("b_name"+i);
 					bdto.setB_name(b_name);
 					String b_photo = multi.getFilesystemName("b_photo"+i);
+					String oldPhoto=bdao.getBrandData(b_num).getB_photo();
 					if(b_photo==null){
-				    	String oldPhoto=bdao.getBrandData(b_num).getB_photo();
 				    	bdto.setB_photo(oldPhoto);
 				    }else{
 				    	bdto.setB_photo(b_photo);
+				    	
+				    	String filePath=uploadPath+"/"+oldPhoto;
+						File file=new File(filePath);
+						if(file.exists()){
+							file.delete();
+						}
 				    }
 					String b_addr = multi.getParameter("b_addr"+i);
 					bdto.setB_addr(b_addr);
@@ -176,11 +182,17 @@
 					String f_name = multi.getParameter("f_name"+i);
 					fdto.setF_name(f_name);
 					String f_photo = multi.getFilesystemName("f_photo"+i);
+					String oldPhoto=fdao.getFoodData(f_num).getF_photo();
 					if(f_photo==null){
-				    	String oldPhoto=fdao.getFoodData(f_num).getF_photo();
 				    	fdto.setF_photo(oldPhoto);
 				    }else{
 				    	fdto.setF_photo(f_photo);
+				    	
+				    	String filePath=uploadPath+"/"+oldPhoto;
+						File file=new File(filePath);
+						if(file.exists()){
+							file.delete();
+						}
 				    }
 					String f_price = multi.getParameter("f_price"+i);
 					fdto.setF_price(f_price);

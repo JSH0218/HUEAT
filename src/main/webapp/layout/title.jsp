@@ -58,6 +58,10 @@
    width: 140px
 }
 
+ #primary_nav_wrap ul ul li a { 
+   margin-left: 0px; 
+ }  
+
 #primary_nav_wrap ul ul a {
    line-height: 120%;
    padding: 10px 15px;
@@ -78,7 +82,7 @@
    display: flex;
    align-items: center;
    padding: 0 8%;
-   margin-left: 6%;
+   margin-left: 3%;
 }
 </style>
 </head>
@@ -104,10 +108,10 @@ String myid = (String) session.getAttribute("myid");
 
       <nav id="primary_nav_wrap">
          <ul>
-            <li><a href="#">소개</a>
+            <li><a href="#">휴잇소식</a>
                <ul>
                   <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
-                  <li><a href="#">소개글</a></li>
+                  <li><a href="index.jsp?main=intro/intro.jsp">소개글</a></li>
                   <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
                </ul></li>
 
@@ -115,96 +119,35 @@ String myid = (String) session.getAttribute("myid");
                <ul>
                   <li><a href="index.jsp?main=hugesoinfo/hugesomap.jsp">휴게소찾기</a></li>
                   <li><a href="index.jsp?main=hugesoinfo/hugesolist.jsp">휴게소목록</a></li>
-               </ul></li>
-
-            <li><a href="#">고객센터</a>
-               <ul>
-                  <li class="dir"><a href="index.jsp?main=qaboard/qaList.jsp">고객문의</a></li>
-                  <li class="dir"><a
-                     href="index.jsp?main=reviewboard/reviewList.jsp">고객후기</a></li>
                </ul></li>
 
             <li><a href="#">푸드코트</a>
                <ul>
-<<<<<<< HEAD
-                  <li class="dir"><a href="index.jsp?main=member/food.jsp">푸드코트</a></li>
-                  <li class="dir"><a href="#">입점브랜드</a></li>
+                  <li class="dir"><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">주문결제</a></li>
                </ul></li>
-            <%
-            //로그아웃 상태일때 로그인 버튼이 보이게
-            if (loginok == null) {
-            %>
-            <li style="padding-left: 740px;"><a href="member/loginform.jsp">로그인</a></li>
-            <li><a href="member/gaipform.jsp">회원가입</a></li>
-            <%
-            } else {
-            %>
-            <li style="padding-left: 690px;"><a
-               href="member/logoutaction.jsp">로그아웃</a></li>
-            <%
-            if (loginok != null && myid.equals("admin")) {
-            %>
-            <li><a href="#">관리자 페이지</a>
+               
+            <li><a href="#">쇼핑정보</a>
                <ul>
-                  <li><a href="index.jsp?main=mypage/memberlist.jsp">회원목록/관리</a></li>
-                  <li><a href="index.jsp?main=mypage/adminqnalist.jsp">나의 활동</a></li>
-                  <%
-                  } else {
-                  %>
-                  <li><a href="index.jsp?main=mypage/myqnalist.jsp">마이페이지</a>
-                     <ul>
-                        <li><a href="index.jsp?main=mypage/updatepassform.jsp">회원정보수정</a></li>
-                        <li><a href="index.jsp?main=mypage/myqnalist.jsp">나의 활동</a></li>
-                        <li><a href="index.jsp?main=mypage/favlist.jsp">즐겨찾기</a></li>
-                     </ul></li>
-                  <%
-                  }
-                  }
-                  %>
-
-               </ul>
-      </nav>
-   </div>
-      <nav id="primary_nav_wrap">
-         <ul>
-            <li><a href="#">소개</a>
-               <ul>
-                  <li><a href="index.jsp?main=noticeboard/noticeList.jsp">공지사항</a></li>
-                  <li><a href="#">소개글</a></li>
-                  <li><a href="index.jsp?main=eventboard/eventList.jsp">이벤트</a></li>
-               </ul></li>
-
-            <li><a href="#">휴게소정보</a>
-               <ul>
-                  <li><a href="index.jsp?main=hugesoinfo/hugesomap.jsp">휴게소찾기</a></li>
-                  <li><a href="index.jsp?main=hugesoinfo/hugesolist.jsp">휴게소목록</a></li>
-               </ul></li>
-
+                  <li class="dir"><a href="index.jsp?main=shop/shopList.jsp">쇼핑몰</a></li>
+               </ul></li>   
+               
             <li><a href="#">고객센터</a>
                <ul>
                   <li class="dir"><a href="index.jsp?main=qaboard/qaList.jsp">고객문의</a></li>
                   <li class="dir"><a
                      href="index.jsp?main=reviewboard/reviewList.jsp">고객후기</a></li>
-               </ul></li>
-
-            <li><a href="#">식사/간식</a>
-               <ul>
-                  <li class="dir"><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">푸드코트</a></li>
-=======
-                  <li class="dir"><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">주문결제</a></li>
->>>>>>> a3b0e38d3e4fdb7a3e761d52cebcf15454038809
-                  <li class="dir"><a href="#">입점브랜드</a></li>
-               </ul></li>
+               </ul></li> 
+               
             <%
             //로그아웃 상태일때 로그인 버튼이 보이게
             if (loginok == null) {
             %>
-            <li style="padding-left: 740px;"><a href="member/loginform.jsp">로그인</a></li>
+            <li style="padding-left: 778px;"><a href="member/loginform.jsp">로그인</a></li>
             <li><a href="member/gaipform.jsp">회원가입</a></li>
             <%
             } else {
             %>
-            <li style="padding-left: 690px;"><a
+            <li style="padding-left: 735px;"><a
                href="member/logoutaction.jsp">로그아웃</a></li>
             <%
             if (loginok != null && myid.equals("admin")) {

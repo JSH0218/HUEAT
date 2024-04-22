@@ -1215,8 +1215,11 @@ marker.setMap(map);
 
 
 </div>
-<button type="button" >수정</button> 
-<button type="button" style="background-color:">삭제</button> 
+<button type="button" onclick="location.href='index.jsp?main=hugesoinfo/hugesoupdateform.jsp?h_num=<%=h_num %>'" >수정</button> 
+<button type="button" onclick="location.href='hugesoinfo/hugesodeleteaction.jsp?h_num=<%=h_num %>'">삭제</button> 
+</div>
+
+</div>
 
 
 

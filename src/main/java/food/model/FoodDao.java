@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import brand.model.BrandDto;
+import hugesoinfo.model.HugesoInfoDto;
 import mysql.db.DbConnect;
 
 public class FoodDao {
@@ -17,7 +19,7 @@ public class FoodDao {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
 		
-		String sql="insert into food(h_num,f_name,f_photo,f_price) values(?,?,?,?)";
+		String sql="insert into food(h_num,f_name,f_photo,f_price,f_grade) values(?,?,?,?,0)";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -330,7 +332,42 @@ public class FoodDao {
 		return f_num;
 	}
 	
-	
+	//승경_메인화면에 메뉴 번호순서대로 가져오기 위해 생성
+    public List<FoodDto> getAllFood(){
+       List<FoodDto> foodlist = new ArrayList<FoodDto>();
+       
+       Connection conn = db.getConnection();
+       PreparedStatement pstmt = null;
+       ResultSet rs = null;
+       
+       String sql ="select * from food order by f_num desc";
+       
+       try {
+          pstmt = conn.prepareStatement(sql);
+          rs=pstmt.executeQuery();
+          
+          while(rs.next()) {
+        	  FoodDto dto = new FoodDto();
+             
+        	  dto.setF_num(rs.getString("f_num"));
+				dto.setF_name(rs.getString("f_name"));
+				dto.setF_photo(rs.getString("f_photo"));
+				dto.setF_price(rs.getString("f_price"));
+             
+             
+				foodlist.add(dto);
+          }
+          
+       } catch (SQLException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+       }finally {
+          db.dbClose(rs, pstmt, conn);
+       }
+          return foodlist;
+          
+    }
+
 	// 음식 평균 평점 update (hugesodetail.jsp)
 	public void updateF_grade(FoodDto dto) {
 	    Connection conn = db.getConnection();
@@ -352,5 +389,4 @@ public class FoodDao {
 	        db.dbClose(pstmt, conn);
 	    }
 	}
-
 }

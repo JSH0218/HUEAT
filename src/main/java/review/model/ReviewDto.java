@@ -8,6 +8,7 @@ public class ReviewDto {
 	
 	private String r_num;
 	private String r_myid;
+	private String r_category;
 	private String r_content;
 	private String r_image;
 	private int r_chu;
@@ -24,6 +25,12 @@ public class ReviewDto {
 	}
 	public void setR_myid(String r_myid) {
 		this.r_myid = r_myid;
+	}
+	public String getR_category() {
+		return r_category;
+	}
+	public void setR_category(String r_category) {
+		this.r_category = r_category;
 	}
 	public String getR_content() {
 		return r_content;
@@ -49,8 +56,6 @@ public class ReviewDto {
 	public void setR_writeday(Timestamp r_writeday) {
 		this.r_writeday = r_writeday;
 	}
-	
-	
 	
 	
 	
