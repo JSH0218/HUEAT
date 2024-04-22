@@ -35,6 +35,43 @@
     cursor: pointer;
     font-size: 0.8em;
   }
+  
+    
+   div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		position: relative;
+		font-size: 3em;
+}
+  
 </style>
 
 
@@ -156,6 +193,13 @@
 	
 	%>
 <body>
+  <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner02.jpg'); background-size: cover; background-position: center center;">
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>고객 후기<br><span style="font-size: 20px;">고객 여러분의 다양한 후기글을 남겨주세요.</span></span>
+</div>
+  
+
 
 	<%
 	//로그인을 한경우 리뷰폼이 나오도록 설정
@@ -167,8 +211,8 @@
 	%>
 
     
-    <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
-    <b style="color: gray;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
+    <div style="margin:0 auto; width: 800px; margin-top: 3%;">
+    <b style="color: gray;font-size: 1.2em;padding-left: 24px;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
     
     <%
       MemInfoDao rdao = new MemInfoDao();
@@ -246,7 +290,7 @@
     
     
     
-   <div style="width: 1000px; text-align: center;" id="pagelayout">
+   <div style="margin:0 auto; width: 800px; margin-top: 3%; margin-bottom:3%; text-align: center;" id="pagelayout">
 
   <!-- 페이지 번호 출력 -->
   <ul class="pagination justify-content-center">
