@@ -46,7 +46,7 @@
 	width: 30%;
 	margin-top: 30px;
 	height: 100%;
-	top: 0px;
+	top: 150px;
 	position: sticky;
 }
 #cartpaybtn{
@@ -121,6 +121,8 @@ div.img-container{
 <script type="text/javascript">
 $(function(){
 	
+	list();
+	
 	$("a.menuchoice").click(function(){
 		
 		var h_num=$("#h_num").val();
@@ -145,7 +147,7 @@ $(function(){
 				dataType:"html",
 				success:function(){
 					alert("추가성공");
-					location.reload();
+					list();
 					}
 				
 				});
@@ -153,7 +155,7 @@ $(function(){
 			
 	})//클릭 끝
 	
-	$(".delbtn").click(function(){
+	$(document).on("click",".delbtn",function(){
 		var cart_idx=$(this).val();
 		//alert(cart_idx);
 		
@@ -164,16 +166,50 @@ $(function(){
 			dataType:"html",
 			success:function(){
 				//alert("삭제성공");
-				location.reload();
+				list();
 			}
 			
-			
-		})
+	})
+});
 		
-	});
-	
-	
+
+		
 })//끝
+
+function list(){
+	
+	var m_num=$("#m_num").val();
+	var h_num=$("#h_num").val();
+	//alert("회원번호:"+m_num+",휴게소번호: "+h_num);
+	var total=0;
+	
+	$.ajax({
+		type:"get",
+		url:"foodcourt/foodcartlist.jsp",
+		data:{"m_num":m_num,"h_num":h_num},
+		dataType:"json",
+		success:function(res){
+		
+			var s="";
+			$.each(res,function(idx,item){
+				s+="<tr>";
+				s+="<td class='f_name'width='170px;'>"+item.f_name+"</td>";
+				s+="<td width='50px;'>"+item.cart_cnt+"</td>";
+				s+="<td class='price'width='100px;'>"+parseInt(item.cart_total).toLocaleString()+"원</td>";
+				s+="<td width='70px;'>";
+				s+="<button type='button' class='delbtn' value="+item.cart_idx+">취소</button></td>";
+				s+="</tr>";
+				
+				total += parseInt(item.cart_total);
+			});
+			
+			$("#cartlist").html(s);
+			$("#totalprice").text(total.toLocaleString()+"원");
+		}
+		
+	})
+	
+};
 </script>
 </head>
 <body>
@@ -190,6 +226,7 @@ String m_num=mdao.getM_num(m_id);
 //휴게소 이름 가져오기
 HugesoInfoDao hdao=new HugesoInfoDao();
 HugesoInfoDto hdto=hdao.getData(h_num);
+NumberFormat nf=NumberFormat.getInstance();
 %>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/foodbanner01.png'); background-size: cover; background-position: center center;">
 		<%-- <img alt="" src="image/mainbanner/memberbanner01.jpg">--%>
@@ -208,13 +245,15 @@ HugesoInfoDto hdto=hdao.getData(h_num);
 	for(int i=0;i<list.size();i++){
 		FoodDto dto=list.get(i); 
 		String f_num=dao.getF_num(h_num, dto.getF_name());
+
+		int pr=Integer.parseInt(dto.getF_price());
 		%>
 	<div  class="img">
 		<a class="menuchoice" f_num="<%=f_num%>">
 		<img alt="" src="image/food/<%=dto.getF_photo()%>" style="width: 230px;;height: 200px;cursor: pointer;">
 		<div>
 			<span><%=dto.getF_name() %></span>
-			<span><%= dto.getF_price() %>원</span><br>	
+			<span><%= nf.format(pr) %>원</span><br>	
 		</div>
 		</a>
 		<div>
@@ -228,12 +267,11 @@ HugesoInfoDto hdto=hdao.getData(h_num);
 <%
 FoodCartDao cdao=new FoodCartDao();
 List<HashMap<String,String>> clist=cdao.getCartMenu(m_num, h_num);
-NumberFormat nf=NumberFormat.getInstance();
 MemInfoDto dto=mdao.getAlldatas(m_id);
 
 %>
 </div>
-<div id="foodcart" align="center" >
+<div id="foodcart" align="center" style="display: block;">
 	<form >	
 	<table>
 		<caption align="top" style="text-align: center; font-size: 1.6em;">주문 메뉴</caption>
@@ -243,37 +281,22 @@ MemInfoDto dto=mdao.getAlldatas(m_id);
 			<th width="100px;">금액</th>
 			<th width="70px;">취소</th>
 		</tr>
-		<%
-			int total=0;
-			for(int i=0;i<clist.size();i++){
-			HashMap<String,String> map=clist.get(i);
-			int price=Integer.parseInt(map.get("f_price"));
-			int cnt=Integer.parseInt(map.get("cart_cnt"));
-			FoodCartDto cdto=cdao.getIdx(map.get("f_num"), m_num);
-			String foodname=clist.get(0).get("f_name");
-			
-			price*=cnt;
-			total+=price;
-			%>
-		<tr align="center">
-			<td class="name"><%=map.get("f_name") %></td>
-			<td><%=map.get("cart_cnt") %>개</td>
-			<td class="price"><%=nf.format(price)%>원</td>
-			<td>
-				<button type="button" class="delbtn" name="cart_idx" value ="<%=cdto.getCart_idx()%>">취소</button>
-			</td>
-		</tr>
-			<%}
-			%>	
 	</table>
+
+	<div id="cartlist">
+		<table>
+			
+		</table>
+	</div>
 	<br><br><br><hr>
 	<table >
 		<tr style="text-align: center;">
 			<td  style="font-size: 2em;">총 결제금액</td>
 		</tr>
 		<tr style="text-align: center; font-size: 2em;">
+		
 			<td >
-				<span id="totalprice"><%=nf.format(total)%>원</span>
+				<span id="totalprice"></span>
 			</td>
 		</tr>
 		<tr>
@@ -294,10 +317,10 @@ $(function(){
 		var hp='<%=dto.getM_hp2()%>';
 		var myid='<%=dto.getM_id()%>';
 		
-		var total=<%=total%>;
+		var total=$("#totalprice").text();
 		//alert("이름:"+name+"hp: "+hp+"myid: "+myid+"foodname: "+foodname+"total: "+total);
 		
-		var b=confirm("총 "+<%=total%>+"원을 결제하시겠습니까?");
+		var b=confirm("총 "+total+"을 결제하시겠습니까?");
 		
 		if(b){
 			requestPay(myid, total, name, hp);
@@ -326,6 +349,7 @@ $(function(){
             //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
             	if ( rsp.success ) { //결제 성공
 							console.log(rsp);
+            	alert("결제 완료되었습니다.");
 							deleteAllCart();
 							location.reload();
 						} else {
