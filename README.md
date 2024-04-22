@@ -1,4 +1,4 @@
-<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10ce6385-f430-45ae-87ca-f43a3d5df855">
+<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10ce6385-f430-45ae-87ca-f43a3d5df855&fontSize=50">
 <div align=center> 
 휴게소 정보 제공사이트 HUEAT
 <br>
