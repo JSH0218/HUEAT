@@ -39,6 +39,7 @@
   
   div.info {
     border: 0px solid blue;
+    background-color: gray;
     font-family: 'Noto Sans KR';
   }
 

@@ -168,6 +168,9 @@
 		    $("#brandaddarea input[type='text'][name^='b_addr']").each(function(index) {
 		        $(this).attr("name", "b_addr" + (index + 1));
 		    });
+		    $("#brandaddarea input[type='hidden'][name^='b_num']").each(function(index) {
+		        $(this).attr("name", "b_num" + (index + 1));
+		    });
 		}
 
 		function removeFoodField(element) {
@@ -184,6 +187,9 @@
 		    });
 		    $("#foodaddarea input[type='text'][name^='f_price']").each(function(index) {
 		        $(this).attr("name", "f_price" + (index + 1));
+		    });
+		    $("#foodaddarea input[type='hidden'][name^='f_num']").each(function(index) {
+		        $(this).attr("name", "f_num" + (index + 1));
 		    });
 		}
 		
