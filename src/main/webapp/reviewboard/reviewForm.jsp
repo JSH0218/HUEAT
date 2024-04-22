@@ -1,3 +1,6 @@
+<%@page import="hugesoinfo.model.HugesoInfoDto"%>
+<%@page import="java.util.List"%>
+<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,6 +26,11 @@
   
 </style>
 </head>
+<%
+  HugesoInfoDao hdao = new HugesoInfoDao();
+  List<HugesoInfoDto> hlist = hdao.getAllDatas();
+  
+%>
 <body>
 
   
@@ -30,11 +38,18 @@
   <%-- <div style="margin-top: 70px; text-align: center;"><h4><b>고객후기</b></h4></div>--%>
   
   <!-- 저장폼  -->
-   <div style="margin:0 auto; width: 800px;margin-top: 3%;">
-     <form action="reviewboard/reviewAction.jsp" method="post" enctype="multipart/form-data" style="display: inline-block;">
-       <table class="table" >
-         <caption align="top" style="font-size: 1.2em;padding-left: 24px;"><b>후기등록</b></caption>
-         
+   <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
+     <form action="reviewboard/reviewAction.jsp" method="post" enctype="multipart/form-data">
+       <table class="table">
+         <caption align="top"><h5><b>후기등록</b></h5></caption>
+             <td>
+               <select name="r_category" id="r_category" class="form-control" required="required" 
+               style="width: 200px;">
+                 <% for (HugesoInfoDto hugeso : hlist) { %>
+                     <option value="<%= hugeso.getH_name() %>"><%= hugeso.getH_name() %></option>
+                 <% } %>=
+               </select>
+             </td>
          <tr>
            <td>
              <textarea type="text" name="r_content" class="form-control" required="required"

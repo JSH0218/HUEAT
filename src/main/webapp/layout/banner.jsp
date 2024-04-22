@@ -38,6 +38,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
     
    .swiper-slide img {
@@ -96,15 +97,21 @@
   <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-01.png"> </div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-02.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-03.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-04.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-05.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-06.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main_대지 1.jpg"
+      onclick="location.href='index.jsp?main=foodcourt/choicehuegeso.jsp'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-02.jpg"
+      onclick="location.href='index.jsp?main=member/gaipform.jsp'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-03.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=1"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-04.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=127'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-05.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=86'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-06.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=106'"></div>
+  
 
-
-    </div>
+    </div> 
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>

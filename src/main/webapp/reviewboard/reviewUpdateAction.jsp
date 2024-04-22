@@ -31,6 +31,7 @@
 		String r_num = multi.getParameter("r_num");
 		String currentPage = multi.getParameter("currentPage");
 		String r_content = multi.getParameter("r_content");
+		String r_category = multi.getParameter("r_category");
 		String r_image = multi.getFilesystemName("r_image");
 
 		//기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
@@ -42,6 +43,7 @@
 
 		dto.setR_num(r_num);
 		dto.setR_myid(myid);
+		dto.setR_category(r_category);
 		dto.setR_content(r_content);
 
 		//사진 선택을 안하면 기존의 사진으로 저장

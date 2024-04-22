@@ -14,8 +14,8 @@
 
 
   div.title {
-    border-bottom: 0px solid #ddd; 
-    position:sticky;
+    border-bottom: 1px solid #ddd; 
+    position: sticky;
      top: 0;
     left: 0;
     width: 100%;
@@ -27,14 +27,12 @@
   
   div.banner {
     border: 0px solid yellow;
-
     display: none;
     font-family: 'Noto Sans KR';
   }
   
   div.main {
     border: 0px solid red;
-
     font-family: 'Noto Sans KR';
     min-height: calc(100vh - 10rem);
   }
@@ -43,7 +41,6 @@
     border: 0px solid blue;
     background-color: gray;
     font-family: 'Noto Sans KR';
-    height: 10rem;
   }
 
 </style>

@@ -300,12 +300,13 @@ button.brand{
 }
 
 .nav-pills .nav-link.active{
-	background-color:#618E6E;
+	background-color:#618E6E !important;
 }
 
 
 /* 평점 css  */
-.star-rating {
+.star-rating#fg_grade {
+  /* 첫 번째 평점에 대한 스타일 */
   display: flex;
   flex-direction: row-reverse;
   font-size: 2rem;
@@ -315,30 +316,66 @@ button.brand{
   text-align: center;
   width: 5em;
 }
- 
-.star-rating input {
-  display: none;
+
+.star-rating#fg_grade input{
+	 display: none;
 }
- 
-.star-rating label {
+
+.star-rating#fg_grade label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
+  cursor: pointer;
+}
+
+.star-rating#fg_grade :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+
+.star-rating#fg_grade label:hover,
+.star-rating#fg_grade label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
+
+
+
+.star-rating#g_grade {
+  /* 두 번째 평점에 대한 스타일 */
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
+}
+
+.star-rating#g_grade input{
+	 display: none;
+}
+
+
+.star-rating#g_grade label {
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 2.3px;
   -webkit-text-stroke-color: #2b2a29;
   cursor: pointer;
 }
  
-.star-rating :checked ~ label {
+.star-rating#g_grade :checked ~ label {
   -webkit-text-fill-color: gold;
 }
  
-.star-rating label:hover,
-.star-rating label:hover ~ label {
+
+.star-ratingr#g_grade label:hover,
+.star-rating#g_grade label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
 }
 
 /* 휴게소 평균 평점 */
 .star-ratings {
-  color: #aaa9a9; 
+  color: lightgray; 
   position: relative;
   unicode-bidi: bidi-override;
    width: max-content; 
@@ -441,6 +478,7 @@ div.alist {
 }
 
 .prebtn{
+	border: none;
     display: inline-block;
     padding: 0 70px;
     height: 56px;

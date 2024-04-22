@@ -41,8 +41,8 @@
     	file.delete();
     	
     	//보던 페이지로 이동
-    	response.sendRedirect("../index.jsp?main=reviewboard/reviewList.jsp?currentPage="+currentPage);
     }
+   	response.sendRedirect("../index.jsp?main=reviewboard/reviewList.jsp?currentPage="+currentPage);
   
   %>
 

@@ -7,6 +7,7 @@ public class FoodDto {
 	private String f_name;
 	private String f_photo;
 	private String f_price;
+	private String f_grade;
 	
 	public String getF_num() {
 		return f_num;
@@ -38,6 +39,11 @@ public class FoodDto {
 	public void setF_price(String f_price) {
 		this.f_price = f_price;
 	}
-	
+	public String getF_grade() {
+		return f_grade;
+	}
+	public void setF_grade(String f_grade) {
+		this.f_grade = f_grade;
+	}
 	
 }

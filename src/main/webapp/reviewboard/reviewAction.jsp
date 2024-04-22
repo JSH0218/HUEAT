@@ -34,7 +34,7 @@
     	
     	multi = new MultipartRequest(request,uploadPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
     	
-    	
+    	String r_category = multi.getParameter("r_category");
     	String r_content = multi.getParameter("r_content");
     	String r_image = multi.getFilesystemName("r_image");
     	
@@ -47,6 +47,7 @@
     	ReviewDto dto = new ReviewDto();
     	
     	dto.setR_myid(myid);
+    	dto.setR_category(r_category);
     	dto.setR_content(r_content);
     	dto.setR_image(r_image);
     	

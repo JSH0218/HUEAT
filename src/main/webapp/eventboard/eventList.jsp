@@ -1,3 +1,4 @@
+<%@page import="java.util.TimeZone"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="event.model.EventDto"%>
@@ -148,6 +149,7 @@
 		
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
     //마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
