@@ -212,36 +212,16 @@ $(function(){
 	
 	var h_num=$("#h_num").val();
 	var m_num=$("#m_num").val();
-	//alert(m_num);
 
 	var login = "<%=loginok%>";
-	
-	
- <%-- var avgGrade = "<%= avgGrade %>";
-	if (avgGrade !== null) {
-	    alert("평균 등급: " + avgGrade);
-	} else {
-	    alert("평균 등급을 가져오지 못했습니다.");
-	} --%>
-	
 
-      if(login=="null"){
-		 $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
-	        return;
-	    }else {
-	        $("#insertgrade").show(); // 로그인 상태일 때 표시
-	    } 
+    // 로그인 상태에 따라 평점 입력 폼을 보이거나 숨김
+    if (login === "null") {
+        $("#insertgrade").hide(); // 로그아웃 상태일 때 숨김
+    } else {
+        $("#insertgrade").show(); // 로그인 상태일 때 표시
+    }
 	
-	 
-	 /* $(".writegrade").click(function() {
-		    if (login !== "null") {
-		        $("#insertgrade").show();
-		    } else {
-		        $("#insertgrade").hide();
-		    }
-		}); */
-	 
-	 
 		function resetStarRating() {
 		    // 모든 별점 input 요소를 초기화
 		    document.querySelectorAll('.star-rating input').forEach(function(input) {
@@ -291,51 +271,6 @@ $(function(){
 		    
 		    });
 		    
-		    
-	 	
-		 <%--    /* 휴게소 평점 평균 */
-			 function ratingToPercent(avgGrade) {
-			    const score = avgGrade * 20;
-			    return score + 1.5;
-			  }
-
-			// JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당
-			var avgGrade = "<%= avgGrade %>"; 
-
-			// HTML 요소에 평균 등급을 적용하는 함수 호출
-			  applyStarRatings(parseFloat(avgGrade));
-
-			  function applyStarRatings(avgGrade) {
-			    const fillWidth = ratingToPercent(avgGrade) + '%';
-			    document.querySelector('.star-ratings-fill').style.width = fillWidth;
-			} 
-			  
-		    
-			   function updateH_grade() {
-				    $.ajax({ 
-				        type: "post",
-				        dataType: "html",
-				        data: {
-				            "h_num": $("#h_num").val(), 
-				            "h_grade": avgGrade , 
-				            "h_gradecount": $("b.gradesu>span").text()
-				        },
-				        url: "hugesoinfo/updateh_grade.jsp",
-				        success: function(res) {
-				            // JSP에서 가져온 평균 등급 값을 JavaScript 변수에 할당하지 않고
-				            // 이미 전역 변수로 설정된 avgGrade를 사용하여 등급을 적용합니다.
-				            applyStarRatings(parseFloat(avgGrade));
-				        },
-				        error: function(xhr, status, error) {
-				            console.error("AJAX Error: " + error);
-				        }
-				    });
-				} --%>
- 
- 
- 
- 
- 
  
 				function ratingToPercent(avgGrade) {
 				    const score = avgGrade * 20;
@@ -610,27 +545,6 @@ $(document).ready(function() {
 
 
 
-
-
-/* var moreButton = document.getElementById("moreButton");
-var foldButton = document.getElementById("foldButton");
-var moreButton1 = document.getElementById("moreButton1");
-var foldButton1 = document.getElementById("foldButton1");
-
-if (document.querySelector('a[href="#home"]').classList.contains("active")) {
-    moreButton.style.display = "block";
-    foldButton.style.display = "none";
-    moreButton1.style.display = "none";
-    foldButton1.style.display = "none";
-} else if (document.querySelector('a[href="#menu1"]').classList.contains("active")) {
-    moreButton.style.display = "none";
-    foldButton.style.display = "none";
-    moreButton1.style.display = "block";
-    foldButton1.style.display = "none";
-} */
-
-
-
 $(".writegrade").click(function(){
 //document.querySelector('.food-item').addEventListener('click', function() {
     // 버튼을 클릭했을 때 실행될 코드
@@ -664,31 +578,6 @@ function showPopup2() {
 }
 
 
-<%-- var avgFoodGrade = "<%= avgFoodGrade %>"; 
-
-function updateF_grade(fg_foodnum) {
-    console.log("fg_foodnum:", fg_foodnum);
-    console.log("avgFoodGrade:", avgFoodGrade);
-    $.ajax({ 
-        type: "post",
-        dataType: "html",
-        data: {
-            "h_num": $("#h_num").val(),
-            "f_num": fg_foodnum,
-            "f_grade":
-        },
-        url: "foodgrade/updatef_grade.jsp",
-        success: function(res) {
-            // 서버에서 응답으로 받은 평균 평점을 사용하여 업데이트
-            var avgFoodGrade = parseFloat(res); // 서버에서 문자열로 반환하므로 숫자로 변환
-            $(".avggrade2").text(avgFoodGrade.toFixed(1)); // 평균 평점을 소수점 한 자리까지 표시
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX Error: " + error);
-        }
-    });
-}
- --%>
 
  function updateF_grade(fg_foodnum) {
 	    //console.log("fg_foodnum:", fg_foodnum);
@@ -1193,9 +1082,9 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 
 <p class="subtitle">평점</p>
 
-<!-- <button id="sortByLatest">최신순</button>
-<button id="sortByHigh">평점높은순</button>
-<button id="sortByLow">평점낮은순</button> -->
+<button type="button" id="sortByLatest">최신순</button>
+<button type="button" id="sortByHigh">평점높은순</button>
+<button type="button" id="sortByLow">평점낮은순</button>
 <div class="gradearea2"style="display: flex; justify-content: center; margin-left:10%;">
 <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 5rem;">★</label>
