@@ -127,7 +127,7 @@ $(function(){
 		var f_num=$(this).attr("f_num");
 		var m_num=$("#m_num").val();
 		var cart_cnt=$("#cart_cnt_"+f_num).val();
-		alert("음식번호:"+f_num+"회원번호:"+m_num+"수량:"+cart_cnt+"h_num="+h_num);
+		//alert("음식번호:"+f_num+"회원번호:"+m_num+"수량:"+cart_cnt+"h_num="+h_num);
 	
 		var loginok="<%=loginok%>";
 		  if(loginok == "null"){
@@ -195,7 +195,7 @@ HugesoInfoDto hdto=hdao.getData(h_num);
 		<%-- <img alt="" src="image/mainbanner/memberbanner01.jpg">--%>
 </div>
 <div class="span-container" style="border:0px solid purple; font-size: 2.5em;" >
-	<span style="display: block;"> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
+	<span> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
 	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
 	</span>
 </div>

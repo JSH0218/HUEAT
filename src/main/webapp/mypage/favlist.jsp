@@ -103,7 +103,7 @@
 	
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>휴게소 즐겨찾기 목록<br><span style="font-size: 20px;">자주 방문하는 휴게소를 빠르게 찾아보세요.</span></span>
+	<span>휴게소 즐겨찾기 목록<br><span style="display: block;font-size: 20px;">자주 방문하는 휴게소를 빠르게 찾아보세요.</span></span>
 </div>
 
 <%

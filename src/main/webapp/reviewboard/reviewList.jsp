@@ -193,10 +193,10 @@
 	
 	%>
 <body>
-  <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner02.jpg'); background-size: cover; background-position: center center;">
+  <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner03.png'); background-size: cover; background-position: center center;">
 </div>
 <div class="span-container" style="border:0px solid purple;">
-	<span>고객 후기<br><span style="font-size: 20px;">고객 여러분의 다양한 후기글을 남겨주세요.</span></span>
+	<span>고객 후기<br><span style="display: block;font-size: 20px;">고객 여러분의 다양한 후기글을 남겨주세요.</span></span>
 </div>
   
 
