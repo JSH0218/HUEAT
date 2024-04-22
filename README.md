@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10ce6385-f430-45ae-87ca-f43a3d5df855&fontSize=50" width="50%">
+<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10ce6385-f430-45ae-87ca-f43a3d5df855" width="50%">
 </div>
 <div align=center> 
 휴게소 정보 제공사이트 HUEAT
@@ -20,7 +20,7 @@
   - 담당 기능 :
 
 ## ERD
-<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/d3424b87-f211-421c-9633-1cb444901684">
+<img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/d3424b87-f211-421c-9633-1cb444901684" width="500px">
 
 ## Tech Stacks
 <img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/8b655efb-5bcd-4629-9f69-9dca23cb1292">
