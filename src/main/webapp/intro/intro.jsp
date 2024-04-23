@@ -39,7 +39,7 @@
   <div class="intro">
 	<div class="title1">
 		<h2><b>"HUEAT"에 오신 여러분을 환영합니다</b></h2>
-			<img alt="" src="<%=root%>/image/main/intro_대지 1.jpg" class="intro_img">
+			<img alt="" src="<%=root%>/image/main/intro_대지 2.jpg" class="intro_img">
 		
 	</div>
 

@@ -13,13 +13,24 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	button{
+	button.search{
 		background-color: #618E6E;
 		color: white;
 		border:0px;
 		height: 30px;
 		width: 100px;
 	}
+	
+	  button.deletemem{
+       background-color:#fb4357;
+       color: #fff;
+       border:none;
+       border-radius:10px;
+       box-shadow: 0px 0px 2px 2px #fb4357;
+       width: 45px;
+      height: 30px;
+      font-size: 13px;
+   }
 	
 		div.img-container{
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */

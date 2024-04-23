@@ -20,18 +20,6 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-* {
-	font-family: 'Nanum Gothic';
-}
-
-.line {
-	border: 1px solid black;
-	margin-top: 10px;
-	margin-left: auto; /* 좌측 여백을 자동으로 설정 */
-	margin-right: auto;
-	width: 200px;
-}
-
 ul.tabs {
 	margin: 0px;
 	padding: 0px;
@@ -41,30 +29,32 @@ ul.tabs {
 }
 
 ul.tabs li {
-	background: none;
-	color: #222;
-	display: inline-block;
-	padding: 10px 18px;
-	cursor: pointer;
+   background: none;
+   color: #222;
+   cursor: pointer;
+   width: 90px;
+   height: 45px;
+   display: flex; /* 수정: 부모 요소를 플렉스 박스로 설정 */
+   align-items: center; /* 수정: 수직 가운데 정렬 */
+   justify-content: center; 
 }
-
 ul.tabs li#first {
-	border: 1px solid #ccc;
-	margin-right: 20px;
-	    border-radius: 100px;
-	    text-align: center;
+   border: 1px solid #ccc;
+   margin-right: 20px;
+       border-radius: 100px;
 }
 ul.tabs li#first:hover {
-    background-color: #d3d3d3;
+    background-color: #5b954d;
     transition: all 0.3s ease-in-out;
     border: 1px solid transparent;
-    color: #fff;
+      color: #fff;
 }
 
 
 #next {
-	background-color: #d3d3d3;
+	background-color: #5b954d;
 	border-radius: 100px;
+	color: #fff;
 }
 
 .tab-content {
@@ -100,6 +90,7 @@ div.reviewlist {
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
+	padding-bottom: 40px;
 }
 
 div.container {
@@ -113,7 +104,7 @@ div.container {
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 50px;
+	margin-top: -60px;
 }
 
 table.table {
@@ -123,28 +114,6 @@ table.table {
 table.table th, table.table td {
 	text-align: center; /* 가운데 정렬 */
 	vertical-align: middle; /* 수직 정렬 */
-	border: 2px solid lightgray;
-	border-collapse: collapse;
-}
-
-table th:first-child, table td:first-child {
-	border-left: 0;
-	border-bottom: none;
-}
-
-table th:last-child, table td:last-child {
-	border-right: 0;
-	border-bottom: none;
-}
-
-.line1 {
-	border: 3px solid darkgray;
-	border-right: none;
-	border-left: none;
-}
-
-tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 영역에만 css 적용(헤더 제외) */
-	background-color: lightgray;
 }
 
 .table th, .table td {
@@ -160,9 +129,10 @@ input[type="checkbox"] {
 td{
 font-size: 14px;
 }
-td.day {
-font-size: 12px;
-}
+.table-bordered	td.day {
+	font-size: 12px;
+	color: #b4a8a8;
+	}
 
 div.img-container{
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
@@ -198,6 +168,31 @@ div.img-container{
 		position: relative;
 
 }
+
+	.pagination .page-item.active .page-link {
+	    background-color: #618E6E;
+	    border-color: #618E6E;
+	}
+	
+	.pagination .page-item .page-link:hover {
+	    color: #618E6E;
+	}
+	
+	.pagination .page-item.active .page-link:hover {
+	    color: white;
+	}
+	
+	#btndel{
+	    background-color:#fb4357;
+	    color: #fff;
+	    border:none;
+	    border-radius:10px;
+	    box-shadow: 0px 0px 2px 2px #fb4357;
+	    width: 45px;
+		height: 30px;
+		font-size: 13px;
+	}
+		
 
 
 </style>
@@ -309,8 +304,7 @@ List<ReviewDto> list = dao.getmypagelist(startNum, perPage, myid);
 if (list.size() == 0 && currentPage != 1) {
 %>
 <script type="text/javascript">
-			  location.href="index.jsp?main=mypage/myreviewList.jsp?currentPage=<%=currentPage - 1%>
-	";
+			  location.href="index.jsp?main=mypage/myreviewList.jsp?currentPage=<%=currentPage - 1%>";
 </script>
 <%
 }
@@ -323,24 +317,18 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/memberbanner01.jpg'); background-size: cover; background-position: center center;">
 </div>
 <div class="span-container" style="border:0px solid purple;font-size: 2.5em;">
-	<span>나의 활동<br><span>REVIEW</span></span>
+	<span>REVIEW</span>
 </div>
 
 	<div class="container">
-		<%-- <div style="margin-top: 100px; text-align: center;" class="subject">
-			<h4>
-				<b>나의활동</b>
-			</h4>
-			<hr class="line">
-		</div>--%>
 		<div class="reviewlist">
 			<ul class="tabs">
 				<li id="first"><span style="font-size: 14px;">Q&A</span></li>
 				<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
 			</ul>
 			<div id="tab2" class="tab2" style="margin-top: 40px;">
-				<table class="table">
-					<tr class="line1" style="height: 30px;">
+     		 <table class="table table-bordered">
+        			 <tr style="height: 30px;">
 						<th width="50" style="background-color: #DFE8E2;">번호</th>
 						<th width="500" style="background-color: #DFE8E2;">리뷰</th>
 						<th width="30" style="background-color: #DFE8E2;">추천</th>
@@ -383,15 +371,14 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					<%
 					}
 					%>
-					<tr>
-						<td colspan="5"><label style="float: left"><input
-								type="checkbox" class="alldelcheck"> 전체선택</label> <span
-							style="float: right;">
-								<button type="button" class="btn btn-danger btn-sm" id="btndel">
-									삭제
-								</button>
-						</span></td>
-					</tr>
+					<tr style="border-bottom: none;">
+		             <td colspan="5" style="border-left: none; border-right: none;">
+		                <label style="float: left"><input type="checkbox" class="alldelcheck"> 전체선택</label>
+		                <span style="float: right;">
+		                   <button type="button" id="btndel">삭제</button>
+		                </span>
+		             </td>
+		           </tr>
 				</table>
 			</div>
 

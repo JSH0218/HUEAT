@@ -35,6 +35,10 @@
    margin-left: 10px;
 }
 
+ #primary_nav_wrap ul ul li a { 
+   margin-left: 0px; 
+ }  
+
 #primary_nav_wrap ul li {
    position: relative;
    float: left;
@@ -55,7 +59,8 @@
 
 #primary_nav_wrap ul ul li {
    float: none;
-   width: 140px
+   width: 130px;
+   text-align : center;
 }
 
  #primary_nav_wrap ul ul li a { 
@@ -64,7 +69,8 @@
 
 #primary_nav_wrap ul ul a {
    line-height: 120%;
-   padding: 10px 15px;
+   padding-top: 7.5px;
+   padding-bottom: 7.5px;
    text-align: center;
 }
 
