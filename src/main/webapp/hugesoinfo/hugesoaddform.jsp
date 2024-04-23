@@ -47,6 +47,14 @@
 			height: 600px;
 			margin-left: 10%;
 		}
+		
+		#addbrand,#addfood{
+			/*border: 3px solid #618E6E;*/
+			background-color: #618E6E;
+			height: 35px;
+			color: white;
+			border: 0px;
+		}
 	</style>
 	<script type="text/javascript">
 		$(function(){
@@ -204,32 +212,32 @@
 				<input type="hidden" name="h_yvalue" id="h_yvalue">
 				<hr>
 				<div>
-					편의시설: 
-					<input type="checkbox" name="h_pyeon" value="수면실">수면실
-					<input type="checkbox" name="h_pyeon" value="샤워실">샤워실
-					<input type="checkbox" name="h_pyeon" value="세탁실">세탁실
-					<input type="checkbox" name="h_pyeon" value="세차장">세차장
-					<input type="checkbox" name="h_pyeon" value="경정비">경정비
-					<input type="checkbox" name="h_pyeon" value="수유실">수유실
-					<input type="checkbox" name="h_pyeon" value="쉼터">쉼터
-					<input type="checkbox" name="h_pyeon" value="ATM">ATM
-					<input type="checkbox" name="h_pyeon" value="매점">매점
+					편의시설:&nbsp;
+					<input type="checkbox" name="h_pyeon" value="수면실">수면실&nbsp;
+					<input type="checkbox" name="h_pyeon" value="샤워실">샤워실&nbsp;
+					<input type="checkbox" name="h_pyeon" value="세탁실">세탁실&nbsp;
+					<input type="checkbox" name="h_pyeon" value="세차장">세차장&nbsp;
+					<input type="checkbox" name="h_pyeon" value="경정비">경정비&nbsp;
+					<input type="checkbox" name="h_pyeon" value="수유실">수유실&nbsp;
+					<input type="checkbox" name="h_pyeon" value="쉼터">쉼터&nbsp;
+					<input type="checkbox" name="h_pyeon" value="ATM">ATM&nbsp;
+					<input type="checkbox" name="h_pyeon" value="매점">매점&nbsp;
 					<input type="checkbox" name="h_pyeon" value="약국">약국
 				</div>
 				<hr>
 				<div id="brandaddarea">
 					<input type="hidden" name="brandcount" id="brandcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addbrand" class="btn btn-warning btn-sm">가게추가</button></div>
+				<div class="btnarea"><button type="button" id="addbrand" class="btn-sm">가게추가</button></div>
 				<hr>
 				<div id="foodaddarea">
 					<input type="hidden" name="foodcount" id="foodcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addfood" class="btn btn-warning btn-sm">음식추가</button></div>
+				<div class="btnarea"><button type="button" id="addfood" class="btn-sm">음식추가</button></div>
 				<hr>
 				<div>
-					휘발유: <input type="text" name="h_gasolin" style="text-align: right;">원&nbsp;
-					경유: <input type="text" name="h_disel" style="text-align: right;">원&nbsp;
+					휘발유: <input type="text" name="h_gasolin" style="text-align: right;">원&nbsp;/
+					경유: <input type="text" name="h_disel" style="text-align: right;">원&nbsp;/
 					천연가스: <input type="text" name="h_lpg" style="text-align: right;">원&nbsp;
 				</div>
 				<hr>

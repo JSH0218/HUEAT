@@ -38,10 +38,10 @@
   <%-- <div style="margin-top: 70px; text-align: center;"><h4><b>고객후기</b></h4></div>--%>
   
   <!-- 저장폼  -->
-   <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
+   <div style="margin: 100px 200px; width: 800px; margin-left: 29%;">
      <form action="reviewboard/reviewAction.jsp" method="post" enctype="multipart/form-data">
        <table class="table">
-         <caption align="top"><h5><b>후기등록</b></h5></caption>
+         <caption align="top"style="padding-left: 10px;"><b>후기등록</b></caption>
              <td>
                <select name="r_category" id="r_category" class="form-control" required="required" 
                style="width: 200px;">

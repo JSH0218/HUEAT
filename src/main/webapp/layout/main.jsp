@@ -116,6 +116,8 @@ button.btn {
 
 button.col {
     background-color: #618E6E;
+    margin-bottom: 6%;
+    
 }
 </style>
 </head>
@@ -178,9 +180,9 @@ List<HugesoInfoDto> hlist = hdao.getAllGrade();
     </div>
 
     <!-- 쇼핑몰 -->
-    <div style="text-align: center; position: relative; padding-top: 4%;">
+    <div style="text-align: center; position: relative; padding-top: 4%;padding-bottom: 6%; margin: 0 auto;">
         <img alt="" src="<%=root%>/image/main/main.jpg" class="bottom_img">
-        <h2 class="caption">다양한 브랜드를 합리적인 가격으로 만나보세요</h2>
+        <h2 class="caption" style="margin-bottom: 6%;">다양한 브랜드를 합리적인 가격으로 만나보세요</h2>
         <button class="btn btn-success col" onclick="location.href='index.jsp?main=shop/shopList.jsp'">
             자세히보기
         </button>

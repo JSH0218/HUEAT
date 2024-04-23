@@ -91,6 +91,27 @@
 		width: 70%;
 		display: block;
 	}
+		.pagination .page-item.active .page-link {
+    		background-color: #618E6E;
+    		border-color: #618E6E;
+		}
+		
+		.pagination .page-item .page-link{
+			color: black;
+		}
+		
+		.pagination .page-item.active .page-link{
+			color: white;
+		}
+		
+		.pagination .page-item .page-link:hover {
+		    color: #618E6E;
+		}
+		
+		.pagination .page-item.active .page-link:hover {
+		    color: white;
+		}
+	
   
   
 </style>
@@ -148,7 +169,7 @@
 	List<EventDto> list = dao.getList(startNum, perPage);
 		
 	//날짜변경
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
@@ -173,13 +194,13 @@
   <div class="tablediv">
     <table class="table table-bordered">
       <caption align="top" style="font-size: 1.2em;padding-left: 24px;"><b>목록</b></caption>
-        <tr class="table-" align="center" style="height: 30px;">
-          <th width="120">번호</th>
-          <th width="450">제목</th>
-          <th width="200">작성자</th>
-          <th width="150">조회수</th>
-          <th width="150">추천수</th>
-          <th width="350">등록일자</th>
+        <tr align="center" style="height: 30px;">
+          <th width="120" style="background-color: #DFE8E2;">번호</th>
+          <th width="450" style="background-color: #DFE8E2;">제목</th>
+          <th width="200" style="background-color: #DFE8E2;">작성자</th>
+          <th width="150" style="background-color: #DFE8E2;">조회수</th>
+          <th width="150" style="background-color: #DFE8E2;">추천수</th>
+          <th width="350" style="background-color: #DFE8E2;">등록일자</th>
         </tr>
         
         <%
@@ -212,7 +233,7 @@
         		    <td><a href="index.jsp?main=eventboard/eventDetail.jsp?e_num=<%=dto.getE_num()%>
         		    &currentPage=<%=currentPage%>">
         		    <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-        		    width: 250px; display: block;"><%=dto.getE_subject() %></a></span>
+        		    width: 250px; display: block;"><%=dto.getE_subject() %></span></a>
         		    
         		    </td>
         		    <td align="center"><%=name %></td>
@@ -221,20 +242,19 @@
         		    <td align="center"><%=sdf.format(dto.getE_writeday())%></td>
         		    
         		  </tr>  
-        	  <%}
-          }
+        	  <%}%>
+        	  </table>
+          <%}
       //로그인한 아이디와 글을 쓴 아이디가 같을경우에만
     	if (loginok!=null && myid.equals("admin")) {%>
         
-      <tr>
-        <td colspan="6" align="right">
+     		<div style="float: right;">
           <button type="button" onclick="location.href='index.jsp?main=eventboard/eventForm.jsp'"
           class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
-        </td>
-    </tr>
+				</div>
     
      <%}%>
-    </table>
+    
   </div>
   
   <div style="width: 1000px; text-align: center;" id="pagelayout">

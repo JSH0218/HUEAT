@@ -121,15 +121,17 @@ String myid = (String) session.getAttribute("myid");
                   <li><a href="index.jsp?main=hugesoinfo/hugesolist.jsp">휴게소목록</a></li>
                </ul></li>
 
-            <li><a href="#">푸드코트</a>
-               <ul>
+            <li><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">푸드코트</a>
+               <%-- <ul>
                   <li class="dir"><a href="index.jsp?main=foodcourt/choicehuegeso.jsp">주문결제</a></li>
-               </ul></li>
+               </ul>--%>               
+              </li>
                
-            <li><a href="#">쇼핑정보</a>
-               <ul>
+            <li><a href="index.jsp?main=shop/shopList.jsp">쇼핑정보</a>
+               <%--<ul>
                   <li class="dir"><a href="index.jsp?main=shop/shopList.jsp">쇼핑몰</a></li>
-               </ul></li>   
+               </ul>--%> 
+            </li>   
                
             <li><a href="#">고객센터</a>
                <ul>

@@ -38,10 +38,10 @@
     color: gray;
   }
   
-  span.chu {
-    
-    font-size: 0.8em;
-    color: gray;
+  div.chu,span.chu {
+  	float: left;
+  	font-size: 0.9em;
+  	color: gray;
   }
   
   i.icon1 {
@@ -126,10 +126,10 @@
   
 
   <!-- 저장폼  -->
-   <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
+   <div style="margin: 0 auto; width: 900px; margin-left: 28%;margin-top: 4%; margin-bottom: 10%;">
     <form id="frm">
-     <table class="table">
-      <caption align="top"><h5><b><%=dto.getE_subject() %></b></h5></caption>
+     <table class="table table-bordered">
+      <%-- <caption align="top"><h5><b><%=dto.getE_subject() %></b></h5></caption>--%>
         <%
         MemInfoDao rdao = new MemInfoDao();
       
@@ -140,16 +140,10 @@
     	  %>
       
       <tr>
-        <td>
-          <b style="position: absolute; margin-top: 2%;">작성자 : <%=name %></b><br>
-          <span class="day"><%=sdf.format(dto.getE_writeday()) %></span><br>
-          <span class="read" style="margin-top: 0.6%;">조회 : <%=dto.getE_readcount()%></span>
-         <div style="margin-left: 10%;">
-          <i class="icon1 bi bi-hand-thumbs-up" e_num=<%=dto.getE_num() %>></i>
-          <span class="likes" >추천 : </span>
-    	  <span class="chu"><%=dto.getE_chu() %></span>
-    	 </div>
-          
+        <td style="background-color: #ebeae7; font-size: 1.3em; text-align: center; height: 80px; vertical-align: middle;">
+          <span style="float: left; font-size: 1.3em;"><%=dto.getE_subject() %></span>
+          <span class="day"><%=name %> | <%=sdf.format(dto.getE_writeday()) %></span>
+      
         </td>
       </tr>
       
@@ -169,6 +163,15 @@
     	 
       <tr>
        <td colspan="1" align="right">
+       
+       <span class="chu">조회 : <%=dto.getE_readcount()%></span>
+       		<div class="chu">
+    				<span style="display: inline-block;">
+        		<i class="icon1 bi bi-hand-thumbs-up" e_num=<%=dto.getE_num() %>></i>
+    				</span>&nbsp;&nbsp;
+    				<span>추천 : <%=dto.getE_chu() %></span>
+					</div>
+       
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="location.href='index.jsp?main=eventboard/eventForm.jsp'">글쓰기</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
@@ -185,7 +188,15 @@
       
     	else {%>
   	      <tr>
-            <td colspan="1" align="right">
+            <td colspan="1" align="right" style="background-color: #ebeae7;">
+            <span class="chu">조회 : <%=dto.getE_readcount()%></span>
+       		<div class="chu">
+    				<span style="display: inline-block;">
+        		<i class="icon1 bi bi-hand-thumbs-up" e_num=<%=dto.getE_num() %>></i>
+    				</span>&nbsp;&nbsp;
+    				<span>추천 : <%=dto.getE_chu() %></span>
+					</div>
+            
   		      <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
               onclick="location.href='index.jsp?main=eventboard/eventList.jsp'">목록</button>
            

@@ -70,23 +70,9 @@
 		table.table th, table.table td{
 		    text-align: center; /* 가운데 정렬 */
 		    vertical-align: middle; /* 수직 정렬 */
-		    border : 2px solid lightgray;
-		    border-collapse: collapse;
+		
 		}
 		
-		table th:first-child,
-		table td:first-child {
-			border-left: 0;
-		}
-		table th:last-child,
-		table td:last-child {
-			border-right: 0;
-		}
-		
-		.line{
-			border-top: 3px solid darkgray;
-			border-bottom: 3px solid darkgray;
-		}
 		
 		a:link{
 			color : black;
@@ -165,8 +151,9 @@
 		color: white;
 		font-size: 3em;
 		position: relative;
-
 }
+
+
 	</style>
 	<script>
 		var markers = [];
@@ -319,7 +306,7 @@
 				data:{"h_name":h_name},
 				success:function(res){
 					if(res.length){
-						var s="<table class='table'>";
+						var s="<table class='table table-bordered'>";
 						s+="<thead>";
 		        		s+="<tr class='line'><th style='width: 30%; background-color: #DFE8E2;'>휴게소이름</th><th style='width: 40%; background-color: #DFE8E2;'>주소</th><th style='width: 30%; background-color: #DFE8E2;'>번호</th></tr>";
 		        		s+="</thead>";
@@ -382,9 +369,9 @@
 				dataType:"json",
 				data:{"currentPage":currentPage},
 				success:function(res){
-					var s="<table class='table'>";
+					var s="<table class='table table-bordered'>";
 					s+="<thead>";
-	        		s+="<tr class='line'><th style='width: 30%; background-color: #DFE8E2;'>휴게소이름</th><th style='width: 40%; background-color: #DFE8E2;'>주소</th><th style='width: 30%; background-color: #DFE8E2;'>번호</th></tr>";
+	        		s+="<tr><th style='width: 30%; background-color: #DFE8E2;'>휴게소이름</th><th style='width: 40%; background-color: #DFE8E2;'>주소</th><th style='width: 30%; background-color: #DFE8E2;'>번호</th></tr>";
 	        		s+="</thead>";
 	        		s+="<tbody>";
 	        		

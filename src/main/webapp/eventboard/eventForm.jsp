@@ -16,6 +16,9 @@
     right: 20%;
   }
   
+   table.table tr, table.table td{
+  	border: 0px;
+  }
   
 </style>
 </head>

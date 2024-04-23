@@ -94,14 +94,14 @@
                style="width: 690px; height: 100px;" ><%=dto.getR_content() %></textarea>
            </td>
            
-           <td>
+           <td style="text-align: center;">
              <button type="submit" class="btn btn-success col" 
-             style="width: 100px; height: 100px; margin-top: 298%;">수정</button>
+             style="width: 100px; height: 100px; margin-top: 298%;margin-left: 1px;">수정</button>
            </td>
          </tr>
          
          <tr>
-             <td>
+             <td colspan="2"style="text-align: center;">
                 <input type="file" name="r_image" class="form-control" style="width: 800px;"
                 id="r_image" onchange="readURL(this)">
              </td>

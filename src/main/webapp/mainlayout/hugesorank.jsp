@@ -64,6 +64,13 @@
       margin-right: 0px;
    }
    
+  .swiper-button-next.hugeso::after,
+	.swiper-button-prev.hugeso::after {
+    color: #618E6E;
+    font-size: 25pt;
+    font-weight: bold;
+    }
+   
 </style>
 <script type="text/javascript">
   
