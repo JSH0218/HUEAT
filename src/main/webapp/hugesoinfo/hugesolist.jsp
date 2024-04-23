@@ -48,22 +48,14 @@
 table.table th, table.table td{
     text-align: center; /* 가운데 정렬 */
     vertical-align: middle; /* 수직 정렬 */
-    border : 2px solid lightgray;
-    border-collapse: collapse;
+
 }
 
 tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 영역에만 css 적용(헤더 제외) */
 	 background-color: lightgray;
 } 
 
-table th:first-child,
-table td:first-child {
-	border-left: 0;
-}
-table th:last-child,
-table td:last-child {
-	border-right: 0;
-}
+
 
 #pyeoniconarea{
 	display: flex;
@@ -84,7 +76,7 @@ table td:last-child {
 }
 
 .line{
-	border-top: 3px solid darkgray;
+	border-top: 0px solid darkgray;
 }
 
 .line2{
@@ -165,13 +157,22 @@ color: black;
 	}
 
 	div.span-container span{
-		z-index: 9999;
+		z-index: 999;
 		color: white;
 		font-size: 3em;
 		position: relative;
 
 }
-
+	.btnadd{
+		background-color: #618E6E;
+		color: white;
+		border-radius: 5px;
+		border:0px;
+		width: 70px;
+		height: 40px;
+		font-size: 1.2em;
+	
+	}
 
 </style>
 </head>
@@ -308,7 +309,7 @@ function searchAction(h_name){
 
 <!-- 리스트형 목록 -->
 <button type="button" class="btn"
-onclick="List(0)" style=" margin-left: 85%;">
+onclick="List(0)" style=" margin-left: 92%;">
 <i class="bi bi-list icon1" style="font-size: 25px; font-weight: bold;"></i>
 </button>
 
@@ -320,8 +321,8 @@ onclick="List(1)" >
 
 
 <div id="contentarea">
-<table class="table">
-<tr class="line">
+<table class="table table-bordered">
+<tr>
 <th rowspan="2" style="width: 250px; background-color: #DFE8E2;">휴게소</th>
 <th rowspan="2" style="width: 420px; background-color: #DFE8E2;">이정</th>
 <th rowspan="2" style="width: 230px; background-color: #DFE8E2;">전화번호</th>
@@ -333,7 +334,7 @@ onclick="List(1)" >
 
 %>
 
-<tr class="line2">
+<tr >
 <th style="width: 250px; background-color: #DFE8E2;">휴게소</th>
 <th style="width: 250px; background-color: #DFE8E2;">주유소</th>
 </tr>
@@ -440,7 +441,7 @@ for(int i=0;i<list2.size();i++){
 		if (loginok!=null && myid.equals("admin")){
 			%>
 			<div style="text-align: right;">
-				<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
+				<button type="button" class="btnadd" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
 			</div>
 			<%
 		}

@@ -110,7 +110,7 @@ div.img-container{
 	}
 
 	div.span-container span{
-		z-index: 9999;
+		z-index: 999;
 		color: white;
 		position: relative;
 
@@ -159,6 +159,12 @@ $(function(){
 		var cart_idx=$(this).val();
 		//alert(cart_idx);
 		
+		 var a=confirm("취소하시겠습니까?");
+		 
+		 if(a){
+			 
+		 
+		
 		$.ajax({
 			type:"get",
 			url:"foodcourt/foodcartdelete.jsp",
@@ -170,6 +176,7 @@ $(function(){
 			}
 			
 	})
+}
 });
 		
 
@@ -250,7 +257,7 @@ NumberFormat nf=NumberFormat.getInstance();
 		%>
 	<div  class="img">
 		<a class="menuchoice" f_num="<%=f_num%>">
-		<img alt="" src="image/food/<%=dto.getF_photo()%>" style="width: 230px;;height: 200px;cursor: pointer;">
+		<img alt="" src="hugesosave/<%=dto.getF_photo()%>" style="width: 230px;;height: 200px;cursor: pointer;">
 		<div>
 			<span><%=dto.getF_name() %></span>
 			<span><%= nf.format(pr) %>원</span><br>	

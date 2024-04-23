@@ -24,6 +24,7 @@
     float: right;
     font-size: 0.8em;
     color: gray;
+   	padding-top: 1%;
   }
   
    span.read {
@@ -38,16 +39,17 @@
     color: gray;
   }
   
-  span.chu {
-    
-    font-size: 0.8em;
-    color: gray;
-  }
   
   i.icon1 {
     cursor: pointer;
     font-size: 0.8em;
     margin-left: 82%;
+  }
+  div.chu, span.chu{
+  	float: left;
+  	font-size: 0.9em;
+  	display: inline-block;
+  	color: gray;
   }
   
 </style>
@@ -116,22 +118,29 @@
     dao.updateReadcount(n_num);
     
     //날짜
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
   
   %>
 <body>
 
   <!-- 메뉴 타이틀 -->
   <input type="hidden" id="n_num" value="<%=n_num%>">
-  <div style="margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
+  <div style="margin:0 auto; margin-top: 70px; text-align: center;"><h4><b>공지사항</b></h4></div>
   
-
+	
   <!-- 저장폼  -->
-   <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
+   <div style="margin: 0 auto; width: 900px; margin-left: 28%;margin-top: 4%; margin-bottom: 10%;">
+   			<%--<div>
+     		 <span class="read" style="margin-top: 0.6%;">조회 : <%=dto.getN_readcount()%></span>
+	          <i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>></i>
+	          <span class="likes">추천 : </span>
+         <span class="chu"><%=dto.getN_chu() %></span>
+				</div> --%>
+   
     <form id="frm">
-     <table class="table">
-      <caption align="top"><h5><b><%=dto.getN_subject() %></b></h5></caption>
-      
+     <table class="table table-bordered">
+
+
        <%
         MemInfoDao rdao = new MemInfoDao();
       
@@ -141,17 +150,10 @@
 
     	  %>
       
-      
-      <tr>
-        <td>
-          <b style="position: absolute; margin-top: 2%;">작성자 : <%=name %></b><br>
-          <span class="day"><%=sdf.format(dto.getN_writeday()) %></span><br>
-          <div style="margin-left: 10%;">
-          <span class="read" style="margin-top: 0.6%;">조회 : <%=dto.getN_readcount()%></span>
-          <i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>></i>
-          <span class="likes">추천 : </span>
-    	  <span class="chu"><%=dto.getN_chu() %></span>
-    	  </div>
+     <tr>
+     	<td style="background-color: #ebeae7; font-size: 1.3em; text-align: center; height: 80px; vertical-align: middle;">
+     			<span style="float: left; font-size: 1.3em;"><%=dto.getN_subject() %></span>
+          <span class="day"><%=name %> | <%=sdf.format(dto.getN_writeday()) %></span>
           
         </td>
       </tr>
@@ -169,7 +171,20 @@
     	if (loginok!=null && myid.equals("admin")) {%>
        
       <tr>
-       <td colspan="1" align="right">
+      
+       <td colspan="1" align="right" style="background-color: #ebeae7;">
+       
+       	<%-- <span class="chu"><div ><i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>style="display: inline-block;"></i></div> 추천 : <%=dto.getN_chu() %></span>--%>
+         
+         	<span class="chu">조회 : <%=dto.getN_readcount()%></span>
+       		<div class="chu">
+    				<span style="display: inline-block;">
+        		<i class="icon1 bi bi-hand-thumbs-up" n_num="<%=dto.getN_num() %>"></i>
+    				</span>&nbsp;&nbsp;
+    				<span>추천 : <%=dto.getN_chu() %></span>
+					</div>
+         
+         
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
          onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'">글쓰기</button>
          <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;"
@@ -187,7 +202,14 @@
       
     	else {%>
     	  <tr>
-            <td colspan="1" align="right">
+          <td colspan="1" align="right" style="background-color: #ebeae7;">
+          	<span class="chu">조회 : <%=dto.getN_readcount()%></span>
+       		<div class="chu">
+    				<span style="display: inline-block;">
+        		<i class="icon1 bi bi-hand-thumbs-up" n_num="<%=dto.getN_num() %>"></i>
+    				</span>&nbsp;&nbsp;
+    				<span>추천 : <%=dto.getN_chu() %></span>
+					</div>
     		 <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" 
              onclick="location.href='index.jsp?main=noticeboard/noticeList.jsp'">목록</button>
              

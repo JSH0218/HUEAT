@@ -77,11 +77,15 @@
 	}
 
 	div.span-container span{
-		z-index: 9999;
+		z-index: 999;
 		color: white;
 		position: relative;
 
 }
+
+	#myList li{
+		cursor: pointer;
+	}
 </style>
 <%
 HugesoInfoDao dao=new HugesoInfoDao();

@@ -15,7 +15,9 @@
     background-color: #618E6E;
     right: 20%;
   }
-  
+  table.table tr,table.table td{
+  	border: none;
+  }
   
 </style>
 </head>
@@ -53,6 +55,7 @@
                <textarea type="text" name="q_content" id="q_content" class="form-control" required="required"
                placeholder="내용을 입력하세요" style="width: 800px; height: 300px;"></textarea>
              </td>
+
            </tr>
          
            <tr>

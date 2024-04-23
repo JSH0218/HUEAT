@@ -47,6 +47,9 @@
   color: green; /* 마우스를 올렸을 때 컬러 변경 */
   cursor: pointer; /* 마우스 커서 모양 변경 (옵션) */
   }
+  .nav-link:hover{
+  color: green!important; 
+  }
 
 	div.img-container{
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
@@ -77,12 +80,27 @@
 	}
 
 	div.span-container span{
-		z-index: 9999;
+		z-index: 999;
 		color: white;
 		font-size: 3em;
 		position: relative;
 
 }
+	.nav-link, .nav-item,.nav-tabs{
+		color: black!important;
+	}
+	.br_total a{
+		text-decoration: none;
+	}
+  table.table tr, table.table td{
+  	border: 0px;
+  }
+  button.col{
+  	width: 80px; 
+  	height: 40px;
+  	background-color: #618E6E;
+  	color: white;
+  }
  
 </style>
 
@@ -270,7 +288,7 @@ $(function(){
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel2">
                 <% } %>
               <div class="br_total">  
-                <a href="<%= dto.getS_site() %>" target="_blank">
+                <a href="<%= dto.getS_site() %>" target="_blank" >
                   <img src="shopsave/<%= dto.getS_image() %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
@@ -343,16 +361,18 @@ $(function(){
       </div>
     </div>
 
-  </div>
-
   
   <!-- 버튼 위치 -->
-  <div style="padding: 5px 490px; ">
+  <div style="padding-left: 23.5%; padding-top: 3%;">
   <% if (loginok != null && myid.equals("admin")) { %>
-    <button type="button" class="btn btn-success col" style="width: 80px; height: 40px;" onclick="location.href='index.jsp?main=shop/shopForm.jsp'">추가</button>
-    <button type="button" class="btn btn-success col" id=btndel style="width: 80px; height: 40px;" onclick="location.href='#'">삭제</button>
+    <button type="button" class="btn col"  onclick="location.href='index.jsp?main=shop/shopForm.jsp'">추가</button>
+    <button type="button" class="btn col" id=btndel  onclick="location.href='#'">삭제</button>
   <% } %>
   </div>
+
+  </div>
+
+
 
 </body>
 </html>

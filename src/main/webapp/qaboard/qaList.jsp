@@ -58,26 +58,23 @@
 	}
 
 	div.span-container span{
-		z-index: 9999;
+		z-index: 999;
 		color: white;
 		position: relative;
 		font-size: 3em;
 }
-
-		div.alldiv{
-		margin: 0 auto;
+	div.alldiv{
 		width: 80%;
-		border: 0px solid black;
-
+		margin:0 auto;
 	}
-	
+
 	div.tablediv{
 		margin:0 auto;
 		padding-top: 5%;
 		border: 0px solid red;
 		width: 70%;
 		display: block;
-		margin-top: -15%;
+
 	}
 	
 	#pagelayout{
@@ -89,9 +86,34 @@
 		margin-bottom: 4%;
 	}
   
+ 	div.tablediv th{
+  	background-color: #DFE8E2;
+  }
   
+  	.pagination .page-item.active .page-link {
+    		background-color: #618E6E;
+    		border-color: #618E6E;
+		}
+		
+		.pagination .page-item .page-link{
+			color: black;
+		}
+		
+		.pagination .page-item.active .page-link{
+			color: white;
+		}
+		
+		.pagination .page-item .page-link:hover {
+		    color: #618E6E;
+		}
+		
+		.pagination .page-item.active .page-link:hover {
+		    color: white;
+		}
+	
   
 </style>
+
 </head>
    <%
    
@@ -167,6 +189,23 @@
       
 	
 	%>
+<script type="text/javascript">
+$(function(){
+	$("button.col").click(function(){
+		
+		var loginok="<%=loginok%>";
+		  if(loginok == "null"){
+	            alert("로그인이 필요한 서비스입니다.");
+	            return;
+	        }
+		  else{
+			  location.href = 'index.jsp?main=qaboard/qaForm.jsp';
+		  }
+	})
+	
+})
+
+</script>
 <body>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/qnabanner03.png'); background-size: cover; background-position: center center;">
 </div>
@@ -242,7 +281,7 @@
         		    
         		   
         		   
-        		    <td align="center"><%=dto.getQ_myid() %></td><br>
+        		    <td align="center"><%=dto.getQ_myid() %></td>
         		    <td align="center"><%=dto.getQ_readcount() %></td>
         		    <td align="center"><%=sdf.format(dto.getQ_writeday())%></td>
         		    
@@ -250,14 +289,15 @@
         	  <%}
           }
         %>
-        
-      <tr>
-        <td colspan="6" align="right">
-          <button type="button" onclick="location.href='index.jsp?main=qaboard/qaForm.jsp'"
-          class="btn btn-success col" style="width: 80px; height: 40px;">글쓰기</button>
-        </td>
-    </tr>
+
     </table>
+           
+     
+        <div>
+          <button type="button" 
+          class="btn btn-success col" style="width: 80px; height: 40px;float: right;">글쓰기</button>
+       </div>
+    
   </div>
   
   
@@ -271,7 +311,7 @@
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=startPage-1%>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -279,12 +319,12 @@
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=pp%>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=pp%>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -293,7 +333,7 @@
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=noticeboard/noticeList.jsp?currentPage=<%=endPage+1%>"
+    		<a  class="page-link" href="index.jsp?main=qaboard/qaList.jsp?currentPage=<%=endPage+1%>"
     		style="color: black;">다음</a>
     	</li>
     <%}

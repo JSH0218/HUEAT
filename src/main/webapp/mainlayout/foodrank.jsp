@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="food.model.FoodDto"%>
 <%@page import="food.model.FoodDao"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
@@ -61,6 +62,13 @@
           transform: rotate(90deg);
         }
       }
+      
+	.swiper-button-next.menu::after,
+	.swiper-button-prev.menu::after {
+    color: #618E6E;
+    font-size: 25pt;
+    font-weight: bold;
+    }
 </style>
 <script type="text/javascript">
   
@@ -92,7 +100,7 @@
    FoodDao fdao = new FoodDao();
    List<FoodDto> hlist = fdao.getAllFood();
 
-
+	NumberFormat nf=NumberFormat.getInstance();
 %>
 <body>
   <!-- 이달의 휴게소 -->
@@ -105,6 +113,7 @@
             int size = Math.min(recentfood.size(), 5);
             for (int f = 0; f < size; f++) { 
             	FoodDto dto = recentfood.get(f); 
+            	int price=Integer.parseInt(dto.getF_price());
         %>
         <div class="swiper-slide">
             <div class="hugeso-content" style="text-align: center; width: 250px;">
@@ -113,7 +122,7 @@
                     <img alt="" src="hugesosave/<%=dto.getF_photo() %>" class="f_image">
                     <div class="f_food">
                         <div class="f_name" style="font-size: 0.85em;"><%=dto.getF_name() %></div>
-                        <div class="f_addr" style="font-size: 0.7em;"><%=dto.getF_price() %>원</div>
+                        <div class="f_addr" style="font-size: 0.7em;"><%=nf.format(price) %>원</div>
                     </div>
                 </a>
             </div>

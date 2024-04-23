@@ -75,6 +75,27 @@
 		position: relative;
 		font-size: 3em;
 }
+
+		.pagination .page-item.active .page-link {
+    		background-color: #618E6E;
+    		border-color: #618E6E;
+		}
+		
+		.pagination .page-item .page-link{
+			color: black;
+		}
+		
+		.pagination .page-item.active .page-link{
+			color: white;
+		}
+		
+		.pagination .page-item .page-link:hover {
+		    color: #618E6E;
+		}
+		
+		.pagination .page-item.active .page-link:hover {
+		    color: white;
+		}
   
 </style>
 
@@ -219,7 +240,7 @@
 
     
     <div style="margin:0 auto; width: 800px; margin-top: 3%;">
-    <b style="color: gray;font-size: 1.2em;padding-left: 24px;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
+    <b style="color: gray;font-size: 1.2em;padding-left: 10px;">총 <%=totalCount %>개의 후기글이 있습니다</b><br><br>
     
     <%
       MemInfoDao rdao = new MemInfoDao();

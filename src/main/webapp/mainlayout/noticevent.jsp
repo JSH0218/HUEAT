@@ -64,6 +64,10 @@
    .e_writeday {
     margin-left: 10px; /* 제목과 날짜 사이의 왼쪽 여백을 추가합니다. */
     }
+    
+    .nav-link{
+    	color: black !important;
+    }
 </style>
 
 <script type="text/javascript">
