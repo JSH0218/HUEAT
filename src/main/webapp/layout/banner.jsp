@@ -38,6 +38,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
     
    .swiper-slide img {
@@ -85,6 +86,36 @@
        
     }
   </style>
+  <!-- Initialize Swiper -->
+  <script>
+  	$(function(){
+  		const progressCircle = document.querySelector(".autoplay-progress svg");
+  	    const progressContent = document.querySelector(".autoplay-progress span");
+  	    var swiper = new Swiper(".mySwiper", {
+  	      loop: true,
+  	      spaceBetween: 30,
+  	      centeredSlides: true,
+  	      autoplay: {
+  	        delay: 2500,
+  	        disableOnInteraction: false
+  	      },
+  	      pagination: {
+  	        el: ".swiper-pagination",
+  	        clickable: true
+  	      },
+  	      navigation: {
+  	        nextEl: ".swiper-button-next",
+  	        prevEl: ".swiper-button-prev"
+  	      },
+  	      on: {
+  	        autoplayTimeLeft(s, time, progress) {
+  	          progressCircle.style.setProperty("--progress", 1 - progress);
+  	          
+  	        }
+  	      }
+  	    });
+  	});
+  </script>
 </head>
 <%
     //1.íë¡ì í¸ ì ë ê²½ë¡ ì¤ì 
@@ -96,15 +127,21 @@
   <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-01.png"> </div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-02.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-03.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-04.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-05.png"></div>
-      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-06.png"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main_대지 1.jpg"
+      onclick="location.href='index.jsp?main=foodcourt/choicehuegeso.jsp'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-02.jpg"
+      onclick="location.href='index.jsp?main=member/gaipform.jsp'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-03.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=1"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-04.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=127'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-05.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=86'"></div>
+      <div class="swiper-slide"><img style="width: 100%; height: 450px; display: block;" src="<%=root%>/image/mainbanner/main-06.jpg"
+      onclick="location.href='index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=106'"></div>
+  
 
-
-    </div>
+    </div> 
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>
@@ -115,33 +152,5 @@
       <span></span>
     </div>
   </div>
-    <!-- Initialize Swiper -->
-  <script>
-    const progressCircle = document.querySelector(".autoplay-progress svg");
-    const progressContent = document.querySelector(".autoplay-progress span");
-    var swiper = new Swiper(".mySwiper", {
-      loop: true,
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      on: {
-        autoplayTimeLeft(s, time, progress) {
-          progressCircle.style.setProperty("--progress", 1 - progress);
-          
-        }
-      }
-    });
-  </script>
 </body>
 </html>

@@ -136,6 +136,42 @@ color: black;
 	background-color: #618E6E;
 }
 
+	div.img-container{
+    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	border: 0px solid black;
+  	background-position: top;
+  	text-align: center;
+}
+	
+	div.img-container img {
+		top: 0;
+    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
+    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
+    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
+    
+}
+	div.span-container{
+		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
+    height: 250px; /* 원하는 높이로 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
+  	background-position: top;
+		margin-top:-14%;
+  	text-align: center;
+  	display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+	}
+
+	div.span-container span{
+		z-index: 9999;
+		color: white;
+		font-size: 3em;
+		position: relative;
+
+}
+
 
 </style>
 </head>
@@ -246,13 +282,15 @@ function searchAction(h_name){
 }
 
 </script>
+<div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/huegesobanner01.jpg'); background-size: cover; background-position: center center;">
+	
+</div>
+<div class="span-container" style="border:0px solid purple;">
+	<span>휴게소 목록<br><span style="display: block;font-size: 20px;">휴게소 이름을 누르면 상세정보를 볼 수 있습니다.</span></span>
+</div>
+
 
 <div style="margin: 100px 10% 40px; width:80%;">
-
-<div id="titlearea">
-			<h4>휴게소 목록</h4>
-			<hr>
-		</div>
 
 <!-- 편의시설 아이콘  -->
 <div style="width:100%; text-align:center;" id="pyeoniconarea">

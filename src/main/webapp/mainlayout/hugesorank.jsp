@@ -15,7 +15,7 @@
 <style type="text/css">
    /*이달의 휴게소*/
    .h_title {
-    margin-left: 22.5%;
+    margin-left: 23.5%;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 1%;
@@ -102,7 +102,7 @@
   <!-- 이달의 휴게소 -->
 <div class="h_title">이달의 휴게소</div>
 <div style="margin-left: 200px;">
-<div class="swiper-container">
+<div class="swiper-container hugeso">
     <div class="swiper-wrapper">
         <% 
             List<HugesoInfoDto> recenthugeso = hdao.getAllGrade();
@@ -114,10 +114,10 @@
             <div class="hugeso-content" style="text-align: center; width: 250px;">
                 <a h_num="<%=dto.getH_num() %>" class="hugesoDetail"  style="cursor: pointer;
                 display: inline-block;">
-                    <img alt="" src="image/hugeso/<%=dto.getH_photo() %>" class="h_image">
+                    <img alt="" src="hugesosave/<%=dto.getH_photo() %>" class="h_image">
                     <div class="h_hugeso">
                         <div class="h_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
-                        <div class="h_addr" style="font-size: 0.6em;"><%=dto.getH_addr() %></div>
+                        <div class="h_addr" style="font-size: 0.7em;"><%=dto.getH_addr() %></div>
                     </div>
                 </a>
             </div>
@@ -127,8 +127,8 @@
     <!-- Add Navigation -->
 </div>
 <div>
-    <div class="swiper-button-next" style="position:absolute; top: 985px; right: 970px"></div>
-    <div class="swiper-button-prev" style="position:absolute; top: 985px; left : 149px"></div>
+    <div class="swiper-button-next hugeso" style="position:absolute; top: 1365px; right: 970px"></div>
+    <div class="swiper-button-prev hugeso" style="position:absolute; top: 1365px; left : 149px"></div>
 </div>
 
 </div>
@@ -137,13 +137,13 @@
 
 <!-- Initialize Swiper -->
 <script>
-    var swiper = new Swiper('.swiper-container', {
+    var hugeso_swiper = new Swiper('.hugeso', {
         slidesPerView: 3, // 한 번에 보여질 슬라이드 개수
         loop : true,
         spaceBetween: 30, // 슬라이드 간의 간격
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next.hugeso',
+            prevEl: '.swiper-button-prev.hugeso',
         },
     });
 </script>

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brand.model.BrandDto;
+import grade.model.GradeDto;
+import hugesoinfo.model.HugesoInfoDto;
 import mysql.db.DbConnect;
 
 public class FoodDao {
@@ -18,7 +20,7 @@ public class FoodDao {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
 		
-		String sql="insert into food(h_num,f_name,f_photo,f_price) values(?,?,?,?)";
+		String sql="insert into food(h_num,f_name,f_photo,f_price,f_grade) values(?,?,?,?,0)";
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -290,6 +292,7 @@ public class FoodDao {
 				dto.setF_name(rs.getString("f_name"));
 				dto.setF_photo(rs.getString("f_photo"));
 				dto.setF_price(rs.getString("f_price"));
+				dto.setF_grade(rs.getString("f_grade"));
 				
 				list.add(dto);
 			}
@@ -329,4 +332,207 @@ public class FoodDao {
 		}	
 		return f_num;
 	}
+	
+	//승경_메인화면에 메뉴 번호순서대로 가져오기 위해 생성
+    public List<FoodDto> getAllFood(){
+       List<FoodDto> foodlist = new ArrayList<FoodDto>();
+       
+       Connection conn = db.getConnection();
+       PreparedStatement pstmt = null;
+       ResultSet rs = null;
+       
+       String sql ="select * from food order by f_num desc";
+       
+       try {
+          pstmt = conn.prepareStatement(sql);
+          rs=pstmt.executeQuery();
+          
+          while(rs.next()) {
+        	  FoodDto dto = new FoodDto();
+             
+        	  dto.setF_num(rs.getString("f_num"));
+				dto.setF_name(rs.getString("f_name"));
+				dto.setF_photo(rs.getString("f_photo"));
+				dto.setF_price(rs.getString("f_price"));
+             
+             
+				foodlist.add(dto);
+          }
+          
+       } catch (SQLException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+       }finally {
+          db.dbClose(rs, pstmt, conn);
+       }
+          return foodlist;
+          
+    }
+
+	// 음식 평균 평점 update (hugesodetail.jsp)
+	public void updateF_grade(FoodDto dto) {
+	    Connection conn = db.getConnection();
+	    PreparedStatement pstmt = null;
+
+	    String sql = "update food set f_grade=? where f_num=? and h_num=?";
+
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, dto.getF_grade());
+	        pstmt.setString(2, dto.getF_num());
+	        pstmt.setString(3, dto.getH_num());
+
+	        pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        db.dbClose(pstmt, conn);
+	    }
+	}
+	
+	
+	//음식 평점 정렬 (hugesodetail.jsp)
+		public List<FoodDto> getFoodLatest(String h_num){
+			List<FoodDto> list = new ArrayList<FoodDto>();
+					
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					
+					String sql = "select * from food where h_num =? order by f_num";
+					
+					try {
+						pstmt=conn.prepareStatement(sql);
+						pstmt.setString(1, h_num);
+						rs=pstmt.executeQuery();
+						
+						while(rs.next()) {
+							FoodDto dto = new FoodDto();
+							
+							dto.setF_num(rs.getString("f_num"));
+							dto.setF_name(rs.getString("f_name"));
+							dto.setF_photo(rs.getString("f_photo"));
+							dto.setF_price(rs.getString("f_price"));
+							dto.setH_num(rs.getString("h_num"));
+							dto.setF_grade(rs.getString("f_grade"));
+							
+							list.add(dto);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+					
+					return list;
+				}
+	
+	
+	//음식 평점 정렬(평점높은순) (hugesodetail.jsp)
+	public List<FoodDto> getFoodHigh(String h_num){
+		List<FoodDto> list = new ArrayList<FoodDto>();
+				
+				Connection conn = db.getConnection();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				
+				String sql = "select * from food where h_num =? order by f_grade desc";
+				
+				try {
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setString(1, h_num);
+					rs=pstmt.executeQuery();
+					
+					while(rs.next()) {
+						FoodDto dto = new FoodDto();
+						
+						dto.setF_num(rs.getString("f_num"));
+						dto.setF_name(rs.getString("f_name"));
+						dto.setF_photo(rs.getString("f_photo"));
+						dto.setF_price(rs.getString("f_price"));
+						dto.setH_num(rs.getString("h_num"));
+						dto.setF_grade(rs.getString("f_grade"));
+						
+						list.add(dto);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					db.dbClose(rs, pstmt, conn);
+				}
+				
+				return list;
+			}
+			
+			//음식 평점 정렬(평점낮은순) (hugesodetail.jsp)
+				public List<FoodDto> getFoodLow(String h_num){
+					List<FoodDto> list = new ArrayList<FoodDto>();
+					
+					Connection conn = db.getConnection();
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					
+					String sql = "select * from food where h_num =? order by f_grade asc";
+					
+					try {
+						pstmt=conn.prepareStatement(sql);
+						pstmt.setString(1, h_num);
+						rs=pstmt.executeQuery();
+						
+						while(rs.next()) {
+							FoodDto dto = new FoodDto();
+							
+							dto.setF_num(rs.getString("f_num"));
+							dto.setF_name(rs.getString("f_name"));
+							dto.setF_photo(rs.getString("f_photo"));
+							dto.setF_price(rs.getString("f_price"));
+							dto.setH_num(rs.getString("h_num"));
+							dto.setF_grade(rs.getString("f_grade"));
+							
+							list.add(dto);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}finally {
+						db.dbClose(rs, pstmt, conn);
+					}
+					
+					return list;
+				}
+				
+				// 해당 휴게소에서 평점이 가장 높은 음식 이름 하나만 출력 (hugesodetail.jsp)
+				public FoodDto bestFood(String h_num) {
+				    FoodDto dto = new FoodDto();
+				    
+				    Connection conn = db.getConnection();
+				    PreparedStatement pstmt=null;
+				    ResultSet rs = null;
+				    
+				    String sql ="select f_name\r\n"
+				    		+ "from food\r\n"
+				    		+ "where f_grade = (select max(f_grade) from food where h_num = ?)\r\n"
+				    		+ "  and h_num = ?\r\n"
+				    		+ "limit 1;\r\n"
+				    		+ "";
+				    
+				    try {
+				        pstmt=conn.prepareStatement(sql);
+				        pstmt.setString(1, h_num);
+				        pstmt.setString(2, h_num);
+				        rs=pstmt.executeQuery();
+				        
+				        if(rs.next()) {
+							/* dto.setH_num(h_num); */
+				        	String bestFood = rs.getString("f_name");
+				            dto.setF_name(bestFood); 
+				        }
+				    } catch (SQLException e) {
+				        e.printStackTrace();
+				    }finally {
+				        db.dbClose(rs, pstmt, conn);
+				    }    
+				    return dto;
+				}
+				
 }

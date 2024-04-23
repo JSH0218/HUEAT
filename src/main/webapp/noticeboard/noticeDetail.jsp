@@ -144,20 +144,21 @@
       
       <tr>
         <td>
-          <b style="position: absolute; margin-top: 3%;">작성자 : <%=name %></b><br>
+          <b style="position: absolute; margin-top: 2%;">작성자 : <%=name %></b><br>
           <span class="day"><%=sdf.format(dto.getN_writeday()) %></span><br>
-          <span class="read">조회 : <%=dto.getN_readcount()%></span>
+          <div style="margin-left: 10%;">
+          <span class="read" style="margin-top: 0.6%;">조회 : <%=dto.getN_readcount()%></span>
           <i class="icon1 bi bi-hand-thumbs-up" n_num=<%=dto.getN_num() %>></i>
           <span class="likes">추천 : </span>
     	  <span class="chu"><%=dto.getN_chu() %></span>
-    	  
+    	  </div>
           
         </td>
       </tr>
       
       <tr height="300" align="center">
         <td>
-           <img alt="" src="noticesave/<%=dto.getN_image()%>"><br><br><br>
+           <img alt="" src="noticesave/<%=dto.getN_image()%>" style="height: 200px;"><br><br><br>
            <%=dto.getN_content().replace("\n", "<br>") %><br><br>
         </td>
      </tr>

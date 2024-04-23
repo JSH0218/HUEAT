@@ -141,20 +141,21 @@
       
       <tr>
         <td>
-          <b style="position: absolute; margin-top: 3%;">작성자 : <%=dto.getE_subject() %></b><br>
+          <b style="position: absolute; margin-top: 2%;">작성자 : <%=name %></b><br>
           <span class="day"><%=sdf.format(dto.getE_writeday()) %></span><br>
-          <span class="read">조회 : <%=dto.getE_readcount()%></span>
+          <span class="read" style="margin-top: 0.6%;">조회 : <%=dto.getE_readcount()%></span>
+         <div style="margin-left: 10%;">
           <i class="icon1 bi bi-hand-thumbs-up" e_num=<%=dto.getE_num() %>></i>
-          <span class="likes">추천 : </span>
+          <span class="likes" >추천 : </span>
     	  <span class="chu"><%=dto.getE_chu() %></span>
-    	  
+    	 </div>
           
         </td>
       </tr>
       
       <tr height="300" align="center">
         <td>
-           <img alt="" src="eventsave/<%=dto.getE_image()%>"><br><br><br>
+           <img alt="" src="eventsave/<%=dto.getE_image()%>" style="height: 200px;"><br><br><br>
            <%=dto.getE_content().replace("\n", "<br>") %><br><br>
         </td>
      </tr>

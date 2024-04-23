@@ -21,7 +21,7 @@
     .noticeDetail {
     text-decoration: none;
     color: black;
-
+    }
     .n_notice {
     display: flex; /* n_notice 클래스의 자식 요소들을 플렉스 박스로 정렬합니다. */
     justify-content: space-between; /* 요소들 사이의 간격을 최대한으로 넓힙니다. */
@@ -31,7 +31,7 @@
     .n_subject {
     flex: 1; /* 제목이 최대한 넓게 확장되도록 설정합니다. */
     padding: 2px;
-    max-width: 200px; /* 제목의 최대 너비를 200px로 설정합니다. */
+    max-width: 350px; /* 제목의 최대 너비를 200px로 설정합니다. */
     white-space: nowrap; /* 제목이 한 줄로 유지되도록 설정합니다. */
     overflow: hidden; /* 너무 긴 제목은 자동으로 잘리도록 설정합니다. */
     text-overflow: ellipsis;
@@ -45,8 +45,8 @@
     .eventDetail {
     text-decoration: none;
     color: black;
-
-    .e_notice {
+    }
+    .e_event {
     display: flex; /* n_notice 클래스의 자식 요소들을 플렉스 박스로 정렬합니다. */
     justify-content: space-between; /* 요소들 사이의 간격을 최대한으로 넓힙니다. */
     align-items: center; /* 자식 요소들을 수직으로 가운데 정렬합니다. */
@@ -55,7 +55,7 @@
     .e_subject {
     flex: 1; /* 제목이 최대한 넓게 확장되도록 설정합니다. */
     padding: 2px;
-    max-width: 200px; /* 제목의 최대 너비를 200px로 설정합니다. */
+    max-width: 350px; /* 제목의 최대 너비를 200px로 설정합니다. */
     white-space: nowrap; /* 제목이 한 줄로 유지되도록 설정합니다. */
     overflow: hidden; /* 너무 긴 제목은 자동으로 잘리도록 설정합니다. */
     text-overflow: ellipsis;
@@ -74,9 +74,9 @@
        //클릭시 공지사항 디테일 페이지로 이동
        $("a.noticeDetail").click(function () {
          var n_num = $(this).attr("n_num");
-         alert(n_num);
+         //alert(n_num);
          
-//          location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
+        location.href = 'index.jsp?main=noticeboard/noticeDetail.jsp?n_num='+n_num;
       });
        
       
@@ -111,7 +111,7 @@
 <body>
   
     <!-- 공지사항 레이아웃-->
-  <div class="mt-3"  style="width: 550px; margin-left: 12%; padding: 1%;
+  <div class="mt-3"  style="width: 673px; margin-left: 10.7%; padding: 1%;
     background-color: #F0F0F0; height: 250px;">
  
     <!-- Nav tabs -->
@@ -142,7 +142,7 @@
                 
                   <a n_num="<%=dto.getN_num() %>" style="cursor: pointer;" class="noticeDetail">
                     <div class="n_notice">
-                      <span class="n_subject">- <%=dto.getN_subject() %></span> 
+                      <span class="n_subject"> - <%=dto.getN_subject() %></span> 
                       <span class="n_writeday">
                         <%=sdf.format(dto.getN_writeday()) %>
                       </span> 
@@ -175,8 +175,8 @@
                
               
                   <a e_num="<%=dto.getE_num() %>" style="cursor: pointer;" class="eventDetail">
-                    <div class="e_event" style="height: 200px">
-                      <span class="e_subject">- <%=dto.getE_subject() %></span>
+                    <div class="e_event">
+                      <span class="e_subject"> - <%=dto.getE_subject() %></span>
                       <span class="e_writeday">
                         <%=sdf.format(dto.getE_writeday()) %>
                       </span> 
