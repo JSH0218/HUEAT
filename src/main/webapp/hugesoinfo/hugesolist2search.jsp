@@ -249,7 +249,7 @@ if(list2.isEmpty()){
 		    HugesoInfoDto dto = list2.get(i);
 	%>
 		   
-				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="image/hugeso/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
+				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="hugesosave/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
 	          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
 	            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
 	            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
