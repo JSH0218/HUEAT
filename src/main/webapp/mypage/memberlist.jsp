@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
+
    button.search{
       background-color: #618E6E;
       color: white;
@@ -31,8 +32,10 @@
       height: 30px;
       font-size: 13px;
    }
+
    
       div.img-container{
+
     width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
     height: 250px; /* 원하는 높이로 설정 */
     overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */

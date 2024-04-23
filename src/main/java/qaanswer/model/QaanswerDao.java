@@ -232,7 +232,7 @@ public class QaanswerDao {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 	  
-			String sql = "select * from qaanswerboard where qa_myid='admin' order by qa_num desc limit ?,?";
+			String sql = "select * from qaanswerboard where qa_myid='admin' order by q_num desc limit ?,?";
 
 			try {
 				pstmt = conn.prepareStatement(sql);
