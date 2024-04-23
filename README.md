@@ -58,5 +58,3 @@
   - 추가예정
 ### 손범수
   - 추가예정
-
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=HUEAT&show_icons=true)
