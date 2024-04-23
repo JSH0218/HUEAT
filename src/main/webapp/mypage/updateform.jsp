@@ -27,7 +27,7 @@
 
 #updatemember {
 	width: 1000px;
-	margin-top: 165px;
+	margin-top: 90px;
 	margin-left: auto;
     margin-right: auto;
 

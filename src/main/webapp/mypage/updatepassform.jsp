@@ -26,7 +26,7 @@
 
 #updatepassform {
     position: absolute;
-    top: 50%; /* 부모 요소의 50% 지점에서 상단 정렬 */
+    top: 42%; /* 부모 요소의 50% 지점에서 상단 정렬 */
     left: 50%; /* 부모 요소의 50% 지점에서 좌측 정렬 */
     transform: translate(-50%, -50%); /* 요소의 가로, 세로 중앙 정렬을 위한 변형(transform) */
     width: 1000px; /* 원하는 너비로 설정하세요 */
