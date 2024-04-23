@@ -49,11 +49,33 @@
 		}
 		
 		#addbrand,#addfood{
-			/*border: 3px solid #618E6E;*/
-			background-color: #618E6E;
+			border: 2px solid #618E6E;
+			background-color: white;
 			height: 35px;
-			color: white;
-			border: 0px;
+			border-radius:5px;
+			width: 150px;
+		}
+		
+		button.btnreset{
+			background-color:white;
+       border:2px solid red;
+       border-radius:5px;
+       width: 60px;
+      height: 35px;
+      font-size: 15px;
+
+		}
+		
+		.btnadd{
+			background-color:white;
+		 border:2px solid #618E6E;
+       border-radius:5px;
+       width: 60px;
+      height: 35px;
+      font-size: 15px;
+		}
+		.bi-x-lg{
+		cursor: pointer;
 		}
 	</style>
 	<script type="text/javascript">
@@ -228,12 +250,12 @@
 				<div id="brandaddarea">
 					<input type="hidden" name="brandcount" id="brandcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addbrand" class="btn-sm">가게추가</button></div>
+				<div class="btnarea"><button type="button" id="addbrand" class="btn-sm">가맹점 추가</button></div>
 				<hr>
 				<div id="foodaddarea">
 					<input type="hidden" name="foodcount" id="foodcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addfood" class="btn-sm">음식추가</button></div>
+				<div class="btnarea"><button type="button" id="addfood" class="btn-sm">메뉴 추가</button></div>
 				<hr>
 				<div>
 					휘발유: <input type="text" name="h_gasolin" style="text-align: right;">원&nbsp;/
@@ -242,8 +264,8 @@
 				</div>
 				<hr>
 				<div class="btnarea">
-					<button type="button" class="btn btn-success" onclick="goBack()">목록</button>
-					<button type="submit" class="btn btn-primary">추가</button>
+					<button type="submit" class="btnadd" style="margin-right: 10px;">추가</button>
+					<button type="button" class="btnreset"  onclick="goBack()">취소</button>
 				</div>
 			</form>
 			<div id="map"></div>
