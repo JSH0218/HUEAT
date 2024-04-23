@@ -811,7 +811,7 @@ function sortFood(sortType) {
 <div class="huinfo">
 <div class="imgarea">
 <!-- 휴게소 사진 -->
-<img alt="" src="image/hugeso/<%=dto.getH_photo()%>" style="width:700px; height:500px; margin-left:20px;">
+<img alt="" src="hugesosave/<%=dto.getH_photo()%>" style="width:700px; height:500px; margin-left:20px;">
 </div>
 
 
@@ -968,7 +968,7 @@ function sortFood(sortType) {
     %>
         <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; 
         text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
-            <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
+            <img alt="<%=f_name%>" src="hugesosave/<%=f_photo%>"  
             style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
      <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
@@ -989,7 +989,7 @@ function sortFood(sortType) {
             %>
                 <div class="food-item"  style="display: inline-block;
                 text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
-                    <img alt="<%=f_name%>" src="image/food/<%=f_photo%>"  
+                    <img alt="<%=f_name%>" src="hugesosave/<%=f_photo%>"  
                     style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
                     <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
@@ -1017,7 +1017,7 @@ function sortFood(sortType) {
         %>
             <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px; margin-right:20px;">
                 <a href="<%=b_addr %>">
-                <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" 
+                <img alt="<%=b_name %>" src="hugesosave/<%=b_photo %>" 
                 style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;"></a>
                 <div><%=b_name %></div>
             </div>
@@ -1034,7 +1034,7 @@ function sortFood(sortType) {
                 %>
                     <div class="brand-item" style="display: none; margin-right:20px;">
                      <a href="<%=b_addr %>">
-                        <img alt="<%=b_name %>" src="image/brand/<%=b_photo %>" 
+                        <img alt="<%=b_name %>" src="hugesosave/<%=b_photo %>" 
                         style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;" ></a>
                         <div><%=b_name %></div>
                     </div>
