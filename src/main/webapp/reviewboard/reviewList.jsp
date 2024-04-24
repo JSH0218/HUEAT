@@ -216,7 +216,7 @@
 		<%}
 	
 	//날짜변경
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	%>

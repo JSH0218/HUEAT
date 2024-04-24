@@ -168,9 +168,9 @@ color: black;
 		color: white;
 		border-radius: 5px;
 		border:0px;
-		width: 70px;
+		width: 100px;
 		height: 40px;
-		font-size: 1.2em;
+		font-size: 12pt;
 	
 	}
 
@@ -441,7 +441,7 @@ for(int i=0;i<list2.size();i++){
 		if (loginok!=null && myid.equals("admin")){
 			%>
 			<div style="text-align: right;">
-				<button type="button" class="btnadd" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>
+				<button type="button" class="btnadd" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">휴게소 추가</button>
 			</div>
 			<%
 		}

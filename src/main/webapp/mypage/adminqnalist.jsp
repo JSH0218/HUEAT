@@ -181,8 +181,8 @@ font-size: 14px;
 	    background-color:#fb4357;
 	    color: #fff;
 	    border:none;
-	    border-radius:10px;
-	    box-shadow: 0px 0px 2px 2px #fb4357;
+	    border-radius:5px;
+
 	    width: 45px;
 		height: 30px;
 		font-size: 13px;

@@ -225,7 +225,7 @@
 			<form action="hugesoinfo/hugesoaddaction.jsp" id="frm" method="post" enctype="multipart/form-data">
 				<div>휴게소 이름: <input type="text" name="h_name" required="required"></div>
 				<hr>
-				<div>휴게소 사진: <input type="file" name="h_photo" required="required"></div>
+				<div >휴게소 사진: <input type="file" name="h_photo" required="required" ></div>
 				<hr>
 				<div>휴게소 번호: <input type="text" name="h_hp1" maxlength="3" size="3" required="required"> - <input type="text" name="h_hp2" maxlength="4" size="4" required="required"> - <input type="text" name="h_hp3" maxlength="4" size="4" required="required"></div>
 				<hr>
