@@ -238,7 +238,7 @@ $(function(){
                 if (loginok != null && myid.equals("admin")) { %>
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel1">
                 <% } %>
-              <div class="br_total"> 
+              <div class="br_total"  style="text-align: center;"> 
                 <a href="<%= dto.getS_site() %>" target="_blank">
                   <img src="shopsave/<%= dto.getS_image() %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>

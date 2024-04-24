@@ -74,6 +74,36 @@
 			height: 600px;
 			margin-left: 10%;
 		}
+		.bi-x-lg{
+			cursor: pointer;
+		}
+		
+		.btnreset{
+			background-color:white;
+       border:2px solid red;
+       border-radius:5px;
+       width: 60px;
+      height: 35px;
+      font-size: 15px;
+
+		}
+		
+		.btnup{
+			background-color:white;
+		 border:2px solid #618E6E;
+       border-radius:5px;
+       width: 60px;
+      height: 35px;
+      font-size: 15px;
+		}
+		
+		#addbrand,#addfood{
+			border: 2px solid #618E6E;
+			background-color: white;
+			height: 35px;
+			border-radius:5px;
+			width: 150px;
+		}
 	</style>
 	<script type="text/javascript">
 		$(function(){
@@ -293,22 +323,22 @@
 				<div id="brandaddarea">
 					<input type="hidden" name="brandcount" id="brandcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addbrand" class="btn btn-warning btn-sm">가게추가</button></div>
+				<div class="btnarea"><button type="button" id="addbrand" >가맹점 추가</button></div>
 				<hr>
 				<div id="foodaddarea">
 					<input type="hidden" name="foodcount" id="foodcount" value="0">
 				</div>
-				<div class="btnarea"><button type="button" id="addfood" class="btn btn-warning btn-sm">음식추가</button></div>
+				<div class="btnarea"><button type="button" id="addfood" >메뉴 추가</button></div>
 				<hr>
 				<div>
-					휘발유: <input type="text" name="h_gasolin" value="<%=hdto.getH_gasolin() %>" style="text-align: right;">원&nbsp;
-					경유: <input type="text" name="h_disel" value="<%=hdto.getH_disel() %>" style="text-align: right;">원&nbsp;
+					휘발유: <input type="text" name="h_gasolin" value="<%=hdto.getH_gasolin() %>" style="text-align: right;">원&nbsp;/
+					경유: <input type="text" name="h_disel" value="<%=hdto.getH_disel() %>" style="text-align: right;">원&nbsp;/
 					천연가스: <input type="text" name="h_lpg" value="<%=hdto.getH_lpg() %>" style="text-align: right;">원&nbsp;
 				</div>
 				<hr>
 				<div class="btnarea">
-					<button type="submit" class="btn btn-primary">업데이트</button>
-					<button type="button" class="btn btn-danger" onclick="goBack()">취소</button>
+					<button type="submit" class="btnup" style="margin-right: 10px;">수정</button>
+					<button type="button" class="btnreset" onclick="goBack()">취소</button>
 				</div>
 			</form>
 			<div id="map"></div>
