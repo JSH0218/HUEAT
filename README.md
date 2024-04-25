@@ -62,6 +62,7 @@
     <span><b>고객후기</b></span>
     <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/6df103c3-d51c-4bae-aba2-c2bed6707e2d"></div><br>
   </div>  
+  
 ### 조석훈
   <span><b>휴게소 찾기</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/ef6950de-a0d1-486f-b847-ab07513aba4f"></div><br>
@@ -72,6 +73,7 @@
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/43bb5c6f-fc94-4676-93a0-93e93d24c3f1"></div><br>
 ### 홍재희
   - 추가예정
+  
 ### 차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
