@@ -63,4 +63,13 @@
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/9848a0e6-c9a6-41d8-b4ab-544f0dabecd3"></div>
 </div>
 ### 손범수
-  - 추가예정
+<div>
+  <span><b>회원정보수정</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/d6a48f5c-7fc9-4792-bbfa-01ec55dc8d3c"></div><br>
+  <span><b>나의활동(Q&A,REVIEW)</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/705014d0-d08a-4033-ac71-949ffa090dbc"></div><br>
+  <span><b>회원탈퇴</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/af6845e1-5425-4d7d-9d71-e6df2f5d88d0"></div><br>
+  <span><b>관리자페이지 나의활동(Q&A,NOTICE,EVENT)</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/f18978c3-b389-428f-b02c-62cb1bcd1dbf"></div>
+</div>
