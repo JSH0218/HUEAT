@@ -42,7 +42,7 @@
   <img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=AWS&logoColor=white">
 </div>
 
-<div><h4>:thought_balloon:communication</h4>
+<div><h4>:love_letter:communication</h4>
   <img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white">
 </div>
 
