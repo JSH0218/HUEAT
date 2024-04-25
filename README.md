@@ -49,7 +49,20 @@
 
 ## 기능설명
 ### 송승경
-  - 추가예정
+  <div>
+    <span><b>메인화면</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/2e0ac960-a2ff-4ebb-a8b5-e8c1946a1437"></div><br>
+    <span><b>공지사항 / 이벤트</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/10504e24-4696-4d89-8f65-8aa0a36e0b9e"></div><br>
+    <span><b>소개글</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/0ae1a8fa-042e-444e-88a0-844db2a98e93"></div><br>
+    <span><b>쇼핑몰</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/972bc010-9e2c-4ef3-93c0-237a5b244bb3"></div><br>
+    <span><b>고객문의</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/65dad9b4-0b5e-4f3b-a755-b49763f25edb"></div><br>
+    <span><b>고객후기</b></span>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/6df103c3-d51c-4bae-aba2-c2bed6707e2d"></div><br>
+  </div>  
 ### 조석훈
   - 추가예정
 ### 홍재희
