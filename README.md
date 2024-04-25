@@ -62,6 +62,7 @@
   <span><b>즐겨찾기</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/9848a0e6-c9a6-41d8-b4ab-544f0dabecd3"></div><br>
 </div>
+
 ### 손범수
 <div>
   <span><b>회원정보수정</b></span>
