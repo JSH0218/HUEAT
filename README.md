@@ -56,7 +56,13 @@
 ### 차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
-  <div><img src="https://github.com/Smok수
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/2e0ac960-a2ff-4ebb-a8b5-e8c1946a1437"></div><br>
+  <span><b>푸드코트결제</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/b96029ca-7f7c-48f8-a922-5bdd75f44cb3"></div><br>
+  <span><b>즐겨찾기</b></span>
+  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/9848a0e6-c9a6-41d8-b4ab-544f0dabecd3"></div><br>
+</div>
+### 손범수
 <div>
   <span><b>회원정보수정</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/d6a48f5c-7fc9-4792-bbfa-01ec55dc8d3c"></div><br>
