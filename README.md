@@ -72,7 +72,7 @@
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/2c7a7d26-22f4-4afe-9b7e-6325fb260050" type="video/mp4"></video></div><br>
   <span><b>휴게소 수정</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10331cd9-e2ed-46ad-b36a-bd72fe7b9b71" type="video/mp4"></video></div><br>
-  <span><b>휴게소 수정</b></span>
+  <span><b>휴게소 삭제</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/c5f29a0f-d089-4fbe-931c-de9a802eaf17" type="video/mp4>"</video></div><br>
   
 ### 홍재희
