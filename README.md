@@ -84,12 +84,12 @@
 
 ***
   
-### :ghost:홍재희
+### :tangerine:홍재희
   - 추가예정
 
 ***
   
-### :octopus:차유지
+### :melon:차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/edcd5c39-9969-4ef4-b922-09b726534732" type="video/mp4"></video></div><br>
