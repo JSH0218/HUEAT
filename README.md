@@ -50,7 +50,7 @@
 ### 송승경
   <div>
     <span><b>메인화면</b></span>
-    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/6df103c3-d51c-4bae-aba2-c2bed6707e2d"></div><br>
+    <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/fbd1d2ec-af70-4cf5-9681-02bbfde7bb66"></div><br>
     <span><b>공지사항 / 이벤트</b></span>
     <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/10504e24-4696-4d89-8f65-8aa0a36e0b9e"></div><br>
     <span><b>소개글</b></span>
