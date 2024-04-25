@@ -65,15 +65,15 @@
   
 ### 조석훈
   <span><b>휴게소 찾기</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/a67e1269-80a0-4733-9e98-9636fee15446"></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/a67e1269-80a0-4733-9e98-9636fee15446" type="video/mp4></video></div><br>
   <span><b>휴게소 목록</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/5b6c5e18-79e6-4cf1-9e71-041167660bdc"></div><br>
+  <div><videog src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/5b6c5e18-79e6-4cf1-9e71-041167660bdc" type="video/mp4></video></div><br>
   <span><b>휴게소 추가</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/2c7a7d26-22f4-4afe-9b7e-6325fb260050"></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/2c7a7d26-22f4-4afe-9b7e-6325fb260050" type="video/mp4></video></div><br>
   <span><b>휴게소 수정</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10331cd9-e2ed-46ad-b36a-bd72fe7b9b71"></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10331cd9-e2ed-46ad-b36a-bd72fe7b9b71" type="video/mp4></video></div><br>
   <span><b>휴게소 수정</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/c5f29a0f-d089-4fbe-931c-de9a802eaf17"></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/c5f29a0f-d089-4fbe-931c-de9a802eaf17" type="video/mp4></video></div><br>
   
 ### 홍재희
   - 추가예정
@@ -81,7 +81,7 @@
 ### 차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
-  <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/2e0ac960-a2ff-4ebb-a8b5-e8c1946a1437"></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/edcd5c39-9969-4ef4-b922-09b726534732" type="video/mp4></video></div><br>
   <span><b>푸드코트결제</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/b96029ca-7f7c-48f8-a922-5bdd75f44cb3"></div><br>
   <span><b>즐겨찾기</b></span>
