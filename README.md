@@ -47,7 +47,7 @@
 </div>
 
 ## 기능설명
-### 송승경
+### :seedling:송승경
   <div>
     <span><b>메인화면</b></span>
     <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/fbd1d2ec-af70-4cf5-9681-02bbfde7bb66"></div><br>
@@ -63,7 +63,9 @@
     <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/6df103c3-d51c-4bae-aba2-c2bed6707e2d"></div><br>
   </div>  
   
-### 조석훈
+***
+
+### :seedling:조석훈
   <span><b>휴게소 찾기</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/a67e1269-80a0-4733-9e98-9636fee15446" type="video/mp4"></video></div><br>
   <span><b>휴게소 목록</b></span>
@@ -74,11 +76,15 @@
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/10331cd9-e2ed-46ad-b36a-bd72fe7b9b71" type="video/mp4"></video></div><br>
   <span><b>휴게소 삭제</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/c5f29a0f-d089-4fbe-931c-de9a802eaf17" type="video/mp4>"</video></div><br>
+
+***
   
-### 홍재희
+### :seedling:홍재희
   - 추가예정
+
+***
   
-### 차유지
+### :seedling:차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/edcd5c39-9969-4ef4-b922-09b726534732" type="video/mp4"></video></div><br>
@@ -88,7 +94,9 @@
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/67895508-4fbe-4f34-98fb-9aafc0453102"type="video/mp4"></video></div><br>
 </div>
 
-### 손범수
+***
+
+### :seedling:손범수
 <div>
   <span><b>회원정보수정</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/d6a48f5c-7fc9-4792-bbfa-01ec55dc8d3c"></div><br>
