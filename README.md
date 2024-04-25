@@ -92,6 +92,8 @@
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/1890fd5e-4a21-4412-ad52-2d3ab31f6d1e" type="video/mp4"></video></div><br>
   <span><b>즐겨찾기</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/67895508-4fbe-4f34-98fb-9aafc0453102"type="video/mp4"></video></div><br>
+  <span><b>관리자 회원관리</b></span>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/db479629-f6e9-4f1c-b115-5569aca00511"type="video/mp4"></video></div><br>
 </div>
 
 ***
