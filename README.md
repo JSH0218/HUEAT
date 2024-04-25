@@ -47,7 +47,7 @@
 </div>
 
 ## 기능설명
-### :seedling:송승경
+### :cherry_blossom:송승경
   <div>
     <span><b>메인화면</b></span>
     <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/155614770/fbd1d2ec-af70-4cf5-9681-02bbfde7bb66"></div><br>
@@ -65,7 +65,7 @@
   
 ***
 
-### :seedling:조석훈
+### :pineapple:조석훈
   <span><b>휴게소 찾기</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/a67e1269-80a0-4733-9e98-9636fee15446" type="video/mp4"></video></div><br>
   <span><b>휴게소 목록</b></span>
@@ -79,12 +79,12 @@
 
 ***
   
-### :seedling:홍재희
+### :ghost:홍재희
   - 추가예정
 
 ***
   
-### :seedling:차유지
+### :octopus:차유지
 <div>
   <span><b>회원가입 및 로그인</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/155614067/edcd5c39-9969-4ef4-b922-09b726534732" type="video/mp4"></video></div><br>
@@ -96,7 +96,7 @@
 
 ***
 
-### :seedling:손범수
+### :koala:손범수
 <div>
   <span><b>회원정보수정</b></span>
   <div><img src="https://github.com/Smoke-Bird/HUEAT/assets/148257222/d6a48f5c-7fc9-4792-bbfa-01ec55dc8d3c"></div><br>
