@@ -67,7 +67,7 @@
   <span><b>휴게소 찾기</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/a67e1269-80a0-4733-9e98-9636fee15446" type="video/mp4"></video></div><br>
   <span><b>휴게소 목록</b></span>
-  <div><videog src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/5b6c5e18-79e6-4cf1-9e71-041167660bdc" type="video/mp4"></video></div><br>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/5b6c5e18-79e6-4cf1-9e71-041167660bdc" type="video/mp4"></video></div><br>
   <span><b>휴게소 추가</b></span>
   <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/2c7a7d26-22f4-4afe-9b7e-6325fb260050" type="video/mp4"></video></div><br>
   <span><b>휴게소 수정</b></span>
