@@ -85,7 +85,12 @@
 ***
   
 ### :tangerine:홍재희
-  - 추가예정
+ <div>
+  <span><b>공유하기</b></span>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/57622965/2c082ea5-150a-4fff-9de8-c1b165eac38a" type="video/mp4"></video></div><br>
+  <span><b>음식 평점 및 휴게소 평점</b></span>
+  <div><video src="https://github.com/Smoke-Bird/HUEAT/assets/57622965/1a3c5830-0208-474a-a59d-b987a0aea53d" type="video/mp4"></video></div><br>
+</div>
 
 ***
   
