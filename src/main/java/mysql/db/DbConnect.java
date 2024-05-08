@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DbConnect {
 
 	static final String MYSQLDRIVER="com.mysql.cj.jdbc.Driver";
-	static final String MYSQL_URL="jdbc:mysql://hueat.cpamqegaqo13.ap-northeast-2.rds.amazonaws.com:3306/hueat";
+	static final String MYSQL_URL="url";
 	
 	public DbConnect() {
 		try {
@@ -29,7 +29,7 @@ public class DbConnect {
 		Connection conn=null;
 		
 		try {
-			conn=DriverManager.getConnection(MYSQL_URL, "adminjsh", "!67ch218604");
+			conn=DriverManager.getConnection(MYSQL_URL, "id", "pass");
 			System.out.println("mysql계정연결성공");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
