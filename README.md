@@ -28,6 +28,7 @@
 
 ## Tech Stacks :wrench:
 <img src="https://github.com/JSH0218/HUEAT/assets/57622965/30d45a8a-43b8-414b-bceb-9a22c48992e7">
+<img src="https://github.com/JSH0218/HUEAT/assets/57622965/d35016f8-648f-48b4-99e3-e12ef016bd35">
 
 <div><h4>:art:프론트엔드</h4>
     <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white">
