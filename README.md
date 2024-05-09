@@ -27,7 +27,6 @@
 <img src="https://github.com/JSH0218/HUEAT/assets/57622965/c0b7c773-9bbb-4173-bb15-16b7a832aff3">
 
 ## Tech Stacks :wrench:
-<img src="https://github.com/JSH0218/HUEAT/assets/57622965/30d45a8a-43b8-414b-bceb-9a22c48992e7">
 <img src="https://github.com/JSH0218/HUEAT/assets/57622965/0165a3fe-07f5-4a32-ba12-df076e3b3c2d">
 
 <div><h4>:art:프론트엔드</h4>
