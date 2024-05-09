@@ -25,9 +25,10 @@
   - 상세 기능 : 비밀번호확인, 회원정보수정, 나의활동(Q&A,REVIEW), 회원탈퇴, 관리자페이지 나의활동(Q&A,NOTICE,EVENT)
 ## ERD :thought_balloon:
 <img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/9b671d2b-feea-4bf8-926a-c044ff88843b">
-
+![erd](https://github.com/JSH0218/HUEAT/assets/57622965/c0b7c773-9bbb-4173-bb15-16b7a832aff3)
 ## Tech Stacks :wrench:
 <img src="https://github.com/Smoke-Bird/HUEAT/assets/118476694/8b655efb-5bcd-4629-9f69-9dca23cb1292">
+![Tech Stacks](https://github.com/JSH0218/HUEAT/assets/57622965/30d45a8a-43b8-414b-bceb-9a22c48992e7)
 <div><h4>:art:프론트엔드</h4>
     <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white">
     <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white">
