@@ -13,8 +13,9 @@ public class MemInfoDto {
 	private String m_hp1;
 	private String m_hp2;
 	private String m_birth;
+	private String m_role;
 	private Timestamp m_gaipday;
-	
+
 	public String getM_num() {
 		return m_num;
 	}
@@ -68,6 +69,12 @@ public class MemInfoDto {
 	}
 	public void setM_birth(String m_birth) {
 		this.m_birth = m_birth;
+	}
+	public String getM_role() {
+		return m_role;
+	}
+	public void setM_role(String m_role) {
+		this.m_role = m_role;
 	}
 	public Timestamp getM_gaipday() {
 		return m_gaipday;

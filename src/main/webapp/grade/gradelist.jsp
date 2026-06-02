@@ -34,8 +34,8 @@
 
         ob.put("g_num", dto.getG_num());
         ob.put("h_num", dto.getH_num());
-        ob.put("g_myid", dto.getG_myid());
-        ob.put("g_content", dto.getG_content());
+        ob.put("g_myid", util.SecurityUtil.escapeHtml(dto.getG_myid()));
+        ob.put("g_content", util.SecurityUtil.escapeHtml(dto.getG_content()));
         ob.put("g_grade", dto.getG_grade());
         ob.put("g_writeday", sdf.format(dto.getG_writeday()));
 

@@ -76,12 +76,7 @@
                 return false; // 제출 중지
             }
 
-            if (f.m_pass.value != '<%=dto.getM_pass()%>') {
-                swal("비밀번호가 일치하지 않습니다.", "다시 입력해주세요.", "error");
-                f.m_pass.value = "";
-                return false;
-            }
-
+            // 비밀번호 일치 여부는 서버(deleteaction.jsp)에서 검증한다.
             // 확인 대화 상자 표시
             confirmWithdrawal(f);
         });

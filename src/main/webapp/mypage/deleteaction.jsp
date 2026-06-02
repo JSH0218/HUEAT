@@ -12,15 +12,38 @@
 </head>
 <body>
 <%
-	String m_num=request.getParameter("m_num");
+	request.setCharacterEncoding("utf-8");
+
+	// 로그인 사용자 확인
+	String loginok=(String)session.getAttribute("loginok");
+	String myid=(String)session.getAttribute("myid");
+	if(loginok==null || myid==null){
+		response.sendRedirect("../index.jsp?main=member/loginform.jsp");
+		return;
+	}
+
 	String m_pass=request.getParameter("m_pass");
-	
+
 	MemInfoDao dao=new MemInfoDao();
+
+	// 서버 측 비밀번호 검증(실패 시 탈퇴 거부)
+	if(!dao.isIdPassMember(myid, m_pass)){
+%>
+	<script type="text/javascript">
+		alert("비밀번호가 일치하지 않습니다.");
+		history.back();
+	</script>
+<%
+		return;
+	}
+
+	// 폼의 m_num을 신뢰하지 않고 로그인 사용자 본인 계정만 삭제
+	String m_num=dao.getAlldatas(myid).getM_num();
 	dao.deleteMember(m_num);
-	
+
 	// 세션 무효화 (로그아웃)
     session.invalidate();
-	
+
 	response.sendRedirect("../index.jsp");
 %>
 	

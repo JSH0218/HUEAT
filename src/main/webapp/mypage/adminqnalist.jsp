@@ -361,13 +361,13 @@ font-size: 14px;
 			<%=no-- %>
 			</td>
 			<td>
-				<%=dao.getTitle(dto.getQ_num())%>
+				<%=util.SecurityUtil.escapeHtml(dao.getTitle(dto.getQ_num()))%>
 			</td>
 		    <td>
-		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQa_content()%></a>
+		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=util.SecurityUtil.escapeHtml(dto.getQa_content())%></a>
 		    </td>
 		    <td>
-				<%=name %>
+				<%=util.SecurityUtil.escapeHtml(name) %>
 			</td>
 		    <td class="day">
 		        <%=sdf.format(dto.getQa_writeday())%>

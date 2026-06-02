@@ -249,7 +249,7 @@ if(list2.isEmpty()){
 		    HugesoInfoDto dto = list2.get(i);
 	%>
 		   
-				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="hugesosave/<%= dto.getH_photo() %>" style="width: 250px; height: 250px;"></div>
+				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="fileview?type=hugeso&name=<%= util.SecurityUtil.urlEncode(dto.getH_photo()) %>" style="width: 250px; height: 250px;"></div>
 	          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
 	            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
 	            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
@@ -265,7 +265,7 @@ if(list2.isEmpty()){
 	}
 }
 	//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
-	if (loginok!=null && myid.equals("admin")){
+	if (loginok!=null && "ADMIN".equals((String)session.getAttribute("role"))){
 		%>
 		<div style="text-align: right; padding-right: 10%;">
 			<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>

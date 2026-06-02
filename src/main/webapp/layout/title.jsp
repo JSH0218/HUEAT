@@ -158,7 +158,7 @@ String myid = (String) session.getAttribute("myid");
             <li style="padding-left: 735px;"><a
                href="member/logoutaction.jsp">로그아웃</a></li>
             <%
-            if (loginok != null && myid.equals("admin")) {
+            if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) {
             %>
             <li><a href="#">관리자 페이지</a>
                <ul>

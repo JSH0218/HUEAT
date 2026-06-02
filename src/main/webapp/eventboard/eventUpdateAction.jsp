@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="event.model.EventDto"%>
 <%@page import="event.model.EventDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -18,21 +20,37 @@
     <%
   //String myid=(String)session.getAttribute("myid");
 
-  String realPath=getServletContext().getRealPath("/eventsave");
-  System.out.println(realPath);
-  
+  //관리자만 수정 가능
+  if(!"ADMIN".equals((String)session.getAttribute("role"))){
+      response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp");
+      return;
+  }
+
+  String realPath=AppConfig.getUploadPath("event");
+
   int uploadSize=1024*1024*5;
-  
+
   MultipartRequest multi=null;
   try{
   multi=new MultipartRequest(request,realPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
-  
+
        String e_num = multi.getParameter("e_num");
        String currentPage = multi.getParameter("currentPage");
        String e_subject = multi.getParameter("e_subject");
        String e_content=multi.getParameter("e_content");
-       String e_image=multi.getFilesystemName("e_image"); 
-       
+       String e_image=multi.getFilesystemName("e_image");
+
+       //업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+       if(!SecurityUtil.validateOrDelete(realPath, e_image)){
+%>
+       <script type="text/javascript">
+           alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+           history.back();
+       </script>
+<%
+           return;
+       }
+
        //기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
        EventDao dao = new EventDao();
        String old_photoName = dao.getDataEvent(e_num).getE_image();
@@ -55,9 +73,9 @@
        
        //방명록 목록으로 이동(수정했던 페이지로 이동)
        response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp?currentPage="+currentPage);
-  
+
   }catch(Exception e){
-	  
+	  e.printStackTrace();
   }
 %>
 

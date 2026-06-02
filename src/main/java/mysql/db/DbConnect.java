@@ -7,37 +7,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import util.AppConfig;
+
 public class DbConnect {
 
-	static final String MYSQLDRIVER="com.mysql.cj.jdbc.Driver";
-	static final String MYSQL_URL="jdbc:mysql://localhost:3306/hueat?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8";
-	
 	public DbConnect() {
 		try {
-			Class.forName(MYSQLDRIVER);
+			Class.forName(AppConfig.getDbDriver());
 			System.out.println("MYSQL 드라이버성공");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			System.out.println("MYSQL 드라이버 실패"+e.getMessage());
 		}
 	}
-	
-	
+
+
 	public Connection getConnection()
 	{
 		Connection conn=null;
-		
+
 		try {
-			conn=DriverManager.getConnection(MYSQL_URL, "hueat_user", "1234");
+			conn=DriverManager.getConnection(
+					AppConfig.getDbUrl(), AppConfig.getDbUser(), AppConfig.getDbPassword());
 			System.out.println("mysql계정연결성공");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("mysql연결실패: "+e.getMessage());
 		}
-		
-		
+
+
 		return conn;
 	}
 	

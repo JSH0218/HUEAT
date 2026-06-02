@@ -245,11 +245,11 @@ $(function(){
         		
         		  <tr>
         		    <td align="center" valign="<%=dto.getQ_num()%>"><%=no-- %></td>
-        		    <td align="center"><%=dto.getQ_category() %></td>
+        		    <td align="center"><%=util.SecurityUtil.escapeHtml(dto.getQ_category()) %></td>
         		    
         		    
         		    <td>
-                    <% if (loginok != null && (myid.equals("admin") || myid.equals(dto.getQ_myid()))) { %>
+                    <% if (loginok != null && ("ADMIN".equals((String)session.getAttribute("role")) || myid.equals(dto.getQ_myid()))) { %>
                       <!-- 제목 선택하면 디테일 페이지로 이동 -->
                       <a href="index.jsp?main=qaboard/qaDetail.jsp?q_num=<%=dto.getQ_num()%>
                       &currentPage=<%=currentPage%>"><i class="bi bi-lock-fill"></i>비밀글입니다
@@ -263,7 +263,7 @@ $(function(){
         
         
                       <!-- 댓글 갯수 -->
-                     <% if(loginok != null && (myid.equals("admin") || myid.equals(dto.getQ_myid()))) { %>
+                     <% if(loginok != null && ("ADMIN".equals((String)session.getAttribute("role")) || myid.equals(dto.getQ_myid()))) { %>
                      <a href="index.jsp?main=qaboard/qaDetail.jsp?q_num=<%=dto.getQ_num()%>&currentPage=<%=currentPage %> 
                      #alist" style="color: red;">[<%=dto.getQa_cnt() %>]</a>  
                      <% }
@@ -281,7 +281,7 @@ $(function(){
         		    
         		   
         		   
-        		    <td align="center"><%=dto.getQ_myid() %></td>
+        		    <td align="center"><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></td>
         		    <td align="center"><%=dto.getQ_readcount() %></td>
         		    <td align="center"><%=sdf.format(dto.getQ_writeday())%></td>
         		    

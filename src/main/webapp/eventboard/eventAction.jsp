@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="event.model.EventDto"%>
 <%@page import="event.model.EventDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -21,47 +23,60 @@
     String loginok=(String)session.getAttribute("loginok");
     String myid=(String)session.getAttribute("myid");   
    
-    //이미지 업로드 경로
-    String uploadPath = getServletContext().getRealPath("/eventsave");
-    System.out.println(uploadPath);
-    
+    //관리자만 작성 가능
+    if(!"ADMIN".equals((String)session.getAttribute("role"))){
+        response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp");
+        return;
+    }
+
+    //이미지 업로드 경로(웹루트 외부)
+    String uploadPath = AppConfig.getUploadPath("event");
+
     //업로드할 사이즈
     int uploadSize = 1024*1024*5;
-    
+
     MultipartRequest multi = null;
-    
+
     try {
-    	
+
     	multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
-    	
-    	
+
     	String e_subject = multi.getParameter("e_subject");
     	String e_content = multi.getParameter("e_content");
     	String e_image = multi.getFilesystemName("e_image");
-    	
-    	System.out.println(e_image);
-    	
+
+    	//업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+    	if(!SecurityUtil.validateOrDelete(uploadPath, e_image)){
+    %>
+    		<script type="text/javascript">
+    			alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+    			history.back();
+    		</script>
+    <%
+    		return;
+    	}
+
     	//dao 선언
     	EventDao dao = new EventDao();
-    	
+
     	//dto 데이터담기
     	EventDto dto = new EventDto();
-    	
+
     	dto.setE_myid(myid);
     	dto.setE_subject(e_subject);
     	dto.setE_content(e_content);
     	dto.setE_image(e_image);
-    	
+
     	//db에 추가
     	dao.insertEvent(dto);
-    	
+
     	//공지사항 목록으로 이동
     	response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp");
-    	
+
      } catch(Exception e) {
-    	
+    	e.printStackTrace();
     }
-  
+
   %>
 
 </body>

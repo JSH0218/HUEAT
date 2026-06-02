@@ -69,15 +69,15 @@
            <tr>
              <td>
                <input type="text" name="e_subject" class="form-control" required="required"
-               style="width: 800px;" value="<%=dto.getE_subject() %>">
+               style="width: 800px;" value="<%=util.SecurityUtil.escapeHtml(dto.getE_subject()) %>">
              </td>
            </tr>
            
            <tr  align="center">
              <td>
-               <img id="showing" src="<%=(dto.getE_image()==null?"":"eventsave/"+dto.getE_image())%>"><br><br>
+               <img id="showing" src="<%=(dto.getE_image()==null?"":"fileview?type=event&name="+util.SecurityUtil.urlEncode(dto.getE_image()))%>"><br><br>
                <textarea type="text" name="e_content" class="form-control" required="required"
-               style="width: 800px; height: 300px; text-align: center;"><%=dto.getE_content() %></textarea>
+               style="width: 800px; height: 300px; text-align: center;"><%=util.SecurityUtil.escapeHtml(dto.getE_content()) %></textarea>
              </td>
            </tr>
            

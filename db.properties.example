@@ -1,0 +1,19 @@
+# HUEAT 외부 설정 예시 파일
+#
+# 이 파일을 복사해 실제 설정 파일을 만든 뒤, 아래 위치 중 하나에 둔다:
+#   1) 환경변수 HUEAT_CONFIG 가 가리키는 절대경로
+#   2) 시스템 프로퍼티 -Dhueat.config=... 가 가리키는 경로
+#   3) (기본) ${user.home}/.hueat/db.properties
+#
+# 주의: 실제 설정 파일에는 비밀번호가 들어가므로 절대 Git에 커밋하지 말 것.
+#       웹루트(src/main/webapp) 밖에 두어 HTTP로 노출되지 않게 한다.
+
+# === DB 접속 정보 ===
+db.url=jdbc:mysql://localhost:3306/hueat?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+db.user=hueat_user
+db.password=CHANGE_ME
+db.driver=com.mysql.cj.jdbc.Driver
+
+# === 업로드 파일 저장 경로(웹루트 외부) ===
+# 이 디렉토리 아래에 notice/ event/ review/ shop/ hugeso/ 하위 폴더가 생성된다.
+upload.dir=C:/hueat-uploads

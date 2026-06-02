@@ -50,14 +50,14 @@
            
              <td>
                <input type="text" name="q_subject"class="form-control" required="required"
-               style="width: 590px; margin-left: -102.5%;" value="<%=dto.getQ_subject()%>">
+               style="width: 590px; margin-left: -102.5%;" value="<%=util.SecurityUtil.escapeHtml(dto.getQ_subject())%>">
              </td>
            </tr>
            
            <tr>
              <td>
                <textarea type="text" name="q_content" class="form-control" required="required"
-               style="width: 800px; height: 300px; text-align: center;"><%=dto.getQ_content() %></textarea>
+               style="width: 800px; height: 300px; text-align: center;"><%=util.SecurityUtil.escapeHtml(dto.getQ_content()) %></textarea>
              </td>
            </tr>
          

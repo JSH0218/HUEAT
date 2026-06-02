@@ -356,13 +356,13 @@ font-size: 14px;
          <%=no-- %>
          </td>
          <td>
-              <%=dto.getQ_category()%>
+              <%=util.SecurityUtil.escapeHtml(dto.getQ_category())%>
           </td>
           <td>
-          <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=dto.getQ_subject()%></a>
+          <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=util.SecurityUtil.escapeHtml(dto.getQ_subject())%></a>
           </td>
           <td>
-            <%=name %>
+            <%=util.SecurityUtil.escapeHtml(name) %>
          </td>
           <td class="day">
               <%=sdf.format(dto.getQ_writeday())%>

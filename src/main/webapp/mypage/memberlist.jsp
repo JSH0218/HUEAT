@@ -175,11 +175,11 @@ SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
       for(MemInfoDto dto:list){%>
       <tr align='center'>
          <td><%=dto.getM_num() %></td>
-         <td><%=dto.getM_name() %></td>
-         <td><%=dto.getM_id() %></td>
-         <td><%=dto.getM_nick() %></td>
-         <td><%=dto.getM_hp1() %>-<%=dto.getM_hp2() %></td>
-         <td><%=dto.getM_email()==null?"":dto.getM_email() %></td>
+         <td><%=util.SecurityUtil.escapeHtml(dto.getM_name()) %></td>
+         <td><%=util.SecurityUtil.escapeHtml(dto.getM_id()) %></td>
+         <td><%=util.SecurityUtil.escapeHtml(dto.getM_nick()) %></td>
+         <td><%=util.SecurityUtil.escapeHtml(dto.getM_hp1()) %>-<%=util.SecurityUtil.escapeHtml(dto.getM_hp2()) %></td>
+         <td><%=dto.getM_email()==null?"":util.SecurityUtil.escapeHtml(dto.getM_email()) %></td>
          <td><%=dto.getM_birth() %></td>
          <td><%=sdf.format(dto.getM_gaipday())%></td>
          <td>

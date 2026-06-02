@@ -17,12 +17,12 @@ JSONArray arr=new JSONArray();
 for(MemInfoDto dto:list){
 	JSONObject ob=new JSONObject();
 	ob.put("m_num", dto.getM_num());
-	ob.put("m_name", dto.getM_name());
-	ob.put("m_nick", dto.getM_nick());
-	ob.put("m_id", dto.getM_id());
-	ob.put("m_hp1", dto.getM_hp1());
-	ob.put("m_hp2", dto.getM_hp2());
-	ob.put("m_email", dto.getM_email());
+	ob.put("m_name", util.SecurityUtil.escapeHtml(dto.getM_name()));
+	ob.put("m_nick", util.SecurityUtil.escapeHtml(dto.getM_nick()));
+	ob.put("m_id", util.SecurityUtil.escapeHtml(dto.getM_id()));
+	ob.put("m_hp1", util.SecurityUtil.escapeHtml(dto.getM_hp1()));
+	ob.put("m_hp2", util.SecurityUtil.escapeHtml(dto.getM_hp2()));
+	ob.put("m_email", util.SecurityUtil.escapeHtml(dto.getM_email()));
 	ob.put("m_birth", dto.getM_birth());
 	ob.put("m_gaipday", sdf.format(dto.getM_gaipday()));
 	arr.add(ob);

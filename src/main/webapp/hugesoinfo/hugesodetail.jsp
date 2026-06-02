@@ -395,7 +395,8 @@ $(function(){
 		
 		  var login = "<%=loginok%>";
 		  var g_myid=$("#g_myid").val();
-	      //alert(g_myid); 
+		  var g_role=$("#g_role").val(); // 권한(USER/ADMIN)
+	      //alert(g_myid);
 		        
 		// 특정 휴게소의 평점 목록
 		    function list(sortType){
@@ -443,7 +444,7 @@ $(function(){
 			              $("div.alist").html(s);
 			              
 			              // 관리자가 아니거나 로그인 상태가 아닐 경우 삭제 버튼 숨기기
-			              if (login == "null" || g_myid !== "admin") {
+			              if (login == "null" || g_role !== "ADMIN") {
 			                  $(".delete-button-wrapper").hide();
 			                  //$(".delete-button-wrapper").append("<div><button></button></div>");
 			              }
@@ -717,6 +718,7 @@ function sortFood(sortType) {
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
 <input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
+<input type="hidden" id="g_role" value="<%=session.getAttribute("role")%>">
 
 
 <div class="hugesodetail">
@@ -781,7 +783,7 @@ function sortFood(sortType) {
 <h2 class="h_name"><%=dto.getH_name()%></h2> 
 <p class="h_text">
 <% if (gdto.getG_content() != null) { %>
-    #<%= gdto.getG_content() %>
+    #<%= util.SecurityUtil.escapeHtml(gdto.getG_content()) %>
 <% }%>&nbsp;
 <% if (ffdto.getF_name() != null) { %>
     #<%= ffdto.getF_name() %>
@@ -811,7 +813,7 @@ function sortFood(sortType) {
 <div class="huinfo">
 <div class="imgarea">
 <!-- 휴게소 사진 -->
-<img alt="" src="hugesosave/<%=dto.getH_photo()%>" style="width:700px; height:500px; margin-left:20px;">
+<img alt="" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(dto.getH_photo())%>" style="width:700px; height:500px; margin-left:20px;">
 </div>
 
 
@@ -968,7 +970,7 @@ function sortFood(sortType) {
     %>
         <div class="food-item" style="display: <%= count <= 4 ? "inline-block" : "none" %>; 
         text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
-            <img alt="<%=f_name%>" src="hugesosave/<%=f_photo%>"  
+            <img alt="<%=f_name%>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(f_photo)%>"  
             style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
      <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
@@ -989,7 +991,7 @@ function sortFood(sortType) {
             %>
                 <div class="food-item"  style="display: inline-block;
                 text-align:center; font-weight:bold; margin-bottom: 20px;margin-right:20px; cursor:pointer;" data-fnum="<%=f_num%>">
-                    <img alt="<%=f_name%>" src="hugesosave/<%=f_photo%>"  
+                    <img alt="<%=f_name%>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(f_photo)%>"  
                     style="width: 220px; height:200px;  margin-bottom:15px;" data-fnum="<%=f_num%>"><br>
                     <div style="display: inline-block;" class="starrating">
     <label style="-webkit-text-fill-color: gold; font-size: 15px;">★</label>
@@ -1017,7 +1019,7 @@ function sortFood(sortType) {
         %>
             <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px; margin-right:20px;">
                 <a href="<%=b_addr %>">
-                <img alt="<%=b_name %>" src="hugesosave/<%=b_photo %>" 
+                <img alt="<%=b_name %>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(b_photo)%>" 
                 style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;"></a>
                 <div><%=b_name %></div>
             </div>
@@ -1034,7 +1036,7 @@ function sortFood(sortType) {
                 %>
                     <div class="brand-item" style="display: none; margin-right:20px;">
                      <a href="<%=b_addr %>">
-                        <img alt="<%=b_name %>" src="hugesosave/<%=b_photo %>" 
+                        <img alt="<%=b_name %>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(b_photo)%>" 
                         style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;" ></a>
                         <div><%=b_name %></div>
                     </div>

@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="review.model.ReviewDao"%>
 <%@page import="review.model.ReviewDto"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -23,42 +25,56 @@
 	//아이디 얻기
 	String myid=(String)session.getAttribute("myid");
   
-    String uploadPath = getServletContext().getRealPath("/reviewsave");
-    System.out.println(uploadPath);
-    
+    //로그인한 사용자만 작성 가능
+    if(loginok==null || myid==null){
+        response.sendRedirect("../index.jsp?main=member/loginform.jsp");
+        return;
+    }
+
+    String uploadPath = AppConfig.getUploadPath("review");
+
     int uploadSize = 1024*1024*5;
-    
+
     MultipartRequest multi = null;
-    
+
     try{
-    	
+
     	multi = new MultipartRequest(request,uploadPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
-    	
+
     	String r_category = multi.getParameter("r_category");
     	String r_content = multi.getParameter("r_content");
     	String r_image = multi.getFilesystemName("r_image");
-    	
-    	System.out.println(r_image);
-    	
+
+    	//업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+    	if(!SecurityUtil.validateOrDelete(uploadPath, r_image)){
+    %>
+    		<script type="text/javascript">
+    			alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+    			history.back();
+    		</script>
+    <%
+    		return;
+    	}
+
     	//dao선언
     	ReviewDao dao = new ReviewDao();
-    	
+
     	//dto저장
     	ReviewDto dto = new ReviewDto();
-    	
+
     	dto.setR_myid(myid);
     	dto.setR_category(r_category);
     	dto.setR_content(r_content);
     	dto.setR_image(r_image);
-    	
+
     	//db추가
     	dao.insertReview(dto);
-    	
+
     	//방명록 목록으로 이동
     	response.sendRedirect("../index.jsp?main=reviewboard/reviewList.jsp");
-    	
+
     } catch (Exception e) {
-    	
+    	e.printStackTrace();
     }
   %>
 

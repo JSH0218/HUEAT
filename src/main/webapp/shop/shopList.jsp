@@ -222,7 +222,7 @@ $(function(){
                   
                   if( count == 0 ) {
                 //관리자만 체크 보이게 
-                if (loginok != null && myid.equals("admin")) { %>
+                if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                 <input type="checkbox" class="alldelcheck1"> 전체선택
               <% } %>
                
@@ -235,12 +235,12 @@ $(function(){
               <% } %>
               <td >
               <% //관리자만 체크 보이게 
-                if (loginok != null && myid.equals("admin")) { %>
+                if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel1">
                 <% } %>
               <div class="br_total"  style="text-align: center;"> 
                 <a href="<%= dto.getS_site() %>" target="_blank">
-                  <img src="shopsave/<%= dto.getS_image() %>" alt="" class="s_image"><br>
+                  <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
               </div>   
@@ -271,7 +271,7 @@ $(function(){
                
                if( count == 0 ) {
                 //관리자만 체크 보이게 
-                if (loginok != null && myid.equals("admin")) { %>
+                if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                 <input type="checkbox" class="alldelcheck2"> 전체선택
                 <% } %>
                
@@ -284,12 +284,12 @@ $(function(){
               <% } %>
               <td >
                <% //관리자만 체크 보이게 
-                if (loginok != null && myid.equals("admin")) { %>
+                if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel2">
                 <% } %>
               <div class="br_total">  
                 <a href="<%= dto.getS_site() %>" target="_blank" >
-                  <img src="shopsave/<%= dto.getS_image() %>" alt="" class="s_image"><br>
+                  <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
               </div>  
@@ -317,7 +317,7 @@ $(function(){
                <% if (dto.getS_category().equals("문산(순천)휴게소")) { 
                if( count == 0 ) {
             	   //관리자만 체크 보이게 
-                   if (loginok != null && myid.equals("admin")) { %>
+                   if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                    <input type="checkbox" class="alldelcheck3"> 전체선택
                    <% }%>
               
@@ -330,13 +330,13 @@ $(function(){
               <% } %>
               <td >
               <% //관리자만 체크 보이게 
-                if (loginok != null && myid.equals("admin")) { %>
+                if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel3">
                 <% }%>
                 
                <div class="br_total"> 
                 <a href="<%= dto.getS_site() %>" target="_blank">
-                  <img src="shopsave/<%= dto.getS_image() %>" alt="" class="s_image"><br>
+                  <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
                 </div>
@@ -364,7 +364,7 @@ $(function(){
   
   <!-- 버튼 위치 -->
   <div style="padding-left: 23.5%; padding-top: 3%;">
-  <% if (loginok != null && myid.equals("admin")) { %>
+  <% if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) { %>
     <button type="button" class="btn col"  onclick="location.href='index.jsp?main=shop/shopForm.jsp'">추가</button>
     <button type="button" class="btn col" id=btndel  onclick="location.href='#'">삭제</button>
   <% } %>

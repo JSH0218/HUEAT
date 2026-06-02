@@ -146,7 +146,7 @@
                 
                   <a n_num="<%=dto.getN_num() %>" style="cursor: pointer;" class="noticeDetail">
                     <div class="n_notice">
-                      <span class="n_subject"> - <%=dto.getN_subject() %></span> 
+                      <span class="n_subject"> - <%=util.SecurityUtil.escapeHtml(dto.getN_subject()) %></span>
                       <span class="n_writeday">
                         <%=sdf.format(dto.getN_writeday()) %>
                       </span> 
@@ -180,7 +180,7 @@
               
                   <a e_num="<%=dto.getE_num() %>" style="cursor: pointer;" class="eventDetail">
                     <div class="e_event">
-                      <span class="e_subject"> - <%=dto.getE_subject() %></span>
+                      <span class="e_subject"> - <%=util.SecurityUtil.escapeHtml(dto.getE_subject()) %></span>
                       <span class="e_writeday">
                         <%=sdf.format(dto.getE_writeday()) %>
                       </span> 
