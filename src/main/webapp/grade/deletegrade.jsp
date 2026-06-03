@@ -7,8 +7,13 @@
     if(!util.SecurityUtil.isLogin(session)){
         response.sendError(403); return;
     }
-    String h_num=request.getParameter("h_num");
-	String g_num=request.getParameter("g_num");
+    String h_num=util.SecurityUtil.digitsOnly(request.getParameter("h_num"));
+	String g_num=util.SecurityUtil.digitsOnly(request.getParameter("g_num"));
     GradeDao dao = new GradeDao();
-    dao.deleteGrade(g_num);
+    // IDOR 방어: 관리자는 전체 삭제, 일반 사용자는 본인 작성분만 삭제
+    if(util.SecurityUtil.isAdmin(session)){
+        dao.deleteGrade(g_num);
+    }else{
+        dao.deleteGrade(g_num, util.SecurityUtil.currentId(session));
+    }
 %>

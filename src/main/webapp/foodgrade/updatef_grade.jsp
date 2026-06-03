@@ -10,9 +10,9 @@
     if(!util.SecurityUtil.isLogin(session)){
         response.sendError(403); return;
     }
-    String h_num = request.getParameter("h_num");
-    String f_num = request.getParameter("f_num");
-    String fg_foodnum = request.getParameter("f_num");
+    String h_num = util.SecurityUtil.digitsOnly(request.getParameter("h_num"));
+    String f_num = util.SecurityUtil.digitsOnly(request.getParameter("f_num"));
+    String fg_foodnum = f_num;
 
     // 음식 평점을 기반으로 음식 평균 평점 업데이트
     FoodGradeDao fgdao = new FoodGradeDao();

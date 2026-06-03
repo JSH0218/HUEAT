@@ -48,8 +48,8 @@
   <%
 
    //num,currentPage
-   String e_num = request.getParameter("e_num");
-   String currentPage = request.getParameter("currentPage");
+   String e_num = util.SecurityUtil.digitsOnly(request.getParameter("e_num"));
+   String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    EventDao dao = new EventDao();
    EventDto dto = dao.getDataEvent(e_num);
@@ -62,8 +62,8 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="eventboard/eventUpdateAction.jsp" method="post" enctype="multipart/form-data">
-      <input type="hidden" name=e_num  value="<%=e_num%>">
-      <input type="hidden" name="currentPage" value="<%=currentPage%>">
+      <input type="hidden" name="e_num"  value="<%=util.SecurityUtil.escapeHtml(e_num)%>">
+      <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">
          <caption align="top"><h5><b>이벤트 수정</b></h5></caption>
            <tr>

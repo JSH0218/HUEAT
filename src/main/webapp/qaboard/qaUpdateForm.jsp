@@ -16,8 +16,8 @@
   <%
 
    //num,currentPage
-   String q_num = request.getParameter("q_num");
-   String currentPage = request.getParameter("currentPage");
+   String q_num = util.SecurityUtil.digitsOnly(request.getParameter("q_num"));
+   String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    QaDao dao = new QaDao();
    QaDto dto = dao.getDataQa(q_num);
@@ -31,8 +31,8 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="qaboard/qaUpdateAction.jsp" method="post">
-      <input type="hidden" name="q_num"  value="<%=q_num%>">
-      <input type="hidden" name="currentPage" value="<%=currentPage%>">
+      <input type="hidden" name="q_num"  value="<%=util.SecurityUtil.escapeHtml(q_num)%>">
+      <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">
          <caption align="top"><h5><b>문의글 수정</b></h5></caption>
            <tr>
