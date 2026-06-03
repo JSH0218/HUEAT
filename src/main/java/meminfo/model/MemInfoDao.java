@@ -618,26 +618,9 @@ public class MemInfoDao {
 			return list;
 		}
 
-		//유지)휴게소 즐겨찾기 f_num으로 삭제
-		public void favDelete(String f_num) {
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-
-			String sql="delete from favorite where f_num=?";
-
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, f_num);
-				pstmt.execute();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				db.dbClose(pstmt, conn);
-			}
-		}
-
 		// 소유자 범위 즐겨찾기 삭제 (IDOR 방어: 세션 m_num 소유분만 삭제)
+		// 주의) 소유자 조건 없는 PK-only favDelete(String) 오버로드는 IDOR 위험으로 제거함.
+		//       즐겨찾기 삭제는 반드시 아래 2-인자(f_num, m_num) 메서드만 사용한다.
 		public void favDelete(String f_num, String m_num) {
 			Connection conn=db.getConnection();
 			PreparedStatement pstmt=null;

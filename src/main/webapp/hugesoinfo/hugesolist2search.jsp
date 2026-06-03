@@ -250,9 +250,9 @@ if(list2.isEmpty()){
 	%>
 		   
 				<div style="width: 250px; height: 250px;  border: 1px solid lightgray; margin: 0 auto 20px auto;"><img alt="" src="fileview?type=hugeso&name=<%= util.SecurityUtil.urlEncode(dto.getH_photo()) %>" style="width: 250px; height: 250px;"></div>
-	          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=dto.getH_name() %></a>
-	            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=dto.getH_addr() %></p>
-	            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=dto.getH_hp() %></p>
+	          	<a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%= dto.getH_num() %>" style="font-weight:bold;"><%=util.SecurityUtil.escapeHtml(dto.getH_name()) %></a>
+	            <p style="color: gray; font-size: 9pt; font-weight: bold; margin-bottom: 0px;"><%=util.SecurityUtil.escapeHtml(dto.getH_addr()) %></p>
+	            <p style="color: lightgray; font-size: 9pt; font-weight: bold;"><%=util.SecurityUtil.escapeHtml(dto.getH_hp()) %></p>
 	        </div>
 	<%
 	    count++;

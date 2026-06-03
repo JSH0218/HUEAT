@@ -239,7 +239,7 @@ NumberFormat nf=NumberFormat.getInstance();
 		<%-- <img alt="" src="image/mainbanner/memberbanner01.jpg">--%>
 </div>
 <div class="span-container" style="border:0px solid purple; font-size: 2.5em;" >
-	<span> <%=hdto.getH_name() %>의 주문가능 메뉴<br>
+	<span> <%=util.SecurityUtil.escapeHtml(hdto.getH_name()) %>의 주문가능 메뉴<br>
 	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
 	</span>
 </div>
@@ -259,8 +259,8 @@ NumberFormat nf=NumberFormat.getInstance();
 		<a class="menuchoice" f_num="<%=f_num%>">
 		<img alt="" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(dto.getF_photo())%>" style="width: 230px;;height: 200px;cursor: pointer;">
 		<div>
-			<span><%=dto.getF_name() %></span>
-			<span><%= nf.format(pr) %>원</span><br>	
+			<span><%=util.SecurityUtil.escapeHtml(dto.getF_name()) %></span>
+			<span><%= nf.format(pr) %>원</span><br>
 		</div>
 		</a>
 		<div>
