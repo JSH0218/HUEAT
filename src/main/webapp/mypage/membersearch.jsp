@@ -7,6 +7,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+// 관리자만 회원 검색(PII) 가능
+if(!util.SecurityUtil.isAdmin(session)){
+	response.sendError(403); return;
+}
 String m_name=request.getParameter("m_name");
 MemInfoDao dao=new MemInfoDao();
 List<MemInfoDto> list=dao.searchMem(m_name);

@@ -50,8 +50,13 @@
    String main = "layout/main.jsp"; //기본페이지
    
    //2. url을 통해서 main값을 읽어서 메인페이지에 출력
-   if(request.getParameter("main") != null) {
-      main = request.getParameter("main");
+   //   단, 화이트리스트에 있는 페이지만 허용(임의 경로 include로 인한 LFI/경로조작 차단)
+   String requestedMain = request.getParameter("main");
+   if(requestedMain != null) {
+      if(util.SecurityUtil.isAllowedMainPage(requestedMain)){
+         main = requestedMain;
+      }
+      // 미허용 값이면 기본 페이지(layout/main.jsp) 유지
    }else{
       %>
       <script type="text/javascript">

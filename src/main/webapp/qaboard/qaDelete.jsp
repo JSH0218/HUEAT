@@ -16,8 +16,19 @@
   <%
     String q_num = request.getParameter("q_num");
     String currentPage = request.getParameter("currentPage");
-    
+
     QaDao dao = new QaDao();
+
+    // 로그인 + 작성자 본인(또는 관리자)만 삭제 가능
+    qa.model.QaDto old = dao.getDataQa(q_num);
+    if(!util.SecurityUtil.isLogin(session) || old==null
+            || !util.SecurityUtil.isOwnerOrAdmin(session, old.getQ_myid())){
+%>
+<script type="text/javascript">alert("삭제 권한이 없습니다."); history.back();</script>
+<%
+        return;
+    }
+
     dao.deleteQa(q_num);
     
     //이동

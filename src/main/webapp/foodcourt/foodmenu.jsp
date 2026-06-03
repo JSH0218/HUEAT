@@ -221,7 +221,7 @@ function list(){
 </head>
 <body>
 <%
-String h_num=request.getParameter("h_num");
+String h_num=util.SecurityUtil.digitsOnly(request.getParameter("h_num"));
 String m_id=(String)session.getAttribute("myid");
 
 //food메뉴 가져오기

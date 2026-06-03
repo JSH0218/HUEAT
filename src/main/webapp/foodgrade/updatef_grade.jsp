@@ -6,6 +6,10 @@
 
 <%
     request.setCharacterEncoding("UTF-8");
+    // 로그인 사용자만 음식 평점 갱신 가능
+    if(!util.SecurityUtil.isLogin(session)){
+        response.sendError(403); return;
+    }
     String h_num = request.getParameter("h_num");
     String f_num = request.getParameter("f_num");
     String fg_foodnum = request.getParameter("f_num");

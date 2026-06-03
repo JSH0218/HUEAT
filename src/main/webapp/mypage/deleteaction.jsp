@@ -22,6 +22,12 @@
 		return;
 	}
 
+	// CSRF 토큰 검증(폼의 _csrf vs 세션 토큰)
+	if(!util.SecurityUtil.checkCsrf(request)){
+		response.sendError(403);
+		return;
+	}
+
 	String m_pass=request.getParameter("m_pass");
 
 	MemInfoDao dao=new MemInfoDao();

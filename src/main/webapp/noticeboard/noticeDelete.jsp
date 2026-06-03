@@ -14,9 +14,13 @@
 <body>
 
   <%
+  // 관리자만 공지 삭제 가능
+  if(!util.SecurityUtil.isAdmin(session)){
+    response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp"); return;
+  }
   String n_num=request.getParameter("n_num");
   String currentPage=request.getParameter("currentPage");
-  
+
   NoticeDao dao=new NoticeDao();
   dao.deleteNoice(n_num);
   

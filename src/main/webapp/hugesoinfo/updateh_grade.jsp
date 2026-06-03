@@ -5,7 +5,10 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
-
+	// 로그인 사용자만 평점 갱신 가능
+	if(!util.SecurityUtil.isLogin(session)){
+		response.sendError(403); return;
+	}
 	String h_num=request.getParameter("h_num");
 	String h_grade=request.getParameter("h_grade");
 	String h_gradecount=request.getParameter("h_gradecount");

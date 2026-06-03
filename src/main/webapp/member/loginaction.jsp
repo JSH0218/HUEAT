@@ -21,10 +21,13 @@ MemInfoDao dao=new MemInfoDao();
 boolean b=dao.isIdPassMember(id, pass);
 
 if(b){
-	
+
+	//세션 고정(Session Fixation) 공격 방지: 인증 성공 직후 세션 ID 재발급
+	request.changeSessionId();
+
 	//8시간유지
 	session.setMaxInactiveInterval(60*60*8);
-	
+
 	session.setAttribute("loginok", "yes");
 	session.setAttribute("myid", id);
 	// 권한(USER/ADMIN)을 세션에 저장 — 관리자 판별은 이 값으로만 한다

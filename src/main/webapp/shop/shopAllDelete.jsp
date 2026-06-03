@@ -13,6 +13,10 @@
 </head>
 <body>
 <%
+	// 관리자만 상품 일괄 삭제 가능
+	if(!util.SecurityUtil.isAdmin(session)){
+		response.sendRedirect("../index.jsp?main=shop/shopList.jsp"); return;
+	}
 	//nums를 읽기
 	String s_nums=request.getParameter("s_nums");
 	//,로 분리해서 배열선언

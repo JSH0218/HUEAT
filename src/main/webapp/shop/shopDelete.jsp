@@ -14,7 +14,10 @@
 </head>
 <body>
    <%
-  
+    // 관리자만 상품 삭제 가능
+    if(!util.SecurityUtil.isAdmin(session)){
+      response.sendRedirect("../index.jsp?main=shop/shopList.jsp"); return;
+    }
     //db삭제뿐 아니라 업로드된 파일도 삭제하기
     String s_num = request.getParameter("s_num");
     String currentPage = request.getParameter("currentPage");

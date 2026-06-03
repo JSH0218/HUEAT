@@ -16,11 +16,11 @@
 //로그인 세션얻기
 String loginok = (String) session.getAttribute("loginok");
 String myid=(String)session.getAttribute("myid");
-String q_num = request.getParameter("q_num");
+String q_num = util.SecurityUtil.digitsOnly(request.getParameter("q_num"));
 QaDao dao = new QaDao();
 
 QaDto dto = dao.getDataQa(q_num);
-String currentPage = request.getParameter("currentPage");
+String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
 
 //조회수 가져오기
 dao.updateReadcount(q_num);

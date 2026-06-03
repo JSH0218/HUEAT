@@ -14,9 +14,13 @@
 <body>
  
   <%
+  // 관리자만 이벤트 삭제 가능
+  if(!util.SecurityUtil.isAdmin(session)){
+    response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp"); return;
+  }
   String e_num=request.getParameter("e_num");
   String currentPage=request.getParameter("currentPage");
-  
+
   EventDao dao=new EventDao();
   dao.deleteEvent(e_num);
   

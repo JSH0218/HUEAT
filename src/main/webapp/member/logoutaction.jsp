@@ -11,7 +11,8 @@
 </head>
 <body>
 <%
-session.removeAttribute("loginok");
+//세션 전체 무효화(loginok뿐 아니라 myid/role/saveok/CSRF 토큰까지 제거)
+session.invalidate();
 response.sendRedirect("../index.jsp");
 %>
 </body>
