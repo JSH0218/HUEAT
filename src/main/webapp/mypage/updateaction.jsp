@@ -24,7 +24,7 @@
 		return;
 	}
 
-	String m_num=request.getParameter("m_num");
+	// m_num은 클라이언트 입력을 신뢰하지 않고 세션 사용자로부터 서버에서 도출(IDOR 방지)
 	String m_pass=request.getParameter("m_pass");   // 현재 비밀번호(평문)
 	String m_upass=request.getParameter("m_upass");  // 새 비밀번호(평문, 비어있으면 변경 안 함)
 	String m_name=request.getParameter("m_name");
@@ -59,7 +59,7 @@
 	}
 
 	MemInfoDto dto=new MemInfoDto();
-	dto.setM_num(m_num);
+	dto.setM_num(current.getM_num());
 	dto.setM_pass(finalPass);
 	dto.setM_name(m_name);
 	dto.setM_nick(m_nick);

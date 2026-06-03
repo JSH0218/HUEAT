@@ -111,14 +111,15 @@ public class FoodCartDao {
 		return list;
 	}
 	
-	//유지))카트 개별 삭제
-	public void deleteCart(String cart_idx) {
+	//유지))카트 개별 삭제(소유자 범위로 제한해 IDOR 방지)
+	public void deleteCart(String cart_idx, String m_num) {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
-		String sql="delete from foodcart where cart_idx=?";
+		String sql="delete from foodcart where cart_idx=? and m_num=?";
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, cart_idx);
+			pstmt.setString(2, m_num);
 			pstmt.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

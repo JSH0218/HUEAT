@@ -2,6 +2,13 @@
 <%@page import="qa.model.QaDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+  // 로그인 필수: 비로그인 사용자의 Q&A 작성(및 myid=null INSERT) 차단
+  if(!util.SecurityUtil.isLogin(session)){
+    response.sendRedirect("../index.jsp?main=member/loginform.jsp");
+    return;
+  }
+%>
 <!DOCTYPE html>
 <html>
 <head>
