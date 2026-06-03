@@ -249,9 +249,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
       
        <tr>
         <td>
-          <span class="category"><%=dto.getQ_category() %></span><br>
-          <span ><b><%=dto.getQ_subject() %></b></span>
-          <span class="my"><%=dto.getQ_myid() %></span>
+          <span class="category"><%=util.SecurityUtil.escapeHtml(dto.getQ_category()) %></span><br>
+          <span ><b><%=util.SecurityUtil.escapeHtml(dto.getQ_subject()) %></b></span>
+          <span class="my"><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></span>
         </td>
       </tr>
       
@@ -264,7 +264,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
       
        <tr height="300" align="center">
         <td><br><br>
-           <%=dto.getQ_content().replace("\n", "<br>") %><br><br>
+           <%=util.SecurityUtil.nl2brEscaped(dto.getQ_content()) %><br><br>
         </td>
      </tr>
     
@@ -279,7 +279,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
       
      
         <div class="aform" >
-           <span><%=dto.getQ_myid() %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <span><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
            <input type = "text" id="qa_content" class="form-control" style="width: 645px;"
            placeholder="댓글메세지">
            <button type="button" id="btnsend" class="btn btn-success">저장</button>
@@ -290,7 +290,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         <div class="upform" >
            <input type="hidden" id="q_num">
            <input type="hidden" id="qa_num">
-           <span><%=dto.getQ_myid() %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <span><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
            <input type = "text" id="uqa_content" class="form-control" style="width: 645px;"
            placeholder="댓글메세지">
            <button type="button" id="btnupdate" class="btn btn-success">수정</button>

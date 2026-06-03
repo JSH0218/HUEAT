@@ -4,3 +4,7 @@
 /.metadata/
 /.smarttomcat/
 *.iml
+
+# 실제 설정 파일(비밀 포함) — 예시(db.properties.example)만 커밋한다
+db.properties
+*.local.properties

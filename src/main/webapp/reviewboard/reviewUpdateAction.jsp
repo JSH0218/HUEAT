@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="review.model.ReviewDto"%>
 <%@page import="review.model.ReviewDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -18,9 +20,12 @@
 
 	<%
 	String myid = (String) session.getAttribute("myid");
+	if(myid==null){
+		response.sendRedirect("../index.jsp?main=member/loginform.jsp");
+		return;
+	}
 
-	String realPath = getServletContext().getRealPath("/reviewsave");
-	System.out.println(realPath);
+	String realPath = AppConfig.getUploadPath("review");
 
 	int uploadSize = 1024 * 1024 * 5;
 
@@ -34,9 +39,33 @@
 		String r_category = multi.getParameter("r_category");
 		String r_image = multi.getFilesystemName("r_image");
 
+		//업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+		if(!SecurityUtil.validateOrDelete(realPath, r_image)){
+%>
+		<script type="text/javascript">
+			alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+			history.back();
+		</script>
+<%
+			return;
+		}
+
 		//기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
 		ReviewDao dao = new ReviewDao();
-		String old_photoName = dao.getDataReview(r_num).getR_image();
+		ReviewDto old = dao.getDataReview(r_num);
+		String old_photoName = old.getR_image();
+
+		//작성자 본인 또는 관리자만 수정 가능
+		boolean isAdmin = "ADMIN".equals((String)session.getAttribute("role"));
+		if(!isAdmin && !myid.equals(old.getR_myid())){
+%>
+		<script type="text/javascript">
+			alert("수정 권한이 없습니다.");
+			history.back();
+		</script>
+<%
+			return;
+		}
 
 		//dto에 저장
 		ReviewDto dto = new ReviewDto();
@@ -56,7 +85,7 @@
 		response.sendRedirect("../index.jsp?main=reviewboard/reviewList.jsp?currentPage=" + currentPage);
 
 	} catch (Exception e) {
-
+		e.printStackTrace();
 	}
 	%>
 

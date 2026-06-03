@@ -52,6 +52,14 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/cos.jar</systemPath>
         </dependency>
+        <!-- 비밀번호 BCrypt 해싱 -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jbcrypt-0.4.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

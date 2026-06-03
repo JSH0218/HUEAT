@@ -10,6 +10,7 @@ import java.util.List;
 
 import favorite.model.FavoriteDto;
 import mysql.db.DbConnect;
+import util.SecurityUtil;
 
 public class MemInfoDao {
 
@@ -44,11 +45,14 @@ public class MemInfoDao {
 			}
 
 	// 회원가입
+	// 주의: dto.getM_pass()는 호출 측(gaipaction.jsp)에서 이미 BCrypt 해시로 변환된 값이어야 한다.
+	// m_role은 DEFAULT 'USER', m_gaipday는 DEFAULT CURRENT_TIMESTAMP로 처리되므로 명시 컬럼 INSERT를 사용한다.
 	public void insertMember(MemInfoDto dto) {
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into meminfo values(null,?,?,?,?,?,?,?,?,now())";
+		String sql = "insert into meminfo (m_name, m_nick, m_id, m_pass, m_hp1, m_hp2, m_birth, m_email) "
+				+ "values (?,?,?,?,?,?,?,?)";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -122,6 +126,7 @@ public class MemInfoDao {
 	}
 
 	// 로그인시 사용할 메서드(id와 pass가 일치 하는 가)
+	// 저장된 BCrypt 해시를 조회해 입력 평문과 대조한다(SQL 평문 비교 금지).
 	public boolean isIdPassMember(String m_id, String m_pass) {
 		boolean idpass = false;
 
@@ -129,15 +134,14 @@ public class MemInfoDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select * from meminfo where m_id=? and m_pass=?";
+		String sql = "select m_pass from meminfo where m_id=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, m_id);
-			pstmt.setString(2, m_pass);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				idpass = true;
+				idpass = SecurityUtil.checkPassword(m_pass, rs.getString("m_pass"));
 			}
 
 		} catch (SQLException e) {
@@ -208,14 +212,16 @@ public class MemInfoDao {
 		return e;
 	}
 
-//이름,아이디,핸드폰번호로 비밀번호 찾기
-	public String passSearch(String m_name, String m_id, String m_hp2) {
-		String p = "";
+	// 비밀번호 찾기: 신원(이름+아이디+휴대폰) 일치 여부만 확인한다.
+	// BCrypt 해시는 복호화 불가하므로 평문 비밀번호를 반환하지 않는다.
+	// 신원이 확인되면 호출 측에서 비밀번호 재설정 화면으로 유도한다.
+	public boolean verifyMember(String m_name, String m_id, String m_hp2) {
+		boolean exists = false;
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select m_pass from meminfo where m_name=? and m_id=? and m_hp2=?";
+		String sql = "select count(*) from meminfo where m_name=? and m_id=? and m_hp2=?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, m_name);
@@ -223,17 +229,33 @@ public class MemInfoDao {
 			pstmt.setString(3, m_hp2);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				p = rs.getString("m_pass");
+				exists = rs.getInt(1) > 0;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
 		}
 
-		return p;
+		return exists;
+	}
 
+	// 비밀번호 재설정: 전달된 값은 이미 BCrypt 해시로 변환된 값이어야 한다.
+	public void resetPassword(String m_id, String hashedPass) {
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+
+		String sql = "update meminfo set m_pass=? where m_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, hashedPass);
+			pstmt.setString(2, m_id);
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(pstmt, conn);
+		}
 	}
 
 	// 아이디를 넣고 getAlldatas 저장된 값 받아오기
@@ -261,6 +283,7 @@ public class MemInfoDao {
 				dto.setM_hp2(rs.getString("m_hp2"));
 				dto.setM_birth(rs.getString("m_birth"));
 				dto.setM_email(rs.getString("m_email"));
+				dto.setM_role(rs.getString("m_role"));
 				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
 			}
 		} catch (SQLException e) {
@@ -271,6 +294,32 @@ public class MemInfoDao {
 		}
 		return dto;
 
+	}
+
+	// 로그인 등에서 사용할 회원 권한(USER/ADMIN) 조회
+	public String getRole(String m_id) {
+		String role = "USER";
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select m_role from meminfo where m_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				String r = rs.getString("m_role");
+				if (r != null && !r.isBlank()) {
+					role = r;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		return role;
 	}
 
 	// num과 pass를 넣고 값이 있는지 확인하기
@@ -517,6 +566,7 @@ public class MemInfoDao {
 					dto.setM_hp2(rs.getString("m_hp2"));
 					dto.setM_birth(rs.getString("m_birth"));
 					dto.setM_email(rs.getString("m_email"));
+					dto.setM_role(rs.getString("m_role"));
 					dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
 					list.add(dto);
 				}
@@ -526,11 +576,11 @@ public class MemInfoDao {
 			}finally {
 				db.dbClose(rs, pstmt, conn);
 			}
-			
+
 			return list;
 		}
-		
-		//유지)관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것 
+
+		//유지)관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것
 		public List<MemInfoDto> searchMem(String m_name){
 			List<MemInfoDto> list=new ArrayList<MemInfoDto>();
 			Connection conn=db.getConnection();
@@ -554,6 +604,7 @@ public class MemInfoDao {
 					dto.setM_hp2(rs.getString("m_hp2"));
 					dto.setM_birth(rs.getString("m_birth"));
 					dto.setM_email(rs.getString("m_email"));
+					dto.setM_role(rs.getString("m_role"));
 					dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
 					list.add(dto);
 				}
@@ -563,10 +614,10 @@ public class MemInfoDao {
 			}finally {
 				db.dbClose(rs, pstmt, conn);
 			}
-			
+
 			return list;
 		}
-		
+
 		//유지)휴게소 즐겨찾기 f_num으로 삭제
 		public void favDelete(String f_num) {
 			Connection conn=db.getConnection();

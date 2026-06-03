@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="shop.ShopDto"%>
 <%@page import="shop.ShopDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -20,26 +22,39 @@
    //로그인상태확인
     String loginok=(String)session.getAttribute("loginok");
     String myid=(String)session.getAttribute("myid");
-    //이미지 업로드 경로
-    String uploadPath = getServletContext().getRealPath("/shopsave");
-    System.out.println(uploadPath);
-    
+    //관리자만 상품 등록 가능
+    if(!"ADMIN".equals((String)session.getAttribute("role"))){
+        response.sendRedirect("../index.jsp?main=shop/shopList.jsp");
+        return;
+    }
+
+    //이미지 업로드 경로(웹루트 외부)
+    String uploadPath = AppConfig.getUploadPath("shop");
+
     //업로드할 사이즈
     int uploadSize = 1024*1024*5;
-    
+
     MultipartRequest multi = null;
-    
+
     try {
-    	
+
     	multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
-    	
-    	
+
     	String s_category = multi.getParameter("s_category");
     	String s_site = multi.getParameter("s_site");
     	String s_image = multi.getFilesystemName("s_image");
-    	
-    	System.out.println(s_image);
-    	
+
+    	//업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+    	if(!SecurityUtil.validateOrDelete(uploadPath, s_image)){
+%>
+    		<script type="text/javascript">
+    			alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+    			history.back();
+    		</script>
+<%
+    		return;
+    	}
+
     	//dao 선언
     	ShopDao dao= new ShopDao();
     	
@@ -56,9 +71,9 @@
     	
     	//공지사항 목록으로 이동
     	response.sendRedirect("../index.jsp?main=shop/shopList.jsp");
-    	
+
      } catch(Exception e) {
-    	
+    	e.printStackTrace();
     }
   
   %>

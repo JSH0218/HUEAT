@@ -141,16 +141,16 @@
       
       <tr>
         <td style="background-color: #ebeae7; font-size: 1.3em; text-align: center; height: 80px; vertical-align: middle;">
-          <span style="float: left; font-size: 1.3em;"><%=dto.getE_subject() %></span>
-          <span class="day"><%=name %> | <%=sdf.format(dto.getE_writeday()) %></span>
+          <span style="float: left; font-size: 1.3em;"><%=util.SecurityUtil.escapeHtml(dto.getE_subject()) %></span>
+          <span class="day"><%=util.SecurityUtil.escapeHtml(name) %> | <%=sdf.format(dto.getE_writeday()) %></span>
       
         </td>
       </tr>
       
       <tr height="300" align="center">
         <td>
-           <img alt="" src="eventsave/<%=dto.getE_image()%>" style="height: 200px;"><br><br><br>
-           <%=dto.getE_content().replace("\n", "<br>") %><br><br>
+           <img alt="" src="fileview?type=event&name=<%=util.SecurityUtil.urlEncode(dto.getE_image())%>" style="height: 200px;"><br><br><br>
+           <%=util.SecurityUtil.nl2brEscaped(dto.getE_content()) %><br><br>
         </td>
      </tr>
       
@@ -159,7 +159,7 @@
       <% 
        //버튼
       //로그인한 아이디와 글을 쓴 아이디가 같을경우에만
-    	if (loginok!=null && myid.equals("admin")) {%>
+    	if (loginok!=null && "ADMIN".equals((String)session.getAttribute("role"))) {%>
     	 
       <tr>
        <td colspan="1" align="right">

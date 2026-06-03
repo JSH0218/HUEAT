@@ -234,7 +234,7 @@
         		    <td><a href="index.jsp?main=noticeboard/noticeDetail.jsp?n_num=<%=dto.getN_num()%>
         		    &currentPage=<%=currentPage%>">
         		    <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-        		    width: 250px; display: block;"><%=dto.getN_subject() %></span></a>
+        		    width: 250px; display: block;"><%=util.SecurityUtil.escapeHtml(dto.getN_subject()) %></span></a>
         		    
         		    </td>
         		    <td align="center"><%=name %></td>
@@ -250,7 +250,7 @@
 
     	
     	//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
-    	if (loginok!=null && myid.equals("admin")) {%>
+    	if (loginok!=null && "ADMIN".equals((String)session.getAttribute("role"))) {%>
     	
     	<div style="float: right;">
          <button type="button" onclick="location.href='index.jsp?main=noticeboard/noticeForm.jsp'"

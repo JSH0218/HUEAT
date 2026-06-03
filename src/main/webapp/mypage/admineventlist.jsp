@@ -365,7 +365,7 @@ font-size: 14px;
 			</td>
 			<td>
 				 <a href="index.jsp?main=noticeboard/noticeDetail.jsp?currentPage=<%=currentPage %>&n_num=<%=dto.getE_num()%>">
-				<%=dto.getE_subject()%>
+				<%=util.SecurityUtil.escapeHtml(dto.getE_subject())%>
 				</a>
 			</td>
 		    <td>

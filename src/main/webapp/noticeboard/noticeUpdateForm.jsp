@@ -69,15 +69,15 @@
            <tr>
              <td>
                <input type="text" name="n_subject" class="form-control" required="required"
-               style="width: 800px;" value="<%=dto.getN_subject() %>">
+               style="width: 800px;" value="<%=util.SecurityUtil.escapeHtml(dto.getN_subject()) %>">
              </td>
            </tr>
            
            <tr  align="center">
              <td>
-               <img id="showing" src="<%=(dto.getN_image()==null?"":"noticesave/"+dto.getN_image())%>"><br><br>
+               <img id="showing" src="<%=(dto.getN_image()==null?"":"fileview?type=notice&name="+util.SecurityUtil.urlEncode(dto.getN_image()))%>"><br><br>
                <textarea type="text" name="n_content" class="form-control" required="required"
-               style="width: 800px; height: 300px; text-align: center;"><%=dto.getN_content() %></textarea>
+               style="width: 800px; height: 300px; text-align: center;"><%=util.SecurityUtil.escapeHtml(dto.getN_content()) %></textarea>
              </td>
            </tr>
            

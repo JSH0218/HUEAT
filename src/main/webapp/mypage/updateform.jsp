@@ -104,35 +104,23 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		$("form").submit(function(e){
 			e.preventDefault();
 			var f=this;
-			
-			if(f.m_pass.value != '<%=dto.getM_pass()%>') {
-		        swal("현재 비밀번호가 일치하지 않습니다.", "다시 입력해주세요.", "error");
-		        f.m_pass.value="";
-		        return false;
-		    } 
-			
+
+			// 현재 비밀번호 일치 여부는 서버(updateaction.jsp)에서 검증한다.
+			// 새 비밀번호 입력 시 두 값이 같은지만 클라이언트에서 확인.
 			if(f.m_upass.value!=f.m_upass1.value){
-				//alert("비밀번호가 다릅니다.");
 				swal("새 비밀번호가 다릅니다", "입력하신 비밀번호를 확인해주세요", "error");
 				f.m_upass.value="";
 				f.m_upass1.value="";
 				return false;
 			}
-			
+
 			 if (!isNickChecked) {
 	                alert("닉네임 중복 확인을 해주세요.");
 	                return;
 	            }
-			  
-			
-			if(f.m_upass.value==""){
-				f.m_upass.value='<%=dto.getM_pass()%>';
-				f.m_upass1.value='<%=dto.getM_pass()%>';
-			} 
-		
-			
-			
-			
+
+			// 새 비밀번호가 비어 있으면 변경하지 않는다(서버에서 기존 비밀번호 유지).
+
 			swal("회원정보가 수정되었습니다.", "성공!","success").then(function() {
 			    f.submit();
 			});
@@ -159,15 +147,16 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						<td style="width: 200px;"><b>아이디</b></td>
 						<td style="width: 500px;"><input type="text" name="m_id"
 							id="m_id" style="width: 300px; height: 45px;"
-							value="<%=dto.getM_id()%>" class="form-control"
+							value="<%=util.SecurityUtil.escapeHtml(dto.getM_id())%>" class="form-control"
 							readonly="readonly">
 						</td>
 					</tr>
 					<tr>
 						<td style="width: 200px;"><b>현재 비밀번호</b></td>
 						<td><input type="password" name="m_pass" id="m_pass"
-							style="width: 300px; height: 45px;" value="<%=dto.getM_pass()%>"
-							class="form-control" required="required">
+							style="width: 300px; height: 45px;"
+							class="form-control" required="required"
+							placeholder="현재 비밀번호를 입력해 주세요">
 						</td>
 					</tr>
 					<tr>
@@ -186,7 +175,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					<tr>
 						<td style="width: 200px;"><b>이름</b></td>
 						<td><input type="text" name="m_name" id="m_name"
-							style="width: 300px; height: 45px;" value="<%=dto.getM_name()%>"
+							style="width: 300px; height: 45px;" value="<%=util.SecurityUtil.escapeHtml(dto.getM_name())%>"
 							class="form-control" required="required"></td>
 					</tr>
 					<tr>
@@ -195,7 +184,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							<div class="d-inline-flex">
 								<input type="text" name="m_nick" id="m_nick"
 									style="width: 200px; height: 45px;"
-									value="<%=dto.getM_nick()%>" class="form-control"
+									value="<%=util.SecurityUtil.escapeHtml(dto.getM_nick())%>" class="form-control"
 									required="required">
 								<button type="button" class="btn btn-success"
 									style="width: 90px; margin-left: 10px;" id="nickcheck">

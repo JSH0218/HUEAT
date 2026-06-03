@@ -257,7 +257,7 @@ NumberFormat nf=NumberFormat.getInstance();
 		%>
 	<div  class="img">
 		<a class="menuchoice" f_num="<%=f_num%>">
-		<img alt="" src="hugesosave/<%=dto.getF_photo()%>" style="width: 230px;;height: 200px;cursor: pointer;">
+		<img alt="" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(dto.getF_photo())%>" style="width: 230px;;height: 200px;cursor: pointer;">
 		<div>
 			<span><%=dto.getF_name() %></span>
 			<span><%= nf.format(pr) %>원</span><br>	
@@ -320,9 +320,9 @@ $(function(){
 	
 	$("#cartpaybtn").click(function(){
 		
-		var name='<%=dto.getM_name()%>';
-		var hp='<%=dto.getM_hp2()%>';
-		var myid='<%=dto.getM_id()%>';
+		var name='<%=util.SecurityUtil.escapeJs(dto.getM_name())%>';
+		var hp='<%=util.SecurityUtil.escapeJs(dto.getM_hp2())%>';
+		var myid='<%=util.SecurityUtil.escapeJs(dto.getM_id())%>';
 		
 		var total=$("#totalprice").text();
 		//alert("이름:"+name+"hp: "+hp+"myid: "+myid+"foodname: "+foodname+"total: "+total);

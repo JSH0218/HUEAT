@@ -258,8 +258,8 @@
     	  <table class="table">
     	    <tr>
     	      <td>
-    	        <b>작성자 : <%=name%>(<%=dto.getR_myid() %>)</b><br>
-    	        <p style="margin-bottom: -3%;"><%=dto.getR_category() %></p>
+    	        <b>작성자 : <%=util.SecurityUtil.escapeHtml(name)%>(<%=util.SecurityUtil.escapeHtml(dto.getR_myid()) %>)</b><br>
+    	        <p style="margin-bottom: -3%;"><%=util.SecurityUtil.escapeHtml(dto.getR_category()) %></p>
                 
     	        
     	        <%
@@ -290,15 +290,15 @@
     	        //<!-- 이미지가 null이 아닌 경우만 출력 -->
     	        if(dto.getR_image()!=null) {%>
     	        
-    	           <a href="reviewsave/<%=dto.getR_image()%>" target="_blank">
-    	    	      <img alt="" src="reviewsave/<%=dto.getR_image()%>" align="left"
+    	           <a href="fileview?type=review&name=<%=util.SecurityUtil.urlEncode(dto.getR_image())%>" target="_blank">
+    	    	      <img alt="" src="fileview?type=review&name=<%=util.SecurityUtil.urlEncode(dto.getR_image())%>" align="left"
     	    	      style="width: 100px; " hspace="20">
     	    	   </a>
     	    	   
     	        <%}
     	        %>
     	        
-    	         <%=dto.getR_content().replace("\n", "<br>")%>
+    	         <%=util.SecurityUtil.nl2brEscaped(dto.getR_content())%>
     	      </td>
     	    </tr>
     	    

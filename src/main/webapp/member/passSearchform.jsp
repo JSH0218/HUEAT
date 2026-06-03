@@ -74,30 +74,22 @@ $(function(){
 				dataType:"json",
 				data:{"m_name":name,"m_hp2":hp2,"m_id":id},
 				success:function(res){
-					//alert("비밀번호 찾기 성공");
-					$("#passsearch").hide();
-					$("#passresult").show();
-					if(res.mempass==""){
-						$("#result").html("일치하는 회원정보가 없습니다.<br>입력하신 정보를 다시 확인바랍니다.");
-						
+					// 보안상 비밀번호 평문은 표시하지 않는다.
+					// 신원이 확인되면 비밀번호 재설정 폼으로 유도한다.
+					if(res.exists){
+						// 재설정 폼에 신원 정보를 채워 넣고 노출
+						$("#reset_m_id").val(id);
+						$("#reset_m_name").val(name);
+						$("#reset_m_hp2").val(hp2);
+						$("#passsearch").hide();
+						$("#passreset").show();
 					}else{
-						var password=res.mempass;
-						
-						//비밀번호 뒤에를 *로 마스킹해서 보이게했음
-						//보안상의 이유로 5글자 이상의 비밀번호는 앞에 4글자만 보이고 뒤에는 무조건 4글자만 가려지게 했음
-						if(password.length>4){
-							var markPass=password.substring(0,4)+"*".repeat(4);
-							$("#result").html("<b>"+name+"</b>"+"님의 비밀번호는"+"<b>"+markPass+"</b>입니다.");
-						}else{
-						//비밀번호가 4글자 이하일 경우에는 비밀번호 앞에 2글자만 보이게하고 뒤에는 4글자 가려지게함
-						//어차피 나중에 비밀번호를 적어도 6글자 이상 입력하게 할거라 추후 삭제할 예정
-							var markPass=password.substring(0,2)+"*".repeat(4);
-							$("#result").html("<b>"+name+"</b>"+"님의 비밀번호는"+"<b>"+markPass+"</b>입니다.");
-						}
-										
+						$("#passsearch").hide();
+						$("#passresult").show();
+						$("#result").html("일치하는 회원정보가 없습니다.<br>입력하신 정보를 다시 확인바랍니다.");
 					}
 				}
-				
+
 			})
 			
 		
@@ -168,16 +160,55 @@ id="passsearch">
 	</form>
 </div>
 
-<div id="passresult" style="width: 500px;margin: 0 auto;">
-<h3 style="margin-top:200px; width: 500px; color: green;font-weight: bold; text-align: center;">비밀번호 확인</h3>
+<div id="passresult" style="width: 500px;margin: 0 auto; display:none;">
+<h3 style="margin-top:200px; width: 500px; color: green;font-weight: bold; text-align: center;">비밀번호 찾기</h3>
 <div style="width: 500px;  margin: 0 auto; margin-top: 50px; border: 1px solid gray; border-radius: 10px;">
 	<form style="margin:50px;text-align: center;" action="#" method="post" >
 		<span id="result"></span>
 		<hr>
-		<button type="button" onclick="location.href='loginform.jsp'" id="loginbtn">로그인</button>
-		<button type="button" onclick="location.href='passSearchform.jsp'" id="passRset">비밀번호 재설정</button>
+		<button type="button" onclick="location.href='index.jsp?main=member/passSearchform.jsp'" id="loginbtn">다시 시도</button>
 	</form>
 </div>
 </div>
+
+<!-- 신원 확인 후 비밀번호 재설정 폼 -->
+<div id="passreset" style="width: 500px; margin: 0 auto; display:none;">
+<h3 style="margin-top:160px; width: 500px; color: green; font-weight: bold; text-align: center;">비밀번호 재설정</h3>
+<div style="width: 500px; margin: 0 auto; margin-top: 30px; border: 1px solid gray; border-radius: 10px;">
+	<form style="margin:40px;" action="member/passResetaction.jsp" method="post" id="resetfrm">
+		<input type="hidden" name="m_id" id="reset_m_id">
+		<input type="hidden" name="m_name" id="reset_m_name">
+		<input type="hidden" name="m_hp2" id="reset_m_hp2">
+		<table style="margin: 0 auto;">
+			<tr><th>새 비밀번호</th></tr>
+			<tr><td><input type="password" name="m_newpass" id="m_newpass" placeholder="새 비밀번호(6자 이상)" required="required"></td></tr>
+			<tr><th>새 비밀번호 확인</th></tr>
+			<tr><td><input type="password" name="m_newpass2" id="m_newpass2" placeholder="새 비밀번호를 다시 입력" required="required"></td></tr>
+		</table>
+		<div align="center">
+			<button type="submit" id="passsearchbtn">비밀번호 변경</button>
+		</div>
+	</form>
+</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("#resetfrm").submit(function(e){
+		var p1=$("#m_newpass").val();
+		var p2=$("#m_newpass2").val();
+		if(p1.length<6){
+			alert("비밀번호는 6자 이상이어야 합니다.");
+			e.preventDefault();
+			return false;
+		}
+		if(p1!==p2){
+			alert("새 비밀번호가 일치하지 않습니다.");
+			e.preventDefault();
+			return false;
+		}
+	});
+});
+</script>
 </body>
 </html>

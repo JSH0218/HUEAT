@@ -89,9 +89,9 @@
          
          <tr>
            <td>
-             <img id="showing" src="<%=(dto.getR_image()==null?"":"reviewsave/"+dto.getR_image())%>"><br><br>
+             <img id="showing" src="<%=(dto.getR_image()==null?"":"fileview?type=review&name="+util.SecurityUtil.urlEncode(dto.getR_image()))%>"><br><br>
              <textarea type="text" name="r_content" class="form-control" required="required"
-               style="width: 690px; height: 100px;" ><%=dto.getR_content() %></textarea>
+               style="width: 690px; height: 100px;" ><%=util.SecurityUtil.escapeHtml(dto.getR_content()) %></textarea>
            </td>
            
            <td style="text-align: center;">

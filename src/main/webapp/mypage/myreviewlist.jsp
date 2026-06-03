@@ -362,10 +362,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						<td><input type="checkbox" class="alldel"
 							value="<%=dto.getR_num()%>"> <%=no--%></td>
 						<td><a
-							href="index.jsp?main=reviewboard/reviewList.jsp?currentPage=<%=currentPage%>&r_num=<%=dto.getR_num()%>"><%=dto.getR_content()%></a>
+							href="index.jsp?main=reviewboard/reviewList.jsp?currentPage=<%=currentPage%>&r_num=<%=dto.getR_num()%>"><%=util.SecurityUtil.escapeHtml(dto.getR_content())%></a>
 						</td>
 						<td><%=dto.getR_chu()%></td>
-						<td><%=name%></td>
+						<td><%=util.SecurityUtil.escapeHtml(name)%></td>
 						<td class="day"><%=sdf.format(dto.getR_writeday())%></td>
 					</tr>
 					<%

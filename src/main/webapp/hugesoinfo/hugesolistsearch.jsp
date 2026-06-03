@@ -407,7 +407,7 @@ if(list2.isEmpty()){
 </table>
 	<%
 		//로그인한 아이디와 글을 쓴 아이디가 같을경우에만
-		if (loginok!=null && myid.equals("admin")){
+		if (loginok!=null && "ADMIN".equals((String)session.getAttribute("role"))){
 			%>
 			<div style="text-align: right;">
 				<button type="button" class="btn btn-primary" onclick="location.href='index.jsp?main=hugesoinfo/hugesoaddform.jsp'">추가</button>

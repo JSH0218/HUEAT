@@ -8,24 +8,42 @@
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="java.util.Arrays"%>
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	//이미지 업로드 경로
-	String uploadPath = getServletContext().getRealPath("/hugesosave");
-	System.out.println(uploadPath);
-	
+	//관리자만 휴게소 수정 가능
+	if(!"ADMIN".equals((String)session.getAttribute("role"))){
+		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
+		return;
+	}
+
+	//이미지 업로드 경로(웹루트 외부)
+	String uploadPath = AppConfig.getUploadPath("hugeso");
+
 	//업로드할 사이즈
 	int uploadSize = 1024*1024*5;
-	
+
 	MultipartRequest multi = null;
-	
+
 	try {
-		
+
 		multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
-		
+
+		//업로드된 모든 이미지 검증(위반 시 전체 삭제 후 거부)
+		if(!SecurityUtil.validateAllUploads(multi, uploadPath)){
+%>
+			<script type="text/javascript">
+				alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+				history.back();
+			</script>
+<%
+			return;
+		}
+
 		HugesoInfoDto hdto=new HugesoInfoDto();
 		HugesoInfoDao hdao=new HugesoInfoDao();
 		
@@ -241,8 +259,8 @@
 		
 		//휴게소 목록으로 이동
 		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
-		
+
 	 } catch(Exception e) {
-		
+		e.printStackTrace();
 	}
 %>

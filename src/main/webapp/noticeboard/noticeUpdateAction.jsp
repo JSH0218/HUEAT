@@ -1,3 +1,5 @@
+<%@page import="util.AppConfig"%>
+<%@page import="util.SecurityUtil"%>
 <%@page import="notice.model.NoticeDto"%>
 <%@page import="notice.model.NoticeDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -18,21 +20,37 @@
   <%
   //String myid=(String)session.getAttribute("myid");
 
-  String realPath=getServletContext().getRealPath("/noticesave");
-  System.out.println(realPath);
-  
+  //관리자만 수정 가능
+  if(!"ADMIN".equals((String)session.getAttribute("role"))){
+      response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp");
+      return;
+  }
+
+  String realPath=AppConfig.getUploadPath("notice");
+
   int uploadSize=1024*1024*5;
-  
+
   MultipartRequest multi=null;
   try{
   multi=new MultipartRequest(request,realPath,uploadSize,"utf-8",new DefaultFileRenamePolicy());
-  
+
        String n_num = multi.getParameter("n_num");
        String currentPage = multi.getParameter("currentPage");
        String n_subject = multi.getParameter("n_subject");
        String n_content=multi.getParameter("n_content");
-       String n_image=multi.getFilesystemName("n_image"); 
-       
+       String n_image=multi.getFilesystemName("n_image");
+
+       //업로드 파일 검증(허용 이미지 외에는 삭제 후 거부)
+       if(!SecurityUtil.validateOrDelete(realPath, n_image)){
+%>
+       <script type="text/javascript">
+           alert("이미지 파일(jpg, png, gif)만 업로드할 수 있습니다.");
+           history.back();
+       </script>
+<%
+           return;
+       }
+
        //기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
        NoticeDao dao = new NoticeDao();
        String old_photoName = dao.getDataNotice(n_num).getN_image();
@@ -55,9 +73,9 @@
        
        //방명록 목록으로 이동(수정했던 페이지로 이동)
        response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp?currentPage="+currentPage);
-  
+
   }catch(Exception e){
-	  
+	  e.printStackTrace();
   }
 %>
 
