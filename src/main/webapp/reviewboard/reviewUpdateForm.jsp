@@ -54,8 +54,8 @@
     <%
 
    //num,currentPage
-   String r_num = request.getParameter("r_num");
-   String currentPage = request.getParameter("currentPage");
+   String r_num = util.SecurityUtil.digitsOnly(request.getParameter("r_num"));
+   String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    ReviewDao dao = new ReviewDao();
    ReviewDto dto = dao.getDataReview(r_num);
@@ -73,8 +73,8 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
      <form action="reviewboard/reviewUpdateAction.jsp" method="post" enctype="multipart/form-data">
-      <input type="hidden" name=r_num  value="<%=r_num%>">
-      <input type="hidden" name="currentPage" value="<%=currentPage%>">
+      <input type="hidden" name="r_num"  value="<%=util.SecurityUtil.escapeHtml(r_num)%>">
+      <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">
          <caption align="top"><h5><b>후기 수정</b></h5></caption>
          <td>

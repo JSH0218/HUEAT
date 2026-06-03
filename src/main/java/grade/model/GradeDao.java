@@ -272,14 +272,35 @@ public class GradeDao {
 		public void deleteGrade(String g_num) {
 			Connection conn=db.getConnection();
 			PreparedStatement pstmt=null;
-			
+
 			String sql="delete from grade where g_num=?";
-			
+
 			try {
 				pstmt=conn.prepareStatement(sql);
-				
+
 				pstmt.setString(1, g_num);
-				
+
+				pstmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+
+		// 소유자 범위 평점 삭제 (IDOR 방어: 작성자 본인 것만 삭제)
+		public void deleteGrade(String g_num, String g_myid) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+
+			String sql="delete from grade where g_num=? and g_myid=?";
+
+			try {
+				pstmt=conn.prepareStatement(sql);
+
+				pstmt.setString(1, g_num);
+				pstmt.setString(2, g_myid);
+
 				pstmt.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();

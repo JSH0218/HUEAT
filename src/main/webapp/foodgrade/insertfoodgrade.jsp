@@ -12,6 +12,8 @@
 <jsp:useBean id="dto" class="foodgrade.model.FoodGradeDto"/>
 <jsp:setProperty property="*" name="dto"/>
 <%
+  // 작성자 위조 방어: 작성자 ID는 클라이언트 값이 아닌 세션 사용자로 강제
+  dto.setFg_myid(util.SecurityUtil.currentId(session));
   dao.insertFoodGrade(dto);
 
 %>	

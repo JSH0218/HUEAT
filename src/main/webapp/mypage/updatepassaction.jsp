@@ -7,12 +7,17 @@
 <%
 	
 	response.setCharacterEncoding("UTF-8");
-	String m_id=request.getParameter("m_id");
+	// 로그인 필수 (인증 없는 자격증명 확인 오라클 방지)
+	if(!util.SecurityUtil.isLogin(session)){
+		response.sendError(403); return;
+	}
+	// 검증 대상 ID는 클라이언트 입력이 아닌 세션 사용자로 고정 (무차별 대입 방지)
+	String m_id=util.SecurityUtil.currentId(session);
 	String m_pass=request.getParameter("m_pass");
-	
+
 	MemInfoDao dao=new MemInfoDao();
 	MemInfoDto dto=new MemInfoDto();
-	
+
 	boolean idpass=dao.isIdPassMember(m_id, m_pass);
 	
 	//System.out.print(m_id);

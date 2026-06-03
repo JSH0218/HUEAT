@@ -622,15 +622,34 @@ public class MemInfoDao {
 		public void favDelete(String f_num) {
 			Connection conn=db.getConnection();
 			PreparedStatement pstmt=null;
-			
+
 			String sql="delete from favorite where f_num=?";
-			
+
 			try {
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1, f_num);
 				pstmt.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				db.dbClose(pstmt, conn);
+			}
+		}
+
+		// 소유자 범위 즐겨찾기 삭제 (IDOR 방어: 세션 m_num 소유분만 삭제)
+		public void favDelete(String f_num, String m_num) {
+			Connection conn=db.getConnection();
+			PreparedStatement pstmt=null;
+
+			String sql="delete from favorite where f_num=? and m_num=?";
+
+			try {
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, f_num);
+				pstmt.setString(2, m_num);
+				pstmt.execute();
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}finally {
 				db.dbClose(pstmt, conn);

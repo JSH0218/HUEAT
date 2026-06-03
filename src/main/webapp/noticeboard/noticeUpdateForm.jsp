@@ -48,8 +48,8 @@
   <%
 
    //num,currentPage
-   String n_num = request.getParameter("n_num");
-   String currentPage = request.getParameter("currentPage");
+   String n_num = util.SecurityUtil.digitsOnly(request.getParameter("n_num"));
+   String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    NoticeDao dao = new NoticeDao();
    NoticeDto dto = dao.getDataNotice(n_num);
@@ -62,8 +62,8 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="noticeboard/noticeUpdateAction.jsp" method="post" enctype="multipart/form-data">
-      <input type="hidden" name=n_num  value="<%=n_num%>">
-      <input type="hidden" name="currentPage" value="<%=currentPage%>">
+      <input type="hidden" name="n_num"  value="<%=util.SecurityUtil.escapeHtml(n_num)%>">
+      <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">
          <caption align="top"><h5><b>공지사항 수정</b></h5></caption>
            <tr>
