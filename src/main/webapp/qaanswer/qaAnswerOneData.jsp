@@ -13,7 +13,7 @@
     JSONObject ob = new JSONObject();
     ob.put("q_num", dto.getQ_num());
     ob.put("qa_num", dto.getQa_num());
-    ob.put("qa_content", dto.getQa_content());
+    ob.put("qa_content", util.SecurityUtil.escapeHtml(dto.getQa_content()));
     
     %>
     

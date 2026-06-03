@@ -34,7 +34,7 @@
         htmlBuilder.append("<div class=\"food-item\" style=\"text-align: center; font-weight: bold; margin-bottom: 20px; margin-right: 20px; cursor: pointer;\" data-fnum=\"")
                    .append(dto.getF_num())
                    .append("\">")
-                   .append("<img alt=\"").append(util.SecurityUtil.escapeHtml(dto.getF_name())).append("\" src=\"image/food/").append(dto.getF_photo())
+                   .append("<img alt=\"").append(util.SecurityUtil.escapeHtml(dto.getF_name())).append("\" src=\"image/food/").append(util.SecurityUtil.escapeHtml(dto.getF_photo()))
                    .append("\" style=\"width: 220px; height: 200px; margin-bottom: 15px;\" data-fnum=\"").append(dto.getF_num()).append("\"><br>")
                    .append("<div style=\"display: inline-block;\" class=\"starrating\">")
                    .append("<label style=\"-webkit-text-fill-color: gold; font-size: 15px;\">★</label>")
