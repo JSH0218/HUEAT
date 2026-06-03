@@ -5,13 +5,16 @@
 
 <!-- 유지 작성함  -->
 <%
-String m_num=request.getParameter("m_num");
+// 로그인 필수 + 조회 대상은 세션 사용자로 강제(타인 즐겨찾기 노출 방지)
+if(!util.SecurityUtil.isLogin(session)){
+	response.sendError(403); return;
+}
+MemInfoDao dao=new MemInfoDao();
+String m_num=dao.getM_num(util.SecurityUtil.currentId(session));
 String h_num=request.getParameter("h_num");
 
-MemInfoDao dao=new MemInfoDao();
 int fav=dao.isFavorite(m_num, h_num);
 JSONObject ob=new JSONObject();
 ob.put("fav", fav);
 out.print(ob.toString());
 %>
-<%=ob.toString()%>

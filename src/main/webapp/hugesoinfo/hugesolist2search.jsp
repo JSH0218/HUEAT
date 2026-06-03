@@ -282,7 +282,7 @@ if(list2.isEmpty()){
   if(startPage>1)
   {%>
 	  <li class="page-item ">
-	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=startPage-1%>&h_name=<%=h_name %>" style="color: black;">이전</a>
+	   <a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=startPage-1%>&h_name=<%=util.SecurityUtil.urlEncode(h_name) %>" style="color: black;">이전</a>
 	  </li>
   <%}
     for(int pp=startPage;pp<=endPage;pp++)
@@ -290,12 +290,12 @@ if(list2.isEmpty()){
     	if(pp==currentPage)
     	{%>
     		<li class="page-item active">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=util.SecurityUtil.urlEncode(h_name) %>"><%=pp %></a>
     		</li>
     	<%}else
     	{%>
     		<li class="page-item">
-    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=h_name %>"><%=pp %></a>
+    		<a class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=pp%>&h_name=<%=util.SecurityUtil.urlEncode(h_name) %>"><%=pp %></a>
     		</li>
     	<%}
     }
@@ -304,7 +304,7 @@ if(list2.isEmpty()){
     if(endPage<totalPage)
     {%>
     	<li class="page-item">
-    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=endPage+1%>&h_name=<%=h_name %>"
+    		<a  class="page-link" href="index.jsp?main=hugesoinfo/hugesolist2search.jsp?currentPage=<%=endPage+1%>&h_name=<%=util.SecurityUtil.urlEncode(h_name) %>"
     		style="color: black;">다음</a>
     	</li>
     <%}
