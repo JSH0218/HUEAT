@@ -147,6 +147,24 @@ public class SecurityUtil {
 	}
 
 	/**
+	 * href 속성에 출력할 외부 링크 URL을 검증한다.
+	 * http/https 절대경로만 허용하고, javascript:/data:/vbscript: 등 위험 스킴은 차단한다.
+	 * 허용 시 HTML 이스케이프한 값을, 미허용/null 시 "#"을 반환한다.
+	 * (관리자 입력 링크라도 스킴 검증으로 XSS·정책 위반을 방지)
+	 */
+	public static String safeUrl(String url) {
+		if (url == null) {
+			return "#";
+		}
+		String trimmed = url.trim();
+		String lower = trimmed.toLowerCase();
+		if (lower.startsWith("http://") || lower.startsWith("https://")) {
+			return escapeHtml(trimmed);
+		}
+		return "#";
+	}
+
+	/**
 	 * URL 쿼리 파라미터용 인코딩(이미지 파일명이 한글 등 비ASCII일 수 있음). null 안전.
 	 */
 	public static String urlEncode(String s) {

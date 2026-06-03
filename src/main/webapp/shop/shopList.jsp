@@ -239,7 +239,7 @@ $(function(){
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel1">
                 <% } %>
               <div class="br_total"  style="text-align: center;"> 
-                <a href="<%= dto.getS_site() %>" target="_blank">
+                <a href="<%= util.SecurityUtil.safeUrl(dto.getS_site()) %>" target="_blank">
                   <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
@@ -288,7 +288,7 @@ $(function(){
                 <input type="checkbox" value="<%=dto.getS_num()%>" class="alldel2">
                 <% } %>
               <div class="br_total">  
-                <a href="<%= dto.getS_site() %>" target="_blank" >
+                <a href="<%= util.SecurityUtil.safeUrl(dto.getS_site()) %>" target="_blank" >
                   <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>
@@ -335,7 +335,7 @@ $(function(){
                 <% }%>
                 
                <div class="br_total"> 
-                <a href="<%= dto.getS_site() %>" target="_blank">
+                <a href="<%= util.SecurityUtil.safeUrl(dto.getS_site()) %>" target="_blank">
                   <img src="fileview?type=shop&name=<%= util.SecurityUtil.urlEncode(dto.getS_image()) %>" alt="" class="s_image"><br>
                   <span class="br_name">공식 홈페이지</span>
                 </a>

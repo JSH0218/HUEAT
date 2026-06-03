@@ -780,13 +780,13 @@ function sortFood(sortType) {
 
   
 <!-- 휴게소 이름 출력 -->
-<h2 class="h_name"><%=dto.getH_name()%></h2> 
+<h2 class="h_name"><%=util.SecurityUtil.escapeHtml(dto.getH_name())%></h2> 
 <p class="h_text">
 <% if (gdto.getG_content() != null) { %>
     #<%= util.SecurityUtil.escapeHtml(gdto.getG_content()) %>
 <% }%>&nbsp;
 <% if (ffdto.getF_name() != null) { %>
-    #<%= ffdto.getF_name() %>
+    #<%= util.SecurityUtil.escapeHtml(ffdto.getF_name()) %>
 <% }%>
 </p>
 <div class="avggrade">
@@ -824,7 +824,7 @@ function sortFood(sortType) {
 <li class="op1">
 <div class="tablecell">
 <p class="txt1">주소</p>
-<p class="txt2"><%=dto.getH_addr() %></p>
+<p class="txt2"><%=util.SecurityUtil.escapeHtml(dto.getH_addr()) %></p>
 </div>
 </li>
 <li class="op2">
@@ -836,7 +836,7 @@ function sortFood(sortType) {
 <li class="op3">
 <div class="tablecell">
 <p class="txt1">전화번호</p>
-<p class="txt2"><%=dto.getH_hp() %></p>
+<p class="txt2"><%=util.SecurityUtil.escapeHtml(dto.getH_hp()) %></p>
 </div>
 </li>
 <li class="op4">
@@ -961,7 +961,7 @@ function sortFood(sortType) {
     int count = 0; // 이미지 개수를 세기 위한 변수
     for(FoodDto fdto : foodlist) {
         String f_photo = fdto.getF_photo();
-        String f_name = fdto.getF_name();
+        String f_name = util.SecurityUtil.escapeHtml(fdto.getF_name());
         String f_num = fdto.getF_num();
         String f_grade = fdto.getF_grade();
         count++; // 이미지가 추가될 때마다 개수 증가
@@ -985,7 +985,7 @@ function sortFood(sortType) {
             for (int i = 4; i < foodlist.size(); i++) {
                 FoodDto fdto = foodlist.get(i);
                 String f_photo = fdto.getF_photo();
-                String f_name = fdto.getF_name();
+                String f_name = util.SecurityUtil.escapeHtml(fdto.getF_name());
                 String f_num = fdto.getF_num();
                 String f_grade = fdto.getF_grade();
             %>
@@ -1011,14 +1011,14 @@ function sortFood(sortType) {
         int count1 = 0; // 브랜드 개수를 세기 위한 변수
         for(BrandDto bdto : brandList) {
             String b_photo = bdto.getB_photo();
-            String b_name = bdto.getB_name();
+            String b_name = util.SecurityUtil.escapeHtml(bdto.getB_name());
             String b_addr = bdto.getB_addr();
             count1++; // 브랜드가 추가될 때마다 개수 증가
 
             // 브랜드 출력
         %>
             <div class="brand-item" style="display: <%= count1 <= 4 ? "inline-block" : "none" %>; text-align:center; font-weight:bold; margin-bottom: 20px; margin-right:20px;">
-                <a href="<%=b_addr %>">
+                <a href="<%=util.SecurityUtil.safeUrl(b_addr) %>">
                 <img alt="<%=b_name %>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(b_photo)%>" 
                 style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;"></a>
                 <div><%=b_name %></div>
@@ -1031,11 +1031,11 @@ function sortFood(sortType) {
                 for (int i = 4; i < brandList.size(); i++) {
                     BrandDto bdto = brandList.get(i);
                     String b_photo = bdto.getB_photo();
-                    String b_name = bdto.getB_name();
+                    String b_name = util.SecurityUtil.escapeHtml(bdto.getB_name());
                     String b_addr = bdto.getB_addr();
                 %>
                     <div class="brand-item" style="display: none; margin-right:20px;">
-                     <a href="<%=b_addr %>">
+                     <a href="<%=util.SecurityUtil.safeUrl(b_addr) %>">
                         <img alt="<%=b_name %>" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(b_photo)%>" 
                         style="width: 220px; height:200px;  margin-bottom:15px; cursor:pointer;" ></a>
                         <div><%=b_name %></div>
@@ -1181,7 +1181,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
     </div>
     
     
-    <div><span style="font-weight:bold; font-size:20px;"><%=dto.getH_name()%></span>는 이런 점이 좋아요!(1개 선택)</div><br>
+    <div><span style="font-weight:bold; font-size:20px;"><%=util.SecurityUtil.escapeHtml(dto.getH_name())%></span>는 이런 점이 좋아요!(1개 선택)</div><br>
    <div id="g_content" style="display: inline-flex; width:1000px;">
    <div class="form_radio_btn" style="width:200px;">
     <input type="radio" name="g_content" id="clean_facility" value="시설이 깨끗해요" checked>

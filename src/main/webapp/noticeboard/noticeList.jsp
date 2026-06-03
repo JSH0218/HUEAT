@@ -237,7 +237,7 @@
         		    width: 250px; display: block;"><%=util.SecurityUtil.escapeHtml(dto.getN_subject()) %></span></a>
         		    
         		    </td>
-        		    <td align="center"><%=name %></td>
+        		    <td align="center"><%=util.SecurityUtil.escapeHtml(name) %></td>
         		    <td align="center"><%=dto.getN_readcount() %></td>
         		    <td align="center"><%=dto.getN_chu()%></td>
         		    <td align="center"><%=sdf.format(dto.getN_writeday())%></td>
