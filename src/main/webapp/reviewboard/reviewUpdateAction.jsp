@@ -56,7 +56,7 @@
 		String old_photoName = old.getR_image();
 
 		//작성자 본인 또는 관리자만 수정 가능
-		boolean isAdmin = "ADMIN".equals((String)session.getAttribute("role"));
+		boolean isAdmin = util.SecurityUtil.isAdmin(session);
 		if(!isAdmin && !myid.equals(old.getR_myid())){
 %>
 		<script type="text/javascript">

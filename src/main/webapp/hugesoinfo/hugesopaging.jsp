@@ -26,11 +26,12 @@
 		JSONObject ob=new JSONObject();
 		
 		ob.put("h_num",dto.getH_num());
-		ob.put("h_name", dto.getH_name());
+		// 클라이언트(hugesomap.jsp)에서 .html()로 삽입되는 자유입력 필드는 서버측 HTML 이스케이프(저장형 XSS 방지)
+		ob.put("h_name", util.SecurityUtil.escapeHtml(dto.getH_name()));
 		ob.put("h_xvalue", dto.getH_xvalue());
 		ob.put("h_yvalue", dto.getH_yvalue());
-		ob.put("h_hp", dto.getH_hp());
-		ob.put("h_addr", dto.getH_addr());
+		ob.put("h_hp", util.SecurityUtil.escapeHtml(dto.getH_hp()));
+		ob.put("h_addr", util.SecurityUtil.escapeHtml(dto.getH_addr()));
 		
 		arr.add(ob);
 	}

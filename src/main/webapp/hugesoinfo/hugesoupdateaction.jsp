@@ -16,7 +16,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//관리자만 휴게소 수정 가능
-	if(!"ADMIN".equals((String)session.getAttribute("role"))){
+	if(!util.SecurityUtil.isAdmin(session)){
 		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
 		return;
 	}

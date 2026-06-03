@@ -21,7 +21,7 @@
   //String myid=(String)session.getAttribute("myid");
 
   //관리자만 수정 가능
-  if(!"ADMIN".equals((String)session.getAttribute("role"))){
+  if(!util.SecurityUtil.isAdmin(session)){
       response.sendRedirect("../index.jsp?main=eventboard/eventList.jsp");
       return;
   }

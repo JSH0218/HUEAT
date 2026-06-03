@@ -13,7 +13,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//관리자만 휴게소 등록 가능
-	if(!"ADMIN".equals((String)session.getAttribute("role"))){
+	if(!util.SecurityUtil.isAdmin(session)){
 		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
 		return;
 	}
