@@ -112,7 +112,7 @@ List<HugesoInfoDto> list=dao.getH_numH_name();
   <%
   	for(int i=0;i<list.size();i++){
   		HugesoInfoDto dto=list.get(i);%>
-  		 <li><a class="dropdown-item gomenu" h_num="<%=dto.getH_num() %>"><%=dto.getH_name() %></a></li>
+  		 <li><a class="dropdown-item gomenu" h_num="<%=dto.getH_num() %>"><%=util.SecurityUtil.escapeHtml(dto.getH_name()) %></a></li>
   	<%}
   %>
   

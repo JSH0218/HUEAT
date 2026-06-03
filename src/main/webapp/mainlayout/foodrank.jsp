@@ -121,7 +121,7 @@
                 display: inline-block;">
                     <img alt="" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(dto.getF_photo())%>" class="f_image">
                     <div class="f_food">
-                        <div class="f_name" style="font-size: 0.85em;"><%=dto.getF_name() %></div>
+                        <div class="f_name" style="font-size: 0.85em;"><%=util.SecurityUtil.escapeHtml(dto.getF_name()) %></div>
                         <div class="f_addr" style="font-size: 0.7em;"><%=nf.format(price) %>원</div>
                     </div>
                 </a>

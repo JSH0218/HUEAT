@@ -81,7 +81,7 @@
                <select name="r_category" id="r_category" class="form-control" required="required" 
                style="width: 200px;">
                  <% for (HugesoInfoDto hugeso : hlist) { %>
-                     <option value="<%= hugeso.getH_name() %>"><%= hugeso.getH_name() %></option>
+                     <option value="<%= util.SecurityUtil.escapeHtml(hugeso.getH_name()) %>"><%= util.SecurityUtil.escapeHtml(hugeso.getH_name()) %></option>
                  <% } %>
                </select>
              </td>

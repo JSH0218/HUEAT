@@ -109,7 +109,7 @@
 		$(function(){
 			var map=createMap();
 			
-			searchHugeso("<%=hdto.getH_addr() %>", map);
+			searchHugeso("<%=util.SecurityUtil.escapeJs(hdto.getH_addr()) %>", map);
 			
 			// 휴게소 주소 입력란의 내용이 변경될 때마다 searchHugeso 함수 실행
 	        $("#h_addr").keyup(function(){
@@ -165,8 +165,8 @@
 				for(int i=1;i<=blist.size();i++){
 					BrandDto bdto=blist.get(i-1);
 					%>
-					$("#brandaddarea input[type='text'][name='b_name"+<%=i %>+"']").attr("value","<%=bdto.getB_name() %>");
-					$("#brandaddarea input[type='text'][name='b_addr"+<%=i %>+"']").attr("value","<%=bdto.getB_addr() %>");
+					$("#brandaddarea input[type='text'][name='b_name"+<%=i %>+"']").attr("value","<%=util.SecurityUtil.escapeJs(bdto.getB_name()) %>");
+					$("#brandaddarea input[type='text'][name='b_addr"+<%=i %>+"']").attr("value","<%=util.SecurityUtil.escapeJs(bdto.getB_addr()) %>");
 					$("#brandaddarea input[type='hidden'][name='b_num"+<%=i %>+"']").attr("value","<%=bdto.getB_num() %>");
 					<%
 				}
@@ -174,7 +174,7 @@
 				for(int i=1;i<=flist.size();i++){
 					FoodDto fdto=flist.get(i-1);
 					%>
-					$("#foodaddarea input[type='text'][name='f_name"+<%=i %>+"']").attr("value","<%=fdto.getF_name() %>");
+					$("#foodaddarea input[type='text'][name='f_name"+<%=i %>+"']").attr("value","<%=util.SecurityUtil.escapeJs(fdto.getF_name()) %>");
 					$("#foodaddarea input[type='text'][name='f_price"+<%=i %>+"']").attr("value","<%=fdto.getF_price() %>");
 					$("#foodaddarea input[type='hidden'][name='f_num"+<%=i %>+"']").attr("value","<%=fdto.getF_num() %>");
 					<%
@@ -291,15 +291,15 @@
 		<div id="contentarea">
 			<form action="hugesoinfo/hugesoupdateaction.jsp" id="frm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="h_num" value="<%=h_num %>">
-				<div>휴게소 이름: <input type="text" name="h_name" required="required" value="<%=hdto.getH_name() %>"></div>
+				<div>휴게소 이름: <input type="text" name="h_name" required="required" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_name()) %>"></div>
 				<hr>
 				<div>휴게소 사진: <input type="file" name="h_photo"></div>
 				<hr>
-				<div>휴게소 번호: <input type="text" name="h_hp1" maxlength="3" size="3" required="required" value="<%=hpArray[0] %>"> - <input type="text" name="h_hp2" maxlength="4" size="4" required="required" value="<%=hpArray[1] %>"> - <input type="text" name="h_hp3" maxlength="4" size="4" required="required" value="<%=hpArray[2] %>"></div>
+				<div>휴게소 번호: <input type="text" name="h_hp1" maxlength="3" size="3" required="required" value="<%=util.SecurityUtil.escapeHtml(hpArray[0]) %>"> - <input type="text" name="h_hp2" maxlength="4" size="4" required="required" value="<%=util.SecurityUtil.escapeHtml(hpArray[1]) %>"> - <input type="text" name="h_hp3" maxlength="4" size="4" required="required" value="<%=util.SecurityUtil.escapeHtml(hpArray[2]) %>"></div>
 				<hr>
-				<div>휴게소 주소: <input type="text" name="h_addr" id="h_addr" required="required" value="<%=hdto.getH_addr() %>"></div>
-				<input type="hidden" name="h_xvalue" id="h_xvalue" value="<%=hdto.getH_xvalue() %>">
-				<input type="hidden" name="h_yvalue" id="h_yvalue" value="<%=hdto.getH_yvalue() %>">
+				<div>휴게소 주소: <input type="text" name="h_addr" id="h_addr" required="required" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_addr()) %>"></div>
+				<input type="hidden" name="h_xvalue" id="h_xvalue" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_xvalue()) %>">
+				<input type="hidden" name="h_yvalue" id="h_yvalue" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_yvalue()) %>">
 				<hr>
 				<div>
 					편의시설: 
@@ -331,9 +331,9 @@
 				<div class="btnarea"><button type="button" id="addfood" >메뉴 추가</button></div>
 				<hr>
 				<div>
-					휘발유: <input type="text" name="h_gasolin" value="<%=hdto.getH_gasolin() %>" style="text-align: right;">원&nbsp;/
-					경유: <input type="text" name="h_disel" value="<%=hdto.getH_disel() %>" style="text-align: right;">원&nbsp;/
-					천연가스: <input type="text" name="h_lpg" value="<%=hdto.getH_lpg() %>" style="text-align: right;">원&nbsp;
+					휘발유: <input type="text" name="h_gasolin" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_gasolin()) %>" style="text-align: right;">원&nbsp;/
+					경유: <input type="text" name="h_disel" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_disel()) %>" style="text-align: right;">원&nbsp;/
+					천연가스: <input type="text" name="h_lpg" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_lpg()) %>" style="text-align: right;">원&nbsp;
 				</div>
 				<hr>
 				<div class="btnarea">

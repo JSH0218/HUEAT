@@ -349,9 +349,9 @@ for(int i=0;i<list2.size();i++){
     <tr>
     <td>
     <a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=hdto.getH_num() %>">
-    <%=hdto.getH_name() %></a></td>
-    <td><%=hdto.getH_addr() %> </td>
-    <td><%=hdto.getH_hp() %> </td>
+    <%=util.SecurityUtil.escapeHtml(hdto.getH_name()) %></a></td>
+    <td><%=util.SecurityUtil.escapeHtml(hdto.getH_addr()) %> </td>
+    <td><%=util.SecurityUtil.escapeHtml(hdto.getH_hp()) %> </td>
     <td>
  <% 
         String pyeons = hdto.getH_pyeon(); //dto에 있는 편의시설 문자열을 pyeons에 넣어줌
