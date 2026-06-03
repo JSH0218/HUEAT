@@ -143,6 +143,8 @@
     <b style="margin-right: 20px;">비밀번호 입력</b>
     <input type="password" name="m_pass" id="m_pass" style="width: 200px; height: 40px;" class="form-control" required="required">
     <input type="hidden" name="m_num" value="<%=dto.getM_num() %>" >
+    <%-- CSRF 토큰: 상태변경(POST) 위조 요청 차단 --%>
+    <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 	</div>
 	<div style="margin-top: 100px; text-align: center;">
 		<button type="button" class="btn btn-outline-success" style="width: 100px; height: 44px;" id="#"

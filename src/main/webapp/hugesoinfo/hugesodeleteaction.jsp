@@ -9,6 +9,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	// 관리자만 휴게소 삭제 가능
+	if(!util.SecurityUtil.isAdmin(session)){
+		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp"); return;
+	}
 	String h_num=request.getParameter("h_num");
 	String uploadPath = getServletContext().getRealPath("/hugesosave");
 	

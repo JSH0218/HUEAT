@@ -5,6 +5,10 @@
 <%
   request.setCharacterEncoding("utf-8");
 
+  // 관리자만 답변 삭제 가능
+  if(!util.SecurityUtil.isAdmin(session)){
+      response.sendError(403); return;
+  }
   String q_num=request.getParameter("q_num");
   String qa_num = request.getParameter("qa_num");
   

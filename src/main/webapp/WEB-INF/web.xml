@@ -8,4 +8,34 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- 세션 쿠키 보안 속성 (HttpOnly 명시). Secure는 HTTPS 운영 환경에서만 활성화한다
+         (로컬 http 개발에서 secure=true면 세션 쿠키가 전송되지 않아 로그인이 깨짐).
+         SameSite는 표준 web.xml에 없으므로 META-INF/context.xml의 CookieProcessor로 설정한다. -->
+    <session-config>
+        <session-timeout>480</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <!-- <secure>true</secure> 운영(HTTPS) 시 주석 해제 -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- 오류 시 스택트레이스/내부 경로 노출 방지: 일반 오류 페이지로 포워딩 -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+
 </web-app>

@@ -12,6 +12,10 @@
 </head>
 <body>
 <%
+	// 관리자만 이벤트 일괄 삭제 가능
+	if(!util.SecurityUtil.isAdmin(session)){
+		response.sendRedirect("../index.jsp"); return;
+	}
 	//nums를 읽기
 	String nums=request.getParameter("nums");
 	//,로 분리해서 배열선언

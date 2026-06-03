@@ -105,11 +105,11 @@
     String loginok=(String)session.getAttribute("loginok");
     String myid=(String)session.getAttribute("myid");
   
-    String e_num = request.getParameter("e_num");
+    String e_num = util.SecurityUtil.digitsOnly(request.getParameter("e_num"));
     EventDao dao = new EventDao();
-    
+
     EventDto dto = dao.getDataEvent(e_num);
-    String currentPage=request.getParameter("currentPage");
+    String currentPage=util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
     
     //조회수 가져오기
     dao.updateReadcount(e_num);

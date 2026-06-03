@@ -12,6 +12,10 @@
 </head>
 <body>
 <%
+    // 관리자만 QA답변 일괄 삭제 가능
+    if(!util.SecurityUtil.isAdmin(session)){
+        response.sendRedirect("../index.jsp"); return;
+    }
     // nums를 읽기
     String nums = request.getParameter("nums");
     // 쉼표로 구분된 각 숫자 쌍을 분리

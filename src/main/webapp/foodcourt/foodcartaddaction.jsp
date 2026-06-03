@@ -13,9 +13,13 @@
 </head>
 <body>
 <%
+// 로그인 필수 + 장바구니 소유자는 세션 사용자로 강제
+if(!util.SecurityUtil.isLogin(session)){
+	response.sendError(403); return;
+}
 String f_num=request.getParameter("f_num");
 String h_num=request.getParameter("h_num");
-String m_num=request.getParameter("m_num");
+String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
 int cart_cnt=Integer.parseInt(request.getParameter("cart_cnt"));
 
 FoodCartDao dao=new FoodCartDao();

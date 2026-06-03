@@ -12,15 +12,22 @@
 </head>
 <body>
 <%
+	// 로그인 필수
+	if(!util.SecurityUtil.isLogin(session)){
+		response.sendRedirect("../index.jsp?main=member/loginform.jsp"); return;
+	}
 	//nums를 읽기
 	String nums=request.getParameter("nums");
 	//,로 분리해서 배열선언
 	String [] num=nums.split(",");
-	//배열의 갯수만큼 delete
+	//배열의 갯수만큼 delete (작성자 본인 또는 관리자 글만)
 	QaDao dao=new QaDao();
 	for(String n:num)
 	{
-		dao.deleteQna(n);
+		qa.model.QaDto q=dao.getDataQa(n);
+		if(q!=null && util.SecurityUtil.isOwnerOrAdmin(session, q.getQ_myid())){
+			dao.deleteQna(n);
+		}
 	}
 	
 	//목록으로 이동

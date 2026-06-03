@@ -30,8 +30,8 @@
 <title>HUEAT</title>
 
 <%
-    //요청 파라미터로부터 휴게소 번호(h_num) 가져옴
-	String h_num = request.getParameter("h_num");
+    //요청 파라미터로부터 휴게소 번호(h_num) 가져옴 (숫자 정규화: 반사형 XSS 방지)
+	String h_num = util.SecurityUtil.digitsOnly(request.getParameter("h_num"));
     //세션에서 현재 로그인된 member의 아이디를 가져옴
 	String m_id = (String)session.getAttribute("myid");
 	

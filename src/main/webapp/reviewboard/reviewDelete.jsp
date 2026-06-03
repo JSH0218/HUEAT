@@ -23,8 +23,19 @@
     
     //db로 부터 저장된 이미지명 얻기
     ReviewDao dao = new ReviewDao();
-    String r_image = dao.getDataReview(r_num).getR_image();
-    
+    ReviewDto old = dao.getDataReview(r_num);
+
+    // 로그인 + 작성자 본인(또는 관리자)만 삭제 가능
+    if(!util.SecurityUtil.isLogin(session) || old==null
+            || !util.SecurityUtil.isOwnerOrAdmin(session, old.getR_myid())){
+%>
+<script type="text/javascript">alert("삭제 권한이 없습니다."); history.back();</script>
+<%
+        return;
+    }
+
+    String r_image = old.getR_image();
+
     //db삭제
     dao.deleteReview(r_num);
     

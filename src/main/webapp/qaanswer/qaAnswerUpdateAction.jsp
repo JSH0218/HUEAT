@@ -4,7 +4,11 @@
     pageEncoding="UTF-8"%>
    <%
     request.setCharacterEncoding("utf-8");
-  
+
+    // 관리자만 답변 수정 가능
+    if(!util.SecurityUtil.isAdmin(session)){
+        response.sendError(403); return;
+    }
     //로그인 세션얻기
 	String loginok=(String)session.getAttribute("loginok");
 	//아이디 얻기

@@ -12,8 +12,17 @@ String m_newpass = request.getParameter("m_newpass");
 
 MemInfoDao dao = new MemInfoDao();
 
+// 신원 식별 항목은 모두 비어있지 않아야 한다(빈 값으로 인한 우회 차단)
+boolean idFilled = m_id != null && !m_id.trim().isEmpty()
+		&& m_name != null && !m_name.trim().isEmpty()
+		&& m_hp2 != null && !m_hp2.trim().isEmpty();
+
 // 서버 측 재검증: 신원 일치 + 비밀번호 최소 길이
-boolean ok = dao.verifyMember(m_name, m_id, m_hp2)
+// NOTE(보안 후속과제): 현재는 지식기반(이름+아이디+휴대폰) 재설정이라 PII 유출 시 취약하다.
+//   정석은 이메일/SMS 일회성 토큰 검증. 1차로 회원검색(membersearch) 관리자 가드로 PII 대량유출을 차단했고,
+//   재설정 성공 시 자동 로그인 없이 로그인 화면으로 보내 재인증을 강제한다.
+boolean ok = idFilled
+		&& dao.verifyMember(m_name, m_id, m_hp2)
 		&& m_newpass != null && m_newpass.length() >= 6;
 
 if (ok) {

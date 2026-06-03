@@ -26,15 +26,26 @@
 	String q_subject = request.getParameter("q_subject");
 	String q_content = request.getParameter("q_content");
 	String currentPage = request.getParameter("currentPage");
-    
+
+    QaDao dao = new QaDao();
+
+    // 로그인 + 작성자 본인(또는 관리자)만 수정 가능
+    QaDto old = dao.getDataQa(q_num);
+    if(!util.SecurityUtil.isLogin(session) || old==null
+            || !util.SecurityUtil.isOwnerOrAdmin(session, old.getQ_myid())){
+%>
+<script type="text/javascript">alert("수정 권한이 없습니다."); history.back();</script>
+<%
+        return;
+    }
+
     QaDto dto = new QaDto();
-    
+
     dto.setQ_num(q_num);
     dto.setQ_category(q_category);
     dto.setQ_subject(q_subject);
     dto.setQ_content(q_content);
-    
-    QaDao dao = new QaDao();
+
     dao.updateQa(dto);
     
     
