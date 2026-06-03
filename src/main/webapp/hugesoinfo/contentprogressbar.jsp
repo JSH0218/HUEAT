@@ -15,7 +15,8 @@
         String[] parts = grade.split(" : ");
         if (parts.length == 2) { // 등급 데이터가 " : "로 올바르게 구분되었는지 확인
             JSONObject entry = new JSONObject();
-            entry.put("label", parts[0]);
+            // 저장형 XSS 방어: g_content는 hugesodetail.jsp에서 innerHTML로 삽입되므로 서버측에서 HTML 이스케이프한다.
+            entry.put("label", util.SecurityUtil.escapeHtml(parts[0]));
             entry.put("value", Integer.parseInt(parts[1]));
             jsonArray.add(entry);
         }

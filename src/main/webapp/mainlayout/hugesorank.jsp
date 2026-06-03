@@ -123,8 +123,8 @@
                 display: inline-block;">
                     <img alt="" src="fileview?type=hugeso&name=<%=util.SecurityUtil.urlEncode(dto.getH_photo())%>" class="h_image">
                     <div class="h_hugeso">
-                        <div class="h_name" style="font-size: 0.85em;"><%=dto.getH_name() %></div>
-                        <div class="h_addr" style="font-size: 0.7em;"><%=dto.getH_addr() %></div>
+                        <div class="h_name" style="font-size: 0.85em;"><%=util.SecurityUtil.escapeHtml(dto.getH_name()) %></div>
+                        <div class="h_addr" style="font-size: 0.7em;"><%=util.SecurityUtil.escapeHtml(dto.getH_addr()) %></div>
                     </div>
                 </a>
             </div>
