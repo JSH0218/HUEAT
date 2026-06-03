@@ -418,7 +418,8 @@ for(int i=0;i<list2.size();i++){
     if(blist.size()>0){
     	for(int j=0;j<blist.size();j++){
         	BrandDto bdto=blist.get(j);
-        	brandList.add(bdto.getB_name());
+        	// 저장형 XSS 방어: 브랜드명을 목록 출력 전 HTML 이스케이프
+        	brandList.add(util.SecurityUtil.escapeHtml(bdto.getB_name()));
         }
     } else{
     	brandList.add("없음");

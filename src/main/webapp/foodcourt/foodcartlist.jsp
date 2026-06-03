@@ -21,7 +21,8 @@ for(HashMap<String,String> map:list){
 	int total=cnt*price;
 	
 	for(String key:map.keySet()){
-		ob.put("f_name", map.get("f_name"));
+		// DOM 저장형 XSS 방어: f_name이 클라이언트 .html()로 삽입되므로 서버측에서 HTML 이스케이프
+		ob.put("f_name", util.SecurityUtil.escapeHtml(map.get("f_name")));
 		ob.put("cart_cnt", map.get("cart_cnt"));
 		ob.put("f_price", map.get("f_price"));
 		ob.put("cart_total", total);

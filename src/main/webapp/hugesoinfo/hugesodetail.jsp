@@ -1114,15 +1114,15 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 </tr>
 <tr>
     <td>휘발유</td>
-    <td><%= "없음".equals(dto.getH_gasolin()) ? "-" : dto.getH_gasolin() %>원</td>
+    <td><%= util.SecurityUtil.escapeHtml("없음".equals(dto.getH_gasolin()) ? "-" : dto.getH_gasolin()) %>원</td>
 </tr>
 <tr>
     <td>경유</td>
-    <td><%= "없음".equals(dto.getH_disel()) ? "-" : dto.getH_disel() %>원</td>
+    <td><%= util.SecurityUtil.escapeHtml("없음".equals(dto.getH_disel()) ? "-" : dto.getH_disel()) %>원</td>
 </tr>
 <tr>
     <td>LPG</td>
-    <td><%= "없음".equals(dto.getH_lpg()) ? "-" : dto.getH_lpg() %>원</td>
+    <td><%= util.SecurityUtil.escapeHtml("없음".equals(dto.getH_lpg()) ? "-" : dto.getH_lpg()) %>원</td>
 </tr>
 
 </table>
@@ -1162,7 +1162,7 @@ toggleContent("hiddenContent1", "moreButton1", "foldButton1", "brand-item", docu
 <% if(!G_myid) {%> 
          <div class="gradefrm" id="insertgrade">
           <div style="display: inline-block;">
-          <p style="margin-top:80px; font-size 20px; font-weight:bold;"><%=m_id %></p>
+          <p style="margin-top:80px; font-size 20px; font-weight:bold;"><%=util.SecurityUtil.escapeHtml(m_id) %></p>
 
 
     <div class="star-rating space-x-4 mx-auto" id="g_grade";>
