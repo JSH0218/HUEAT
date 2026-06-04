@@ -73,8 +73,30 @@
   <div class="layout banner"><jsp:include page="layout/banner.jsp"/></div>
   <div class="layout main"><jsp:include page="<%=main %>"/></div>
   <div class="layout info"><jsp:include page="layout/info.jsp"/></div>
-  
-  
+
+
+
+  <script type="text/javascript">
+  // CSRF: 모든 동일출처 jQuery AJAX 요청에 _csrf 토큰을 자동 첨부한다(상태변경 위조 차단).
+  // 각 페이지가 jQuery를 다시 로드하므로 모든 include 이후(본문 끝)에서 최종 jQuery에 등록한다.
+  (function(){
+    if(typeof jQuery === "undefined"){ return; }
+    var _csrf = "<%=util.SecurityUtil.csrfToken(session)%>";
+    jQuery.ajaxPrefilter(function(options){
+      if(options.crossDomain){ return; }
+      var d = options.data;
+      if(typeof FormData !== "undefined" && d instanceof FormData){
+        if(!d.has("_csrf")){ d.append("_csrf", _csrf); }
+      } else if(typeof d === "string"){
+        if(d.indexOf("_csrf=") === -1){ options.data = d + (d.length ? "&" : "") + "_csrf=" + encodeURIComponent(_csrf); }
+      } else if(d && typeof d === "object"){
+        if(!("_csrf" in d)){ d._csrf = _csrf; }
+      } else {
+        options.data = "_csrf=" + encodeURIComponent(_csrf);
+      }
+    });
+  })();
+  </script>
 
 </body>
 </html>

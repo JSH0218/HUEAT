@@ -5,6 +5,14 @@
 <%
 request.setCharacterEncoding("utf-8");
 
+// CSRF 토큰 검증(위조 요청 차단)
+if(!SecurityUtil.checkCsrf(request)){
+%>
+<script type="text/javascript">alert("요청이 유효하지 않습니다."); history.back();</script>
+<%
+	return;
+}
+
 String m_id   = request.getParameter("m_id");
 String m_name = request.getParameter("m_name");
 String m_hp2  = request.getParameter("m_hp2");

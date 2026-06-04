@@ -176,6 +176,7 @@ id="passsearch">
 <h3 style="margin-top:160px; width: 500px; color: green; font-weight: bold; text-align: center;">비밀번호 재설정</h3>
 <div style="width: 500px; margin: 0 auto; margin-top: 30px; border: 1px solid gray; border-radius: 10px;">
 	<form style="margin:40px;" action="member/passResetaction.jsp" method="post" id="resetfrm">
+		<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 		<input type="hidden" name="m_id" id="reset_m_id">
 		<input type="hidden" name="m_name" id="reset_m_name">
 		<input type="hidden" name="m_hp2" id="reset_m_hp2">

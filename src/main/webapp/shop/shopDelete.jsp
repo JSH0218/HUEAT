@@ -18,6 +18,8 @@
     if(!util.SecurityUtil.isAdmin(session)){
       response.sendRedirect("../index.jsp?main=shop/shopList.jsp"); return;
     }
+    // CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
     //db삭제뿐 아니라 업로드된 파일도 삭제하기
     String s_num = request.getParameter("s_num");
     String currentPage = request.getParameter("currentPage");

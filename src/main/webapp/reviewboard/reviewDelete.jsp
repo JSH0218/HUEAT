@@ -20,7 +20,10 @@
     //db삭제뿐 아니라 업로드된 파일도 삭제하기
     String r_num = request.getParameter("r_num");
     String currentPage = request.getParameter("currentPage");
-    
+
+    // CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
+
     //db로 부터 저장된 이미지명 얻기
     ReviewDao dao = new ReviewDao();
     ReviewDto old = dao.getDataReview(r_num);

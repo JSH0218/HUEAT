@@ -16,6 +16,8 @@
     if(!util.SecurityUtil.isAdmin(session)){
         response.sendRedirect("../index.jsp"); return;
     }
+    // CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
     // nums를 읽기
     String nums = request.getParameter("nums");
     // 쉼표로 구분된 각 숫자 쌍을 분리

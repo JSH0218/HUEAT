@@ -197,7 +197,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
  	  var ans=confirm("삭제하려면 [확인]을 눌러주세요");
  	   
  	   if(ans){
- 		   location.href='qaboard/qaDelete.jsp?q_num='+q_num+"&currentPage="+currentPage;
+ 		   location.href='qaboard/qaDelete.jsp?q_num='+q_num+"&currentPage="+currentPage+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
  	   } 
    }
  

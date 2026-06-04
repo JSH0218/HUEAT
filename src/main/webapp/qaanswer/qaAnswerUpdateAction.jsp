@@ -9,6 +9,8 @@
     if(!util.SecurityUtil.isAdmin(session)){
         response.sendError(403); return;
     }
+    // CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
     //로그인 세션얻기
 	String loginok=(String)session.getAttribute("loginok");
 	//아이디 얻기
