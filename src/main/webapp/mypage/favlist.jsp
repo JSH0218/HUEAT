@@ -142,10 +142,10 @@ List<HashMap<String,String>> list=dao.getFavlist(m_id);
 					<input type="checkbox" name="f_num" f_num=<%=map.get("f_num") %> class="f_num">
 				</td>
 				<td><a href="index.jsp?main=hugesoinfo/hugesodetail.jsp?h_num=<%=map.get("h_num") %>"
-				style="text-decoration: none;"><%=map.get("h_name") %></a></td>
-				<td><%=map.get("h_addr") %></td>
-				<td><%=map.get("h_pyeon") %></td>
-				<td><%=map.get("h_hp") %></td>
+				style="text-decoration: none;"><%=util.SecurityUtil.escapeHtml(map.get("h_name")) %></a></td>
+				<td><%=util.SecurityUtil.escapeHtml(map.get("h_addr")) %></td>
+				<td><%=util.SecurityUtil.escapeHtml(map.get("h_pyeon")) %></td>
+				<td><%=util.SecurityUtil.escapeHtml(map.get("h_hp")) %></td>
 			
 			</tr>	
 		<%}
