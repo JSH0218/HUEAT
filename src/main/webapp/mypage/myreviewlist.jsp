@@ -238,7 +238,7 @@ div.img-container{
 				  //console.log(n);
 				  
 				  //삭제파일로 전송
-				  location.href="mypage/deletereview.jsp?nums="+n+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
+				  postNav("mypage/deletereview.jsp", {nums:n});
 				  }
 			  }
 		  })

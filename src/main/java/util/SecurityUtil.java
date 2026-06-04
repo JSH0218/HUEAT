@@ -438,6 +438,14 @@ public class SecurityUtil {
 	 * 요청 파라미터 _csrf가 세션 토큰과 일치하는지 상수시간 비교로 검증한다.
 	 * 상태 변경(POST) 액션 진입부에서 호출하고, false면 요청을 거부한다.
 	 */
+	/**
+	 * 요청이 POST 메서드인지 검사한다. 상태 변경 액션은 GET으로 호출되면 안 되므로
+	 * (프리패치·캐싱·&lt;img&gt; 트리거 등 위험) 진입부에서 isPost+checkCsrf를 함께 검증한다.
+	 */
+	public static boolean isPost(HttpServletRequest request) {
+		return request != null && "POST".equalsIgnoreCase(request.getMethod());
+	}
+
 	public static boolean checkCsrf(HttpServletRequest request) {
 		if (request == null) {
 			return false;

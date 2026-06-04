@@ -14,8 +14,8 @@
 <%
 request.setCharacterEncoding("utf-8");
 
-// CSRF 토큰 검증(위조 요청 차단)
-if(!SecurityUtil.checkCsrf(request)){
+// 상태변경은 POST + CSRF 토큰 검증(위조 요청 차단)
+if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){
 %>
 	<script type="text/javascript">
 		alert("요청이 유효하지 않습니다.");

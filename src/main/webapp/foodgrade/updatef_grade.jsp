@@ -10,8 +10,8 @@
     if(!util.SecurityUtil.isLogin(session)){
         response.sendError(403); return;
     }
-    // CSRF 토큰 검증(위조 요청 차단)
-    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
+    // 상태변경은 POST + CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
     String h_num = util.SecurityUtil.digitsOnly(request.getParameter("h_num"));
     String f_num = util.SecurityUtil.digitsOnly(request.getParameter("f_num"));
     String fg_foodnum = f_num;

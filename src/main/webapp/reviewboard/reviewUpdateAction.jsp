@@ -34,7 +34,7 @@
 		multi = new MultipartRequest(request, realPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
 
 			//CSRF 토큰 검증(멀티파트라 multi에서 _csrf를 읽어 검증)
-			if(!SecurityUtil.checkCsrf(session, multi.getParameter("_csrf"))){
+			if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(session, multi.getParameter("_csrf"))){
 %>
 			<script type="text/javascript">
 				alert("요청이 유효하지 않습니다.");

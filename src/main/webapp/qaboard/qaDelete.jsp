@@ -17,8 +17,8 @@
     String q_num = request.getParameter("q_num");
     String currentPage = request.getParameter("currentPage");
 
-    // CSRF 토큰 검증(위조 요청 차단)
-    if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
+    // 상태변경은 POST + CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
 
     QaDao dao = new QaDao();
 

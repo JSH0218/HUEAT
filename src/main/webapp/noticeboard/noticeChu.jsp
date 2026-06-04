@@ -4,9 +4,16 @@
     pageEncoding="UTF-8"%>
 
     <%
+    // 상태변경(추천수 +1)이므로 POST + 로그인 + CSRF를 강제한다.
+    if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.isLogin(session)
+          || !util.SecurityUtil.checkCsrf(request)){
+        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return;
+    }
+
     //num 읽기
-    String n_num = request.getParameter("n_num");
-    
+    String n_num = util.SecurityUtil.digitsOnly(request.getParameter("n_num"));
+
     NoticeDao dao = new NoticeDao();
     dao.updateNoticeChu(n_num);
     

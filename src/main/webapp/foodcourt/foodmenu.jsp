@@ -166,7 +166,7 @@ $(function(){
 		 
 		
 		$.ajax({
-			type:"get",
+			type:"post",
 			url:"foodcourt/foodcartdelete.jsp",
 			data:{"cart_idx":cart_idx},
 			dataType:"html",
@@ -375,7 +375,7 @@ var m_num=$("#m_num").val();
 
 function deleteAllCart() {
     $.ajax({
-        type: "get",
+        type: "post",
         url: "foodcourt/cartalldelete.jsp",
         data:{"m_num":m_num},
         dataType:"html",
