@@ -93,7 +93,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			 
 			 $.ajax({
 				
-				 type : "get",
+				 type : "post",
 				 url : "qaanswer/qaAnswerInsertAction.jsp",
 				 datatype : "html",
 				 data : {"q_num":q_num,"qa_content":qa_content},
@@ -126,7 +126,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			   if(ans){
 				   $.ajax({
 					   
-					   type:"get",
+					   type:"post",
 					   url:"qaanswer/qaAnswerDelete.jsp",
 					   dataType:"html",
 					   data:{"q_num":q_num, "qa_num":qa_num},
@@ -175,7 +175,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    	//alert(q_num+","+qa_num+","+qa_content);
 	    	
 	    	$.ajax({
-	    		type : "get",
+	    		type : "post",
 	    		url : "qaanswer/qaAnswerUpdateAction.jsp",
 	    		dataType : "html",
 	    		data : {"q_num":q_num, "qa_num":qa_num,"qa_content":qa_content},
@@ -197,7 +197,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
  	  var ans=confirm("삭제하려면 [확인]을 눌러주세요");
  	   
  	   if(ans){
- 		   location.href='qaboard/qaDelete.jsp?q_num='+q_num+"&currentPage="+currentPage+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
+ 		   postNav('qaboard/qaDelete.jsp', {q_num:q_num, currentPage:currentPage});
  	   } 
    }
  

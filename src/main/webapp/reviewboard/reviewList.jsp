@@ -112,7 +112,7 @@
 		  
 		  
 		  $.ajax ({
-			type : "get",
+			type : "post",
 			dataType : "json",
 			url : "reviewboard/reviewChu.jsp",
 			data : {"r_num":r_num},
@@ -146,7 +146,7 @@
     	var ans=confirm("삭제하려면 [확인]을 눌러주세요");
  	   
  	    if(ans){
- 		   location.href='reviewboard/reviewDelete.jsp?r_num='+r_num+"&currentPage="+currentPage+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
+ 		   postNav('reviewboard/reviewDelete.jsp', {r_num:r_num, currentPage:currentPage});
  	   } 
     })
     

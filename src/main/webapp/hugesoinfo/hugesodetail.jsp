@@ -242,7 +242,7 @@ $(function(){
 		    }
 		    
 		    $.ajax({
-		        type: "get", 
+		        type: "post",
 		        url: "grade/insertgrade.jsp",
 		        dataType: "html",
 		        data: {"h_num": $("#h_num").val(),  
@@ -1269,7 +1269,7 @@ marker.setMap(map);
 
 </div>
 <button type="button" onclick="location.href='index.jsp?main=hugesoinfo/hugesoupdateform.jsp?h_num=<%=h_num %>'" >수정</button> 
-<button type="button" onclick="location.href='hugesoinfo/hugesodeleteaction.jsp?h_num=<%=h_num %>&_csrf=<%=util.SecurityUtil.csrfToken(session)%>'">삭제</button>
+<button type="button" onclick="postNav('hugesoinfo/hugesodeleteaction.jsp', {h_num:'<%=h_num %>'})">삭제</button>
 </div>
 
 </div>

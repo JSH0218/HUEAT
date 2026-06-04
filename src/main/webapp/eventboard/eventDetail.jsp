@@ -63,7 +63,7 @@
 		  
 		  
 		  $.ajax ({
-			type : "get",
+			type : "post",
 			dataType : "json",
 			url : "eventboard/eventChu.jsp",
 			data : {"e_num":e_num},
@@ -90,7 +90,7 @@
 	  var ans=confirm("삭제하려면 [확인]을 눌러주세요");
 	   
 	   if(ans){
-		   location.href='eventboard/eventDelete.jsp?e_num='+e_num+"&currentPage="+currentPage+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
+		   postNav('eventboard/eventDelete.jsp', {e_num:e_num, currentPage:currentPage});
 	   } 
   }
  

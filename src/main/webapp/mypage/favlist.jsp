@@ -86,7 +86,7 @@
 	
 	function delfav(f_num){
 		$.ajax({
-			type:"get",
+			type:"post",
 			url:"mypage/favdelete.jsp",
 			dataType:"html",
 			data:{"f_num":f_num},

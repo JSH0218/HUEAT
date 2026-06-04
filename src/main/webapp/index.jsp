@@ -95,6 +95,26 @@
         options.data = "_csrf=" + encodeURIComponent(_csrf);
       }
     });
+
+    // 링크형 상태변경(삭제 등)을 GET이 아닌 POST로 전송하기 위한 헬퍼.
+    // 숨김 폼을 만들어 _csrf와 파라미터를 함께 POST 제출한다.
+    window.postNav = function(url, params){
+      var f = document.createElement("form");
+      f.method = "post";
+      f.action = url;
+      params = params || {};
+      if(!("_csrf" in params)){ params._csrf = _csrf; }
+      for(var k in params){
+        if(!Object.prototype.hasOwnProperty.call(params, k)){ continue; }
+        var i = document.createElement("input");
+        i.type = "hidden";
+        i.name = k;
+        i.value = params[k];
+        f.appendChild(i);
+      }
+      document.body.appendChild(f);
+      f.submit();
+    };
   })();
   </script>
 

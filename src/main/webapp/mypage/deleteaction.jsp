@@ -22,8 +22,8 @@
 		return;
 	}
 
-	// CSRF 토큰 검증(폼의 _csrf vs 세션 토큰)
-	if(!util.SecurityUtil.checkCsrf(request)){
+	// 상태변경은 POST + CSRF 토큰 검증(폼의 _csrf vs 세션 토큰)
+	if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
 		response.sendError(403);
 		return;
 	}

@@ -148,7 +148,7 @@ $(function(){
                 console.log(sNumsParam);
 
                 // 삭제파일로 전송
-                location.href = "shop/shopAllDelete.jsp?s_nums=" + sNumsParam + "&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
+                postNav("shop/shopAllDelete.jsp", {s_nums: sNumsParam});
             }
         }
     });
