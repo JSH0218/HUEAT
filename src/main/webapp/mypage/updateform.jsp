@@ -72,7 +72,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			var num = $("#m_num").val();
 			//alert(nickname+","+num);
 			$.ajax({
-				type : "get",
+				type : "post",
 				url : "mypage/nickcheck.jsp",
 				dataType : "json",
 				data : {

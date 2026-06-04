@@ -72,7 +72,7 @@ $(function(){
 }
 		
 		$.ajax({
-			type:"get",
+			type:"post",
 			url:"idcheck.jsp",
 			dataType:"json",
 			data:{"id":id},
@@ -107,7 +107,7 @@ $(function(){
     }
 	 
 	 $.ajax({
-		 type:"get",
+		 type:"post",
 		 url:"nickcheck.jsp",
 		 dataType:"json",
 		 data:{"m_nick":nick},
