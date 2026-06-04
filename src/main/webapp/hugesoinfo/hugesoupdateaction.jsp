@@ -16,7 +16,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//관리자만 휴게소 수정 가능
-	if(!"ADMIN".equals((String)session.getAttribute("role"))){
+	if(!util.SecurityUtil.isAdmin(session)){
 		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
 		return;
 	}
@@ -32,6 +32,17 @@
 	try {
 
 		multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
+
+		//CSRF 토큰 검증(멀티파트라 multi에서 _csrf를 읽어 검증)
+		if(!SecurityUtil.checkCsrf(session, multi.getParameter("_csrf"))){
+%>
+			<script type="text/javascript">
+				alert("요청이 유효하지 않습니다.");
+				history.back();
+			</script>
+<%
+			return;
+		}
 
 		//업로드된 모든 이미지 검증(위반 시 전체 삭제 후 거부)
 		if(!SecurityUtil.validateAllUploads(multi, uploadPath)){

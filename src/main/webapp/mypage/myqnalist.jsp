@@ -235,7 +235,7 @@ font-size: 14px;
               //console.log(n);
               
               //삭제파일로 전송
-              location.href="mypage/deleteqna.jsp?nums="+n;
+              location.href="mypage/deleteqna.jsp?nums="+n+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
               }
            }
         })

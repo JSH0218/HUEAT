@@ -6,7 +6,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String m_num=request.getParameter("m_num");
+// 로그인 필수(무인증 조회 차단)
+if(!util.SecurityUtil.isLogin(session)){
+	response.sendError(403); return;
+}
+// 소유자(m_num)는 클라이언트 입력을 신뢰하지 않고 세션 사용자로부터 서버에서 도출(읽기 IDOR 방지)
+String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
 String h_num=request.getParameter("h_num");
 
 FoodCartDao dao=new FoodCartDao();

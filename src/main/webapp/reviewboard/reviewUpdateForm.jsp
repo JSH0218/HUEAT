@@ -73,6 +73,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 25%;">
      <form action="reviewboard/reviewUpdateAction.jsp" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
       <input type="hidden" name="r_num"  value="<%=util.SecurityUtil.escapeHtml(r_num)%>">
       <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">

@@ -7,6 +7,8 @@
   if(!util.SecurityUtil.isLogin(session)){
     response.sendError(403); return;
   }
+  // CSRF 토큰 검증(위조 요청 차단)
+  if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
 %>
 <jsp:useBean id="dao" class="grade.model.GradeDao"/>
 <jsp:useBean id="dto" class="grade.model.GradeDto"/>

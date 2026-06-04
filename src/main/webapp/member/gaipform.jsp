@@ -165,7 +165,9 @@ $(function(){
 <div  style="width: 500px; margin: 0 auto; margin-top: 40px; border: 1px solid #ccc; border-radius: 10px;">
 
 	<form style="width: 400px;padding: 60px;" action="gaipaction.jsp" method="post" onsubmit="return check(this)" id="frm">
-	
+		<%-- CSRF 토큰: 상태변경(POST) 위조 요청 차단 --%>
+		<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
+
 		<table class="table table-bordered-light" style="width: 400px; margin: 0 auto;">
 			<tr>
 				

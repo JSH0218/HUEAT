@@ -17,6 +17,8 @@
 	if(!util.SecurityUtil.isAdmin(session)){
 		response.sendRedirect("../index.jsp?main=shop/shopList.jsp"); return;
 	}
+	// CSRF 토큰 검증(위조 요청 차단)
+	if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
 	//nums를 읽기
 	String s_nums=request.getParameter("s_nums");
 	//,로 분리해서 배열선언

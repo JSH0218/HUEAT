@@ -142,6 +142,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				method="post" id="updatefrm">
 				<input type="hidden" name="m_num" id="m_num"
 					value="<%=dto.getM_num()%>">
+				<%-- CSRF 토큰: 상태변경(POST) 위조 요청 차단 --%>
+				<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 				<table class="mytable">
 					<tr>
 						<td style="width: 200px;"><b>아이디</b></td>

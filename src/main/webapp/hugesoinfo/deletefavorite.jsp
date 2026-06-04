@@ -6,6 +6,8 @@
 		if(!util.SecurityUtil.isLogin(session)){
 			response.sendError(403); return;
 		}
+		// CSRF 토큰 검증(위조 요청 차단)
+		if(!util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
 		//유지))삭제메서드 수정
     String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
 		String h_num=request.getParameter("h_num");

@@ -31,6 +31,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="qaboard/qaUpdateAction.jsp" method="post">
+      <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
       <input type="hidden" name="q_num"  value="<%=util.SecurityUtil.escapeHtml(q_num)%>">
       <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">

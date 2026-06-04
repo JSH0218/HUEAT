@@ -139,8 +139,10 @@ $(function(){
 					
 				}else{
 					$("#idsuccess").show();
-					$(".result").html("<b>"+name+"</b>"+"님의 아이디는"+"<b>&nbsp;"+res.memid+"</b>입니다.");
-					
+					// 사용자 입력 name은 텍스트로 안전하게 조립(반사형 XSS 방지). memid는 서버에서 이스케이프됨
+					var nameB=$("<b>").text(name).prop("outerHTML");
+					$(".result").html(nameB+"님의 아이디는"+"<b>&nbsp;"+res.memid+"</b>입니다.");
+
 				}
 			
 			}
@@ -170,8 +172,10 @@ $(function(){
 					
 				}else{
 					$("#idsuccess").show();
-					$(".result").html("<b>"+name2+"</b>"+"님의 아이디는"+"<b>"+res.memid+"</b>입니다.");
-			
+					// 사용자 입력 name2는 텍스트로 안전하게 조립(반사형 XSS 방지). memid는 서버에서 이스케이프됨
+					var nameB=$("<b>").text(name2).prop("outerHTML");
+					$(".result").html(nameB+"님의 아이디는"+"<b>"+res.memid+"</b>입니다.");
+
 			}
 		}
 		})

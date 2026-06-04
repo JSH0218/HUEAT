@@ -6,6 +6,10 @@
 if(!util.SecurityUtil.isAdmin(session)){
 	response.sendRedirect("../index.jsp"); return;
 }
+// CSRF 토큰 검증(위조 요청 차단)
+if(!util.SecurityUtil.checkCsrf(request)){
+	response.sendError(403); return;
+}
 String m_num=request.getParameter("m_num");
 MemInfoDao dao=new MemInfoDao();
 dao.deleteMember(m_num);

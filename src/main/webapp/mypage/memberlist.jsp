@@ -137,7 +137,7 @@ $(function(){
 
 function delemem(m_num){
    if(confirm("정말 강퇴하시겠습니까?")){
-      location.href="mypage/memberdelete.jsp?m_num="+m_num;
+      location.href="mypage/memberdelete.jsp?m_num="+m_num+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
    }
 }
 </script>

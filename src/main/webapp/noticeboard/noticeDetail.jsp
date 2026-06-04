@@ -92,7 +92,7 @@
 	  var ans=confirm("삭제하려면 [확인]을 눌러주세요");
 	   
 	   if(ans){
-		   location.href='noticeboard/noticeDelete.jsp?n_num='+n_num+"&currentPage="+currentPage;
+		   location.href='noticeboard/noticeDelete.jsp?n_num='+n_num+"&currentPage="+currentPage+"&_csrf=<%=util.SecurityUtil.csrfToken(session)%>";
 	   } 
   }
  
