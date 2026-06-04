@@ -12,6 +12,10 @@
 </head>
 <body>
 <%
+// 로그인 CSRF 차단: POST + 세션 CSRF 토큰 검증 후에만 인증 처리
+if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
+	response.sendError(403); return;
+}
 String id=request.getParameter("m_id");
 String pass=request.getParameter("m_pass");
 String cbsave=request.getParameter("cbsave");

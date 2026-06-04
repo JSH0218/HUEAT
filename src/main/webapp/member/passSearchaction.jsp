@@ -4,6 +4,10 @@
     pageEncoding="UTF-8"%>
 <%
 request.setCharacterEncoding("utf-8");
+// 무인증 존재확인 오라클이므로 GET 프리패치·교차사이트 호출을 차단(POST+CSRF 강제)
+if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
+	response.sendError(403); return;
+}
 String m_name=request.getParameter("m_name");
 String m_id=request.getParameter("m_id");
 String m_hp2=request.getParameter("m_hp2");

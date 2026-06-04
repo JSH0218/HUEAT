@@ -11,6 +11,10 @@
 </head>
 <body>
 <%
+// 로그아웃 CSRF 차단: POST + CSRF 토큰 검증을 통과해야만 세션을 무효화한다.
+if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
+	response.sendError(403); return;
+}
 //세션 전체 무효화(loginok뿐 아니라 myid/role/saveok/CSRF 토큰까지 제거)
 session.invalidate();
 response.sendRedirect("../index.jsp");

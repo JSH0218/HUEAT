@@ -11,6 +11,11 @@
 	if(!util.SecurityUtil.isLogin(session)){
 		response.sendError(403); return;
 	}
+	// 상태변경 아님(조회 오라클)이나 다른 액션과 동일하게 POST+CSRF 강제
+	// (GET 프리패치·교차사이트 호출로 자격증명 확인 오라클이 악용되는 것 차단)
+	if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
+		response.sendError(403); return;
+	}
 	// 검증 대상 ID는 클라이언트 입력이 아닌 세션 사용자로 고정 (무차별 대입 방지)
 	String m_id=util.SecurityUtil.currentId(session);
 	String m_pass=request.getParameter("m_pass");
