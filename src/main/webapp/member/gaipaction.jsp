@@ -14,6 +14,16 @@
 <%
 request.setCharacterEncoding("utf-8");
 
+// CSRF 토큰 검증(위조 요청 차단)
+if(!SecurityUtil.checkCsrf(request)){
+%>
+	<script type="text/javascript">
+		alert("요청이 유효하지 않습니다.");
+		history.back();
+	</script>
+<%
+	return;
+}
 %>
 <jsp:useBean id="dao" class="meminfo.model.MemInfoDao"/>
 <jsp:useBean id="dto" class="meminfo.model.MemInfoDto"/>

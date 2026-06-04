@@ -35,6 +35,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="shop/shopAction.jsp" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
        <table class="table">
          <caption align="top"><h5><b>쇼핑몰 추가</b></h5></caption>
            <tr>

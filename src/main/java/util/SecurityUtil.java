@@ -446,12 +446,22 @@ public class SecurityUtil {
 		if (session == null) {
 			return false;
 		}
-		String expected = (String) session.getAttribute(CSRF_SESSION_KEY);
-		String actual = request.getParameter(CSRF_PARAM);
-		if (expected == null || actual == null) {
+		return checkCsrf(session, request.getParameter(CSRF_PARAM));
+	}
+
+	/**
+	 * 멀티파트(파일 업로드) 요청처럼 request.getParameter로 _csrf를 읽을 수 없는 경우를 위해
+	 * 토큰 값을 직접 받아 세션 토큰과 상수시간 비교한다. (예: multi.getParameter("_csrf"))
+	 */
+	public static boolean checkCsrf(HttpSession session, String token) {
+		if (session == null || token == null) {
 			return false;
 		}
-		return constantTimeEquals(expected, actual);
+		String expected = (String) session.getAttribute(CSRF_SESSION_KEY);
+		if (expected == null) {
+			return false;
+		}
+		return constantTimeEquals(expected, token);
 	}
 
 	private static boolean constantTimeEquals(String a, String b) {

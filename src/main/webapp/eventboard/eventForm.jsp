@@ -30,6 +30,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="eventboard/eventAction.jsp" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
        <table class="table">
          <caption align="top"><h5><b>글쓰기</b></h5></caption>
            <tr>

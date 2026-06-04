@@ -41,6 +41,17 @@
 
     	multi = new MultipartRequest(request, uploadPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
 
+    	//CSRF 토큰 검증(멀티파트라 multi에서 _csrf를 읽어 검증)
+    	if(!SecurityUtil.checkCsrf(session, multi.getParameter("_csrf"))){
+%>
+    		<script type="text/javascript">
+    			alert("요청이 유효하지 않습니다.");
+    			history.back();
+    		</script>
+<%
+    		return;
+    	}
+
     	String e_subject = multi.getParameter("e_subject");
     	String e_content = multi.getParameter("e_content");
     	String e_image = multi.getFilesystemName("e_image");

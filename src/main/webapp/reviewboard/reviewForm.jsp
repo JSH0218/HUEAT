@@ -40,6 +40,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 29%;">
      <form action="reviewboard/reviewAction.jsp" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
        <table class="table">
          <caption align="top"style="padding-left: 10px;"><b>후기등록</b></caption>
              <td>

@@ -290,6 +290,7 @@
 		</div>
 		<div id="contentarea">
 			<form action="hugesoinfo/hugesoupdateaction.jsp" id="frm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 				<input type="hidden" name="h_num" value="<%=h_num %>">
 				<div>휴게소 이름: <input type="text" name="h_name" required="required" value="<%=util.SecurityUtil.escapeHtml(hdto.getH_name()) %>"></div>
 				<hr>

@@ -62,6 +62,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="noticeboard/noticeUpdateAction.jsp" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
       <input type="hidden" name="n_num"  value="<%=util.SecurityUtil.escapeHtml(n_num)%>">
       <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">

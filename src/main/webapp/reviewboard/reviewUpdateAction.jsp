@@ -33,6 +33,17 @@
 	try {
 		multi = new MultipartRequest(request, realPath, uploadSize, "utf-8", new DefaultFileRenamePolicy());
 
+			//CSRF 토큰 검증(멀티파트라 multi에서 _csrf를 읽어 검증)
+			if(!SecurityUtil.checkCsrf(session, multi.getParameter("_csrf"))){
+%>
+			<script type="text/javascript">
+				alert("요청이 유효하지 않습니다.");
+				history.back();
+			</script>
+<%
+				return;
+			}
+
 		String r_num = multi.getParameter("r_num");
 		String currentPage = multi.getParameter("currentPage");
 		String r_content = multi.getParameter("r_content");

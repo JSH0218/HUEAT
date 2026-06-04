@@ -223,6 +223,7 @@
 		</div>
 		<div id="contentarea">
 			<form action="hugesoinfo/hugesoaddaction.jsp" id="frm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 				<div>휴게소 이름: <input type="text" name="h_name" required="required"></div>
 				<hr>
 				<div >휴게소 사진: <input type="file" name="h_photo" required="required" ></div>

@@ -62,6 +62,7 @@
   <!-- 저장폼  -->
    <div style="margin: 100px 200px; width: 800px; margin-left: 28%;">
      <form action="eventboard/eventUpdateAction.jsp" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
       <input type="hidden" name="e_num"  value="<%=util.SecurityUtil.escapeHtml(e_num)%>">
       <input type="hidden" name="currentPage" value="<%=util.SecurityUtil.escapeHtml(currentPage)%>">
        <table class="table">

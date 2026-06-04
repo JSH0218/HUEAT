@@ -15,7 +15,15 @@
 <body>
   <%
     request.setCharacterEncoding("utf-8");
-  
+
+    // CSRF 토큰 검증(위조 요청 차단)
+    if(!util.SecurityUtil.checkCsrf(request)){
+%>
+    <script type="text/javascript">alert("요청이 유효하지 않습니다."); history.back();</script>
+<%
+        return;
+    }
+
     //로그인 세션얻기
 	String loginok=(String)session.getAttribute("loginok");
 	//아이디 얻기
