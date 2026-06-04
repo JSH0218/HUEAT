@@ -62,6 +62,8 @@ onclick="location.href='../index.jsp'"></div>
 <div style="width: 500px;  margin: 0 auto; margin-top: 50px; margin-bottom:100px; border: 1px solid #ccc; border-radius: 10px;" >
 	
 	<form style="margin:50px;" action="loginaction.jsp" method="post">
+		<%-- CSRF 토큰: 로그인 CSRF(피해자를 공격자 계정으로 강제 로그인) 차단 --%>
+		<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">
 
 		<table class="table table-bordered" >
 		<caption align="top" style="font-size: 1.2em;">아이디 로그인</caption>

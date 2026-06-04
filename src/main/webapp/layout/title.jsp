@@ -155,8 +155,9 @@ String myid = (String) session.getAttribute("myid");
             <%
             } else {
             %>
+            <%-- 로그아웃 CSRF 차단: GET 링크 대신 postNav로 POST+_csrf 제출 --%>
             <li style="padding-left: 735px;"><a
-               href="member/logoutaction.jsp">로그아웃</a></li>
+               href="#" onclick="postNav('member/logoutaction.jsp',{}); return false;">로그아웃</a></li>
             <%
             if (loginok != null && "ADMIN".equals((String)session.getAttribute("role"))) {
             %>
