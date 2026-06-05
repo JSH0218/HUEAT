@@ -41,7 +41,7 @@ public class FoodGradeDao {
 	}
 	
 	//음식에 대한 평균 평점 출력
-	public String avgFoodGrade(String fg_foodnum) {
+	public String selectAvgFoodGrade(String fg_foodnum) {
 		String avgFoodGrade = null;
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;

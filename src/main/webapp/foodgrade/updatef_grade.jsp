@@ -18,7 +18,7 @@
 
     // 음식 평점을 기반으로 음식 평균 평점 업데이트
     FoodGradeDao fgdao = new FoodGradeDao();
-    String avgFoodGrade = fgdao.avgFoodGrade(fg_foodnum);
+    String avgFoodGrade = fgdao.selectAvgFoodGrade(fg_foodnum);
 
     // 해당 음식의 평점을 가져와 업데이트
     FoodDto dto = new FoodDto();
