@@ -100,43 +100,6 @@ public class BrandDao {
 		return total;
 	}
 	
-	//h_num이 일치하는 브랜드정보 출력
-	public List<BrandDto> selectRegisteredBrand(String h_num){
-		List<BrandDto> list=new ArrayList<BrandDto>();
-		
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select * from brand where h_num=?";
-		
-		try {
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1, h_num);
-			
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				BrandDto dto=new BrandDto();
-				
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
-				
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		return list;
-	}
-	
 	//b_num이 일치하는 브랜드 출력
 	public BrandDto getBrandData(String b_num) {
 		BrandDto dto=new BrandDto();
