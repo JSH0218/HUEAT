@@ -185,7 +185,7 @@ color: black;
 	HugesoInfoDao hdao = new HugesoInfoDao();
 	 
 	//전체갯수
-	int totalCount=hdao.getTotalCount();
+	int totalCount=hdao.selectTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -224,12 +224,8 @@ color: black;
 	//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
 	no=totalCount-(currentPage-1)*perPage;
 
-	//각페이지당 출력할 시작번호 구하기
-	//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
-	no=totalCount-(currentPage-1)*perPage;
-
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=hdao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto>list2=hdao.selectPagingList(startNum, perPage);
 %>
 <body>
 

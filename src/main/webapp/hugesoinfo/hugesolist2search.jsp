@@ -98,11 +98,9 @@ a:active{
 	String h_name=request.getParameter("h_name");
     //UploadBoardDao 인스턴스 생성
 	HugesoInfoDao dao = new HugesoInfoDao();
-    //모든 게시글 데이터 가져오기
-	List<HugesoInfoDto> list = dao.getAllDatas();
 	 
 	//전체갯수
-	int totalCount=dao.getSearchTotalCount(h_name);
+	int totalCount=dao.selectSearchTotalCount(h_name);
 	int perPage=9; //한페이지당 보여질 글의 갯수
 	int perBlock=5; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -141,12 +139,8 @@ a:active{
 	//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
 	no=totalCount-(currentPage-1)*perPage;
 
-	//각페이지당 출력할 시작번호 구하기
-	//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
-	no=totalCount-(currentPage-1)*perPage;
-
 	//페이지에서 보여질 글만 가져오기
-	List<HugesoInfoDto>list2=dao.getSearchPagingList(h_name, startNum, perPage);
+	List<HugesoInfoDto>list2=dao.selectSearchPagingList(h_name, startNum, perPage);
 
 	
 %>

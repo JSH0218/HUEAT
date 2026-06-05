@@ -16,7 +16,7 @@
 	startNum=(currentPage-1)*perPage;
 	
 	HugesoInfoDao dao=new HugesoInfoDao();
-	List<HugesoInfoDto> list=dao.getPagingList(startNum, perPage);
+	List<HugesoInfoDto> list=dao.selectPagingList(startNum, perPage);
 	
 	JSONArray arr=new JSONArray();
 	

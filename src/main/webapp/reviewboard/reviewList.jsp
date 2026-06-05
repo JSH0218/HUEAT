@@ -1,5 +1,3 @@
-<%@page import="hugesoinfo.model.HugesoInfoDto"%>
-<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="review.model.ReviewDto"%>
@@ -244,10 +242,7 @@
     
     <%
       MemInfoDao rdao = new MemInfoDao();
-      //휴게소
-      HugesoInfoDao hdao = new HugesoInfoDao();
-      List<HugesoInfoDto> hlist = hdao.getAllDatas();
-      
+
       for(ReviewDto dto:list) {
     	  
     	   //아이디 얻기

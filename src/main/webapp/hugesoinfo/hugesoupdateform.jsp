@@ -23,7 +23,7 @@
 	String h_num=request.getParameter("h_num");
 
 	HugesoInfoDao hdao=new HugesoInfoDao();
-	HugesoInfoDto hdto=hdao.getData(h_num);
+	HugesoInfoDto hdto=hdao.selectData(h_num);
 	
 	String hp = hdto.getH_hp();
 	String[] hpArray = hp.split("-");

@@ -101,7 +101,6 @@
 
    //휴게소
    HugesoInfoDao hdao = new HugesoInfoDao();
-   List<HugesoInfoDto> hlist = hdao.getAllGrade();
 
 
 %>
@@ -112,7 +111,7 @@
 <div class="swiper-container hugeso">
     <div class="swiper-wrapper">
         <% 
-            List<HugesoInfoDto> recenthugeso = hdao.getAllGrade();
+            List<HugesoInfoDto> recenthugeso = hdao.selectAllGrade();
             int size = Math.min(recenthugeso.size(), 5);
             for (int h = 0; h < size; h++) { 
                 HugesoInfoDto dto = recenthugeso.get(h); 

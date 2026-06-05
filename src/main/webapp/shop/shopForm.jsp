@@ -26,7 +26,7 @@
 </head>
 <%
   HugesoInfoDao hdao = new HugesoInfoDao();
-  List<HugesoInfoDto> hlist = hdao.getAllDatas();
+  List<HugesoInfoDto> hlist = hdao.selectAllDatas();
   
 %>
 <body>
