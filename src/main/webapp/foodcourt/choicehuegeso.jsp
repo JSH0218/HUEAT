@@ -89,7 +89,7 @@
 </style>
 <%
 HugesoInfoDao dao=new HugesoInfoDao();
-List<HugesoInfoDto> list=dao.getH_numH_name();
+List<HugesoInfoDto> list=dao.selectH_numH_name();
 %>
 </head>
 <body>

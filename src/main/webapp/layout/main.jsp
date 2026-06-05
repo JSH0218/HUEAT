@@ -135,7 +135,7 @@ List<EventDto> elist = edao.getAllEvent();
 
 //휴게소
 HugesoInfoDao hdao = new HugesoInfoDao();
-List<HugesoInfoDto> hlist = hdao.getAllGrade();
+List<HugesoInfoDto> hlist = hdao.selectAllGrade();
 %>
 <body>
 <div id="total_main">

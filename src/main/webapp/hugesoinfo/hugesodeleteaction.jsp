@@ -56,7 +56,7 @@
 	HugesoInfoDto hdto=new HugesoInfoDto();
 	
 	//휴게소 파일삭제
-	String filePath=uploadPath+"/"+hdao.getData(h_num).getH_photo();
+	String filePath=uploadPath+"/"+hdao.selectData(h_num).getH_photo();
 	File file=new File(filePath);
 	if(file.exists()){
 		file.delete();

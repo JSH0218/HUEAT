@@ -232,7 +232,7 @@ MemInfoDao mdao=new MemInfoDao();
 String m_num=mdao.getM_num(m_id);
 //휴게소 이름 가져오기
 HugesoInfoDao hdao=new HugesoInfoDao();
-HugesoInfoDto hdto=hdao.getData(h_num);
+HugesoInfoDto hdto=hdao.selectData(h_num);
 NumberFormat nf=NumberFormat.getInstance();
 %>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/foodbanner01.png'); background-size: cover; background-position: center center;">

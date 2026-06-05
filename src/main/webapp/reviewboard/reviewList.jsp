@@ -246,7 +246,7 @@
       MemInfoDao rdao = new MemInfoDao();
       //휴게소
       HugesoInfoDao hdao = new HugesoInfoDao();
-      List<HugesoInfoDto> hlist = hdao.getAllDatas();
+      List<HugesoInfoDto> hlist = hdao.selectAllDatas();
       
       for(ReviewDto dto:list) {
     	  

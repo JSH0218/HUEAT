@@ -64,10 +64,10 @@
 		hdto.setH_name(h_name);
 		String h_photo = multi.getFilesystemName("h_photo");
 		if(h_photo==null){
-	    	String oldPhoto=hdao.getData(h_num).getH_photo();
+	    	String oldPhoto=hdao.selectData(h_num).getH_photo();
 	    	hdto.setH_photo(oldPhoto);
 	    }else{
-	    	String filePath=uploadPath+"/"+hdao.getData(h_num).getH_photo();
+	    	String filePath=uploadPath+"/"+hdao.selectData(h_num).getH_photo();
 	    	File file=new File(filePath);
 			if(file.exists()){
 				file.delete();

@@ -38,7 +38,7 @@ public class HugesoInfoDao {
 	}
 
 	//전체데이터 List에 담아서 리턴하는 메서드
-	public List<HugesoInfoDto> getAllDatas(){
+	public List<HugesoInfoDto> selectAllDatas(){
 		List<HugesoInfoDto> list = new Vector<HugesoInfoDto>();
 
 		Connection conn = db.getConnection();
@@ -65,7 +65,7 @@ public class HugesoInfoDao {
 
 	//페이징..1.전체갯수반환   2.부분조회(startnum부터 perpage갯수만큼 반환)
 	//1.전체갯수반환
-	public int getTotalCount() {
+	public int selectTotalCount() {
 		int total=0;
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -89,7 +89,7 @@ public class HugesoInfoDao {
 	}
 
 	//2.부분조회(startnum부터 perpage갯수만큼 반환)
-	public List<HugesoInfoDto> getPagingList(int startNum,int perPage) {
+	public List<HugesoInfoDto> selectPagingList(int startNum,int perPage) {
 		List<HugesoInfoDto> list=new ArrayList<HugesoInfoDto>();
 
 		Connection conn=db.getConnection();
@@ -120,7 +120,7 @@ public class HugesoInfoDao {
 	}
 
 	//h_num에 해당하는 휴게소 데이터 리턴 (hugesodetail.jsp)
-	public HugesoInfoDto getData(String h_num) {
+	public HugesoInfoDto selectData(String h_num) {
 		HugesoInfoDto dto = new HugesoInfoDto();
 
 		Connection conn = db.getConnection();
@@ -217,7 +217,7 @@ public class HugesoInfoDao {
 	}
 
 	//유지))휴게소 이름하고 넘버가 필요해서 작성했어요. 나중에 수정되거나 삭제될 가능성 있음. foodcourt/choice에서 사용함
-	public List<HugesoInfoDto> getH_numH_name(){
+	public List<HugesoInfoDto> selectH_numH_name(){
 		List<HugesoInfoDto> list = new Vector<HugesoInfoDto>();
 
 		Connection conn = db.getConnection();
@@ -246,7 +246,7 @@ public class HugesoInfoDao {
 	}
 
 	// 검색 결과 총 갯수
-	public int getSearchTotalCount(String h_name) {
+	public int selectSearchTotalCount(String h_name) {
 		int total=0;
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -271,7 +271,7 @@ public class HugesoInfoDao {
 	}
 
 	//검색결과 부분조회
-	public List<HugesoInfoDto> getSearchPagingList(String h_name,int startNum,int perPage) {
+	public List<HugesoInfoDto> selectSearchPagingList(String h_name,int startNum,int perPage) {
 		List<HugesoInfoDto> list=new ArrayList<HugesoInfoDto>();
 
 		Connection conn=db.getConnection();
@@ -380,7 +380,7 @@ public class HugesoInfoDao {
 	}
 
 	//승경_메인화면에 휴게소 평점 순위대로 가져오기 위해 생성
-	public List<HugesoInfoDto> getAllGrade(){
+	public List<HugesoInfoDto> selectAllGrade(){
 		List<HugesoInfoDto> gradelist = new ArrayList<HugesoInfoDto>();
 
 		Connection conn = db.getConnection();

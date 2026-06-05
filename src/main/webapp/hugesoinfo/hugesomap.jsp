@@ -388,7 +388,7 @@
 	        		<%
 	        			HugesoInfoDao dao=new HugesoInfoDao();
 	        		%>
-	        		var totalCount=<%=dao.getTotalCount() %>; //전체데이터수
+	        		var totalCount=<%=dao.selectTotalCount() %>; //전체데이터수
 	        		var perPage=5; //한페이지당 보여질 글의 갯수
 	        		var perBlock=5; //한블럭당 보여질 페이지 갯수
 	        		var startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);

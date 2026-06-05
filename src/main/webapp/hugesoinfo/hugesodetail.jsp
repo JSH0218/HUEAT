@@ -44,7 +44,7 @@
 	
     // HugesoInfoDao 객체 생성 & 휴게소 데이터 가져오기
     HugesoInfoDao dao = new HugesoInfoDao();
-	HugesoInfoDto dto = dao.getData(h_num);
+	HugesoInfoDto dto = dao.selectData(h_num);
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");
 
