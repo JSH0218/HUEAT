@@ -67,40 +67,6 @@ public class FoodDao {
 		return total;
 	}
 	
-	//유지)) 휴게소별 메뉴판 구현을 위해서 작성
-	public List<FoodDto> getMenu(String h_num){
-		List<FoodDto> list=new ArrayList<FoodDto>();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select * from food where h_num=?";
-    
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, h_num);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				FoodDto dto=new FoodDto();
-        
-				dto.setF_num(rs.getString("f_num"));
-				dto.setF_name(rs.getString("f_name"));
-				dto.setF_photo(rs.getString("f_photo"));
-				dto.setF_price(rs.getString("f_price"));
-				dto.setH_num(rs.getString("h_num"));
-				
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-
-		return list;
-	}
-
 	//f_num이 일치는 음식정보 출력
 	public FoodDto getFoodData(String f_num) {
 		FoodDto dto=new FoodDto();
