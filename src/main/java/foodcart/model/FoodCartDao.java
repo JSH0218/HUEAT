@@ -1,4 +1,4 @@
-package foodcart;
+package foodcart.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.List;
 import mysql.db.DbConnect;
 
 public class FoodCartDao {
-	DbConnect db=new DbConnect();
+	private DbConnect db=new DbConnect();
 	
 	//음식 카트에 추가
 	public void insertFoodCart(FoodCartDto dto) {
@@ -27,7 +27,6 @@ public class FoodCartDao {
 			pstmt.setInt(4, dto.getCart_cnt());
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
@@ -35,7 +34,7 @@ public class FoodCartDao {
 	}
 	
 	//유지))장바구니에 중복된 메뉴가 들어있는지 확인
-	public boolean getCartCnt(String f_num, String m_num) {
+	public boolean selectCartItemExists(String f_num, String m_num) {
 		boolean c=false;
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -51,7 +50,6 @@ public class FoodCartDao {
 				c=true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
@@ -73,7 +71,6 @@ public class FoodCartDao {
 			pstmt.setString(2, dto.getM_num());
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
@@ -81,7 +78,7 @@ public class FoodCartDao {
 	}
 	
 	//유지))아이디로 주문목록 출력
-	public List<HashMap<String, String>> getCartMenu(String m_num,String h_num){
+	public List<HashMap<String, String>> selectCartMenu(String m_num,String h_num){
 		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -103,7 +100,6 @@ public class FoodCartDao {
 				list.add(map);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
@@ -122,36 +118,10 @@ public class FoodCartDao {
 			pstmt.setString(2, m_num);
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
 		}
-	}
-	
-	//유지))부분취소를 위한 idx를 구하기
-	public FoodCartDto getIdx(String f_num, String m_num) {
-		FoodCartDto dto=new FoodCartDto();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="select cart_idx from foodcart where f_num=? and m_num=?";
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, f_num);
-			pstmt.setString(2, m_num);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setCart_idx(rs.getString("cart_idx"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		return dto;
 	}
 	
 	//유지))결제완료 후에는 모든 cart를 비워야한다. m_num을 기준으로 비워보자, 카트 전체삭제
@@ -164,7 +134,6 @@ public class FoodCartDao {
 			pstmt.setString(1, m_num);
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);

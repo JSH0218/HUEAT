@@ -273,33 +273,7 @@ public class FoodDao {
 		
 		return list;
 	}
-  
-  //유지)) f_num을 얻기위해서 h_num과 f_name사용
-	public String selectF_num(String h_num, String f_name) {
-		String f_num="";
-    
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select f_num from food where h_num=? and f_name=?";
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, h_num);
-			pstmt.setString(2, f_name);
-			rs=pstmt.executeQuery();
-			
-			if(rs.next()) {
-				f_num=rs.getString("f_num");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);
-		}	
-		return f_num;
-	}
-	
+
 	//승경_메인화면에 메뉴 번호순서대로 가져오기 위해 생성
 	public List<FoodDto> selectAllFood(){
 		List<FoodDto> foodlist = new ArrayList<FoodDto>();

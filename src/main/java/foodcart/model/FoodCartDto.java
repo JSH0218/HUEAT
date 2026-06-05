@@ -1,4 +1,4 @@
-package foodcart;
+package foodcart.model;
 
 import java.sql.Timestamp;
 
