@@ -452,8 +452,7 @@ public class FoodDao {
 		+ "from food\r\n"
 		+ "where f_grade = (select max(f_grade) from food where h_num = ?)\r\n"
 		+ "  and h_num = ?\r\n"
-		+ "limit 1;\r\n"
-		+ "";
+		+ "limit 1;\r\n";
 
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -462,7 +461,6 @@ public class FoodDao {
 			rs=pstmt.executeQuery();
 
 			if(rs.next()) {
-				/* dto.setH_num(h_num); */
 				String bestFood = rs.getString("f_name");
 				dto.setF_name(bestFood);
 			}
