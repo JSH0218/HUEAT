@@ -19,7 +19,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Gugi&family=Hahmlet:wght@100..900&family=Hi+Melody&family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>푸드코트 메뉴</title>
 <style type="text/css">
 #container {
   margin: 0 auto; 
@@ -236,8 +236,7 @@ HugesoInfoDto hdto=hdao.selectData(h_num);
 NumberFormat nf=NumberFormat.getInstance();
 %>
 <div class="img-container" style="border: 0px solid green; background-image: url('image/mainbanner/foodbanner01.png'); background-size: cover; background-position: center center;">
-		<%-- <img alt="" src="image/mainbanner/memberbanner01.jpg">--%>
-</div>
+	</div>
 <div class="span-container" style="border:0px solid purple; font-size: 2.5em;" >
 	<span> <%=util.SecurityUtil.escapeHtml(hdto.getH_name()) %>의 주문가능 메뉴<br>
 	<span style="display: block;font-size: 10pt;">*상기이미지는 실제메뉴와 차이가 있을 수 있습니다.*</span>
