@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import grade.model.GradeDto;
 import mysql.db.DbConnect;
 
 public class FoodGradeDao {
 	
-DbConnect db = new DbConnect();
+	private DbConnect db = new DbConnect();
 	
 	//해당 휴게소에 있는 음식에 대한 평점 등록
 	public void insertFoodGrade(FoodGradeDto dto) {
@@ -42,7 +41,7 @@ DbConnect db = new DbConnect();
 	}
 	
 	//음식에 대한 평균 평점 출력
-	public String avgFoodGrade(String fg_foodnum) {
+	public String selectAvgFoodGrade(String fg_foodnum) {
 		String avgFoodGrade = null;
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;

@@ -2,11 +2,11 @@ package foodgrade.model;
 
 public class FoodGradeDto {
 	
-	public String fg_num;
-	public String fg_foodnum;
-	public String fg_hugesonum;
-	public String fg_myid;
-	public String fg_grade;
+	private String fg_num;
+	private String fg_foodnum;
+	private String fg_hugesonum;
+	private String fg_myid;
+	private String fg_grade;
 	
 	public String getFg_num() {
 		return fg_num;
