@@ -15,6 +15,23 @@ public class MemInfoDao {
 
 	private DbConnect db = new DbConnect();
 
+	// ResultSet 한 행을 MemInfoDto로 매핑 (회원 전체 컬럼)
+	private MemInfoDto mapRow(ResultSet rs) throws SQLException {
+		MemInfoDto dto = new MemInfoDto();
+		dto.setM_num(rs.getString("m_num"));
+		dto.setM_name(rs.getString("m_name"));
+		dto.setM_nick(rs.getString("m_nick"));
+		dto.setM_id(rs.getString("m_id"));
+		dto.setM_pass(rs.getString("m_pass"));
+		dto.setM_hp1(rs.getString("m_hp1"));
+		dto.setM_hp2(rs.getString("m_hp2"));
+		dto.setM_birth(rs.getString("m_birth"));
+		dto.setM_email(rs.getString("m_email"));
+		dto.setM_role(rs.getString("m_role"));
+		dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
+		return dto;
+	}
+
 	// 즐겨찾기 시 세션에 로그인 된 아이디를 이용해 MemInfo의 m_num을 얻는 메서드 (hugesodetail.jsp)
 	public String getM_num(String m_id) {
 		String m_num = "";
@@ -265,17 +282,7 @@ public class MemInfoDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto.setM_num(rs.getString("m_num"));
-				dto.setM_name(rs.getString("m_name"));
-				dto.setM_nick(rs.getString("m_nick"));
-				dto.setM_id(rs.getString("m_id"));
-				dto.setM_pass(rs.getString("m_pass"));
-				dto.setM_hp1(rs.getString("m_hp1"));
-				dto.setM_hp2(rs.getString("m_hp2"));
-				dto.setM_birth(rs.getString("m_birth"));
-				dto.setM_email(rs.getString("m_email"));
-				dto.setM_role(rs.getString("m_role"));
-				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
+				dto = mapRow(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -505,19 +512,7 @@ public class MemInfoDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				MemInfoDto dto = new MemInfoDto();
-				dto.setM_num(rs.getString("m_num"));
-				dto.setM_name(rs.getString("m_name"));
-				dto.setM_nick(rs.getString("m_nick"));
-				dto.setM_id(rs.getString("m_id"));
-				dto.setM_pass(rs.getString("m_pass"));
-				dto.setM_hp1(rs.getString("m_hp1"));
-				dto.setM_hp2(rs.getString("m_hp2"));
-				dto.setM_birth(rs.getString("m_birth"));
-				dto.setM_email(rs.getString("m_email"));
-				dto.setM_role(rs.getString("m_role"));
-				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -543,18 +538,7 @@ public class MemInfoDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				MemInfoDto dto = new MemInfoDto();
-				dto.setM_num(rs.getString("m_num"));
-				dto.setM_name(rs.getString("m_name"));
-				dto.setM_id(rs.getString("m_id"));
-				dto.setM_nick(rs.getString("m_nick"));
-				dto.setM_hp1(rs.getString("m_hp1"));
-				dto.setM_hp2(rs.getString("m_hp2"));
-				dto.setM_birth(rs.getString("m_birth"));
-				dto.setM_email(rs.getString("m_email"));
-				dto.setM_role(rs.getString("m_role"));
-				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
