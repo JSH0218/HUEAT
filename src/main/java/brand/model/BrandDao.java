@@ -11,7 +11,7 @@ import mysql.db.DbConnect;
 
 public class BrandDao {
 
-	DbConnect db=new DbConnect();
+	private DbConnect db=new DbConnect();
 	
 	public void insertBrand(BrandDto dto) {
 		Connection conn=db.getConnection();
@@ -29,7 +29,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -64,7 +63,6 @@ public class BrandDao {
 				list.add(dto);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -94,7 +92,6 @@ public class BrandDao {
 				total=rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -132,7 +129,6 @@ public class BrandDao {
 				list.add(dto);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -166,7 +162,6 @@ public class BrandDao {
 				dto.setB_addr(rs.getString("b_addr"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -193,7 +188,6 @@ public class BrandDao {
 			pstmt.execute();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -225,7 +219,6 @@ public class BrandDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -255,7 +248,6 @@ public class BrandDao {
 				list.add(rs.getString("b_num"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -278,7 +270,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -299,7 +290,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
