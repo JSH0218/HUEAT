@@ -16,14 +16,14 @@
 
     // 정렬 유형에 따라 적절한 메서드를 호출하여 평점 목록을 가져옴
     if (sortType.equals("latest")) {
-        list = dao.getFoodLatest(h_num);
+        list = dao.selectFoodLatest(h_num);
     } else if (sortType.equals("high")) {
-        list = dao.getFoodHigh(h_num);
+        list = dao.selectFoodHigh(h_num);
     } else if (sortType.equals("low")) {
-        list = dao.getFoodLow(h_num);
+        list = dao.selectFoodLow(h_num);
     } else {
         // 기본적으로 최신순으로 정렬
-        list = dao.getFoodLatest(h_num);
+        list = dao.selectFoodLatest(h_num);
     }
 
     // HTML 생성을 위한 문자열

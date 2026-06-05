@@ -226,7 +226,7 @@ String m_id=(String)session.getAttribute("myid");
 
 //food메뉴 가져오기
 FoodDao dao=new FoodDao();
-List<FoodDto> list=dao.getMenu(h_num);
+List<FoodDto> list=dao.selectFood(h_num);
 //로그인했을때 해당아이디로 주문한 메뉴 보이게
 MemInfoDao mdao=new MemInfoDao();
 String m_num=mdao.selectM_num(m_id);
@@ -251,7 +251,7 @@ NumberFormat nf=NumberFormat.getInstance();
 <%
 	for(int i=0;i<list.size();i++){
 		FoodDto dto=list.get(i); 
-		String f_num=dao.getF_num(h_num, dto.getF_name());
+		String f_num=dao.selectF_num(h_num, dto.getF_name());
 
 		int pr=Integer.parseInt(dto.getF_price());
 		%>

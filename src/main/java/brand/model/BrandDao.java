@@ -11,8 +11,19 @@ import mysql.db.DbConnect;
 
 public class BrandDao {
 
-	DbConnect db=new DbConnect();
-	
+	private DbConnect db=new DbConnect();
+
+	// ResultSet 한 행을 BrandDto로 매핑 (brand 5컬럼 공통)
+	private BrandDto mapRow(ResultSet rs) throws SQLException {
+		BrandDto dto=new BrandDto();
+		dto.setB_num(rs.getString("b_num"));
+		dto.setH_num(rs.getString("h_num"));
+		dto.setB_name(rs.getString("b_name"));
+		dto.setB_photo(rs.getString("b_photo"));
+		dto.setB_addr(rs.getString("b_addr"));
+		return dto;
+	}
+
 	public void insertBrand(BrandDto dto) {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -29,7 +40,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -53,18 +63,9 @@ public class BrandDao {
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				BrandDto dto=new BrandDto();
-				
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -74,7 +75,7 @@ public class BrandDao {
 	}
 
 	//h_num이 일치하는 브랜드갯수 출력
-	public int getRegisteredTotal(String h_num) {
+	public int selectRegisteredTotal(String h_num) {
 		int total=0;
 		
 		Connection conn=db.getConnection();
@@ -94,7 +95,6 @@ public class BrandDao {
 				total=rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -103,46 +103,8 @@ public class BrandDao {
 		return total;
 	}
 	
-	//h_num이 일치하는 브랜드정보 출력
-	public List<BrandDto> selectRegisteredBrand(String h_num){
-		List<BrandDto> list=new ArrayList<BrandDto>();
-		
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select * from brand where h_num=?";
-		
-		try {
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1, h_num);
-			
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				BrandDto dto=new BrandDto();
-				
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
-				
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		return list;
-	}
-	
 	//b_num이 일치하는 브랜드 출력
-	public BrandDto getBrandData(String b_num) {
+	public BrandDto selectBrandData(String b_num) {
 		BrandDto dto=new BrandDto();
 		
 		Connection conn=db.getConnection();
@@ -159,14 +121,9 @@ public class BrandDao {
 			rs=pstmt.executeQuery();
 			
 			if(rs.next()) {
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
+				dto = mapRow(rs);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -193,7 +150,6 @@ public class BrandDao {
 			pstmt.execute();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -201,7 +157,7 @@ public class BrandDao {
 	}
 	
 	//특정 b_num 추출
-	public String getBrandNum(BrandDto dto) {
+	public String selectBrandNum(BrandDto dto) {
 		String b_num="없음";
 		
 		Connection conn=db.getConnection();
@@ -225,7 +181,6 @@ public class BrandDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -235,7 +190,7 @@ public class BrandDao {
 	}
 	
 	//특정 휴게소 소속 b_num 추출
-	public List<String> getHugesoBrandNum(String h_num){
+	public List<String> selectHugesoBrandNum(String h_num){
 		List<String> list=new ArrayList<String>();
 		
 		Connection conn=db.getConnection();
@@ -255,7 +210,6 @@ public class BrandDao {
 				list.add(rs.getString("b_num"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -278,7 +232,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -299,7 +252,6 @@ public class BrandDao {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);

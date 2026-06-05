@@ -26,7 +26,7 @@
 	for(int i=0;i<blist.size();i++){
 		bdto=blist.get(i);
 		
-		String filePath=uploadPath+"/"+bdao.getBrandData(bdto.getB_num()).getB_photo();
+		String filePath=uploadPath+"/"+bdao.selectBrandData(bdto.getB_num()).getB_photo();
 		File file=new File(filePath);
 		if(file.exists()){
 			file.delete();
@@ -43,7 +43,7 @@
 	for(int i=0;i<flist.size();i++){
 		fdto=flist.get(i);
 		
-		String filePath=uploadPath+"/"+fdao.getFoodData(fdto.getF_num()).getF_photo();
+		String filePath=uploadPath+"/"+fdao.selectFoodData(fdto.getF_num()).getF_photo();
 		File file=new File(filePath);
 		if(file.exists()){
 			file.delete();
