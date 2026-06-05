@@ -249,8 +249,8 @@ NumberFormat nf=NumberFormat.getInstance();
 <div align="center" id="foodmenu" >
 <%
 	for(int i=0;i<list.size();i++){
-		FoodDto dto=list.get(i); 
-		String f_num=dao.selectF_num(h_num, dto.getF_name());
+		FoodDto dto=list.get(i);
+		String f_num=dto.getF_num();
 
 		int pr=Integer.parseInt(dto.getF_price());
 		%>
