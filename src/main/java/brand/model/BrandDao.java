@@ -12,7 +12,18 @@ import mysql.db.DbConnect;
 public class BrandDao {
 
 	private DbConnect db=new DbConnect();
-	
+
+	// ResultSet 한 행을 BrandDto로 매핑 (brand 5컬럼 공통)
+	private BrandDto mapRow(ResultSet rs) throws SQLException {
+		BrandDto dto=new BrandDto();
+		dto.setB_num(rs.getString("b_num"));
+		dto.setH_num(rs.getString("h_num"));
+		dto.setB_name(rs.getString("b_name"));
+		dto.setB_photo(rs.getString("b_photo"));
+		dto.setB_addr(rs.getString("b_addr"));
+		return dto;
+	}
+
 	public void insertBrand(BrandDto dto) {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -52,15 +63,7 @@ public class BrandDao {
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				BrandDto dto=new BrandDto();
-				
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,11 +121,7 @@ public class BrandDao {
 			rs=pstmt.executeQuery();
 			
 			if(rs.next()) {
-				dto.setB_num(rs.getString("b_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setB_name(rs.getString("b_name"));
-				dto.setB_photo(rs.getString("b_photo"));
-				dto.setB_addr(rs.getString("b_addr"));
+				dto = mapRow(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
