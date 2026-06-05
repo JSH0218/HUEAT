@@ -20,5 +20,5 @@
    dto.setH_num(h_num);
    dto.setM_num(m_num);
    
-   dao.favorite(dto);
+   dao.insertFavorite(dto);
 %>
