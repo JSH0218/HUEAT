@@ -11,7 +11,7 @@ import java.util.List;
 import mysql.db.DbConnect;
 
 public class FoodCartDao {
-	DbConnect db=new DbConnect();
+	private DbConnect db=new DbConnect();
 	
 	//음식 카트에 추가
 	public void insertFoodCart(FoodCartDto dto) {
@@ -27,7 +27,6 @@ public class FoodCartDao {
 			pstmt.setInt(4, dto.getCart_cnt());
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
@@ -51,7 +50,6 @@ public class FoodCartDao {
 				c=true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
@@ -73,7 +71,6 @@ public class FoodCartDao {
 			pstmt.setString(2, dto.getM_num());
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
@@ -103,7 +100,6 @@ public class FoodCartDao {
 				list.add(map);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
@@ -122,7 +118,6 @@ public class FoodCartDao {
 			pstmt.setString(2, m_num);
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
@@ -145,7 +140,6 @@ public class FoodCartDao {
 				dto.setCart_idx(rs.getString("cart_idx"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(rs, pstmt, conn);
@@ -164,7 +158,6 @@ public class FoodCartDao {
 			pstmt.setString(1, m_num);
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			db.dbClose(pstmt, conn);
