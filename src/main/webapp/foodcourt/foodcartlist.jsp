@@ -2,7 +2,7 @@
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
-<%@page import="foodcart.FoodCartDao"%>
+<%@page import="foodcart.model.FoodCartDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

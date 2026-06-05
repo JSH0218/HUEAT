@@ -3,8 +3,7 @@
 <%@page import="meminfo.model.MemInfoDto"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="foodcart.FoodCartDto"%>
-<%@page import="foodcart.FoodCartDao"%>
+<%@page import="foodcart.model.FoodCartDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
 <%@page import="food.model.FoodDto"%>
 <%@page import="java.util.List"%>
