@@ -273,7 +273,7 @@ NumberFormat nf=NumberFormat.getInstance();
 
 <%
 FoodCartDao cdao=new FoodCartDao();
-List<HashMap<String,String>> clist=cdao.getCartMenu(m_num, h_num);
+List<HashMap<String,String>> clist=cdao.selectCartMenu(m_num, h_num);
 MemInfoDto dto=mdao.selectMemberById(m_id);
 
 %>

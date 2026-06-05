@@ -25,7 +25,7 @@ String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.curren
 int cart_cnt=Integer.parseInt(request.getParameter("cart_cnt"));
 
 FoodCartDao dao=new FoodCartDao();
-boolean cnt=dao.getCartCnt(f_num, m_num);
+boolean cnt=dao.selectCartItemExists(f_num, m_num);
 
 if(cnt){
 	FoodCartDto dto=new FoodCartDto();

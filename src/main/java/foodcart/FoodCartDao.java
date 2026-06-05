@@ -34,7 +34,7 @@ public class FoodCartDao {
 	}
 	
 	//유지))장바구니에 중복된 메뉴가 들어있는지 확인
-	public boolean getCartCnt(String f_num, String m_num) {
+	public boolean selectCartItemExists(String f_num, String m_num) {
 		boolean c=false;
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -78,7 +78,7 @@ public class FoodCartDao {
 	}
 	
 	//유지))아이디로 주문목록 출력
-	public List<HashMap<String, String>> getCartMenu(String m_num,String h_num){
+	public List<HashMap<String, String>> selectCartMenu(String m_num,String h_num){
 		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;

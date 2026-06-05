@@ -15,7 +15,7 @@ String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.curren
 String h_num=request.getParameter("h_num");
 
 FoodCartDao dao=new FoodCartDao();
-List<HashMap<String,String>> list=dao.getCartMenu(m_num, h_num);
+List<HashMap<String,String>> list=dao.selectCartMenu(m_num, h_num);
 
 JSONArray arr=new JSONArray();
 
