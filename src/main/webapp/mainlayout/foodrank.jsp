@@ -98,7 +98,6 @@
 
    //휴게소
    FoodDao fdao = new FoodDao();
-   List<FoodDto> hlist = fdao.getAllFood();
 
 	NumberFormat nf=NumberFormat.getInstance();
 %>
