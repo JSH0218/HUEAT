@@ -1,5 +1,3 @@
-<%@page import="hugesoinfo.model.HugesoInfoDto"%>
-<%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="event.model.EventDto"%>
 <%@page import="event.model.EventDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -132,10 +130,6 @@ List<NoticeDto> list = ndao.getAllNotice();
 //event
 EventDao edao = new EventDao();
 List<EventDto> elist = edao.getAllEvent();
-
-//휴게소
-HugesoInfoDao hdao = new HugesoInfoDao();
-List<HugesoInfoDto> hlist = hdao.selectAllGrade();
 %>
 <body>
 <div id="total_main">

@@ -101,7 +101,6 @@
 
    //휴게소
    HugesoInfoDao hdao = new HugesoInfoDao();
-   List<HugesoInfoDto> hlist = hdao.selectAllGrade();
 
 
 %>
