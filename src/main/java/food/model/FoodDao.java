@@ -15,7 +15,19 @@ import mysql.db.DbConnect;
 public class FoodDao {
 
 	private DbConnect db=new DbConnect();
-	
+
+	// ResultSet 한 행을 FoodDto로 매핑 (음식 평점정렬 6컬럼 공통: getFoodLatest/High/Low)
+	private FoodDto mapRow(ResultSet rs) throws SQLException {
+		FoodDto dto = new FoodDto();
+		dto.setF_num(rs.getString("f_num"));
+		dto.setF_name(rs.getString("f_name"));
+		dto.setF_photo(rs.getString("f_photo"));
+		dto.setF_price(rs.getString("f_price"));
+		dto.setH_num(rs.getString("h_num"));
+		dto.setF_grade(rs.getString("f_grade"));
+		return dto;
+	}
+
 	public void insertFood(FoodDto dto) {
 		Connection conn=db.getConnection();
 		PreparedStatement pstmt=null;
@@ -362,16 +374,7 @@ public class FoodDao {
 			rs=pstmt.executeQuery();
 
 			while(rs.next()) {
-				FoodDto dto = new FoodDto();
-
-				dto.setF_num(rs.getString("f_num"));
-				dto.setF_name(rs.getString("f_name"));
-				dto.setF_photo(rs.getString("f_photo"));
-				dto.setF_price(rs.getString("f_price"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setF_grade(rs.getString("f_grade"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -399,16 +402,7 @@ public class FoodDao {
 			rs=pstmt.executeQuery();
 
 			while(rs.next()) {
-				FoodDto dto = new FoodDto();
-
-				dto.setF_num(rs.getString("f_num"));
-				dto.setF_name(rs.getString("f_name"));
-				dto.setF_photo(rs.getString("f_photo"));
-				dto.setF_price(rs.getString("f_price"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setF_grade(rs.getString("f_grade"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -435,16 +429,7 @@ public class FoodDao {
 			rs=pstmt.executeQuery();
 
 			while(rs.next()) {
-				FoodDto dto = new FoodDto();
-
-				dto.setF_num(rs.getString("f_num"));
-				dto.setF_name(rs.getString("f_name"));
-				dto.setF_photo(rs.getString("f_photo"));
-				dto.setF_price(rs.getString("f_price"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setF_grade(rs.getString("f_grade"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
