@@ -124,30 +124,6 @@ public class FoodCartDao {
 		}
 	}
 	
-	//유지))부분취소를 위한 idx를 구하기
-	public FoodCartDto getIdx(String f_num, String m_num) {
-		FoodCartDto dto=new FoodCartDto();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="select cart_idx from foodcart where f_num=? and m_num=?";
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, f_num);
-			pstmt.setString(2, m_num);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setCart_idx(rs.getString("cart_idx"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		
-		return dto;
-	}
-	
 	//유지))결제완료 후에는 모든 cart를 비워야한다. m_num을 기준으로 비워보자, 카트 전체삭제
 	public void deleteAllCart(String m_num) {
 		Connection conn=db.getConnection();
