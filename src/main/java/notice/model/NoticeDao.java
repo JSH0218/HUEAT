@@ -53,19 +53,7 @@ public class NoticeDao {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-
-				NoticeDto dto = new NoticeDto();
-
-				dto.setN_num(rs.getString("n_num"));
-				dto.setN_myid(rs.getString("n_myid"));
-				dto.setN_subject(rs.getString("n_subject"));
-				dto.setN_content(rs.getString("n_content"));
-				dto.setN_readcount(rs.getInt("n_readcount"));
-				dto.setN_image(rs.getString("n_image"));
-				dto.setN_chu(rs.getInt("n_chu"));
-				dto.setN_writeday(rs.getTimestamp("n_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -124,18 +112,7 @@ public class NoticeDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				NoticeDto dto = new NoticeDto();
-
-				dto.setN_num(rs.getString("n_num"));
-				dto.setN_myid(rs.getString("n_myid"));
-				dto.setN_subject(rs.getString("n_subject"));
-				dto.setN_content(rs.getString("n_content"));
-				dto.setN_readcount(rs.getInt("n_readcount"));
-				dto.setN_chu(rs.getInt("n_chu"));
-				dto.setN_writeday(rs.getTimestamp("n_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -164,16 +141,7 @@ public class NoticeDao {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-
-				dto.setN_num(rs.getString("n_num"));
-				dto.setN_myid(rs.getString("n_myid"));
-				dto.setN_subject(rs.getString("n_subject"));
-				dto.setN_content(rs.getString("n_content"));
-				dto.setN_image(rs.getString("n_image"));
-				dto.setN_readcount(rs.getInt("n_readcount"));
-				dto.setN_chu(rs.getInt("n_chu"));
-				dto.setN_writeday(rs.getTimestamp("n_writeday"));
-
+				dto = mapRow(rs);
 			}
 
 		} catch (SQLException e) {
@@ -316,18 +284,7 @@ public class NoticeDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				NoticeDto dto = new NoticeDto();
-
-				dto.setN_num(rs.getString("n_num"));
-				dto.setN_myid(rs.getString("n_myid"));
-				dto.setN_subject(rs.getString("n_subject"));
-				dto.setN_content(rs.getString("n_content"));
-				dto.setN_readcount(rs.getInt("n_readcount"));
-				dto.setN_chu(rs.getInt("n_chu"));
-				dto.setN_writeday(rs.getTimestamp("n_writeday"));
-
-				mypagelist.add(dto);
+				mypagelist.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -335,5 +292,21 @@ public class NoticeDao {
 			db.dbClose(rs, pstmt, conn);
 		}
 		return mypagelist;
+	}
+
+	// ResultSet 한 행을 NoticeDto로 매핑(조회 메서드 공통)
+	private NoticeDto mapRow(ResultSet rs) throws SQLException {
+		NoticeDto dto = new NoticeDto();
+
+		dto.setN_num(rs.getString("n_num"));
+		dto.setN_myid(rs.getString("n_myid"));
+		dto.setN_subject(rs.getString("n_subject"));
+		dto.setN_content(rs.getString("n_content"));
+		dto.setN_image(rs.getString("n_image"));
+		dto.setN_readcount(rs.getInt("n_readcount"));
+		dto.setN_chu(rs.getInt("n_chu"));
+		dto.setN_writeday(rs.getTimestamp("n_writeday"));
+
+		return dto;
 	}
 }
