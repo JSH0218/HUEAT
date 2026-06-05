@@ -135,7 +135,7 @@
       
     	  
     	   //아이디 얻기
-    	    String name = rdao.getId(dto.getE_myid());
+    	    String name = rdao.selectNickById(dto.getE_myid());
 
     	  %>
       

@@ -8,7 +8,7 @@ if(!util.SecurityUtil.isLogin(session)){
 }
 // 상태변경은 POST + CSRF 토큰 검증(위조 요청 차단)
 if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
-String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
+String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
 FoodCartDao dao=new FoodCartDao();
 dao.deleteAllCart(m_num);
 %>

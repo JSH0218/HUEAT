@@ -11,6 +11,6 @@ if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
 String f_num=util.SecurityUtil.digitsOnly(request.getParameter("f_num"));
 MemInfoDao dao=new MemInfoDao();
 // IDOR 방어: m_num을 세션 사용자로부터 도출해 본인 소유분만 삭제
-String m_num=dao.getM_num(util.SecurityUtil.currentId(session));
+String m_num=dao.selectM_num(util.SecurityUtil.currentId(session));
 dao.favDelete(f_num, m_num);
 %>

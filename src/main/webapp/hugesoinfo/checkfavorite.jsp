@@ -10,7 +10,7 @@ if(!util.SecurityUtil.isLogin(session)){
 	response.sendError(403); return;
 }
 MemInfoDao dao=new MemInfoDao();
-String m_num=dao.getM_num(util.SecurityUtil.currentId(session));
+String m_num=dao.selectM_num(util.SecurityUtil.currentId(session));
 String h_num=request.getParameter("h_num");
 
 int fav=dao.isFavorite(m_num, h_num);

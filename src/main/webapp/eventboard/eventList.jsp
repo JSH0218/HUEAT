@@ -223,7 +223,7 @@
         	  for(EventDto dto:list) {
         	  
         	   //아이디 얻기
-        	   String name = edao.getId(dto.getE_myid());
+        	   String name = edao.selectNickById(dto.getE_myid());
         		%>
         		
         		  <tr>

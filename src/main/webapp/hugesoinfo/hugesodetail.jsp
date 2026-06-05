@@ -40,7 +40,7 @@
 	// MemInfoDao 인스턴스 생성
 	MemInfoDao mdao = new MemInfoDao();
 	// 현재 로그인된 member의 아이디를 통해 해당 member의 m_num 조회
-	String m_num = mdao.getM_num(m_id);
+	String m_num = mdao.selectM_num(m_id);
 	
     // HugesoInfoDao 객체 생성 & 휴게소 데이터 가져오기
     HugesoInfoDao dao = new HugesoInfoDao();

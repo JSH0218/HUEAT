@@ -59,7 +59,7 @@
 	}
 
 	// 기존 회원 정보(저장된 해시 포함) 조회
-	MemInfoDto current=dao.getAlldatas(myid);
+	MemInfoDto current=dao.selectMemberById(myid);
 
 	// 새 비밀번호가 비어 있으면 기존 해시 유지, 입력되면 새로 해시
 	String finalPass;

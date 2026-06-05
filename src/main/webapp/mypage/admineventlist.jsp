@@ -341,7 +341,7 @@ font-size: 14px;
 			</tr>
 		<%
 	      MemInfoDao mdao=new MemInfoDao();
-		  String name=mdao.getId(myid);
+		  String name=mdao.selectNickById(myid);
 		 
 	        
           //게시물이 없는 경우

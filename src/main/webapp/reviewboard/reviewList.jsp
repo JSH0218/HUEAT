@@ -246,7 +246,7 @@
       for(ReviewDto dto:list) {
     	  
     	   //아이디 얻기
-    	    String name = rdao.getId(dto.getR_myid());
+    	    String name = rdao.selectNickById(dto.getR_myid());
 
     	  %>
     	  

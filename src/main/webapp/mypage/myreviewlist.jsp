@@ -337,7 +337,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					</tr>
 					<%
 					MemInfoDao mdao = new MemInfoDao();
-					String name = mdao.getId(myid);
+					String name = mdao.selectNickById(myid);
 
 					//게시물이 없는 경우
 					if (totalCount == 0) {

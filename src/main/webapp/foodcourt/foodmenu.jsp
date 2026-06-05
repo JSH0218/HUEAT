@@ -229,7 +229,7 @@ FoodDao dao=new FoodDao();
 List<FoodDto> list=dao.getMenu(h_num);
 //로그인했을때 해당아이디로 주문한 메뉴 보이게
 MemInfoDao mdao=new MemInfoDao();
-String m_num=mdao.getM_num(m_id);
+String m_num=mdao.selectM_num(m_id);
 //휴게소 이름 가져오기
 HugesoInfoDao hdao=new HugesoInfoDao();
 HugesoInfoDto hdto=hdao.selectData(h_num);
@@ -274,7 +274,7 @@ NumberFormat nf=NumberFormat.getInstance();
 <%
 FoodCartDao cdao=new FoodCartDao();
 List<HashMap<String,String>> clist=cdao.getCartMenu(m_num, h_num);
-MemInfoDto dto=mdao.getAlldatas(m_id);
+MemInfoDto dto=mdao.selectMemberById(m_id);
 
 %>
 </div>

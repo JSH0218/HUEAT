@@ -12,7 +12,7 @@
    // 상태변경은 POST + CSRF 토큰 검증(위조 요청 차단)
    if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
    String h_num=request.getParameter("h_num");
-   String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
+   String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
 
    HugesoInfoDao dao=new HugesoInfoDao();
    FavoriteDto dto=new FavoriteDto();

@@ -21,7 +21,7 @@ if(!util.SecurityUtil.isLogin(session)){
 if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
 String f_num=request.getParameter("f_num");
 String h_num=request.getParameter("h_num");
-String m_num=new meminfo.model.MemInfoDao().getM_num(util.SecurityUtil.currentId(session));
+String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
 int cart_cnt=Integer.parseInt(request.getParameter("cart_cnt"));
 
 FoodCartDao dao=new FoodCartDao();

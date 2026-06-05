@@ -33,7 +33,7 @@ public class MemInfoDao {
 	}
 
 	// 즐겨찾기 시 세션에 로그인 된 아이디를 이용해 MemInfo의 m_num을 얻는 메서드 (hugesodetail.jsp)
-	public String getM_num(String m_id) {
+	public String selectM_num(String m_id) {
 		String m_num = "";
 
 		Connection conn = db.getConnection();
@@ -266,8 +266,8 @@ public class MemInfoDao {
 		}
 	}
 
-	// 아이디를 넣고 getAlldatas 저장된 값 받아오기
-	public MemInfoDto getAlldatas(String m_id) {
+	// 아이디를 넣고 회원 전체 정보 받아오기
+	public MemInfoDto selectMemberById(String m_id) {
 		MemInfoDto dto = new MemInfoDto();
 
 		Connection conn = db.getConnection();
@@ -293,7 +293,7 @@ public class MemInfoDao {
 	}
 
 	// 로그인 등에서 사용할 회원 권한(USER/ADMIN) 조회
-	public String getRole(String m_id) {
+	public String selectRole(String m_id) {
 		String role = "USER";
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
@@ -345,7 +345,7 @@ public class MemInfoDao {
 	}
 
 	// num을 넣고 현재 닉네임 받아오기
-	public String getNick(String m_num) {
+	public String selectNickByNum(String m_num) {
 		String m_nick = "";
 
 		Connection conn = db.getConnection();
@@ -473,8 +473,8 @@ public class MemInfoDao {
 		return fav;
 	}
 
-	// 닉네임, 아이디불러오기 (리뷰에 연동)
-	public String getId(String m_id) {
+	// 아이디로 닉네임 조회 (리뷰 등에 연동)
+	public String selectNickById(String m_id) {
 		String m_nick = "";
 
 		Connection conn = db.getConnection();
@@ -499,7 +499,7 @@ public class MemInfoDao {
 	}
 
 	// 유지)관리자가 회원관리하기 위한 회원전체목록 출력
-	public List<MemInfoDto> getMemDatas() {
+	public List<MemInfoDto> selectMemDatas() {
 		List<MemInfoDto> list = new ArrayList<MemInfoDto>();
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
