@@ -32,7 +32,7 @@
     String[] pyeonArray = pyeons.split(","); //콤마를 기준으로 편의시설 문자열을 분리하여 배열 pyeonArray에 넣어줌
     
     BrandDao bdao=new BrandDao();
-    int btotal=bdao.getRegisteredTotal(h_num);
+    int btotal=bdao.selectRegisteredTotal(h_num);
     List<BrandDto> blist=bdao.selectBrand(h_num);
     
     FoodDao fdao=new FoodDao();

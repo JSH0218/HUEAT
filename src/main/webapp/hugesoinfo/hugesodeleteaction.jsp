@@ -26,7 +26,7 @@
 	for(int i=0;i<blist.size();i++){
 		bdto=blist.get(i);
 		
-		String filePath=uploadPath+"/"+bdao.getBrandData(bdto.getB_num()).getB_photo();
+		String filePath=uploadPath+"/"+bdao.selectBrandData(bdto.getB_num()).getB_photo();
 		File file=new File(filePath);
 		if(file.exists()){
 			file.delete();

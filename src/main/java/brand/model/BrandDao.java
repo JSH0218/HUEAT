@@ -75,7 +75,7 @@ public class BrandDao {
 	}
 
 	//h_num이 일치하는 브랜드갯수 출력
-	public int getRegisteredTotal(String h_num) {
+	public int selectRegisteredTotal(String h_num) {
 		int total=0;
 		
 		Connection conn=db.getConnection();
@@ -104,7 +104,7 @@ public class BrandDao {
 	}
 	
 	//b_num이 일치하는 브랜드 출력
-	public BrandDto getBrandData(String b_num) {
+	public BrandDto selectBrandData(String b_num) {
 		BrandDto dto=new BrandDto();
 		
 		Connection conn=db.getConnection();
@@ -157,7 +157,7 @@ public class BrandDao {
 	}
 	
 	//특정 b_num 추출
-	public String getBrandNum(BrandDto dto) {
+	public String selectBrandNum(BrandDto dto) {
 		String b_num="없음";
 		
 		Connection conn=db.getConnection();
@@ -190,7 +190,7 @@ public class BrandDao {
 	}
 	
 	//특정 휴게소 소속 b_num 추출
-	public List<String> getHugesoBrandNum(String h_num){
+	public List<String> selectHugesoBrandNum(String h_num){
 		List<String> list=new ArrayList<String>();
 		
 		Connection conn=db.getConnection();

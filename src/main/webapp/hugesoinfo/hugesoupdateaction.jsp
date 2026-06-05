@@ -122,13 +122,13 @@
 					
 					bdao.insertBrand(bdto);
 					
-					numList.add(bdao.getBrandNum(bdto));
+					numList.add(bdao.selectBrandNum(bdto));
 				} else{
 					bdto.setB_num(b_num);
 					String b_name = multi.getParameter("b_name"+i);
 					bdto.setB_name(b_name);
 					String b_photo = multi.getFilesystemName("b_photo"+i);
-					String oldPhoto=bdao.getBrandData(b_num).getB_photo();
+					String oldPhoto=bdao.selectBrandData(b_num).getB_photo();
 					if(b_photo==null){
 				    	bdto.setB_photo(oldPhoto);
 				    }else{
@@ -148,7 +148,7 @@
 					numList.add(b_num);
 				}
 			}
-			List<String> hugesoBrandList=bdao.getHugesoBrandNum(h_num);
+			List<String> hugesoBrandList=bdao.selectHugesoBrandNum(h_num);
 			for(int i=0;i<hugesoBrandList.size();i++){
 				String b_num=hugesoBrandList.get(i);
 				boolean flag=true;
@@ -159,7 +159,7 @@
 				}
 				if(flag){
 					//파일삭제
-					String filePath=uploadPath+"/"+bdao.getBrandData(b_num).getB_photo();
+					String filePath=uploadPath+"/"+bdao.selectBrandData(b_num).getB_photo();
 					File file=new File(filePath);
 					if(file.exists()){
 						file.delete();
@@ -175,7 +175,7 @@
 			for(int i=0;i<blist.size();i++){
 				bdto=blist.get(i);
 				
-				String filePath=uploadPath+"/"+bdao.getBrandData(bdto.getB_num()).getB_photo();
+				String filePath=uploadPath+"/"+bdao.selectBrandData(bdto.getB_num()).getB_photo();
 				File file=new File(filePath);
 				if(file.exists()){
 					file.delete();
