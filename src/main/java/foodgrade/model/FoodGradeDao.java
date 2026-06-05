@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import grade.model.GradeDto;
 import mysql.db.DbConnect;
 
 public class FoodGradeDao {
 	
-DbConnect db = new DbConnect();
+	private DbConnect db = new DbConnect();
 	
 	//해당 휴게소에 있는 음식에 대한 평점 등록
 	public void insertFoodGrade(FoodGradeDto dto) {
