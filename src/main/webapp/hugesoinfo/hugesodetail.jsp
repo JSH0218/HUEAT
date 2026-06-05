@@ -51,12 +51,12 @@
 	int fav=mdao.isFavorite(m_num, h_num);
 	
 	GradeDao gdao = new GradeDao();
-	GradeDto gdto = gdao.bestContent(h_num);
-	String avgGrade = gdao.avgGrade(h_num);
-	String get_Content = gdao.get_Content(h_num);
+	GradeDto gdto = gdao.selectBestContent(h_num);
+	String avgGrade = gdao.selectAvgGrade(h_num);
+	String get_Content = gdao.selectContent(h_num);
 
 	//해당 휴게소에 평점을 등록한 사용자의 아이디 목록 가져오기
-	List<String> getG_myid = gdao.getG_myid(h_num);
+	List<String> getG_myid = gdao.selectMyidList(h_num);
 	
 	//현재 로그인한 사용자의 아이디가 해당 목록에 포함되어 있는지 확인
 	boolean G_myid = getG_myid.contains(m_id);

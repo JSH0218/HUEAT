@@ -20,8 +20,8 @@
 	}
 
 	GradeDao gdao=new GradeDao();
-	String h_grade=gdao.avgGrade(h_num);          // 평균 평점(소수점 1자리), 평점이 없으면 "0.0"
-	int h_gradecount=gdao.getG_myid(h_num).size(); // 평점 개수
+	String h_grade=gdao.selectAvgGrade(h_num);          // 평균 평점(소수점 1자리), 평점이 없으면 "0.0"
+	int h_gradecount=gdao.selectMyidList(h_num).size(); // 평점 개수
 
 	HugesoInfoDto dto=new HugesoInfoDto();
 	dto.setH_num(h_num);

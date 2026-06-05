@@ -6,7 +6,7 @@
 <%
     String h_num = request.getParameter("h_num");
     GradeDao dao = new GradeDao();
-    String g_content = dao.get_Content(h_num);
+    String g_content = dao.selectContent(h_num);
 
     // 각 항목에 대해 등급을 카운트하여 JSON 객체로 구성
     JSONArray jsonArray = new JSONArray();

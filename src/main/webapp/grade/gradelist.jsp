@@ -16,14 +16,14 @@
 
     // 정렬 유형에 따라 적절한 메서드를 호출하여 평점 목록을 가져옴
     if (sortType.equals("latest")) {
-        list = dao.getGradeLatest(h_num);
+        list = dao.selectGradeLatest(h_num);
     } else if (sortType.equals("high")) {
-        list = dao.getGradeHigh(h_num);
+        list = dao.selectGradeHigh(h_num);
     } else if (sortType.equals("low")) {
-        list = dao.getGradeLow(h_num);
+        list = dao.selectGradeLow(h_num);
     } else {
         // 기본적으로 최신순으로 정렬
-        list = dao.getGradeLatest(h_num);
+        list = dao.selectGradeLatest(h_num);
     }
 
     JSONArray arr = new JSONArray();

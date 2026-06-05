@@ -41,7 +41,7 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(최신순)
-	public List<GradeDto> getGradeLatest(String h_num){
+	public List<GradeDto> selectGradeLatest(String h_num){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -68,7 +68,7 @@ public class GradeDao {
 	}
 	
 	// 각 휴게소의 평점에 대한 평균
-	public String avgGrade(String h_num) {
+	public String selectAvgGrade(String h_num) {
 		String avgGrade = null;
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
@@ -95,7 +95,7 @@ public class GradeDao {
 	}
 	
 	//특정 휴게소 번호에 대해 평점을 등록한 회원의 아이디 목록 출력
-	public List<String> getG_myid(String h_num) {
+	public List<String> selectMyidList(String h_num) {
 		List<String> G_myids = new ArrayList<>();
 	    Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
@@ -122,7 +122,7 @@ public class GradeDao {
 	}
 	
 	//해당 휴게소 평점 내용 중에 가장 많이 선택된 내용 출력
-	public GradeDto bestContent(String h_num) {
+	public GradeDto selectBestContent(String h_num) {
 	    GradeDto dto = new GradeDto();
 	    
 	    Connection conn = db.getConnection();
@@ -149,7 +149,7 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(평점높은순)
-	public List<GradeDto> getGradeHigh(String h_num){
+	public List<GradeDto> selectGradeHigh(String h_num){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -176,7 +176,7 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(평점낮은순)
-	public List<GradeDto> getGradeLow(String h_num){
+	public List<GradeDto> selectGradeLow(String h_num){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -204,7 +204,7 @@ public class GradeDao {
 	
 
 	// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기(프로그래스바)
-	public String get_Content(String h_num) {
+	public String selectContent(String h_num) {
 	    String get_Content = null;
 	    Connection conn = db.getConnection();
 	    PreparedStatement pstmt = null;
