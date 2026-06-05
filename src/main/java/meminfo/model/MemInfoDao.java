@@ -8,41 +8,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import favorite.model.FavoriteDto;
 import mysql.db.DbConnect;
 import util.SecurityUtil;
 
 public class MemInfoDao {
 
-	DbConnect db=new DbConnect();
-	
-	//즐겨찾기 시 세션에 로그인 된 아이디를 이용해 MemInfo의 m_num을 얻는 메서드 (hugesodetail.jsp)
-			public String getM_num(String m_id)
-			{
-				String m_num="";
-				
-				Connection conn=db.getConnection();
-				PreparedStatement pstmt=null;
-				ResultSet rs=null;
-				
-				String sql="select m_num from meminfo where m_id=?";
-				
-				try {
-					pstmt=conn.prepareStatement(sql);
-					pstmt.setString(1, m_id);
-					rs=pstmt.executeQuery();
-					
-					if(rs.next())
-						m_num=rs.getString("m_num");
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}finally {
-					db.dbClose(rs, pstmt, conn);
-				}
-				
-				
-				return m_num;
-			}
+	private DbConnect db = new DbConnect();
+
+	// 즐겨찾기 시 세션에 로그인 된 아이디를 이용해 MemInfo의 m_num을 얻는 메서드 (hugesodetail.jsp)
+	public String getM_num(String m_id) {
+		String m_num = "";
+
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select m_num from meminfo where m_id=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next())
+				m_num = rs.getString("m_num");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+
+		return m_num;
+	}
 
 	// 회원가입
 	// 주의: dto.getM_pass()는 호출 측(gaipaction.jsp)에서 이미 BCrypt 해시로 변환된 값이어야 한다.
@@ -67,7 +64,6 @@ public class MemInfoDao {
 			pstmt.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -91,7 +87,6 @@ public class MemInfoDao {
 				isid = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -117,7 +112,6 @@ public class MemInfoDao {
 				isnick = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -145,7 +139,6 @@ public class MemInfoDao {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -174,7 +167,6 @@ public class MemInfoDao {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -204,7 +196,6 @@ public class MemInfoDao {
 			}
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -287,13 +278,11 @@ public class MemInfoDao {
 				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
 		}
 		return dto;
-
 	}
 
 	// 로그인 등에서 사용할 회원 권한(USER/ADMIN) 조회
@@ -341,7 +330,6 @@ public class MemInfoDao {
 				count = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -367,7 +355,6 @@ public class MemInfoDao {
 				m_nick = rs.getString("m_nick");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -394,251 +381,233 @@ public class MemInfoDao {
 			pstmt.setString(8, dto.getM_num());
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
-	}	
-		
-		//닉네임을 넣고 현재 닉네임 받아오기
-		public String inputIDGetNick(String m_id)
-		{
-			String m_nick="";
-					
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-			ResultSet rs=null;
-					
-			String sql="select * from meminfo where m_num=?";
-					
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, m_id);
-				rs=pstmt.executeQuery();
-				if(rs.next()) {
-					m_nick=rs.getString("m_nick");
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(rs, pstmt, conn);
-			}
-			return m_nick;
-		}
-	
+	}
 
-		//삭제 delete메서드
-		public void deleteMember(String m_num)
-		{
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-			
-			String sql="delete from meminfo where m_num=?";
-			
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, m_num);
-				pstmt.execute();
-        
-      } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(pstmt, conn);
-			}
-		}
+	// 닉네임을 넣고 현재 닉네임 받아오기
+	public String inputIDGetNick(String m_id) {
+		String m_nick = "";
 
-	//유지)즐겨찾기 목록 출력
-	public List<HashMap<String, String>> getFavlist(String m_id){
-		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
-		
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select f.f_num,h.h_name,h.h_addr,h.h_pyeon, h.h_num,h.h_hp from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
-		
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select * from meminfo where m_num=?";
+
 		try {
-			pstmt=conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, m_id);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				HashMap<String, String> map=new HashMap<String, String>();
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				m_nick = rs.getString("m_nick");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		return m_nick;
+	}
+
+	// 삭제 delete메서드
+	public void deleteMember(String m_num) {
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+
+		String sql = "delete from meminfo where m_num=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_num);
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(pstmt, conn);
+		}
+	}
+
+	// 유지)즐겨찾기 목록 출력
+	public List<HashMap<String, String>> getFavlist(String m_id) {
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select f.f_num,h.h_name,h.h_addr,h.h_pyeon, h.h_num,h.h_hp from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("h_num", rs.getString("h_num"));
 				map.put("f_num", rs.getString("f_num"));
 				map.put("h_name", rs.getString("h_name"));
 				map.put("h_addr", rs.getString("h_addr"));
 				map.put("h_pyeon", rs.getString("h_pyeon"));
 				map.put("h_hp", rs.getString("h_hp"));
-				
+
 				list.add(map);
 			}
-			
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			db.dbClose(rs, pstmt, conn);
 		}
 		return list;
-		
 	}
-	
-	
-	//유지))즐겨찾기한 휴게소인지 여부 판단하는 거
+
+	// 유지))즐겨찾기한 휴게소인지 여부 판단하는 거
 	public int isFavorite(String m_num, String h_num) {
-		int fav=0;
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		String sql="select count(*) from favorite where m_num=? and h_num=?";
-		
+		int fav = 0;
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select count(*) from favorite where m_num=? and h_num=?";
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, m_num);
 			pstmt.setString(2, h_num);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				fav=rs.getInt(1);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				fav = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			db.dbClose(rs, pstmt, conn);
 		}
-		
+
 		return fav;
 	}
 
-	
 	// 닉네임, 아이디불러오기 (리뷰에 연동)
-		public String getId(String m_id) {
-			String m_nick = "";
+	public String getId(String m_id) {
+		String m_nick = "";
 
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-			String sql = "select * from meminfo where m_id=?";
+		String sql = "select * from meminfo where m_id=?";
 
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, m_id);
-				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					m_nick = rs.getString("m_nick");
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(rs, pstmt, conn);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				m_nick = rs.getString("m_nick");
 			}
-			return m_nick;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
-		
-		//유지)관리자가 회원관리하기 위한 회원전체목록 출력
-		public List<MemInfoDto> getMemDatas(){
-			List<MemInfoDto> list=new ArrayList<MemInfoDto>();
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-			ResultSet rs=null;
-			
-			String sql="select * from meminfo order by m_num";
-			
-			try {
-				pstmt=conn.prepareStatement(sql);
-				rs=pstmt.executeQuery();
-				
-				while(rs.next()) {
-					MemInfoDto dto=new MemInfoDto();
-					dto.setM_num(rs.getString("m_num"));
-					dto.setM_name(rs.getString("m_name"));
-					dto.setM_nick(rs.getString("m_nick"));
-					dto.setM_id(rs.getString("m_id"));
-					dto.setM_pass(rs.getString("m_pass"));
-					dto.setM_hp1(rs.getString("m_hp1"));
-					dto.setM_hp2(rs.getString("m_hp2"));
-					dto.setM_birth(rs.getString("m_birth"));
-					dto.setM_email(rs.getString("m_email"));
-					dto.setM_role(rs.getString("m_role"));
-					dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
-					list.add(dto);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				db.dbClose(rs, pstmt, conn);
-			}
+		return m_nick;
+	}
 
-			return list;
+	// 유지)관리자가 회원관리하기 위한 회원전체목록 출력
+	public List<MemInfoDto> getMemDatas() {
+		List<MemInfoDto> list = new ArrayList<MemInfoDto>();
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select * from meminfo order by m_num";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				MemInfoDto dto = new MemInfoDto();
+				dto.setM_num(rs.getString("m_num"));
+				dto.setM_name(rs.getString("m_name"));
+				dto.setM_nick(rs.getString("m_nick"));
+				dto.setM_id(rs.getString("m_id"));
+				dto.setM_pass(rs.getString("m_pass"));
+				dto.setM_hp1(rs.getString("m_hp1"));
+				dto.setM_hp2(rs.getString("m_hp2"));
+				dto.setM_birth(rs.getString("m_birth"));
+				dto.setM_email(rs.getString("m_email"));
+				dto.setM_role(rs.getString("m_role"));
+				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
 
-		//유지)관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것
-		public List<MemInfoDto> searchMem(String m_name){
-			List<MemInfoDto> list=new ArrayList<MemInfoDto>();
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-			ResultSet rs=null;
-			
-			String sql="select * from meminfo where m_name like ?";
-			
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1,"%"+m_name+"%" );
-				rs=pstmt.executeQuery();
-				
-				while(rs.next()) {
-					MemInfoDto dto=new MemInfoDto();
-					dto.setM_num(rs.getString("m_num"));
-					dto.setM_name(rs.getString("m_name"));
-					dto.setM_id(rs.getString("m_id"));
-					dto.setM_nick(rs.getString("m_nick"));
-					dto.setM_hp1(rs.getString("m_hp1"));
-					dto.setM_hp2(rs.getString("m_hp2"));
-					dto.setM_birth(rs.getString("m_birth"));
-					dto.setM_email(rs.getString("m_email"));
-					dto.setM_role(rs.getString("m_role"));
-					dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
-					list.add(dto);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				db.dbClose(rs, pstmt, conn);
-			}
+		return list;
+	}
 
-			return list;
+	// 유지)관리자가 회원목록/관리 페이지에서 회원 이름으로 검색하는 것
+	public List<MemInfoDto> searchMem(String m_name) {
+		List<MemInfoDto> list = new ArrayList<MemInfoDto>();
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select * from meminfo where m_name like ?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + m_name + "%");
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				MemInfoDto dto = new MemInfoDto();
+				dto.setM_num(rs.getString("m_num"));
+				dto.setM_name(rs.getString("m_name"));
+				dto.setM_id(rs.getString("m_id"));
+				dto.setM_nick(rs.getString("m_nick"));
+				dto.setM_hp1(rs.getString("m_hp1"));
+				dto.setM_hp2(rs.getString("m_hp2"));
+				dto.setM_birth(rs.getString("m_birth"));
+				dto.setM_email(rs.getString("m_email"));
+				dto.setM_role(rs.getString("m_role"));
+				dto.setM_gaipday(rs.getTimestamp("M_gaipday"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
 
-		// 소유자 범위 즐겨찾기 삭제 (IDOR 방어: 세션 m_num 소유분만 삭제)
-		// 주의) 소유자 조건 없는 PK-only favDelete(String) 오버로드는 IDOR 위험으로 제거함.
-		//       즐겨찾기 삭제는 반드시 아래 2-인자(f_num, m_num) 메서드만 사용한다.
-		public void favDelete(String f_num, String m_num) {
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
+		return list;
+	}
 
-			String sql="delete from favorite where f_num=? and m_num=?";
+	// 소유자 범위 즐겨찾기 삭제 (IDOR 방어: 세션 m_num 소유분만 삭제)
+	// 주의) 소유자 조건 없는 PK-only favDelete(String) 오버로드는 IDOR 위험으로 제거함.
+	//       즐겨찾기 삭제는 반드시 아래 2-인자(f_num, m_num) 메서드만 사용한다.
+	public void favDelete(String f_num, String m_num) {
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
 
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, f_num);
-				pstmt.setString(2, m_num);
-				pstmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				db.dbClose(pstmt, conn);
-			}
+		String sql = "delete from favorite where f_num=? and m_num=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, f_num);
+			pstmt.setString(2, m_num);
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(pstmt, conn);
 		}
+	}
 }
-
-	
-
