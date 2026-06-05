@@ -387,31 +387,6 @@ public class MemInfoDao {
 		}
 	}
 
-	// 닉네임을 넣고 현재 닉네임 받아오기
-	public String inputIDGetNick(String m_id) {
-		String m_nick = "";
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select * from meminfo where m_num=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, m_id);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				m_nick = rs.getString("m_nick");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		return m_nick;
-	}
-
 	// 삭제 delete메서드
 	public void deleteMember(String m_num) {
 		Connection conn = db.getConnection();
