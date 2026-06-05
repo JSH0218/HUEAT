@@ -11,7 +11,7 @@ import mysql.db.DbConnect;
 
 public class GradeDao {
 	
-	DbConnect db = new DbConnect();
+	private DbConnect db = new DbConnect();
 	
 	//평점 등록
 	public void insertGrade(GradeDto dto) {
@@ -41,7 +41,7 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(최신순)
-	public List<GradeDto> getGradeLatest(String g_hunum){
+	public List<GradeDto> getGradeLatest(String h_num){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -52,7 +52,7 @@ public class GradeDao {
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, g_hunum);
+			pstmt.setString(1, h_num);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -158,7 +158,7 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(평점높은순)
-	public List<GradeDto> getGradeHigh(String g_hunum){
+	public List<GradeDto> getGradeHigh(String h_num){
 		List<GradeDto> list = new ArrayList<GradeDto>();
 		
 		Connection conn = db.getConnection();
@@ -169,7 +169,7 @@ public class GradeDao {
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, g_hunum);
+			pstmt.setString(1, h_num);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -194,120 +194,120 @@ public class GradeDao {
 	}
 	
 	//평점 전체 목록(평점낮은순)
-		public List<GradeDto> getGradeLow(String g_hunum){
-			List<GradeDto> list = new ArrayList<GradeDto>();
+	public List<GradeDto> getGradeLow(String h_num){
+		List<GradeDto> list = new ArrayList<GradeDto>();
+		
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select * from grade where h_num =? order by g_grade asc";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, h_num);
+			rs=pstmt.executeQuery();
 			
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			String sql = "select * from grade where h_num =? order by g_grade asc";
-			
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, g_hunum);
-				rs=pstmt.executeQuery();
+			while(rs.next()) {
+				GradeDto dto = new GradeDto();
 				
-				while(rs.next()) {
-					GradeDto dto = new GradeDto();
-					
-					dto.setG_num(rs.getString("g_num"));
-					dto.setH_num(rs.getString("h_num"));
-					dto.setG_myid(rs.getString("g_myid"));
-					dto.setG_content(rs.getString("g_content"));
-					dto.setG_grade(rs.getString("g_grade"));
-					dto.setG_writeday(rs.getTimestamp("g_writeday"));
-					
-					list.add(dto);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				db.dbClose(rs, pstmt, conn);
+				dto.setG_num(rs.getString("g_num"));
+				dto.setH_num(rs.getString("h_num"));
+				dto.setG_myid(rs.getString("g_myid"));
+				dto.setG_content(rs.getString("g_content"));
+				dto.setG_grade(rs.getString("g_grade"));
+				dto.setG_writeday(rs.getTimestamp("g_writeday"));
+				
+				list.add(dto);
 			}
-			
-			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
 		}
 		
+		return list;
+	}
+	
 
-		// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기(프로그래스바)
-		public String get_Content(String h_num) {
-		    String get_Content = null;
-		    Connection conn = db.getConnection();
-		    PreparedStatement pstmt = null;
-		    ResultSet rs = null;
+	// 각 휴게소에서 평점 매긴 사용자의 각각의 평점내용을 가져오기(프로그래스바)
+	public String get_Content(String h_num) {
+	    String get_Content = null;
+	    Connection conn = db.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
 
-		    String sql = "select g_content, count(g_content) as g_content_count from grade where h_num = ? group by g_content";
+	    String sql = "select g_content, count(g_content) as g_content_count from grade where h_num = ? group by g_content";
 
-		    try {
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setString(1, h_num);
-		        rs = pstmt.executeQuery();
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, h_num);
+	        rs = pstmt.executeQuery();
 
-		        StringBuilder result = new StringBuilder(); // 결과를 저장할 StringBuilder 생성
+	        StringBuilder result = new StringBuilder(); // 결과를 저장할 StringBuilder 생성
 
-		        while (rs.next()) {
-		            // 각 등급별 등장 횟수를 가져와서 StringBuilder에 추가
-		            result.append(rs.getString("g_content")).append(" : ").append(rs.getString("g_content_count")).append(", ");
-		        }
+	        while (rs.next()) {
+	            // 각 등급별 등장 횟수를 가져와서 StringBuilder에 추가
+	            result.append(rs.getString("g_content")).append(" : ").append(rs.getString("g_content_count")).append(", ");
+	        }
 
-		        // 마지막 쉼표 제거
-		        if (result.length() > 0) {
-		            result.delete(result.length() - 2, result.length());
-		        }
+	        // 마지막 쉼표 제거
+	        if (result.length() > 0) {
+	            result.delete(result.length() - 2, result.length());
+	        }
 
-		        // 최종 결과 문자열 저장
-		        get_Content = result.toString();
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		    } finally {
-		        db.dbClose(rs, pstmt, conn);
-		    }
+	        // 최종 결과 문자열 저장
+	        get_Content = result.toString();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        db.dbClose(rs, pstmt, conn);
+	    }
 
-		    return get_Content;
+	    return get_Content;
+	}
+	
+	
+	// 등록된 평점 삭제 (관리자 페이지)
+	public void deleteGrade(String g_num) {
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+
+		String sql="delete from grade where g_num=?";
+
+		try {
+			pstmt=conn.prepareStatement(sql);
+
+			pstmt.setString(1, g_num);
+
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(pstmt, conn);
 		}
-		
-		
-		// 등록된 평점 삭제 (관리자 페이지)
-		public void deleteGrade(String g_num) {
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
+	}
 
-			String sql="delete from grade where g_num=?";
+	// 소유자 범위 평점 삭제 (IDOR 방어: 작성자 본인 것만 삭제)
+	public void deleteGrade(String g_num, String g_myid) {
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
 
-			try {
-				pstmt=conn.prepareStatement(sql);
+		String sql="delete from grade where g_num=? and g_myid=?";
 
-				pstmt.setString(1, g_num);
+		try {
+			pstmt=conn.prepareStatement(sql);
 
-				pstmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				db.dbClose(pstmt, conn);
-			}
+			pstmt.setString(1, g_num);
+			pstmt.setString(2, g_myid);
+
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(pstmt, conn);
 		}
-
-		// 소유자 범위 평점 삭제 (IDOR 방어: 작성자 본인 것만 삭제)
-		public void deleteGrade(String g_num, String g_myid) {
-			Connection conn=db.getConnection();
-			PreparedStatement pstmt=null;
-
-			String sql="delete from grade where g_num=? and g_myid=?";
-
-			try {
-				pstmt=conn.prepareStatement(sql);
-
-				pstmt.setString(1, g_num);
-				pstmt.setString(2, g_myid);
-
-				pstmt.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				db.dbClose(pstmt, conn);
-			}
-		}
+	}
 
 
 }
