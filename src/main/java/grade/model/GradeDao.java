@@ -56,16 +56,7 @@ public class GradeDao {
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				GradeDto dto = new GradeDto();
-				
-				dto.setG_num(rs.getString("g_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setG_myid(rs.getString("g_myid"));
-				dto.setG_content(rs.getString("g_content"));
-				dto.setG_grade(rs.getString("g_grade"));
-				dto.setG_writeday(rs.getTimestamp("g_writeday"));
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -173,16 +164,7 @@ public class GradeDao {
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				GradeDto dto = new GradeDto();
-				
-				dto.setG_num(rs.getString("g_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setG_myid(rs.getString("g_myid"));
-				dto.setG_content(rs.getString("g_content"));
-				dto.setG_grade(rs.getString("g_grade"));
-				dto.setG_writeday(rs.getTimestamp("g_writeday"));
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,16 +191,7 @@ public class GradeDao {
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				GradeDto dto = new GradeDto();
-				
-				dto.setG_num(rs.getString("g_num"));
-				dto.setH_num(rs.getString("h_num"));
-				dto.setG_myid(rs.getString("g_myid"));
-				dto.setG_content(rs.getString("g_content"));
-				dto.setG_grade(rs.getString("g_grade"));
-				dto.setG_writeday(rs.getTimestamp("g_writeday"));
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -309,5 +282,15 @@ public class GradeDao {
 		}
 	}
 
-
+	// ResultSet → GradeDto 매핑(목록 조회 공통)
+	private GradeDto mapRow(ResultSet rs) throws SQLException {
+		GradeDto dto = new GradeDto();
+		dto.setG_num(rs.getString("g_num"));
+		dto.setH_num(rs.getString("h_num"));
+		dto.setG_myid(rs.getString("g_myid"));
+		dto.setG_content(rs.getString("g_content"));
+		dto.setG_grade(rs.getString("g_grade"));
+		dto.setG_writeday(rs.getTimestamp("g_writeday"));
+		return dto;
+	}
 }
