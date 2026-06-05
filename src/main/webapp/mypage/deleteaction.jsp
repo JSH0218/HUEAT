@@ -44,7 +44,7 @@
 	}
 
 	// 폼의 m_num을 신뢰하지 않고 로그인 사용자 본인 계정만 삭제
-	String m_num=dao.getAlldatas(myid).getM_num();
+	String m_num=dao.selectMemberById(myid).getM_num();
 	dao.deleteMember(m_num);
 
 	// 세션 무효화 (로그아웃)

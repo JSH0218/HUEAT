@@ -54,7 +54,7 @@ String loginok = (String) session.getAttribute("loginok");
 String myid = (String) session.getAttribute("myid");
 
 MemInfoDao dao = new MemInfoDao();
-MemInfoDto dto = dao.getAlldatas(myid);
+MemInfoDto dto = dao.selectMemberById(myid);
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 %>
 <script type="text/javascript">

@@ -223,7 +223,7 @@
         	  for(NoticeDto dto:list) {
         	  
         		  //아이디 얻기
-          	       String name = qdao.getId(dto.getN_myid());
+          	       String name = qdao.selectNickById(dto.getN_myid());
         	  %>
         		
         		  <tr>

@@ -11,10 +11,10 @@ if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
 String m_nick=request.getParameter("m_nick");
 MemInfoDao dao=new MemInfoDao();
 // m_num은 클라이언트 입력 대신 세션 사용자로 고정(임의 m_num으로 타인 닉네임 조회하는 IDOR 차단)
-String m_num=dao.getM_num(util.SecurityUtil.currentId(session));
+String m_num=dao.selectM_num(util.SecurityUtil.currentId(session));
 int count=dao.numPassCheck(m_num, m_nick);
 int nickcount=dao.nickcount(m_nick);
-String nickname=dao.getNick(m_num);
+String nickname=dao.selectNickByNum(m_num);
 
 
 JSONObject ob=new JSONObject();

@@ -145,7 +145,7 @@ function delemem(m_num){
 <body>
 <%
 MemInfoDao dao=new MemInfoDao();
-List<MemInfoDto> list=dao.getMemDatas();
+List<MemInfoDto> list=dao.selectMemDatas();
 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 %>
 

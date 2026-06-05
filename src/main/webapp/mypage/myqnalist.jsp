@@ -332,7 +332,7 @@ font-size: 14px;
          </tr>
       <%
          MemInfoDao mdao=new MemInfoDao();
-        String name=mdao.getId(myid);
+        String name=mdao.selectNickById(myid);
         
        
            

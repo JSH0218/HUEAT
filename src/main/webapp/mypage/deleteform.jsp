@@ -61,7 +61,7 @@
 	String myid=(String)session.getAttribute("myid");
 	
 	MemInfoDao dao = new MemInfoDao();
-	MemInfoDto dto = dao.getAlldatas(myid);
+	MemInfoDto dto = dao.selectMemberById(myid);
 	
 	
 %>

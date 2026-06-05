@@ -35,7 +35,7 @@ if(b){
 	session.setAttribute("loginok", "yes");
 	session.setAttribute("myid", id);
 	// 권한(USER/ADMIN)을 세션에 저장 — 관리자 판별은 이 값으로만 한다
-	session.setAttribute("role", dao.getRole(id));
+	session.setAttribute("role", dao.selectRole(id));
 	session.setAttribute("saveok", cbsave==null?null:"yes" );
 	response.sendRedirect("../index.jsp");
 	
