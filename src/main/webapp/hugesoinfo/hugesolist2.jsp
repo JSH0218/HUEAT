@@ -133,8 +133,6 @@ a:active{
 
     //UploadBoardDao 인스턴스 생성
 	HugesoInfoDao dao = new HugesoInfoDao();
-    //모든 게시글 데이터 가져오기
-	List<HugesoInfoDto> list = dao.selectAllDatas();
 	 
 	//전체갯수
 	int totalCount=dao.selectTotalCount();
