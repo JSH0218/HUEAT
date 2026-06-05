@@ -63,7 +63,7 @@
 	
 	//FoodDao 객체 생성 & 음식 데이터 가져오기
 	FoodDao fdao = new FoodDao();
-	FoodDto ffdto = fdao.bestFood(h_num);
+	FoodDto ffdto = fdao.selectBestFood(h_num);
 	List<FoodDto> foodlist = fdao.selectFood(h_num);
 	
 	//BrandDao 객체 생성 & 브랜드 데이터 가져오기

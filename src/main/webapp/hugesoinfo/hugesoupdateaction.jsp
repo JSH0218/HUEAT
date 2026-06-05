@@ -205,13 +205,13 @@
 					
 					fdao.insertFood(fdto);
 					
-					numList.add(fdao.getFoodNum(fdto));
+					numList.add(fdao.selectFoodNum(fdto));
 				} else{
 					fdto.setF_num(f_num);
 					String f_name = multi.getParameter("f_name"+i);
 					fdto.setF_name(f_name);
 					String f_photo = multi.getFilesystemName("f_photo"+i);
-					String oldPhoto=fdao.getFoodData(f_num).getF_photo();
+					String oldPhoto=fdao.selectFoodData(f_num).getF_photo();
 					if(f_photo==null){
 				    	fdto.setF_photo(oldPhoto);
 				    }else{
@@ -231,7 +231,7 @@
 					numList.add(f_num);
 				}
 			}
-			List<String> hugesoFoodList=fdao.getHugesoFoodNum(h_num);
+			List<String> hugesoFoodList=fdao.selectHugesoFoodNum(h_num);
 			for(int i=0;i<hugesoFoodList.size();i++){
 				String f_num=hugesoFoodList.get(i);
 				boolean flag=true;
@@ -242,7 +242,7 @@
 				}
 				if(flag){
 					//파일삭제
-					String filePath=uploadPath+"/"+fdao.getFoodData(f_num).getF_photo();
+					String filePath=uploadPath+"/"+fdao.selectFoodData(f_num).getF_photo();
 					File file=new File(filePath);
 					if(file.exists()){
 						file.delete();
@@ -258,7 +258,7 @@
 			for(int i=0;i<flist.size();i++){
 				fdto=flist.get(i);
 				
-				String filePath=uploadPath+"/"+fdao.getFoodData(fdto.getF_num()).getF_photo();
+				String filePath=uploadPath+"/"+fdao.selectFoodData(fdto.getF_num()).getF_photo();
 				File file=new File(filePath);
 				if(file.exists()){
 					file.delete();

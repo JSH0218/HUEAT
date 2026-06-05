@@ -251,7 +251,7 @@ NumberFormat nf=NumberFormat.getInstance();
 <%
 	for(int i=0;i<list.size();i++){
 		FoodDto dto=list.get(i); 
-		String f_num=dao.getF_num(h_num, dto.getF_name());
+		String f_num=dao.selectF_num(h_num, dto.getF_name());
 
 		int pr=Integer.parseInt(dto.getF_price());
 		%>

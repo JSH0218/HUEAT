@@ -36,7 +36,7 @@
     List<BrandDto> blist=bdao.selectBrand(h_num);
     
     FoodDao fdao=new FoodDao();
-    int ftotal=fdao.getRegisteredTotal(h_num);
+    int ftotal=fdao.selectRegisteredTotal(h_num);
     List<FoodDto> flist=fdao.selectFood(h_num);
 %>
 	<style type="text/css">

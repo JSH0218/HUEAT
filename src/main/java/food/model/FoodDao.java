@@ -16,7 +16,7 @@ public class FoodDao {
 
 	private DbConnect db=new DbConnect();
 
-	// ResultSet 한 행을 FoodDto로 매핑 (음식 평점정렬 6컬럼 공통: getFoodLatest/High/Low)
+	// ResultSet 한 행을 FoodDto로 매핑 (음식 평점정렬 6컬럼 공통: selectFoodLatest/High/Low)
 	private FoodDto mapRow(ResultSet rs) throws SQLException {
 		FoodDto dto = new FoodDto();
 		dto.setF_num(rs.getString("f_num"));
@@ -51,7 +51,7 @@ public class FoodDao {
 	}
 	
 	//h_num이 일치하는 음식갯수 출력
-	public int getRegisteredTotal(String h_num) {
+	public int selectRegisteredTotal(String h_num) {
 		int total=0;
 		
 		Connection conn=db.getConnection();
@@ -80,7 +80,7 @@ public class FoodDao {
 	}
 	
 	//f_num이 일치는 음식정보 출력
-	public FoodDto getFoodData(String f_num) {
+	public FoodDto selectFoodData(String f_num) {
 		FoodDto dto=new FoodDto();
 		
 		Connection conn=db.getConnection();
@@ -136,7 +136,7 @@ public class FoodDao {
 	}
 	
 	//특정 f_num 추출
-	public String getFoodNum(FoodDto dto) {
+	public String selectFoodNum(FoodDto dto) {
 		String f_num="없음";
 
 		Connection conn=db.getConnection();
@@ -168,7 +168,7 @@ public class FoodDao {
 	}
 	
 	//특정 휴게소 소속 f_num 추출
-	public List<String> getHugesoFoodNum(String h_num){
+	public List<String> selectHugesoFoodNum(String h_num){
 		List<String> list=new ArrayList<String>();
 		
 		Connection conn=db.getConnection();
@@ -275,7 +275,7 @@ public class FoodDao {
 	}
   
   //유지)) f_num을 얻기위해서 h_num과 f_name사용
-	public String getF_num(String h_num, String f_name) {
+	public String selectF_num(String h_num, String f_name) {
 		String f_num="";
     
 		Connection conn=db.getConnection();
@@ -301,7 +301,7 @@ public class FoodDao {
 	}
 	
 	//승경_메인화면에 메뉴 번호순서대로 가져오기 위해 생성
-	public List<FoodDto> getAllFood(){
+	public List<FoodDto> selectAllFood(){
 		List<FoodDto> foodlist = new ArrayList<FoodDto>();
 
 		Connection conn = db.getConnection();
@@ -359,7 +359,7 @@ public class FoodDao {
 	
 	
 	//음식 평점 정렬 (hugesodetail.jsp)
-	public List<FoodDto> getFoodLatest(String h_num){
+	public List<FoodDto> selectFoodLatest(String h_num){
 		List<FoodDto> list = new ArrayList<FoodDto>();
 
 		Connection conn = db.getConnection();
@@ -387,7 +387,7 @@ public class FoodDao {
 
 
 	//음식 평점 정렬(평점높은순) (hugesodetail.jsp)
-	public List<FoodDto> getFoodHigh(String h_num){
+	public List<FoodDto> selectFoodHigh(String h_num){
 		List<FoodDto> list = new ArrayList<FoodDto>();
 
 		Connection conn = db.getConnection();
@@ -414,7 +414,7 @@ public class FoodDao {
 	}
 
 	//음식 평점 정렬(평점낮은순) (hugesodetail.jsp)
-	public List<FoodDto> getFoodLow(String h_num){
+	public List<FoodDto> selectFoodLow(String h_num){
 		List<FoodDto> list = new ArrayList<FoodDto>();
 
 		Connection conn = db.getConnection();
@@ -441,7 +441,7 @@ public class FoodDao {
 	}
 
 	// 해당 휴게소에서 평점이 가장 높은 음식 이름 하나만 출력 (hugesodetail.jsp)
-	public FoodDto bestFood(String h_num) {
+	public FoodDto selectBestFood(String h_num) {
 		FoodDto dto = new FoodDto();
 
 		Connection conn = db.getConnection();

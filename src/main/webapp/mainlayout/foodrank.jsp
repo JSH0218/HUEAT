@@ -108,7 +108,7 @@
 <div class="swiper-container menu">
     <div class="swiper-wrapper">
         <% 
-            List<FoodDto> recentfood = fdao.getAllFood();
+            List<FoodDto> recentfood = fdao.selectAllFood();
             int size = Math.min(recentfood.size(), 5);
             for (int f = 0; f < size; f++) { 
             	FoodDto dto = recentfood.get(f); 
