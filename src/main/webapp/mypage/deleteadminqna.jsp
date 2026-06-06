@@ -28,7 +28,7 @@
         String qNum = numArray[i]; // 짝수 인덱스는 q_num 값
         String qaNum = numArray[i + 1]; // 홀수 인덱스는 qa_num 값
         // Q_num과 qa_num에 해당하는 데이터 삭제
-        dao.deleteQna(qNum, qaNum);
+        dao.deleteQaAnswer(qNum, qaNum);
     }
     // 목록으로 이동
     response.sendRedirect("../index.jsp?main=mypage/adminqnalist.jsp");

@@ -131,6 +131,11 @@ public class QaanswerDao {
 
 	// 삭제
 	public void deleteQaAnswer(QaanswerDto dto) {
+		deleteQaAnswer(dto.getQ_num(), dto.getQa_num());
+	}
+
+	// 삭제(q_num, qa_num 직접 지정 — 관리자 페이지 일괄 삭제 등)
+	public void deleteQaAnswer(String q_num, String qa_num) {
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 
@@ -139,8 +144,8 @@ public class QaanswerDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, dto.getQ_num());
-			pstmt.setString(2, dto.getQa_num());
+			pstmt.setString(1, q_num);
+			pstmt.setString(2, qa_num);
 
 			pstmt.execute();
 		} catch (SQLException e) {
@@ -215,29 +220,6 @@ public class QaanswerDao {
 			db.dbClose(rs, pstmt, conn);
 		}
 		return mypagelist;
-	}
-
-	// adminpage에서 삭제하기
-	public void deleteQna(String q_num, String qa_num) {
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-
-		String sql = "delete from qaanswerboard where q_num=? and qa_num=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, q_num);
-			pstmt.setString(2, qa_num);
-
-			pstmt.execute();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(pstmt, conn);
-		}
-
 	}
 
 	//q_num을 통해 문의글 제목 가져오기
