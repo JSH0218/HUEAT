@@ -8,7 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Stylish&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>내 문의 삭제</title>
 </head>
 <body>
 <%
@@ -26,9 +26,9 @@
 	QaDao dao=new QaDao();
 	for(String n:num)
 	{
-		qa.model.QaDto q=dao.getDataQa(n);
+		qa.model.QaDto q=dao.selectDataQa(n);
 		if(q!=null && util.SecurityUtil.isOwnerOrAdmin(session, q.getQ_myid())){
-			dao.deleteQna(n);
+			dao.deleteQa(n);
 		}
 	}
 	

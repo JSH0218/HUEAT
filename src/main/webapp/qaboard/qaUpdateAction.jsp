@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>QnA 수정 처리</title>
 </head>
 <body>
   <%
@@ -38,7 +38,7 @@
     QaDao dao = new QaDao();
 
     // 로그인 + 작성자 본인(또는 관리자)만 수정 가능
-    QaDto old = dao.getDataQa(q_num);
+    QaDto old = dao.selectDataQa(q_num);
     if(!util.SecurityUtil.isLogin(session) || old==null
             || !util.SecurityUtil.isOwnerOrAdmin(session, old.getQ_myid())){
 %>

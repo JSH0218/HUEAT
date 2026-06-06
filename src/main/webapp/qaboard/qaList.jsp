@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>QnA 게시판</title>
 <style type="text/css">
 
   button.col {
@@ -124,7 +124,7 @@
 	QaDao dao=new QaDao();
 	
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=dao.selectTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -164,7 +164,7 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<QaDto> list = dao.getList(startNum, perPage);
+	List<QaDto> list = dao.selectPagingList(startNum, perPage);
 		
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
 	//마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
