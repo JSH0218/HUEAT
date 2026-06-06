@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
-<title>Insert title here</title>
+<title>아이디 찾기</title>
 <style type="text/css">
 	body{
 	font-family: 'Nanum Gothic';

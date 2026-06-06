@@ -30,7 +30,6 @@ public class DbConnect {
 					AppConfig.getDbUrl(), AppConfig.getDbUser(), AppConfig.getDbPassword());
 			System.out.println("mysql계정연결성공");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("mysql연결실패: "+e.getMessage());
 		}
@@ -48,7 +47,6 @@ public class DbConnect {
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -61,7 +59,6 @@ public class DbConnect {
 				if(stmt!=null) stmt.close();
 				if(conn!=null) conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -74,7 +71,6 @@ public class DbConnect {
 				if(pstmt!=null) pstmt.close();
 				if(conn!=null) conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -87,7 +83,6 @@ public class DbConnect {
 				if(pstmt!=null) pstmt.close();
 				if(conn!=null) conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
