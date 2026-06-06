@@ -1,4 +1,3 @@
-<%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="food.model.FoodDto"%>
 <%@page import="food.model.FoodDao"%>
@@ -53,7 +52,6 @@
 	fdao.deleteHugesoFood(h_num);
 	
 	HugesoInfoDao hdao=new HugesoInfoDao();
-	HugesoInfoDto hdto=new HugesoInfoDto();
 	
 	//휴게소 파일삭제
 	String filePath=uploadPath+"/"+hdao.selectData(h_num).getH_photo();

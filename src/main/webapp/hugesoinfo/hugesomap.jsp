@@ -419,10 +419,6 @@
 	        		//각페이지당 출력할 시작번호 구하기
 	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
 	        		no=totalCount-(currentPage-1)*perPage;
-
-	        		//각페이지당 출력할 시작번호 구하기
-	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
-	        		no=totalCount-(currentPage-1)*perPage;
 	        		
 	        		var s="<ul class='pagination justify-content-center'>";
 	        		
