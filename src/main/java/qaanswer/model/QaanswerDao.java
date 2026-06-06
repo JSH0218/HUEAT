@@ -218,6 +218,8 @@ public class QaanswerDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
 		return title;
 	}
