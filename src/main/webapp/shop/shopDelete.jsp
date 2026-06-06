@@ -26,7 +26,7 @@
     
     //db로 부터 저장된 이미지명 얻기
     ShopDao dao = new ShopDao();
-    String r_image = dao.getDataShop(s_num).getS_image();
+    String r_image = dao.selectDataShop(s_num).getS_image();
     
     //db삭제
     dao.deleteShop(s_num);

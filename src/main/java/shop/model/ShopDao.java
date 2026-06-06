@@ -39,7 +39,7 @@ public class ShopDao {
 	}
 
 	//전체 list 출력
-	public List<ShopDto> allShop() {
+	public List<ShopDto> selectAllShop() {
 
 		List<ShopDto> list = new ArrayList<ShopDto>();
 
@@ -90,7 +90,7 @@ public class ShopDao {
 	}
 
 	//num값 넘겨주기 -> dto 반환!!
-	public ShopDto getDataShop(String s_num) {
+	public ShopDto selectDataShop(String s_num) {
 		ShopDto dto = new ShopDto();
 
 		Connection conn = db.getConnection();

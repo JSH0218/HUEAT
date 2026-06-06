@@ -165,7 +165,7 @@ $(function(){
  String myid=(String)session.getAttribute("myid");
  
  ShopDao dao = new ShopDao();
- List<ShopDto> list = dao.allShop();
+ List<ShopDto> list = dao.selectAllShop();
  
  %>
 <body>
