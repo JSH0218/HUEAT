@@ -58,7 +58,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    ReviewDao dao = new ReviewDao();
-   ReviewDto dto = dao.getDataReview(r_num);
+   ReviewDto dto = dao.selectDataReview(r_num);
    
   
    HugesoInfoDao hdao = new HugesoInfoDao();

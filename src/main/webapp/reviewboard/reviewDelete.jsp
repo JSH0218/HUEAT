@@ -26,7 +26,7 @@
 
     //db로 부터 저장된 이미지명 얻기
     ReviewDao dao = new ReviewDao();
-    ReviewDto old = dao.getDataReview(r_num);
+    ReviewDto old = dao.selectDataReview(r_num);
 
     // 로그인 + 작성자 본인(또는 관리자)만 삭제 가능
     if(!util.SecurityUtil.isLogin(session) || old==null

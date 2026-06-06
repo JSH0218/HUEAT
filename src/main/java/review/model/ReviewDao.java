@@ -39,7 +39,7 @@ public class ReviewDao {
 	}
 
 	//전체 페이지수 dto 반환하기
-	public int getTotalCount() {
+	public int selectTotalCount() {
 
 		int total = 0;
 
@@ -67,7 +67,7 @@ public class ReviewDao {
 	}
 
 	// paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<ReviewDto> getList(int start, int perPage) {
+	public List<ReviewDto> selectPagingList(int start, int perPage) {
 		List<ReviewDto> list = new ArrayList<ReviewDto>();
 
 		Connection conn = db.getConnection();
@@ -163,7 +163,7 @@ public class ReviewDao {
 	}
 
 	//num값 넘겨주기 -> dto 반환!!
-	public ReviewDto getDataReview(String r_num) {
+	public ReviewDto selectDataReview(String r_num) {
 		ReviewDto dto = new ReviewDto();
 
 		Connection conn = db.getConnection();
@@ -192,7 +192,7 @@ public class ReviewDao {
 	}
 
 	// myreviewlist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<ReviewDto> getmypagelist(int start, int perPage, String myid) {
+	public List<ReviewDto> selectMyPageList(int start, int perPage, String myid) {
 		List<ReviewDto> mypagelist = new ArrayList<ReviewDto>();
 
 		Connection conn = db.getConnection();
@@ -224,7 +224,7 @@ public class ReviewDao {
 	}
 
 	// myreviewlist.jsp //페이징리스트/ 전체페이지수 반환하기
-	public int getMyPageTotalCount(String myid) {
+	public int selectMyPageTotalCount(String myid) {
 
 		int total = 0;
 
