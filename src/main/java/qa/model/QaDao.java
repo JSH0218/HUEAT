@@ -118,18 +118,7 @@ public class QaDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				QaDto dto = new QaDto();
-
-				dto.setQ_num(rs.getString("q_num"));
-				dto.setQ_myid(rs.getString("q_myid"));
-				dto.setQ_category(rs.getString("q_category"));
-				dto.setQ_subject(rs.getString("q_subject"));
-				dto.setQ_content(rs.getString("q_content"));
-				dto.setQ_readcount(rs.getInt("q_readcount"));
-				dto.setQ_writeday(rs.getTimestamp("q_writeday"));
-
-				mypagelist.add(dto);
+				mypagelist.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -159,18 +148,7 @@ public class QaDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				QaDto dto = new QaDto();
-
-				dto.setQ_num(rs.getString("q_num"));
-				dto.setQ_myid(rs.getString("q_myid"));
-				dto.setQ_category(rs.getString("q_category"));
-				dto.setQ_subject(rs.getString("q_subject"));
-				dto.setQ_content(rs.getString("q_content"));
-				dto.setQ_readcount(rs.getInt("q_readcount"));
-				dto.setQ_writeday(rs.getTimestamp("q_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -198,15 +176,7 @@ public class QaDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				dto.setQ_num(rs.getString("q_num"));
-				dto.setQ_myid(rs.getString("q_myid"));
-				dto.setQ_category(rs.getString("q_category"));
-				dto.setQ_subject(rs.getString("q_subject"));
-				dto.setQ_content(rs.getString("q_content"));
-				dto.setQ_readcount(rs.getInt("q_readcount"));
-				dto.setQ_writeday(rs.getTimestamp("q_writeday"));
-
+				dto = mapRow(rs);
 			}
 
 		} catch (SQLException e) {
@@ -283,5 +253,20 @@ public class QaDao {
 			db.dbClose(pstmt, conn);
 		}
 
+	}
+
+	// ResultSet 한 행을 QaDto로 매핑 (조회 메서드 공통)
+	private QaDto mapRow(ResultSet rs) throws SQLException {
+		QaDto dto = new QaDto();
+
+		dto.setQ_num(rs.getString("q_num"));
+		dto.setQ_myid(rs.getString("q_myid"));
+		dto.setQ_category(rs.getString("q_category"));
+		dto.setQ_subject(rs.getString("q_subject"));
+		dto.setQ_content(rs.getString("q_content"));
+		dto.setQ_readcount(rs.getInt("q_readcount"));
+		dto.setQ_writeday(rs.getTimestamp("q_writeday"));
+
+		return dto;
 	}
 }
