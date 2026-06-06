@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap"rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
-<title>Insert title here</title>
+<title>HUEAT</title>
 <style type="text/css">
 #primary_nav_wrap {
    
