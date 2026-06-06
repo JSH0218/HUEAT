@@ -20,7 +20,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    QaDao dao = new QaDao();
-   QaDto dto = dao.getDataQa(q_num);
+   QaDto dto = dao.selectDataQa(q_num);
    %>
 <body>
 

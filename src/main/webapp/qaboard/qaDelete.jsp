@@ -23,7 +23,7 @@
     QaDao dao = new QaDao();
 
     // 로그인 + 작성자 본인(또는 관리자)만 삭제 가능
-    qa.model.QaDto old = dao.getDataQa(q_num);
+    qa.model.QaDto old = dao.selectDataQa(q_num);
     if(!util.SecurityUtil.isLogin(session) || old==null
             || !util.SecurityUtil.isOwnerOrAdmin(session, old.getQ_myid())){
 %>

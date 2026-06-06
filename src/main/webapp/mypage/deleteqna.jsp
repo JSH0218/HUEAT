@@ -26,7 +26,7 @@
 	QaDao dao=new QaDao();
 	for(String n:num)
 	{
-		qa.model.QaDto q=dao.getDataQa(n);
+		qa.model.QaDto q=dao.selectDataQa(n);
 		if(q!=null && util.SecurityUtil.isOwnerOrAdmin(session, q.getQ_myid())){
 			dao.deleteQa(n);
 		}

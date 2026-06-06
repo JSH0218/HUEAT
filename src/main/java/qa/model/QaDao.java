@@ -40,7 +40,7 @@ public class QaDao {
 	}
 
 	// myqalist.jsp //페이징리스트/ 전체페이지수 반환하기
-	public int getMyPageTotalCount(String myid) {
+	public int selectMyPageTotalCount(String myid) {
 
 		int total = 0;
 
@@ -70,7 +70,7 @@ public class QaDao {
 	}
 
 	//전체 페이지수 dto 반환하기
-	public int getTotalCount() {
+	public int selectTotalCount() {
 
 		int total = 0;
 
@@ -99,7 +99,7 @@ public class QaDao {
 	}
 
 	// myqalist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<QaDto> getmypagelist(int start, int perPage, String myid) {
+	public List<QaDto> selectMyPageList(int start, int perPage, String myid) {
 		List<QaDto> mypagelist = new ArrayList<QaDto>();
 
 		Connection conn = db.getConnection();
@@ -129,7 +129,7 @@ public class QaDao {
 	}
 
 	// paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<QaDto> getList(int start, int perPage) {
+	public List<QaDto> selectPagingList(int start, int perPage) {
 		List<QaDto> list = new ArrayList<QaDto>();
 
 		Connection conn = db.getConnection();
@@ -160,7 +160,7 @@ public class QaDao {
 	}
 
 	// detail페이지 num값 넘겨주기 -> dto 반환!!
-	public QaDto getDataQa(String q_num) {
+	public QaDto selectDataQa(String q_num) {
 		QaDto dto = new QaDto();
 
 		Connection conn = db.getConnection();

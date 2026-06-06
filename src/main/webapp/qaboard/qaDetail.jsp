@@ -19,7 +19,7 @@ String myid=(String)session.getAttribute("myid");
 String q_num = util.SecurityUtil.digitsOnly(request.getParameter("q_num"));
 QaDao dao = new QaDao();
 
-QaDto dto = dao.getDataQa(q_num);
+QaDto dto = dao.selectDataQa(q_num);
 String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
 
 //조회수 가져오기
