@@ -103,7 +103,7 @@
   
    //notice
    NoticeDao ndao = new NoticeDao();
-   List<NoticeDto> list = ndao.getAllNotice();
+   List<NoticeDto> list = ndao.selectAllNotice();
    
    //event
    EventDao edao = new EventDao();
@@ -138,7 +138,7 @@
             <% 
               
                
-              List<NoticeDto> recentNotices = ndao.getAllNotice().subList(0, Math.min(list.size(), 5));
+              List<NoticeDto> recentNotices = ndao.selectAllNotice().subList(0, Math.min(list.size(), 5));
               int n = recentNotices.size();
               if( n != 0 ) {
               for(NoticeDto dto:recentNotices) {%>

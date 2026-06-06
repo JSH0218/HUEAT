@@ -24,7 +24,7 @@
   String currentPage=request.getParameter("currentPage");
 
   NoticeDao dao=new NoticeDao();
-  dao.deleteNoice(n_num);
+  dao.deleteNotice(n_num);
   
   response.sendRedirect("../index.jsp?main=noticeboard/noticeList.jsp?currentPage="+currentPage);
   

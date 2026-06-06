@@ -52,7 +52,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    NoticeDao dao = new NoticeDao();
-   NoticeDto dto = dao.getDataNotice(n_num);
+   NoticeDto dto = dao.selectDataNotice(n_num);
 %>
 <body>
   <!-- 메뉴 타이틀 -->

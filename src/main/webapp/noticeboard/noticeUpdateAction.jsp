@@ -64,7 +64,7 @@
 
        //기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
        NoticeDao dao = new NoticeDao();
-       String old_photoName = dao.getDataNotice(n_num).getN_image();
+       String old_photoName = dao.selectDataNotice(n_num).getN_image();
        
        //dto에 저장
        NoticeDto dto=new NoticeDto();

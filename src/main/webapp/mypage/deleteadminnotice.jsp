@@ -23,7 +23,7 @@
 	NoticeDao dao=new NoticeDao();
 	for(String n:num)
 	{
-		dao.deleteNoice(n);
+		dao.deleteNotice(n);
 	}
 	
 	//목록으로 이동
