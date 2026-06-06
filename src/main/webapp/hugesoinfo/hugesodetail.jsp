@@ -7,9 +7,8 @@
 <%@page import="grade.model.GradeDto"%>
 <%@page import="grade.model.GradeDao"%>
 <%@page import="java.util.List"%>
-<%@page import="favorite.model.FavoriteDto"%>
+<%@page import="favorite.model.FavoriteDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
-<%@page import="meminfo.model.MemInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -48,7 +47,7 @@
 	
 	SimpleDateFormat sdf=new SimpleDateFormat("yy.MM.dd");
 
-	int fav=mdao.isFavorite(m_num, h_num);
+	int fav=new FavoriteDao().isFavorite(m_num, h_num);
 	
 	GradeDao gdao = new GradeDao();
 	GradeDto gdto = gdao.selectBestContent(h_num);

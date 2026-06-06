@@ -1,4 +1,4 @@
-<%@page import="hugesoinfo.model.HugesoInfoDao"%>
+<%@page import="favorite.model.FavoriteDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -11,6 +11,6 @@
 		//유지))삭제메서드 수정
     String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
 		String h_num=request.getParameter("h_num");
-    HugesoInfoDao dao=new HugesoInfoDao();
+    FavoriteDao dao=new FavoriteDao();
     dao.deleteFavorite(m_num, h_num);
 %>
