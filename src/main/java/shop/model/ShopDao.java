@@ -54,15 +54,7 @@ public class ShopDao {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-				ShopDto dto = new ShopDto();
-
-				dto.setS_num(rs.getString("s_num"));
-				dto.setS_category(rs.getString("s_category"));
-				dto.setS_site(rs.getString("s_site"));
-				dto.setS_image(rs.getString("s_image"));
-
-				list.add(dto);
-
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -114,12 +106,7 @@ public class ShopDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				dto.setS_num(rs.getString("s_num"));
-				dto.setS_category(rs.getString("s_category"));
-				dto.setS_site(rs.getString("s_site"));
-				dto.setS_image(rs.getString("s_image"));
-
+				dto = mapRow(rs);
 			}
 
 		} catch (SQLException e) {
@@ -127,6 +114,18 @@ public class ShopDao {
 		} finally {
 			db.dbClose(rs, pstmt, conn);
 		}
+
+		return dto;
+	}
+
+	//ResultSet → ShopDto 매핑(조회 메서드 공통)
+	private ShopDto mapRow(ResultSet rs) throws SQLException {
+		ShopDto dto = new ShopDto();
+
+		dto.setS_num(rs.getString("s_num"));
+		dto.setS_category(rs.getString("s_category"));
+		dto.setS_site(rs.getString("s_site"));
+		dto.setS_image(rs.getString("s_image"));
 
 		return dto;
 	}
