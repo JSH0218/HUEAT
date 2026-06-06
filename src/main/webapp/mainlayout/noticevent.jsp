@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>공지·이벤트</title>
 <style type="text/css">
   /*공지사항 */
     .noticeDetail {
@@ -103,7 +103,7 @@
   
    //notice
    NoticeDao ndao = new NoticeDao();
-   List<NoticeDto> list = ndao.getAllNotice();
+   List<NoticeDto> list = ndao.selectAllNotice();
    
    //event
    EventDao edao = new EventDao();
@@ -138,7 +138,7 @@
             <% 
               
                
-              List<NoticeDto> recentNotices = ndao.getAllNotice().subList(0, Math.min(list.size(), 5));
+              List<NoticeDto> recentNotices = ndao.selectAllNotice().subList(0, Math.min(list.size(), 5));
               int n = recentNotices.size();
               if( n != 0 ) {
               for(NoticeDto dto:recentNotices) {%>

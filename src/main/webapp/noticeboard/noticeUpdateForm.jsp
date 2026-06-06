@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>공지 수정</title>
 <style type="text/css">
 
   button.col {
@@ -52,7 +52,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    NoticeDao dao = new NoticeDao();
-   NoticeDto dto = dao.getDataNotice(n_num);
+   NoticeDto dto = dao.selectDataNotice(n_num);
 %>
 <body>
   <!-- 메뉴 타이틀 -->

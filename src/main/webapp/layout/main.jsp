@@ -125,7 +125,7 @@ String root = request.getContextPath();
 
 //notice
 NoticeDao ndao = new NoticeDao();
-List<NoticeDto> list = ndao.getAllNotice();
+List<NoticeDto> list = ndao.selectAllNotice();
 
 //event
 EventDao edao = new EventDao();

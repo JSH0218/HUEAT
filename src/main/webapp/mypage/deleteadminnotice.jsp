@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지 삭제</title>
 </head>
 <body>
 <%
@@ -23,7 +23,7 @@
 	NoticeDao dao=new NoticeDao();
 	for(String n:num)
 	{
-		dao.deleteNoice(n);
+		dao.deleteNotice(n);
 	}
 	
 	//목록으로 이동
