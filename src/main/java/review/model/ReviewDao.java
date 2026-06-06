@@ -38,44 +38,6 @@ public class ReviewDao {
 		}
 	}
 
-	//noticelist 전체 출력
-	public List<ReviewDto> getAllReview() {
-		List<ReviewDto> list = new ArrayList<ReviewDto>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select * from reviewboard order by r_num desc";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-
-				ReviewDto dto = new ReviewDto();
-
-				dto.setR_num(rs.getString("r_num"));
-				dto.setR_myid(rs.getString("r_myid"));
-				dto.setR_category(rs.getString("r_category"));
-				dto.setR_content(rs.getString("r_content"));
-				dto.setR_image(rs.getString("r_image"));
-				dto.setR_chu(rs.getInt("r_chu"));
-				dto.setR_writeday(rs.getTimestamp("r_writeday"));
-
-				list.add(dto);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-
-		return list;
-	}
-
 	//전체 페이지수 dto 반환하기
 	public int getTotalCount() {
 
@@ -246,30 +208,6 @@ public class ReviewDao {
 		}
 
 		return dto;
-	}
-
-	//myid를 통해 r_num값 얻어오기 (soo) (mypage->myactivelist.jsp)
-	public String getNum(String r_myid) {
-		String r_num = "";
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select * from reviewboard where r_myid=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, r_myid);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				r_num = rs.getString("r_num");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return r_num;
 	}
 
 	// myreviewlist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
