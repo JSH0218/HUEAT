@@ -39,45 +39,6 @@ public class QaDao {
 
 	}
 
-	//전체 리스트 출력
-	public List<QaDto> getAllQa() {
-		List<QaDto> list = new ArrayList<QaDto>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select * from qaboard order by q_num desc";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-
-				QaDto dto = new QaDto();
-
-				dto.setQ_num(rs.getString("q_num"));
-				dto.setQ_myid(rs.getString("q_myid"));
-				dto.setQ_category(rs.getString("q_category"));
-				dto.setQ_subject(rs.getString("q_subject"));
-				dto.setQ_content(rs.getString("q_content"));
-				dto.setQ_readcount(rs.getInt("q_readcount"));
-				dto.setQ_writeday(rs.getTimestamp("q_writeday"));
-
-				list.add(dto);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-
-		return list;
-
-	}
-
 	// myqalist.jsp //페이징리스트/ 전체페이지수 반환하기
 	public int getMyPageTotalCount(String myid) {
 
@@ -186,11 +147,8 @@ public class QaDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		//String sql = "select * from qaboard order by q_num desc limit ?,?";
-
-		String sql = "select a.q_num, a.q_myid,a.q_category,a.q_subject,a.q_content,a.q_readcount,a.q_writeday"
-				+ "       ,(select count(1) from qaanswerboard as b where b.q_num = a.q_num) AS qa_cnt"
-				+ " from qaboard as a order by q_num desc limit ?,?";
+		String sql = "select q_num, q_myid, q_category, q_subject, q_content, q_readcount, q_writeday"
+				+ " from qaboard order by q_num desc limit ?,?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -211,8 +169,6 @@ public class QaDao {
 				dto.setQ_content(rs.getString("q_content"));
 				dto.setQ_readcount(rs.getInt("q_readcount"));
 				dto.setQ_writeday(rs.getTimestamp("q_writeday"));
-
-				//dto.setQa_cnt(rs.getInt("qa_cnt"));
 
 				list.add(dto);
 			}
