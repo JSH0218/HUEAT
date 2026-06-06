@@ -9,7 +9,6 @@
 <%@page import="java.util.List"%>
 <%@page import="favorite.model.FavoriteDao"%>
 <%@page import="meminfo.model.MemInfoDao"%>
-<%@page import="meminfo.model.MemInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDto"%>
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@page import="java.text.SimpleDateFormat"%>
