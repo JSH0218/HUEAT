@@ -1,5 +1,5 @@
 <%@page import="favorite.model.FavoriteDto"%>
-<%@page import="hugesoinfo.model.HugesoInfoDao"%>
+<%@page import="favorite.model.FavoriteDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -14,7 +14,7 @@
    String h_num=request.getParameter("h_num");
    String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
 
-   HugesoInfoDao dao=new HugesoInfoDao();
+   FavoriteDao dao=new FavoriteDao();
    FavoriteDto dto=new FavoriteDto();
    
    dto.setH_num(h_num);
