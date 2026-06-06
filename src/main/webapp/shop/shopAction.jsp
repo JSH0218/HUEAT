@@ -1,7 +1,7 @@
 <%@page import="util.AppConfig"%>
 <%@page import="util.SecurityUtil"%>
-<%@page import="shop.ShopDto"%>
-<%@page import="shop.ShopDao"%>
+<%@page import="shop.model.ShopDto"%>
+<%@page import="shop.model.ShopDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>상품 등록 처리</title>
 </head>
 <body>
 

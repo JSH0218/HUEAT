@@ -1,5 +1,5 @@
 <%@page import="java.io.File"%>
-<%@page import="shop.ShopDao"%>
+<%@page import="shop.model.ShopDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>상품 삭제</title>
 </head>
 <body>
    <%
@@ -26,7 +26,7 @@
     
     //db로 부터 저장된 이미지명 얻기
     ShopDao dao = new ShopDao();
-    String r_image = dao.getDataShop(s_num).getS_image();
+    String r_image = dao.selectDataShop(s_num).getS_image();
     
     //db삭제
     dao.deleteShop(s_num);
