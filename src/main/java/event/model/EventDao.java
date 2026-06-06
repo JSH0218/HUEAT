@@ -53,18 +53,7 @@ public class EventDao {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-
-				EventDto dto = new EventDto();
-
-				dto.setE_num(rs.getString("e_num"));
-				dto.setE_myid(rs.getString("e_myid"));
-				dto.setE_subject(rs.getString("e_subject"));
-				dto.setE_content(rs.getString("e_content"));
-				dto.setE_readcount(rs.getInt("e_readcount"));
-				dto.setE_chu(rs.getInt("e_chu"));
-				dto.setE_writeday(rs.getTimestamp("e_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -125,18 +114,7 @@ public class EventDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				EventDto dto = new EventDto();
-
-				dto.setE_num(rs.getString("e_num"));
-				dto.setE_myid(rs.getString("e_myid"));
-				dto.setE_subject(rs.getString("e_subject"));
-				dto.setE_content(rs.getString("e_content"));
-				dto.setE_readcount(rs.getInt("e_readcount"));
-				dto.setE_chu(rs.getInt("e_chu"));
-				dto.setE_writeday(rs.getTimestamp("e_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -165,16 +143,7 @@ public class EventDao {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-
-				dto.setE_num(rs.getString("e_num"));
-				dto.setE_myid(rs.getString("e_myid"));
-				dto.setE_subject(rs.getString("e_subject"));
-				dto.setE_content(rs.getString("e_content"));
-				dto.setE_image(rs.getString("e_image"));
-				dto.setE_readcount(rs.getInt("e_readcount"));
-				dto.setE_chu(rs.getInt("e_chu"));
-				dto.setE_writeday(rs.getTimestamp("e_writeday"));
-
+				dto = mapRow(rs);
 			}
 
 		} catch (SQLException e) {
@@ -320,18 +289,7 @@ public class EventDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				EventDto dto = new EventDto();
-
-				dto.setE_num(rs.getString("e_num"));
-				dto.setE_myid(rs.getString("e_myid"));
-				dto.setE_subject(rs.getString("e_subject"));
-				dto.setE_content(rs.getString("e_content"));
-				dto.setE_readcount(rs.getInt("e_readcount"));
-				dto.setE_chu(rs.getInt("e_chu"));
-				dto.setE_writeday(rs.getTimestamp("e_writeday"));
-
-				mypagelist.add(dto);
+				mypagelist.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -339,6 +297,22 @@ public class EventDao {
 			db.dbClose(rs, pstmt, conn);
 		}
 		return mypagelist;
+	}
+
+	// ResultSet 한 행을 EventDto로 매핑(조회 메서드 공통)
+	private EventDto mapRow(ResultSet rs) throws SQLException {
+		EventDto dto = new EventDto();
+
+		dto.setE_num(rs.getString("e_num"));
+		dto.setE_myid(rs.getString("e_myid"));
+		dto.setE_subject(rs.getString("e_subject"));
+		dto.setE_content(rs.getString("e_content"));
+		dto.setE_image(rs.getString("e_image"));
+		dto.setE_readcount(rs.getInt("e_readcount"));
+		dto.setE_chu(rs.getInt("e_chu"));
+		dto.setE_writeday(rs.getTimestamp("e_writeday"));
+
+		return dto;
 	}
 
 }
