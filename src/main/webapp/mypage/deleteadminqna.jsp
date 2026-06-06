@@ -8,7 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Stylish&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>관리자 QnA 답변 삭제</title>
 </head>
 <body>
 <%
@@ -28,7 +28,7 @@
         String qNum = numArray[i]; // 짝수 인덱스는 q_num 값
         String qaNum = numArray[i + 1]; // 홀수 인덱스는 qa_num 값
         // Q_num과 qa_num에 해당하는 데이터 삭제
-        dao.deleteQna(qNum, qaNum);
+        dao.deleteQaAnswer(qNum, qaNum);
     }
     // 목록으로 이동
     response.sendRedirect("../index.jsp?main=mypage/adminqnalist.jsp");

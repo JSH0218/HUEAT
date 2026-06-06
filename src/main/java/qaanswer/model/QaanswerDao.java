@@ -8,21 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mysql.db.DbConnect;
-import qa.model.QaDto;
 
 public class QaanswerDao {
-	
-	DbConnect db = new DbConnect();
-	
+
+	private DbConnect db = new DbConnect();
+
 	//insert
 	public void insertQaAnswer(QaanswerDto dto) {
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 
-		//String sql = "insert into qaanswerboard (q_num,qa_content,qa_writeday) values(?,?,now())";
 		String sql = "INSERT INTO qaanswerboard (q_num, qa_num, qa_myid, qa_content, qa_writeday) "
-	            + "VALUES (?, (SELECT COALESCE(MAX(qa_num), 0) + 1 FROM "
-	            + "(SELECT qa_num FROM qaanswerboard WHERE q_num = ?) AS subquery), ?, ?, sysdate())";
+				+ "VALUES (?, (SELECT COALESCE(MAX(qa_num), 0) + 1 FROM "
+				+ "(SELECT qa_num FROM qaanswerboard WHERE q_num = ?) AS subquery), ?, ?, sysdate())";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -34,15 +32,14 @@ public class QaanswerDao {
 
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
 	}
-	
+
 	// 댓글출력
-	public List<QaanswerDto> getQaAnswerList(String q_num) {
+	public List<QaanswerDto> selectQaAnswerList(String q_num) {
 		List<QaanswerDto> list = new ArrayList<QaanswerDto>();
 
 		Connection conn = db.getConnection();
@@ -57,18 +54,9 @@ public class QaanswerDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				QaanswerDto dto = new QaanswerDto();
-
-				dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-				dto.setQa_num(rs.getString("qa_num")); // 댓글 번호 
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content")); // 댓글내용 
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));;
-				
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -76,11 +64,9 @@ public class QaanswerDao {
 
 		return list;
 	}
-	
-	
 
 	// 수정시 나타낼 데이타
-	public QaanswerDto getAnswerData(String q_num, String qa_num) {
+	public QaanswerDto selectAnswerData(String q_num, String qa_num) {
 		QaanswerDto dto = new QaanswerDto();
 
 		Connection conn = db.getConnection();
@@ -96,16 +82,9 @@ public class QaanswerDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-				dto.setQa_num(rs.getString("qa_num")); // 댓글 번호 
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content")); // 댓글내용 
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-
+				dto = mapRow(rs);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(rs, pstmt, conn);
@@ -124,15 +103,12 @@ public class QaanswerDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			
 			pstmt.setString(1, dto.getQa_content());
 			pstmt.setString(2, dto.getQ_num());
 			pstmt.setString(3, dto.getQa_num());
-			
 
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
@@ -141,6 +117,11 @@ public class QaanswerDao {
 
 	// 삭제
 	public void deleteQaAnswer(QaanswerDto dto) {
+		deleteQaAnswer(dto.getQ_num(), dto.getQa_num());
+	}
+
+	// 삭제(q_num, qa_num 직접 지정 — 관리자 페이지 일괄 삭제 등)
+	public void deleteQaAnswer(String q_num, String qa_num) {
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 
@@ -149,165 +130,111 @@ public class QaanswerDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, dto.getQ_num());
-			pstmt.setString(2, dto.getQa_num());
+			pstmt.setString(1, q_num);
+			pstmt.setString(2, qa_num);
 
 			pstmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
 	}
-	
-	// 관리자페이지에 가져오는 관리자가 쓴 Q&A 메서드
-		public QaanswerDto getAdminAnswerData() {
-			QaanswerDto dto = new QaanswerDto();
 
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+	// adminqnalist.jsp //페이징리스트/ 전체페이지수 반환하기
+	public int selectMyPageTotalCount() {
 
-			String sql = "select * from qaanswerboard where qa_myid='admin'";
+		int total = 0;
 
-			try {
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-				while (rs.next()) {
+		String sql = "select count(*) from qaanswerboard where qa_myid='admin'";
 
-					dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-					dto.setQa_num(rs.getString("qa_num")); // 댓글 번호 
-					dto.setQa_myid(rs.getString("qa_myid"));
-					dto.setQa_content(rs.getString("qa_content")); // 댓글내용 
-					dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
 
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(rs, pstmt, conn);
+			if (rs.next()) {
+				total = rs.getInt(1);
 			}
 
-			return dto;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
-		
-		// adminqnalist.jsp //페이징리스트/ 전체페이지수 반환하기
-		public int getMyPageTotalCount() {
-	      
-	    int total = 0;
-			
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-	  
-	    String sql = "select count(*) from qaanswerboard where qa_myid='admin'";
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					total = rs.getInt(1);
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				db.dbClose(rs, pstmt, conn);
+
+		return total;
+
+	}
+
+	// adminqalist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
+	public List<QaanswerDto> selectMyPageList(int start, int perPage) {
+		List<QaanswerDto> mypagelist = new ArrayList<QaanswerDto>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "select * from qaanswerboard where qa_myid='admin' order by q_num desc limit ?,?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, perPage);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				mypagelist.add(mapRow(rs));
 			}
-			
-			return total;
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
-		
-		// adminqalist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-		public List<QaanswerDto> getmypagelist(int start, int perPage) {
-			List<QaanswerDto> mypagelist = new ArrayList<QaanswerDto>();
-	  
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-	  
-			String sql = "select * from qaanswerboard where qa_myid='admin' order by q_num desc limit ?,?";
+		return mypagelist;
+	}
 
-			try {
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setInt(1, start);
-				pstmt.setInt(2, perPage);
-	      
-	      rs = pstmt.executeQuery();
+	//q_num을 통해 문의글 제목 가져오기
+	public String selectTitle(String q_num) {
+		String title = "";
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-				while (rs.next()) {
+		String sql = "select q_subject from qaboard where q_num=?";
 
-					QaanswerDto dto = new QaanswerDto();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q_num);
+			rs = pstmt.executeQuery();
 
-					dto.setQ_num(rs.getString("q_num"));
-					dto.setQa_num(rs.getString("qa_num"));
-					dto.setQa_myid(rs.getString("qa_myid"));
-					dto.setQa_content(rs.getString("qa_content"));
-					dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-	        
-					mypagelist.add(dto);
-	      }
-	      } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(rs, pstmt, conn);
+			if (rs.next()) {
+				title = rs.getString("q_subject");
 			}
-	    return mypagelist;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
-		// adminpage에서 삭제하기
-		public void deleteQna(String q_num,String qa_num) {
+		return title;
+	}
 
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
+	// ResultSet 한 행을 QaanswerDto로 매핑(조회 메서드 공통)
+	private QaanswerDto mapRow(ResultSet rs) throws SQLException {
+		QaanswerDto dto = new QaanswerDto();
 
-			String sql = "delete from qaanswerboard where q_num=? and qa_num=?";
+		dto.setQ_num(rs.getString("q_num")); // 게시판 번호
+		dto.setQa_num(rs.getString("qa_num")); // 댓글 번호
+		dto.setQa_myid(rs.getString("qa_myid"));
+		dto.setQa_content(rs.getString("qa_content")); // 댓글내용
+		dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
 
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, q_num);
-				pstmt.setString(2, qa_num);
-
-				pstmt.execute();
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				db.dbClose(pstmt, conn);
-			}
-
-		}
-		//q_num을 통해 문의글 제목 가져오기
-		public String getTitle(String q_num) {
-			String title="";
-			Connection conn = db.getConnection();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			String sql="select q_subject from qaboard where q_num=?";
-			
-			try {
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, q_num);
-				rs=pstmt.executeQuery();
-				
-				if(rs.next()) {
-					title=rs.getString("q_subject");
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return title;
-		}
-	
+		return dto;
+	}
 
 }

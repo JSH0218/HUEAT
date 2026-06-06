@@ -10,7 +10,7 @@
 <%
   String q_num=request.getParameter("q_num");
   QaanswerDao dao=new QaanswerDao();
-  List<QaanswerDto> list=dao.getQaAnswerList(q_num);
+  List<QaanswerDto> list=dao.selectQaAnswerList(q_num);
   
   JSONArray arr=new JSONArray();
   SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
