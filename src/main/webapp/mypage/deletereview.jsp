@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>후기 삭제</title>
 </head>
 <body>
 <%
@@ -23,7 +23,7 @@
 	ReviewDao dao=new ReviewDao();
 	for(String n:num)
 	{
-		review.model.ReviewDto r=dao.getDataReview(n);
+		review.model.ReviewDto r=dao.selectDataReview(n);
 		if(r!=null && util.SecurityUtil.isOwnerOrAdmin(session, r.getR_myid())){
 			dao.deleteReview(n);
 		}

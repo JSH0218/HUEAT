@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>후기 삭제</title>
 </head>
 <body>
 
@@ -26,7 +26,7 @@
 
     //db로 부터 저장된 이미지명 얻기
     ReviewDao dao = new ReviewDao();
-    ReviewDto old = dao.getDataReview(r_num);
+    ReviewDto old = dao.selectDataReview(r_num);
 
     // 로그인 + 작성자 본인(또는 관리자)만 삭제 가능
     if(!util.SecurityUtil.isLogin(session) || old==null

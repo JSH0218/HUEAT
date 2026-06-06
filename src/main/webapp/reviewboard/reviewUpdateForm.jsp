@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>후기 수정</title>
 <style type="text/css">
 
   button.col {
@@ -58,7 +58,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    ReviewDao dao = new ReviewDao();
-   ReviewDto dto = dao.getDataReview(r_num);
+   ReviewDto dto = dao.selectDataReview(r_num);
    
   
    HugesoInfoDao hdao = new HugesoInfoDao();

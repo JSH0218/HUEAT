@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>후기 수정</title>
 </head>
 <body>
 
@@ -63,7 +63,7 @@
 
 		//기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
 		ReviewDao dao = new ReviewDao();
-		ReviewDto old = dao.getDataReview(r_num);
+		ReviewDto old = dao.selectDataReview(r_num);
 		String old_photoName = old.getR_image();
 
 		//작성자 본인 또는 관리자만 수정 가능
