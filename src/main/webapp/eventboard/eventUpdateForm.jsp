@@ -52,7 +52,7 @@
    String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
    
    EventDao dao = new EventDao();
-   EventDto dto = dao.getDataEvent(e_num);
+   EventDto dto = dao.selectDataEvent(e_num);
 %>
 <body>
   <!-- 메뉴 타이틀 -->

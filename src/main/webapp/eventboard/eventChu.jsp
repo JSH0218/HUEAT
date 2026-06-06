@@ -16,7 +16,7 @@
   dao.updateEventChu(e_num);
 
   // 증가된 chu 값 json 형태로 보내기
-  int chu = dao.getDataEvent(e_num).getE_chu();
+  int chu = dao.selectDataEvent(e_num).getE_chu();
 
   JSONObject ob = new JSONObject();
   ob.put("chu", chu);

@@ -126,7 +126,7 @@
 	EventDao dao=new EventDao();
 	
 	//전체갯수
-	int totalCount=dao.getTotalCount();
+	int totalCount=dao.selectTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -166,7 +166,7 @@
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<EventDto> list = dao.getList(startNum, perPage);
+	List<EventDto> list = dao.selectPagingList(startNum, perPage);
 		
 	//날짜변경
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

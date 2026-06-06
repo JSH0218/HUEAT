@@ -39,7 +39,7 @@ public class EventDao {
 	}
 
 	//noticelist 전체 출력
-	public List<EventDto> getAllEvent() {
+	public List<EventDto> selectAllEvent() {
 		List<EventDto> list = new ArrayList<EventDto>();
 
 		Connection conn = db.getConnection();
@@ -67,7 +67,7 @@ public class EventDao {
 	}
 
 	//전체 페이지수 dto 반환하기
-	public int getTotalCount() {
+	public int selectTotalCount() {
 
 		int total = 0;
 
@@ -96,7 +96,7 @@ public class EventDao {
 	}
 
 	// paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<EventDto> getList(int start, int perPage) {
+	public List<EventDto> selectPagingList(int start, int perPage) {
 		List<EventDto> list = new ArrayList<EventDto>();
 
 		Connection conn = db.getConnection();
@@ -127,7 +127,7 @@ public class EventDao {
 	}
 
 	//detail페이지 num값 넘겨주기 -> dto 반환!!
-	public EventDto getDataEvent(String e_num) {
+	public EventDto selectDataEvent(String e_num) {
 		EventDto dto = new EventDto();
 
 		Connection conn = db.getConnection();
@@ -242,7 +242,7 @@ public class EventDao {
 	}
 
 	// admineventlist.jsp //페이징리스트/ 전체페이지수 반환하기
-	public int getMyPageTotalCount() {
+	public int selectMyPageTotalCount() {
 
 		int total = 0;
 
@@ -271,7 +271,7 @@ public class EventDao {
 	}
 
 	// admineventlist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<EventDto> getmypagelist(int start, int perPage) {
+	public List<EventDto> selectMyPageList(int start, int perPage) {
 		List<EventDto> mypagelist = new ArrayList<EventDto>();
 
 		Connection conn = db.getConnection();

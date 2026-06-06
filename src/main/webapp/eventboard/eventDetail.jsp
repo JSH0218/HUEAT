@@ -108,7 +108,7 @@
     String e_num = util.SecurityUtil.digitsOnly(request.getParameter("e_num"));
     EventDao dao = new EventDao();
 
-    EventDto dto = dao.getDataEvent(e_num);
+    EventDto dto = dao.selectDataEvent(e_num);
     String currentPage=util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
     
     //조회수 가져오기
