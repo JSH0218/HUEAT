@@ -2,8 +2,6 @@ package review.model;
 
 import java.sql.Timestamp;
 
-import javax.management.loading.PrivateClassLoader;
-
 public class ReviewDto {
 	
 	private String r_num;
