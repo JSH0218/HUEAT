@@ -181,28 +181,6 @@ public class QaDao {
 		return list;
 	}
 
-	// 삭제하기
-	public void deleteQna(String q_num) {
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-
-		String sql = "delete from qaboard where q_num=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, q_num);
-
-			pstmt.execute();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(pstmt, conn);
-		}
-
-	}
-
 	// detail페이지 num값 넘겨주기 -> dto 반환!!
 	public QaDto getDataQa(String q_num) {
 		QaDto dto = new QaDto();

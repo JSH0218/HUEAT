@@ -28,7 +28,7 @@
 	{
 		qa.model.QaDto q=dao.getDataQa(n);
 		if(q!=null && util.SecurityUtil.isOwnerOrAdmin(session, q.getQ_myid())){
-			dao.deleteQna(n);
+			dao.deleteQa(n);
 		}
 	}
 	
