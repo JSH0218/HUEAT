@@ -1,6 +1,5 @@
 package shop.model;
 
-import java.nio.channels.SelectableChannel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mysql.db.DbConnect;
-import review.model.ReviewDto;
 
 public class ShopDao {
-	
-	DbConnect db = new DbConnect();
-	
+
+	private DbConnect db = new DbConnect();
+
 	//insert
 	public void insertShop(ShopDto dto) {
 
@@ -33,50 +31,48 @@ public class ShopDao {
 			pstmt.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
 
 	}
-	
+
 	//전체 list 출력
 	public List<ShopDto> allShop() {
-		
+
 		List<ShopDto> list = new ArrayList<ShopDto>();
-		
+
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		String sql = "Select * from shop order by s_num desc";
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			while(rs.next()) {
 				ShopDto dto = new ShopDto();
-				
+
 				dto.setS_num(rs.getString("s_num"));
 				dto.setS_category(rs.getString("s_category"));
 				dto.setS_site(rs.getString("s_site"));
 				dto.setS_image(rs.getString("s_image"));
-				
+
 				list.add(dto);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return list;
-		
+
 	}
-	
+
 	//삭제
 	public void deleteShop(String s_num) {
 
@@ -92,49 +88,45 @@ public class ShopDao {
 			pstmt.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			db.dbClose(pstmt, conn);
 		}
 
 	}
-	
-	
+
 	//num값 넘겨주기 -> dto 반환!!
-			public ShopDto getDataShop(String s_num) {
-				ShopDto dto = new ShopDto();
+	public ShopDto getDataShop(String s_num) {
+		ShopDto dto = new ShopDto();
 
-				Connection conn = db.getConnection();
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
+		Connection conn = db.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-				String sql = "select * from shop where s_num=?";
+		String sql = "select * from shop where s_num=?";
 
-				try {
-					pstmt = conn.prepareStatement(sql);
+		try {
+			pstmt = conn.prepareStatement(sql);
 
-					pstmt.setString(1, s_num);
-					rs = pstmt.executeQuery();
+			pstmt.setString(1, s_num);
+			rs = pstmt.executeQuery();
 
-					while (rs.next()) {
+			while (rs.next()) {
 
+				dto.setS_num(rs.getString("s_num"));
+				dto.setS_category(rs.getString("s_category"));
+				dto.setS_site(rs.getString("s_site"));
+				dto.setS_image(rs.getString("s_image"));
 
-						dto.setS_num(rs.getString("s_num"));
-						dto.setS_category(rs.getString("s_category"));
-						dto.setS_site(rs.getString("s_site"));
-						dto.setS_image(rs.getString("s_image"));
-
-					}
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					db.dbClose(rs, pstmt, conn);
-				}
-
-				return dto;
 			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+
+		return dto;
+	}
 
 }
