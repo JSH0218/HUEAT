@@ -67,6 +67,8 @@ public class ShopDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			db.dbClose(rs, pstmt, conn);
 		}
 
 		return list;
