@@ -85,18 +85,7 @@ public class ReviewDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				ReviewDto dto = new ReviewDto();
-
-				dto.setR_num(rs.getString("r_num"));
-				dto.setR_myid(rs.getString("r_myid"));
-				dto.setR_category(rs.getString("r_category"));
-				dto.setR_content(rs.getString("r_content"));
-				dto.setR_image(rs.getString("r_image"));
-				dto.setR_chu(rs.getInt("r_chu"));
-				dto.setR_writeday(rs.getTimestamp("r_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -190,15 +179,7 @@ public class ReviewDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				dto.setR_num(rs.getString("r_num"));
-				dto.setR_myid(rs.getString("r_myid"));
-				dto.setR_category(rs.getString("r_category"));
-				dto.setR_content(rs.getString("r_content"));
-				dto.setR_image(rs.getString("r_image"));
-				dto.setR_chu(rs.getInt("r_chu"));
-				dto.setR_writeday(rs.getTimestamp("r_writeday"));
-
+				dto = mapRow(rs);
 			}
 
 		} catch (SQLException e) {
@@ -230,18 +211,7 @@ public class ReviewDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				ReviewDto dto = new ReviewDto();
-
-				dto.setR_num(rs.getString("r_num"));
-				dto.setR_myid(rs.getString("r_myid"));
-				dto.setR_category(rs.getString("r_category"));
-				dto.setR_content(rs.getString("r_content"));
-				dto.setR_image(rs.getString("r_image"));
-				dto.setR_chu(rs.getInt("r_chu"));
-				dto.setR_writeday(rs.getTimestamp("r_writeday"));
-
-				mypagelist.add(dto);
+				mypagelist.add(mapRow(rs));
 			}
 
 		} catch (SQLException e) {
@@ -280,6 +250,21 @@ public class ReviewDao {
 		}
 
 		return total;
+	}
+
+	// ResultSet 한 행을 ReviewDto로 매핑(조회 메서드 공용)
+	private ReviewDto mapRow(ResultSet rs) throws SQLException {
+		ReviewDto dto = new ReviewDto();
+
+		dto.setR_num(rs.getString("r_num"));
+		dto.setR_myid(rs.getString("r_myid"));
+		dto.setR_category(rs.getString("r_category"));
+		dto.setR_content(rs.getString("r_content"));
+		dto.setR_image(rs.getString("r_image"));
+		dto.setR_chu(rs.getInt("r_chu"));
+		dto.setR_writeday(rs.getTimestamp("r_writeday"));
+
+		return dto;
 	}
 
 }
