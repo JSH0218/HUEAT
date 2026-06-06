@@ -1,4 +1,4 @@
-package shop;
+package shop.model;
 
 import java.nio.channels.SelectableChannel;
 import java.sql.Connection;

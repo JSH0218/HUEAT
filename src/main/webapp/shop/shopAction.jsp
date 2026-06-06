@@ -1,7 +1,7 @@
 <%@page import="util.AppConfig"%>
 <%@page import="util.SecurityUtil"%>
-<%@page import="shop.ShopDto"%>
-<%@page import="shop.ShopDao"%>
+<%@page import="shop.model.ShopDto"%>
+<%@page import="shop.model.ShopDao"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

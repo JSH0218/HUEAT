@@ -1,4 +1,4 @@
-package shop;
+package shop.model;
 
 public class ShopDto {
 	
