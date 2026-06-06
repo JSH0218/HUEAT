@@ -256,7 +256,7 @@ font-size: 14px;
 	QaanswerDao dao=new QaanswerDao();
 	
 	//전체갯수
-	int totalCount=dao.getMyPageTotalCount();
+	int totalCount=dao.selectMyPageTotalCount();
 	int perPage=10; //한페이지당 보여질 글의 갯수
 	int perBlock=10; //한블럭당 보여질 페이지 갯수
 	int startNum; //db에서 가져올 글의 시작번호(mysql은 첫글이0번,오라클은 1번);
@@ -296,7 +296,7 @@ font-size: 14px;
 	no=totalCount-(currentPage-1)*perPage;
 	
 	//페이지에서 보여질 글만 가져오기
-	List<QaanswerDto> list = dao.getmypagelist(startNum, perPage);
+	List<QaanswerDto> list = dao.selectMyPageList(startNum, perPage);
 		
 	//해당 페이지에 게시물이 없을 경우 이전 페이지로 돌아가기
 	//마지막 페이지의 단 한개 남은 글을 삭제 시 빈페이지가 남는데 해결책으로 그 이전 페이지로 가는 로직 설정
@@ -361,7 +361,7 @@ font-size: 14px;
 			<%=no-- %>
 			</td>
 			<td>
-				<%=util.SecurityUtil.escapeHtml(dao.getTitle(dto.getQ_num()))%>
+				<%=util.SecurityUtil.escapeHtml(dao.selectTitle(dto.getQ_num()))%>
 			</td>
 		    <td>
 		    <a href="index.jsp?main=qaboard/qaDetail.jsp?currentPage=<%=currentPage %>&q_num=<%=dto.getQ_num() %>"><%=util.SecurityUtil.escapeHtml(dto.getQa_content())%></a>

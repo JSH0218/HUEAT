@@ -183,7 +183,7 @@
 	for(QaDto dto:list) {
 		
 		//댓글 변수에 댓글 총 갯수 넣기
-		int acount = qdao.getQaAnswerList(dto.getQ_num()).size();
+		int acount = qdao.selectQaAnswerList(dto.getQ_num()).size();
 		dto.setQa_cnt(acount);
 	}
       

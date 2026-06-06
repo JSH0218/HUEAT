@@ -39,7 +39,7 @@ public class QaanswerDao {
 	}
 
 	// 댓글출력
-	public List<QaanswerDto> getQaAnswerList(String q_num) {
+	public List<QaanswerDto> selectQaAnswerList(String q_num) {
 		List<QaanswerDto> list = new ArrayList<QaanswerDto>();
 
 		Connection conn = db.getConnection();
@@ -66,7 +66,7 @@ public class QaanswerDao {
 	}
 
 	// 수정시 나타낼 데이타
-	public QaanswerDto getAnswerData(String q_num, String qa_num) {
+	public QaanswerDto selectAnswerData(String q_num, String qa_num) {
 		QaanswerDto dto = new QaanswerDto();
 
 		Connection conn = db.getConnection();
@@ -142,7 +142,7 @@ public class QaanswerDao {
 	}
 
 	// adminqnalist.jsp //페이징리스트/ 전체페이지수 반환하기
-	public int getMyPageTotalCount() {
+	public int selectMyPageTotalCount() {
 
 		int total = 0;
 
@@ -171,7 +171,7 @@ public class QaanswerDao {
 	}
 
 	// adminqalist.jsp //페이징리스트/paging list (한 페이지에서 첫번쨰랑 마지막번호 출력 하고 그 이상은 다음 페이지로 넘김)
-	public List<QaanswerDto> getmypagelist(int start, int perPage) {
+	public List<QaanswerDto> selectMyPageList(int start, int perPage) {
 		List<QaanswerDto> mypagelist = new ArrayList<QaanswerDto>();
 
 		Connection conn = db.getConnection();
@@ -200,7 +200,7 @@ public class QaanswerDao {
 	}
 
 	//q_num을 통해 문의글 제목 가져오기
-	public String getTitle(String q_num) {
+	public String selectTitle(String q_num) {
 		String title = "";
 		Connection conn = db.getConnection();
 		PreparedStatement pstmt = null;

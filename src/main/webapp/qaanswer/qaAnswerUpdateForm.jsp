@@ -8,7 +8,7 @@
    String qa_num = request.getParameter("qa_num");
    
    QaanswerDao qdao=new QaanswerDao();
-   QaanswerDto qdto=qdao.getAnswerData(q_num, qa_num);
+   QaanswerDto qdto=qdao.selectAnswerData(q_num, qa_num);
    
    JSONObject ob=new JSONObject();
    ob.put("q_num", qdto.getQ_num());
