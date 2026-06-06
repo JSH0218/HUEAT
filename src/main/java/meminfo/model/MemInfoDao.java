@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import mysql.db.DbConnect;
@@ -412,67 +411,6 @@ public class MemInfoDao {
 		}
 	}
 
-	// 유지)즐겨찾기 목록 출력
-	public List<HashMap<String, String>> getFavlist(String m_id) {
-		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select f.f_num,h.h_name,h.h_addr,h.h_pyeon, h.h_num,h.h_hp from hugesoinfo h,favorite f,meminfo m where h.h_num=f.h_num and m.m_num=f.m_num and m.m_id=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, m_id);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("h_num", rs.getString("h_num"));
-				map.put("f_num", rs.getString("f_num"));
-				map.put("h_name", rs.getString("h_name"));
-				map.put("h_addr", rs.getString("h_addr"));
-				map.put("h_pyeon", rs.getString("h_pyeon"));
-				map.put("h_hp", rs.getString("h_hp"));
-
-				list.add(map);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-		return list;
-	}
-
-	// 유지))즐겨찾기한 휴게소인지 여부 판단하는 거
-	public int isFavorite(String m_num, String h_num) {
-		int fav = 0;
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select count(*) from favorite where m_num=? and h_num=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, m_num);
-			pstmt.setString(2, h_num);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				fav = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-
-		return fav;
-	}
-
 	// 아이디로 닉네임 조회 (리뷰 등에 연동)
 	public String selectNickById(String m_id) {
 		String m_nick = "";
@@ -549,24 +487,4 @@ public class MemInfoDao {
 		return list;
 	}
 
-	// 소유자 범위 즐겨찾기 삭제 (IDOR 방어: 세션 m_num 소유분만 삭제)
-	// 주의) 소유자 조건 없는 PK-only favDelete(String) 오버로드는 IDOR 위험으로 제거함.
-	//       즐겨찾기 삭제는 반드시 아래 2-인자(f_num, m_num) 메서드만 사용한다.
-	public void favDelete(String f_num, String m_num) {
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-
-		String sql = "delete from favorite where f_num=? and m_num=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, f_num);
-			pstmt.setString(2, m_num);
-			pstmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(pstmt, conn);
-		}
-	}
 }

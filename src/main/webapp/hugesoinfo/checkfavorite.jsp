@@ -1,5 +1,6 @@
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="meminfo.model.MemInfoDao"%>
+<%@page import="favorite.model.FavoriteDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -13,7 +14,7 @@ MemInfoDao dao=new MemInfoDao();
 String m_num=dao.selectM_num(util.SecurityUtil.currentId(session));
 String h_num=request.getParameter("h_num");
 
-int fav=dao.isFavorite(m_num, h_num);
+int fav=new FavoriteDao().isFavorite(m_num, h_num);
 JSONObject ob=new JSONObject();
 ob.put("fav", fav);
 out.print(ob.toString());
