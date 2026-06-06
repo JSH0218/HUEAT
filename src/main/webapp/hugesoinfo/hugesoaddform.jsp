@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b71304786948cbe7995d40be3007bd8e&libraries=services"></script>
-<title>Insert title here</title>
+<title>휴게소 등록</title>
 	<style type="text/css">
 		#area{
 			margin-top: 20px;
