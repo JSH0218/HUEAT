@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>이벤트 수정</title>
 </head>
 <body>
     <%
@@ -64,7 +64,7 @@
 
        //기존포토명 가져오기 -> 기존에 사진값을 가져오기 위해서 dao 먼저 선언
        EventDao dao = new EventDao();
-       String old_photoName = dao.getDataEvent(e_num).getE_image();
+       String old_photoName = dao.selectDataEvent(e_num).getE_image();
        
        //dto에 저장
        EventDto dto=new EventDto();

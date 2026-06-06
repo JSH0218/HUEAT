@@ -129,7 +129,7 @@ List<NoticeDto> list = ndao.selectAllNotice();
 
 //event
 EventDao edao = new EventDao();
-List<EventDto> elist = edao.getAllEvent();
+List<EventDto> elist = edao.selectAllEvent();
 %>
 <body>
 <div id="total_main">

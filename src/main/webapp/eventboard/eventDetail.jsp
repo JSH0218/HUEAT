@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<title>Insert title here</title>
+<title>이벤트 상세</title>
 <style type="text/css">
 
   button.col {
@@ -108,7 +108,7 @@
     String e_num = util.SecurityUtil.digitsOnly(request.getParameter("e_num"));
     EventDao dao = new EventDao();
 
-    EventDto dto = dao.getDataEvent(e_num);
+    EventDto dto = dao.selectDataEvent(e_num);
     String currentPage=util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
     
     //조회수 가져오기

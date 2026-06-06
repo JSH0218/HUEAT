@@ -107,7 +107,7 @@
    
    //event
    EventDao edao = new EventDao();
-   List<EventDto> elist = edao.getAllEvent();
+   List<EventDto> elist = edao.selectAllEvent();
    
    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
    sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -172,7 +172,7 @@
           <tr>
             <% 
 
-              List<EventDto> recentEvent = edao.getAllEvent().subList(0, Math.min(elist.size(), 3));
+              List<EventDto> recentEvent = edao.selectAllEvent().subList(0, Math.min(elist.size(), 3));
               int e = recentEvent.size();
               if( e != 0 ) {
               for(EventDto dto:recentEvent) {%>
