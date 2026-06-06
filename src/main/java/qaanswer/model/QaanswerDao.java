@@ -150,38 +150,6 @@ public class QaanswerDao {
 		}
 	}
 
-	// 관리자페이지에 가져오는 관리자가 쓴 Q&A 메서드
-	public QaanswerDto getAdminAnswerData() {
-		QaanswerDto dto = new QaanswerDto();
-
-		Connection conn = db.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		String sql = "select * from qaanswerboard where qa_myid='admin'";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-
-				dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-				dto.setQa_num(rs.getString("qa_num")); // 댓글 번호
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content")); // 댓글내용
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			db.dbClose(rs, pstmt, conn);
-		}
-
-		return dto;
-	}
-
 	// adminqnalist.jsp //페이징리스트/ 전체페이지수 반환하기
 	public int getMyPageTotalCount() {
 
