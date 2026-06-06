@@ -12,7 +12,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b71304786948cbe7995d40be3007bd8e"></script>
-<title>Insert title here</title>
+<title>휴게소 찾기</title>
 	<style type="text/css">
 		#area{
 			margin-top: 7%;
@@ -415,10 +415,6 @@
 	        		//각페이지에서 보여질 시작번호
 	        		//1페이지:0, 2페이지:5 3페이지: 10.....
 	        		startNum=(currentPage-1)*perPage;
-
-	        		//각페이지당 출력할 시작번호 구하기
-	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13
-	        		no=totalCount-(currentPage-1)*perPage;
 
 	        		//각페이지당 출력할 시작번호 구하기
 	        		//총글개수가 23  , 1페이지:23 2페이지:18  3페이지:13

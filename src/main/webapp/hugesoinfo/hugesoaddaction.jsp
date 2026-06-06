@@ -127,7 +127,7 @@
 			}
 		}
 		
-		//공지사항 목록으로 이동
+		//휴게소 목록으로 이동
 		response.sendRedirect("../index.jsp?main=hugesoinfo/hugesolist.jsp");
 
 	 } catch(Exception e) {
