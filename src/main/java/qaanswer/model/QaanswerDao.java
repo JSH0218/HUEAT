@@ -54,15 +54,7 @@ public class QaanswerDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				QaanswerDto dto = new QaanswerDto();
-
-				dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-				dto.setQa_num(rs.getString("qa_num")); // 댓글 번호
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content")); // 댓글내용
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-
-				list.add(dto);
+				list.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,13 +82,7 @@ public class QaanswerDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				dto.setQ_num(rs.getString("q_num")); // 게시판 번호
-				dto.setQa_num(rs.getString("qa_num")); // 댓글 번호
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content")); // 댓글내용
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-
+				dto = mapRow(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -203,16 +189,7 @@ public class QaanswerDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				QaanswerDto dto = new QaanswerDto();
-
-				dto.setQ_num(rs.getString("q_num"));
-				dto.setQa_num(rs.getString("qa_num"));
-				dto.setQa_myid(rs.getString("qa_myid"));
-				dto.setQa_content(rs.getString("qa_content"));
-				dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
-
-				mypagelist.add(dto);
+				mypagelist.add(mapRow(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -243,6 +220,19 @@ public class QaanswerDao {
 			e.printStackTrace();
 		}
 		return title;
+	}
+
+	// ResultSet 한 행을 QaanswerDto로 매핑(조회 메서드 공통)
+	private QaanswerDto mapRow(ResultSet rs) throws SQLException {
+		QaanswerDto dto = new QaanswerDto();
+
+		dto.setQ_num(rs.getString("q_num")); // 게시판 번호
+		dto.setQa_num(rs.getString("qa_num")); // 댓글 번호
+		dto.setQa_myid(rs.getString("qa_myid"));
+		dto.setQa_content(rs.getString("qa_content")); // 댓글내용
+		dto.setQa_writeday(rs.getTimestamp("qa_writeday"));
+
+		return dto;
 	}
 
 }
