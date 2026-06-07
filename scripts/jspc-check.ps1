@@ -102,7 +102,10 @@ Write-Output "[jspc] running JspC (translate + compile)..."
 # --- 3) verdict by output, NOT exit code (JspC exits 0 even on compile errors) ---
 #   translation failure: #jsp > #generated .java
 #   compile failure    : a generated X.java has no matching X.class
-$jspCount = (Get-ChildItem $webapp -Recurse -Filter *.jsp | Measure-Object).Count
+# NOTE: -Filter *.jsp uses legacy DOS wildcard matching and ALSO matches *.jspf/*.jspx
+# (the classic *.doc->*.docx gotcha). JspC only translates standalone *.jsp, so .jspf
+# include fragments must be excluded here or jspCount > generated .java -> false failure.
+$jspCount = (Get-ChildItem $webapp -Recurse -Filter *.jsp | Where-Object { $_.Extension -eq '.jsp' } | Measure-Object).Count
 $javas = @(Get-ChildItem $gen -Recurse -Filter *.java)
 $missing = @($javas | Where-Object { -not (Test-Path ([System.IO.Path]::ChangeExtension($_.FullName, 'class'))) })
 $translationFail = $jspCount - $javas.Count
