@@ -1,0 +1,40 @@
+<%-- 페이지 번호 출력 공통 프래그먼트 (정적 <%@ include %> 전용).
+     입력: int startPage, endPage, currentPage, totalPage; String pageUrl, pageQuery
+       - pageUrl  : index.jsp?main= 뒤에 올 대상 JSP 경로(예: "noticeboard/noticeList.jsp")
+       - pageQuery: currentPage 뒤에 덧붙일 추가 쿼리. 없으면 "", 있으면 "&키=값" 형태로
+                    이미 인코딩해 전달(예: "&h_name="+util.SecurityUtil.urlEncode(h_name))
+     href = index.jsp?main=<pageUrl>?currentPage=<n><pageQuery> --%>
+<ul class="pagination justify-content-center">
+<%
+	//이전
+	if(startPage>1)
+	{%>
+		<li class="page-item ">
+		 <a class="page-link" href="index.jsp?main=<%=pageUrl%>?currentPage=<%=startPage-1%><%=pageQuery%>" style="color: black;">이전</a>
+		</li>
+	<%}
+	for(int pp=startPage;pp<=endPage;pp++)
+	{
+		if(pp==currentPage)
+		{%>
+			<li class="page-item active">
+			<a class="page-link" href="index.jsp?main=<%=pageUrl%>?currentPage=<%=pp%><%=pageQuery%>"><%=pp %></a>
+			</li>
+		<%}else
+		{%>
+			<li class="page-item">
+			<a class="page-link" href="index.jsp?main=<%=pageUrl%>?currentPage=<%=pp%><%=pageQuery%>"><%=pp %></a>
+			</li>
+		<%}
+	}
+
+	//다음
+	if(endPage<totalPage)
+	{%>
+		<li class="page-item">
+			<a  class="page-link" href="index.jsp?main=<%=pageUrl%>?currentPage=<%=endPage+1%><%=pageQuery%>"
+			style="color: black;">다음</a>
+		</li>
+	<%}
+%>
+</ul>
