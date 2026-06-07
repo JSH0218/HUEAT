@@ -1,0 +1,24 @@
+<%-- 페이징 계산 공통 프래그먼트 (정적 <%@ include %> 전용).
+     입력(호출 JSP가 include 전에 선언해야 함): int totalCount, perPage, perBlock
+     출력(이 프래그먼트가 선언): int currentPage, totalPage, startPage, endPage, startNum, no --%>
+<%
+	//현재페이지 읽되 null이면 1페이지로 준다
+	int currentPage;
+	if(request.getParameter("currentPage")==null)
+		currentPage=1;
+	else
+		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+
+	//총페이지수(나머지가 있으면 +1페이지)
+	int totalPage=totalCount/perPage+(totalCount%perPage==0?0:1);
+
+	//각 블럭당 보여질 시작/끝 페이지
+	int startPage=(currentPage-1)/perBlock*perBlock+1;
+	int endPage=startPage+perBlock-1;
+	if(endPage>totalPage)
+		endPage=totalPage;
+
+	//db에서 가져올 글의 시작번호 / 화면에 출력할 시작번호
+	int startNum=(currentPage-1)*perPage;
+	int no=totalCount-(currentPage-1)*perPage;
+%>
