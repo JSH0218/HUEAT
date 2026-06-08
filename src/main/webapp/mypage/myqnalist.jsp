@@ -194,12 +194,6 @@ font-size: 14px;
 </style>
 <script type="text/javascript">
    $(function(){
-      //메뉴탭기능 클릭하면 리뷰페이지로 이동
-      $("#next").click(function(){
-            location.href="index.jsp?main=mypage/myreviewlist.jsp";
-        });
-      
-      
        //전체체크 클릭시 체크값 얻어서 모든체크값 에 전달
         $(".alldelcheck").click(function(){
            
@@ -317,10 +311,8 @@ font-size: 14px;
 
 <div class="container">
 <div class="reviewlist">
-   <ul class="tabs">
-         <li id="first"><span style="font-size: 14px;">Q&A</span></li>
-         <li id="next"><span style="font-size: 14px;">REVIEW</span></li>
-   </ul>
+   <% String mypageTab="qa"; %>
+   <%@ include file="/layout/mypageTabs.jspf" %>
    <div id="tab2" class="tab2" style="margin-top: 40px;">
       <table class="table table-bordered">
          <tr style="height: 30px;">

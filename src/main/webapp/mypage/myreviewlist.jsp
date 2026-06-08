@@ -197,12 +197,7 @@ div.img-container{
 
 </style>
 <script type="text/javascript">
-	$(function(){		
-		//메뉴탭기능 클릭하면 QnA페이지로 이동
-		$("#first").click(function(){
-            location.href="index.jsp?main=mypage/myqnalist.jsp";
-        });
-		
+	$(function(){
 		 //전체체크 클릭시 체크값 얻어서 모든체크값 에 전달
 		  $(".alldelcheck").click(function(){
 			  
@@ -322,10 +317,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	<div class="container">
 		<div class="reviewlist">
-			<ul class="tabs">
-				<li id="first"><span style="font-size: 14px;">Q&A</span></li>
-				<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
-			</ul>
+			<% String mypageTab="review"; %>
+			<%@ include file="/layout/mypageTabs.jspf" %>
 			<div id="tab2" class="tab2" style="margin-top: 40px;">
      		 <table class="table table-bordered">
         			 <tr style="height: 30px;">

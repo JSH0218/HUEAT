@@ -193,16 +193,6 @@ font-size: 14px;
 </style>
 <script type="text/javascript">
 	$(function(){
-		//메뉴탭기능 클릭하면 공지사항페이지로 이동
-		$("#first").click(function(){
-            location.href="index.jsp?main=mypage/adminqnalist.jsp";
-        });
-		//메뉴탭기능 클릭하면 이벤트페이지로 이동
-		$("#next").click(function(){
-            location.href="index.jsp?main=mypage/adminnoticelist.jsp";
-        });
-		
-		
 		 //전체체크 클릭시 체크값 얻어서 모든체크값 에 전달
 		  $(".alldelcheck").click(function(){
 			  
@@ -325,11 +315,8 @@ font-size: 14px;
 <div class="container">
 
 <div class="admineventlist">
-	<ul class="tabs">
-			<li id="first"><span style="font-size: 14px;">Q&A</span></li>
-			<li id="next"><span style="font-size: 14px;">NOTICE</span></li>
-			<li id="event"><span style="font-size: 14px;">EVENT</span></li>
-	</ul>
+	<% String adminTab="event"; %>
+	<%@ include file="/layout/mypageAdminTabs.jspf" %>
 	<div id="tab2" class="tab2" style="margin-top: 40px;">
       	<table class="table table-bordered">
          	<tr style="height: 30px;">

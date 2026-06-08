@@ -1,0 +1,23 @@
+<%-- 마이페이지 사용자 탭(Q&A / REVIEW) 공통 프래그먼트 (정적 <%@ include %> 전용).
+     입력(호출 JSP가 include 전에 선언해야 함): String mypageTab ∈ {"qa","review"} — 현재 활성 탭.
+     활성 탭 강조 CSS(id별 초록)는 각 host의 <style>에 그대로 두고, 여기서는
+     비활성 탭에만 클릭 핸들러를 등록해 다른 목록으로 이동시킨다. --%>
+<ul class="tabs">
+	<li id="first"><span style="font-size: 14px;">Q&A</span></li>
+	<li id="next"><span style="font-size: 14px;">REVIEW</span></li>
+</ul>
+<script type="text/javascript">
+	$(function(){
+		<% if("qa".equals(mypageTab)) { %>
+		//Q&A 탭 활성 → REVIEW 탭 클릭 시 내 후기 페이지로 이동
+		$("#next").click(function(){
+			location.href="index.jsp?main=mypage/myreviewlist.jsp";
+		});
+		<% } else { %>
+		//REVIEW 탭 활성 → Q&A 탭 클릭 시 내 문의 페이지로 이동
+		$("#first").click(function(){
+			location.href="index.jsp?main=mypage/myqnalist.jsp";
+		});
+		<% } %>
+	});
+</script>
