@@ -19,6 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>HUEAT</title>
 
+<link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <style type="text/css">
 #titlearea{
 			text-align: center;
@@ -104,19 +105,6 @@ color: #0897B4;
 
 a:active{
 color: black;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #618E6E;
-    border-color: #618E6E;
-}
-
-.pagination .page-item .page-link:hover {
-    color: #618E6E;
-}
-
-.pagination .page-item.active .page-link:hover {
-    color: white;
 }
 
 #searcharea{

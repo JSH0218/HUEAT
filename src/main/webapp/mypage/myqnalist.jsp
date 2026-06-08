@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>내 문의 목록</title>
+<link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <style type="text/css">
 ul.tabs {
    margin: 0px;
@@ -167,19 +168,6 @@ font-size: 14px;
 
 }
 
-	.pagination .page-item.active .page-link {
-	    background-color: #618E6E;
-	    border-color: #618E6E;
-	}
-	
-	.pagination .page-item .page-link:hover {
-	    color: #618E6E;
-	}
-	
-	.pagination .page-item.active .page-link:hover {
-	    color: white;
-	}
-	
 	#btndel{
 	    background-color:#fb4357;
 	    color: #fff;
