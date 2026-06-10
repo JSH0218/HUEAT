@@ -1,0 +1,17 @@
+/* 페이지네이션 공통 스타일 (목록 페이지 공용).
+   여러 목록 JSP의 <style>에 바이트 동일하게 복붙돼 있던 .pagination 3규칙을 추출.
+   각 페이지 <head>에서 <link href="layout/pagination.css">로 로드한다.
+   활성 페이지 강조색(#618E6E)과 hover 색만 정의하며, 그 외(.page-link 기본색 등)는
+   Bootstrap 기본값을 따른다. */
+.pagination .page-item.active .page-link {
+    background-color: #618E6E;
+    border-color: #618E6E;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #618E6E;
+}
+
+.pagination .page-item.active .page-link:hover {
+    color: white;
+}
