@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b71304786948cbe7995d40be3007bd8e"></script>
 <title>휴게소 찾기</title>
+<link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 	<style type="text/css">
 		#area{
 			margin-top: 7%;
@@ -94,27 +95,6 @@
 		
 		ul{
 			cursor: pointer;
-		}
-		
-		.pagination .page-item.active .page-link {
-    		background-color: #618E6E;
-    		border-color: #618E6E;
-		}
-		
-		.pagination .page-item .page-link{
-			color: black;
-		}
-		
-		.pagination .page-item.active .page-link{
-			color: white;
-		}
-		
-		.pagination .page-item .page-link:hover {
-		    color: #618E6E;
-		}
-		
-		.pagination .page-item.active .page-link:hover {
-		    color: white;
 		}
 
 
