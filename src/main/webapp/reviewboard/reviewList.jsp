@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>후기게시판</title>
+<link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <style type="text/css">
 
   span.day{
@@ -74,27 +75,6 @@
 		font-size: 3em;
 }
 
-		.pagination .page-item.active .page-link {
-    		background-color: #618E6E;
-    		border-color: #618E6E;
-		}
-		
-		.pagination .page-item .page-link{
-			color: black;
-		}
-		
-		.pagination .page-item.active .page-link{
-			color: white;
-		}
-		
-		.pagination .page-item .page-link:hover {
-		    color: #618E6E;
-		}
-		
-		.pagination .page-item.active .page-link:hover {
-		    color: white;
-		}
-  
 </style>
 
 

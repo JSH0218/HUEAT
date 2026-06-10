@@ -1,0 +1,25 @@
+/* 페이지네이션 공통 스타일 — 변형B (게시판 4종 + 휴게소 지도 공용).
+   슬라이스1 pagination.css의 3규칙에 .page-link 글자색(black)·활성 글자색(white)
+   2규칙이 더 붙은 상위집합. 변형B를 쓰는 5종이 인라인 <style>에 바이트 동일하게
+   복붙하던 것을 추출. 각 페이지 <head>에서 <link href="layout/pagination-b.css">로 로드.
+   캐스케이드 보존을 위해 인라인에 있던 규칙 순서를 그대로 유지한다. */
+.pagination .page-item.active .page-link {
+    background-color: #618E6E;
+    border-color: #618E6E;
+}
+
+.pagination .page-item .page-link {
+    color: black;
+}
+
+.pagination .page-item.active .page-link {
+    color: white;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #618E6E;
+}
+
+.pagination .page-item.active .page-link:hover {
+    color: white;
+}

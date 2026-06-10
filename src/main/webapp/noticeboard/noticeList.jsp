@@ -15,6 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>공지사항</title>
 
+<link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <style type="text/css">
 
   button.col {
@@ -91,28 +92,6 @@
 		width: 70%;
 		display: block;
 	}
-
-		.pagination .page-item.active .page-link {
-    		background-color: #618E6E;
-    		border-color: #618E6E;
-		}
-		
-		.pagination .page-item .page-link{
-			color: black;
-		}
-		
-		.pagination .page-item.active .page-link{
-			color: white;
-		}
-		
-		.pagination .page-item .page-link:hover {
-		    color: #618E6E;
-		}
-		
-		.pagination .page-item.active .page-link:hover {
-		    color: white;
-		}
-	
 
 </style>
 
