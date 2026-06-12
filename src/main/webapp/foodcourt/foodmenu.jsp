@@ -19,6 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Grandiflora+One&family=Gugi&family=Hahmlet:wght@100..900&family=Hi+Melody&family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>푸드코트 메뉴</title>
+<link rel="stylesheet" type="text/css" href="layout/banner.css">
 <style type="text/css">
 #container {
   margin: 0 auto; 
@@ -79,34 +80,6 @@ div.img{
   align-items: center; /* 요소들을 수평 가운데로 정렬합니다. */
   margin-bottom: 20px; /* 필요에 따라 여백을 조정합니다. */
 }
-
-div.img-container{
-    width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 250px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	border: 0px solid black;
-  	background-position: top;
-  	text-align: center;
-}
-	
-	div.img-container img {
-		top: 0;
-    width: 100%; /* 이미지가 부모 요소의 가로폭을 다 차지하도록 설정 */
-    height: auto; /* 세로 비율을 유지하기 위해 자동으로 조정 */
-    object-fit: cover; /* 이미지를 부모 요소에 맞게 잘라내어 배치 */
-    
-}
-	div.span-container{
-		width: 100%; /* 이미지를 감싸는 부모 요소의 가로폭 */
-    height: 250px; /* 원하는 높이로 설정 */
-    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우를 숨김으로 설정 */
-  	background-position: top;
-		margin-top:-14%;
-  	text-align: center;
-  	display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-	}
 
 	div.span-container span{
 		z-index: 999;
