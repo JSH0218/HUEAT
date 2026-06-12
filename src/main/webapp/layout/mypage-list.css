@@ -1,0 +1,25 @@
+@charset "UTF-8";
+/* 마이페이지 목록 공통 스타일 (admin·my 목록 5종 공용).
+   admineventlist/adminnoticelist/adminqnalist/myqnalist/myreviewlist의 <style>에
+   바이트 동일하게 복붙돼 있던 #pagelayout 1블록 + table.table 3규칙을 추출.
+   각 페이지 <head>에서 <link href="layout/mypage-list.css">로 로드한다. */
+#pagelayout {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: -60px;
+}
+
+table.table {
+	margin-bottom: 80px;
+}
+
+table.table th, table.table td {
+	text-align: center; /* 가운데 정렬 */
+	vertical-align: middle; /* 수직 정렬 */
+}
+
+.table th, .table td {
+	padding: 8px; /* 셀의 안쪽 여백을 추가합니다 */
+	text-align: center; /* 셀의 텍스트를 가운데 정렬합니다 */
+}
