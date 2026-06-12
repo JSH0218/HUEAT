@@ -21,6 +21,7 @@
 
 <link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 <style type="text/css">
 #titlearea{
 			text-align: center;
@@ -83,24 +84,6 @@ tr:hover { /* <tr>의 첫번째,두번째 형제 요소 제외하고 나머지 �
 
 .line2{
 	border-bottom: 3px solid darkgray;
-}
-
-a:link{
-color : black;
-text-decoration: none;
-}
-
-a:visited {
-  color : black;
-  text-decoration: none;
-}
-
-a:hover{
-color: #0897B4;
-}
-
-a:active{
-color: black;
 }
 
 #searcharea{

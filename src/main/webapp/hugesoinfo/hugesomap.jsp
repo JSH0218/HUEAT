@@ -15,6 +15,7 @@
 <title>휴게소 찾기</title>
 <link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 	<style type="text/css">
 		#area{
 			margin-top: 7%;
@@ -75,24 +76,6 @@
 		
 		}
 		
-		
-		a:link{
-			color : black;
-			text-decoration: none;
-		}
-		
-		a:visited {
-			color : black;
-			text-decoration: none;
-		}
-		
-		a:hover{
-			color: #0897B4;
-		}
-		
-		a:active{
-			color: black;
-		}
 		
 		ul{
 			cursor: pointer;

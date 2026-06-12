@@ -1,0 +1,21 @@
+@charset "UTF-8";
+/* 목록 페이지 공통 앵커 리셋 (admin·my·휴게소 목록 10종 공용).
+   여러 목록 JSP의 <style>에 공백 차이만 두고 복붙돼 있던 앵커 4규칙
+   (a:link / a:visited / a:hover / a:active)을 추출.
+   각 페이지 <head>에서 <link href="layout/anchor-reset.css">로 로드한다.
+   ※ 게시판 3종(eventList/noticeList/qaList)은 결합 셀렉터(a:link,a:visited)에
+      hover/active가 없는 다른 구조라 제외하고 인라인에 그대로 둔다. */
+a:link {
+	color: black;
+	text-decoration: none;
+}
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	color: #0897B4;
+}
+a:active {
+	color: black;
+}
