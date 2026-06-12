@@ -21,6 +21,7 @@
 <title>내 후기</title>
 <link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/mypage-list.css">
 <style type="text/css">
 ul.tabs {
 	margin: 0px;
@@ -100,27 +101,6 @@ div.container {
 	margin-right: auto;
 	margin-bottom: 50px;
 	margin-top: 128px;
-}
-
-#pagelayout {
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: -60px;
-}
-
-table.table {
-	margin-bottom: 80px;
-}
-
-table.table th, table.table td {
-	text-align: center; /* 가운데 정렬 */
-	vertical-align: middle; /* 수직 정렬 */
-}
-
-.table th, .table td {
-	padding: 8px; /* 셀의 안쪽 여백을 추가합니다 */
-	text-align: center; /* 셀의 텍스트를 가운데 정렬합니다 */
 }
 
 input[type="checkbox"] {
