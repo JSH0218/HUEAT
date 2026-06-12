@@ -18,25 +18,8 @@
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
 <link rel="stylesheet" type="text/css" href="layout/mypage-list.css">
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
+<link rel="stylesheet" type="text/css" href="layout/mypage-tabs.css">
 <style type="text/css">
-ul.tabs {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-	display: flex;
-	justify-content: center;
-}
-
-ul.tabs li {
-   background: none;
-   color: #222;
-   cursor: pointer;
-   width: 90px;
-   height: 45px;
-   display: flex; /* 수정: 부모 요소를 플렉스 박스로 설정 */
-   align-items: center; /* 수정: 수직 가운데 정렬 */
-   justify-content: center; 
-}
 ul.tabs li#first{
 	  border-radius: 100px;
 	  border: 1px solid #ccc;
@@ -61,15 +44,6 @@ ul.tabs li#first:hover, ul.tabs li#event:hover {
     color: #fff;
 }
 
-.tab-content {
-	display: none;
-	background: white;
-	padding: 15px;
-}
-
-ul.tabs li span {
-	font-weight: bold;
-}
 
 div.adminnoticelist {
 	width: 100%;

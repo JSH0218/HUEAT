@@ -1,0 +1,35 @@
+@charset "UTF-8";
+/* 마이페이지 탭 구조 공통 스타일 (admin·my 목록 5종 공용).
+   admineventlist/adminnoticelist/adminqnalist/myqnalist/myreviewlist의 <style>에
+   공백 차이만 두고 복붙돼 있던 탭 구조 4규칙(ul.tabs / ul.tabs li / .tab-content /
+   ul.tabs li span)을 추출. 각 페이지 <head>에서 <link href="layout/mypage-tabs.css">로 로드.
+   ※ 활성/강조 규칙(ul.tabs li#first/#next/#event 계열·#first/#next 자기탭 강조)은 페이지마다
+      달라(슬라이스3 ⏸ 사유) 각 host 인라인 <style>에 그대로 둔다. */
+ul.tabs {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	display: flex;
+	justify-content: center;
+}
+
+ul.tabs li {
+	background: none;
+	color: #222;
+	cursor: pointer;
+	width: 90px;
+	height: 45px;
+	display: flex; /* 수정: 부모 요소를 플렉스 박스로 설정 */
+	align-items: center; /* 수정: 수직 가운데 정렬 */
+	justify-content: center;
+}
+
+.tab-content {
+	display: none;
+	background: white;
+	padding: 15px;
+}
+
+ul.tabs li span {
+	font-weight: bold;
+}
