@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
 <link rel="stylesheet" type="text/css" href="layout/mypage-list.css">
+<link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 <style type="text/css">
 ul.tabs {
 	margin: 0px;
@@ -68,24 +69,6 @@ ul.tabs li#first:hover {
 
 ul.tabs li span {
 	font-weight: bold;
-}
-
-a:link {
-	color: black;
-	text-decoration: none;
-}
-
-a:visited {
-	color: black;
-	text-decoration: none;
-}
-
-a:hover {
-	color: #0897B4;
-}
-
-a:active {
-	color: black;
 }
 
 div.reviewlist {

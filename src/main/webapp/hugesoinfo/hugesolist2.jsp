@@ -20,6 +20,7 @@
 
 <link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 <style type="text/css">
 #titlearea{
 			text-align: center;
@@ -38,24 +39,6 @@
 .btn{
 	background-color:white;
 	border:white;
-}
-
-a:link{
-	color : black;
-	text-decoration: none;
-}
-
-a:visited {
-  color : black;
-  text-decoration: none;
-}
-
-a:hover{
-	color: #0897B4;
-}
-
-a:active{
-	color: black;
 }
 
 #searcharea{
