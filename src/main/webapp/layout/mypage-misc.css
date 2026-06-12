@@ -1,0 +1,33 @@
+@charset "UTF-8";
+/* 마이페이지 목록 공통 스타일 (admin·my 목록 5종 공용) — 잔여 공통 규칙.
+   admineventlist/adminnoticelist/adminqnalist/myqnalist/myreviewlist의 <style>에
+   바이트(공백무시) 동일하게 복붙돼 있던 5규칙(div.container / input[type="checkbox"] /
+   td / .table-bordered td.day / div.span-container span)을 추출.
+   각 페이지 <head>에서 <link href="layout/mypage-misc.css">로 로드한다.
+   ※ #btndel은 adminqnalist만 border-radius·box-shadow가 달라(분기) 각 host 인라인에 남겨둔다. */
+div.container {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 50px;
+	margin-top: 128px;
+}
+
+input[type="checkbox"] {
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+}
+td{
+font-size: 14px;
+}
+.table-bordered	td.day {
+	font-size: 12px;
+	color: #b4a8a8;
+	}
+
+div.span-container span{
+	z-index: 9999;
+	color: white;
+	position: relative;
+
+}
