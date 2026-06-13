@@ -1,0 +1,14 @@
+@charset "UTF-8";
+/* 게시판 목록 배너 텍스트(span) 공통 스타일.
+   noticeList/eventList/reviewList의 <style>에 바이트 동일하게 복붙돼 있던
+   div.span-container span(4속성·font-size:3em형)을 추출.
+   각 페이지 <head>에서 <link href="layout/span-container-board.css">로 로드한다.
+   ※ banner.css는 부모 div.span-container만 정의(자식 span은 여기서 담당).
+   ※ mypage-misc.css의 div.span-container span은 font-size 없는 3속성형이라 다른 집합.
+   ※ qaList는 z-index:999 분기라 제외(인라인 잔류). */
+div.span-container span{
+	z-index: 9999;
+	color: white;
+	position: relative;
+	font-size: 3em;
+}
