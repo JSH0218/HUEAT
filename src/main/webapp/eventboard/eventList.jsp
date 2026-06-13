@@ -22,13 +22,6 @@
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset-board.css">
 <link rel="stylesheet" type="text/css" href="layout/span-container-board.css">
 <link rel="stylesheet" type="text/css" href="layout/board-layout.css">
- <style type="text/css">
-
-  
-
-
-
-</style>
 
 </head>
 
