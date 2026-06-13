@@ -29,12 +29,9 @@ dao.updateReadcount(q_num);
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 %>
 
+<link rel="stylesheet" type="text/css" href="layout/button-col.css">
 <style type="text/css">
 
-  button.col {
-    background-color: #618E6E;
-    right: 20%;
-  }
   
   span.day {
     float: right;

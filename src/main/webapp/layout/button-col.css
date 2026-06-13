@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* 게시판/쇼핑 등록·작성 버튼 스타일 (button.col) — 목록·상세·작성·수정 폼 12종 공용.
+   notice/event/qa 게시판 11종(List/Detail/Form/UpdateForm 계열) + shop/shopForm의 인라인
+   <style>에 바이트(공백무시) 동일하게 복붙돼 있던 button.col 규칙을 추출.
+   각 페이지 <head>에서 <link href="layout/button-col.css">로 로드한다.
+   ※ 분기라 제외: layout/main.jsp(margin-bottom:6%·전역 푸터)·shop/shopList(width/height/color)·
+      reviewboard/reviewForm·reviewUpdateForm(margin-left:-118%). 해당 파일은 인라인 그대로 둔다. */
+button.col {
+	background-color: #618E6E;
+	right: 20%;
+}
