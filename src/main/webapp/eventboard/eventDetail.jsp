@@ -13,12 +13,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <title>이벤트 상세</title>
+<link rel="stylesheet" type="text/css" href="layout/button-col.css">
 <style type="text/css">
 
-  button.col {
-    background-color: #618E6E;
-    right: 20%;
-  }
   
   span.day {
     float: right;

@@ -17,12 +17,9 @@
 <title>QnA 게시판</title>
 <link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/button-col.css">
 <style type="text/css">
 
-  button.col {
-    background-color: #618E6E;
-    right: 20%;
-  }
    
   
   a:link, a:visited {
