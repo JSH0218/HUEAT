@@ -21,16 +21,8 @@
 <link rel="stylesheet" type="text/css" href="layout/pagination.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
+<link rel="stylesheet" type="text/css" href="layout/hugeso-list.css">
 <style type="text/css">
-#titlearea{
-			text-align: center;
-			margin-bottom: 40px;
-		}
-		
-		#titlearea hr{
-			margin: 0 auto;
-			width: 10%;
-		}
 
 #contentarea{
 	margin-bottom: 80px;
@@ -40,22 +32,6 @@
 	background-color:white;
 	border:white;
 }
-
-#searcharea{
-	display: flex;
-	justify-content: center;
-	margin-bottom: 80px;
-}
-
-#searcharea input{
-	margin-right: 5px;
-}
-
-#searcharea button{
-	background-color: #618E6E;
-}
-
-
 
 	div.span-container span{
 		z-index: 9999;
