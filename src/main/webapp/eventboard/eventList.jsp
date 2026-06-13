@@ -19,6 +19,7 @@
 <link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
 <link rel="stylesheet" type="text/css" href="layout/button-col.css">
+<link rel="stylesheet" type="text/css" href="layout/anchor-reset-board.css">
  <style type="text/css">
 
   
@@ -28,11 +29,6 @@
     margin-top: -4%;" 
   }
   
-  a:link, a:visited {
-    text-decoration: none;
-    color: black;
-  
-  }
 	div.span-container span{
 		z-index: 9999;
 		color: white;
