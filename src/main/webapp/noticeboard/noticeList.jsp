@@ -19,6 +19,7 @@
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
 <link rel="stylesheet" type="text/css" href="layout/button-col.css">
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset-board.css">
+<link rel="stylesheet" type="text/css" href="layout/span-container-board.css">
 <style type="text/css">
 
   
@@ -29,12 +30,6 @@
   }
   
   
-	div.span-container span{
-		z-index: 9999;
-		color: white;
-		position: relative;
-		font-size: 3em;
-}
 
 	div.alldiv{
 		margin: 0 auto;

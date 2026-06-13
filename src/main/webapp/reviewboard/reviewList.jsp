@@ -16,6 +16,7 @@
 <title>후기게시판</title>
 <link rel="stylesheet" type="text/css" href="layout/pagination-b.css">
 <link rel="stylesheet" type="text/css" href="layout/banner.css">
+<link rel="stylesheet" type="text/css" href="layout/span-container-board.css">
 <style type="text/css">
 
   span.day{
@@ -41,12 +42,6 @@
   }
   
     
-	div.span-container span{
-		z-index: 9999;
-		color: white;
-		position: relative;
-		font-size: 3em;
-}
 
 </style>
 
