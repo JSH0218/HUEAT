@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* 휴게소 목록 4종 공통 title/search 레이아웃(공통).
+   hugesolist/hugesolist2/hugesolistsearch/hugesolist2search의 <style>에
+   바이트 동일하게 복붙돼 있던 두 블록을 추출:
+     블록1(상단) #titlearea·#titlearea hr,
+     블록2(하단) #searcharea·#searcharea input·#searcharea button.
+   각 페이지 <head>에서 <link href="layout/hugeso-list.css">로 로드한다.
+   ※ 원본 인라인 순서(top→bottom) 보존. 사이의 페이지 고유 규칙과 셀렉터 교집합 0이라
+     두 블록을 인접 배치해도 결과 불변.
+   ※ banner.css/pagination.css/anchor-reset.css와 셀렉터 교집합 없음(다른 집합).
+   ※ hugesomap/hugesoaddform/hugesoupdateform은 분기(#titlearea margin-top:100px·#searcharea 상이)라
+     제외(인라인 잔류). */
+#titlearea {
+	text-align: center;
+	margin-bottom: 40px;
+}
+#titlearea hr {
+	margin: 0 auto;
+	width: 10%;
+}
+#searcharea {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 80px;
+}
+#searcharea input {
+	margin-right: 5px;
+}
+#searcharea button {
+	background-color: #618E6E;
+}
