@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* 마이페이지 삭제버튼 스타일 (#btndel) — admin·my 목록 4종 공용.
+   admineventlist/adminnoticelist/myqnalist/myreviewlist의 <style>에 바이트(공백무시)
+   동일하게 복붙돼 있던 #btndel 규칙을 추출.
+   각 페이지 <head>에서 <link href="layout/mypage-btndel.css">로 로드한다.
+   ※ adminqnalist는 border-radius:5px·box-shadow 없음(분기)이라 제외 — 인라인 그대로 둔다. */
+#btndel{
+	background-color:#fb4357;
+	color: #fff;
+	border:none;
+	border-radius:10px;
+	box-shadow: 0px 0px 2px 2px #fb4357;
+	width: 45px;
+	height: 30px;
+	font-size: 13px;
+}

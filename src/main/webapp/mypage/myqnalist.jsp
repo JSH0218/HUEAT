@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 <link rel="stylesheet" type="text/css" href="layout/mypage-tabs.css">
 <link rel="stylesheet" type="text/css" href="layout/mypage-misc.css">
+<link rel="stylesheet" type="text/css" href="layout/mypage-btndel.css">
 <style type="text/css">
 ul.tabs li#next {
    border: 1px solid #ccc;
@@ -52,16 +53,6 @@ div.reviewlist {
 }
 
 
-	#btndel{
-	    background-color:#fb4357;
-	    color: #fff;
-	    border:none;
-	    border-radius:10px;
-	    box-shadow: 0px 0px 2px 2px #fb4357;
-	    width: 45px;
-		height: 30px;
-		font-size: 13px;
-	}
 
 </style>
 <script type="text/javascript">
