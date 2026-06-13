@@ -21,38 +21,10 @@
 <link rel="stylesheet" type="text/css" href="layout/button-col.css">
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset-board.css">
 <link rel="stylesheet" type="text/css" href="layout/span-container-board.css">
+<link rel="stylesheet" type="text/css" href="layout/board-layout.css">
  <style type="text/css">
 
   
-  #pagelayout {
-    margin-left: 20%; 
-    margin-bottom: 3%;
-    margin-top: -4%;" 
-  }
-  
-
-		div.alldiv{
-		margin: 0 auto;
-		width: 80%;
-		border: 0px solid black;
-
-	}
-	
-	div.tablediv{
-		margin:0 auto;
-		padding-top: 5%;
-		border: 0px solid red;
-		width: 70%;
-		display: block;
-	}
-	
-	#pagelayout{
-		margin:0 auto;
-		border: 0px solid yellow;
-		padding-top: 4%;
-		width: 70%;
-		display: block;
-	}
 
 
 
