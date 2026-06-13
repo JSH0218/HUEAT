@@ -1,0 +1,35 @@
+@charset "UTF-8";
+/* 게시판 목록 레이아웃 위치 규칙(공통).
+   noticeList/eventList의 <style>에 바이트 동일하게 복붙돼 있던
+   #pagelayout(2회 정의)·div.alldiv·div.tablediv를 추출.
+   각 페이지 <head>에서 <link href="layout/board-layout.css">로 로드한다.
+   ※ #pagelayout이 같은 명시도로 2번 정의됨 — CSS상 나중 정의가 승리하므로
+     아래 순서(margin-left형 → margin:0 auto형)를 절대 바꾸지 말 것(동작 보존).
+   ※ 1번째 #pagelayout의 margin-top: -4%;" 끝 "는 기존 오타(브라우저 무시). 바이트 그대로 보존.
+   ※ mypage-list.css도 #pagelayout을 정의하나 값이 다른 별개 집합 + board 페이지(notice/event)는
+     mypage-list.css를 link하지 않으므로 상호 미로드(충돌 없음).
+   ※ qaList는 분기(alldiv 2속성·#pagelayout 단일+margin-bottom:4%·tablediv th 고유)라 제외(인라인 잔류). */
+#pagelayout {
+	margin-left: 20%;
+	margin-bottom: 3%;
+	margin-top: -4%;"
+}
+div.alldiv {
+	margin: 0 auto;
+	width: 80%;
+	border: 0px solid black;
+}
+div.tablediv {
+	margin: 0 auto;
+	padding-top: 5%;
+	border: 0px solid red;
+	width: 70%;
+	display: block;
+}
+#pagelayout {
+	margin: 0 auto;
+	border: 0px solid yellow;
+	padding-top: 4%;
+	width: 70%;
+	display: block;
+}
