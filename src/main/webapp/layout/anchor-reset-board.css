@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* 게시판 목록 앵커 리셋 (eventList/noticeList/qaList 3종 공용) — 결합 셀렉터 변형.
+   세 목록 JSP의 <style>에 바이트(공백무시) 동일하게 복붙돼 있던 결합형 앵커 규칙
+   (a:link, a:visited { text-decoration:none; color:black })을 추출.
+   각 페이지 <head>에서 <link href="layout/anchor-reset-board.css">로 로드한다.
+   ※ layout/anchor-reset.css(slice4)와는 다른 집합이다 — 그쪽은 a:link/a:visited/a:hover/
+      a:active 4규칙 분리형(목록 10종)이고, 이 3종은 결합 셀렉터에 hover/active가 없어 별도 파일. */
+a:link, a:visited {
+	text-decoration: none;
+	color: black;
+}
