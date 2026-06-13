@@ -24,6 +24,7 @@
 <link rel="stylesheet" type="text/css" href="layout/mypage-list.css">
 <link rel="stylesheet" type="text/css" href="layout/anchor-reset.css">
 <link rel="stylesheet" type="text/css" href="layout/mypage-tabs.css">
+<link rel="stylesheet" type="text/css" href="layout/mypage-misc.css">
 <style type="text/css">
 ul.tabs li#first {
    border: 1px solid #ccc;
@@ -53,32 +54,6 @@ div.reviewlist {
 	padding-bottom: 40px;
 }
 
-div.container {
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 50px;
-	margin-top: 128px;
-}
-
-input[type="checkbox"] {
-	width: 10px;
-	height: 10px;
-	cursor: pointer;
-}
-td{
-font-size: 14px;
-}
-.table-bordered	td.day {
-	font-size: 12px;
-	color: #b4a8a8;
-	}
-
-	div.span-container span{
-		z-index: 9999;
-		color: white;
-		position: relative;
-
-}
 
 	#btndel{
 	    background-color:#fb4357;
