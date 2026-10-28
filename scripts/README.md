@@ -31,6 +31,12 @@ Apache Jasper(`org.apache.jasper.JspC`)로 `src/main/webapp`의 모든 `*.jsp`�
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/jspc-check.ps1
 ```
+Linux/macOS에서는 동등한 `jspc-check.sh`를 쓴다.
+```bash
+bash scripts/jspc-check.sh
+```
+- `CATALINA_HOME`에 Tomcat 9가 있으면 그 `lib`를 쓰고, 없으면 Maven Central에서 Jasper 9.0.118 관련 JAR(+`ecj`, `ant`)를
+  내려받아 `.jspc/lib`에 캐시한다(Tomcat 설치 불필요). 판정 방식은 `.ps1`과 같다.
 - 종료코드 `0` = 전 JSP 통과(오류 0), 그 외 = 실패(오류 로그 출력).
 - 임시 산출물은 `.jspc/`(gitignore). 안전하게 삭제 가능, 다음 실행 시 재생성.
 
