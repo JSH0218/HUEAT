@@ -22,7 +22,7 @@ String myid=request.getParameter("myid");
 %>
 <script type="text/javascript">
 
-IMP.init('imp22445011');
+IMP.init('[secret]');
 IMP.request_pay({
     pg : 'html5_inicis',
     pay_method : 'card',
