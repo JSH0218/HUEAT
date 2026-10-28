@@ -43,3 +43,12 @@ bash scripts/jspc-check.sh
 ### 권장 사용 시점
 - JSP를 만지는 모든 PR(특히 구조 통합·`include` 추출) 직후, 커밋 전.
 - 기존 베이스라인은 **오류 0(green)** 임이 확인됨(전체 122개 JSP 통과). 새로 깨지면 그 변경이 원인.
+
+## static-analysis.sh — 정적 분석 일괄 실행
+
+무료 오픈소스 도구 Semgrep(로컬 룰), SpotBugs+FindSecBugs, gitleaks(`--redact`)를 한 번에 설치·실행하고 도구별 경고 수를 요약한다.
+도구와 결과물은 저장소 밖 `/tmp/hueat-tools`(환경변수 `HUEAT_TOOLS`로 변경 가능)에 두며 커밋하지 않는다.
+
+```bash
+bash scripts/static-analysis.sh
+```
