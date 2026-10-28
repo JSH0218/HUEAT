@@ -37,7 +37,7 @@
 - 수정: `util/SecurityUtil.java`에 `isValidMemberId` 추가 / `member/gaipaction.jsp`(형식 위반 시 가입 거부, 기존 예약 ID 검사 블록에 합침) / `member/idcheck.jsp`(형식 위반 시 사용 불가 응답) / `member/gaipform.jsp`(중복확인·제출 시 같은 규칙으로 클라이언트 검사) / `CLAUDE.md`.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / jshell로 정규식 판정 10건 확인(`abcd`·20자 통과, `abc`·`1abc`·`Abcd`·`ab_cd`·21자·`"><script>`·null 거부) / 서브에이전트 독립 재검토: 막을 문제 없음(INSERT 경로는 `gaipaction.jsp` 하나, 로그인·시드 관리자 영향 없음).
 - 경고 수 변화: Semgrep 802→802(처음엔 별도 스크립틀릿 블록으로 803이 되어 기존 블록에 합침), SpotBugs 21→21, gitleaks 0→0.
-- PR: 이 항목을 추가한 PR(브랜치 `claude/auto-20261029-0216-member-id-rule`)
+- PR: #116
 - 실구동 확인 포인트: 가입 화면에서 `ab`·`Abcd`·`ab_cd` 입력 시 중복확인·제출 단계 안내, 정상 ID 가입, 형식 위반 ID를 직접 POST하면 "사용할 수 없는 아이디입니다." 응답.
 
 ## 후보
