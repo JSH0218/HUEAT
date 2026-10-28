@@ -28,9 +28,9 @@ Maven 기반 프로젝트로 IntelliJ IDEA + Apache Tomcat v9.0에서 실행한�
 자동화 테스트(`src/test`)는 없다. 변경 후에는 아래로 정적 검증한다.
 
 - **Java(DAO/DTO/util) 컴파일:** `mvn -q compile` — `src/main/java`만 확인하며 JSP는 검사하지 않는다.
-- **JSP 프리컴파일 게이트:** `powershell -ExecutionPolicy Bypass -File scripts/jspc-check.ps1`
+- **JSP 프리컴파일 게이트:** `powershell -ExecutionPolicy Bypass -File scripts/jspc-check.ps1` (Linux/macOS: `bash scripts/jspc-check.sh`)
   - Jasper(`JspC`)로 모든 JSP를 변환+컴파일한다. 스크립틀릿 문법 오류, `<%@ include %>` 변수 중복선언, **JSP가 호출하는 DAO 메서드 이름/시그니처 불일치**(`javac`로는 못 잡음)를 잡는다.
-  - Tomcat 9 설치(`CATALINA_HOME`)와 Java 17 필요. 최초 실행 시 `ant.jar`를 내려받아 `.jspc/`에 캐시한다.
+  - Tomcat 9 설치(`CATALINA_HOME`)와 Java 17 필요. 최초 실행 시 `ant.jar`를 내려받아 `.jspc/`에 캐시한다. (`.sh`는 Tomcat이 없으면 Jasper JAR를 Maven Central에서 내려받는다.)
   - 베이스라인은 전체 JSP 오류 0이므로, 실패하면 직전 변경이 원인이다. JSP를 수정했다면 커밋 전에 실행한다.
   - 런타임 동작(SQL 결과, redirect, AJAX URL, 세션 흐름)은 잡지 못하므로 Tomcat+MySQL 실구동으로 별도 확인한다. 자세한 내용은 `scripts/README.md`.
 
