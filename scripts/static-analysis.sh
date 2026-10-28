@@ -14,6 +14,8 @@ T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
 GITLEAKS_VER=8.21.2
 mkdir -p "$T"
 cd "$proj"
+# 이전 회차 결과가 남아 있으면 도구 실패 시 지난 수치가 요약에 나오므로 먼저 지운다
+rm -f "$T/semgrep.json" "$T/gitleaks.json" target/spotbugsXml.xml
 
 # --- 설치 ---
 command -v semgrep >/dev/null 2>&1 || pip install -q semgrep >/dev/null 2>&1 || echo "[sa] WARN: semgrep 설치 실패"
