@@ -191,7 +191,7 @@ div.admineventlist {
 		   <%=dto.getE_readcount()%>
 		    </td>
 		    <td>
-				<%=name %>
+				<%=util.SecurityUtil.escapeHtml(name) %>
 			</td>
 		    <td class="day">
 		        <%=sdf.format(dto.getE_writeday())%>

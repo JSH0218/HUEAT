@@ -71,7 +71,7 @@ onclick="location.href='../index.jsp'"></div>
 			<th width="50"><i class="bi bi-person-circle fs-4"></i></th>
 			<td >
 				<input type="text" placeholder="아이디" name="m_id" required="required"
-				value="<%=myid%>" style="width: 300px;height: 40px;">
+				value="<%=util.SecurityUtil.escapeHtml(myid)%>" style="width: 300px;height: 40px;">
 			</td>
 		</tr>
 		<tr>
