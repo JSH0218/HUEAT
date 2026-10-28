@@ -66,7 +66,7 @@
 
       <table style="margin: 20px;">
          <tr style="width: 200px; height: 100px;">
-            <th>아이디&nbsp;&nbsp;&nbsp;<input type="text" name="m_id" id="m_id" style="width: 250px;height: 40px; margin-left: 100px; padding-left: 10px;" value="<%=myid %>" readonly="readonly"></th>
+            <th>아이디&nbsp;&nbsp;&nbsp;<input type="text" name="m_id" id="m_id" style="width: 250px;height: 40px; margin-left: 100px; padding-left: 10px;" value="<%=util.SecurityUtil.escapeHtml(myid) %>" readonly="readonly"></th>
          </tr>
          <tr style="width: 200px; height: 100px;">
             <th>비밀번호<input type="password" name="m_pass" id="m_pass" placeholder="비밀번호를 입력해 주세요."

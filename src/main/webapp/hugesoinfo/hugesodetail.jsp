@@ -716,7 +716,7 @@ function sortFood(sortType) {
 <form id="frm">
 <input type="hidden" name="h_num" value="<%=h_num%>" id="h_num">
 <input type="hidden" name="m_num" value="<%=m_num%>" id="m_num">
-<input type="hidden" name="g_myid" value="<%=m_id%>" id="g_myid">
+<input type="hidden" name="g_myid" value="<%=util.SecurityUtil.escapeHtml(m_id)%>" id="g_myid">
 <input type="hidden" id="g_role" value="<%=session.getAttribute("role")%>">
 
 
