@@ -10,6 +10,7 @@
 | 2026-10-28 | 8101471 | 802 (no-scriptlets 799, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (EI_EXPOSE_REP 8, EI_EXPOSE_REP2 8, RV_RETURN_VALUE_IGNORED_BAD_PRACTICE 3, REC_CATCH_EXCEPTION 2) | 0 |
 | 2026-10-28 | 59e53c2 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-28 | 3012e6e | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-29 | cddaec1 | 802 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -40,7 +41,20 @@
 - PR: #116
 - 실구동 확인 포인트: 가입 화면에서 `ab`·`Abcd`·`ab_cd` 입력 시 중복확인·제출 단계 안내, 정상 ID 가입, 형식 위반 ID를 직접 POST하면 "사용할 수 없는 아이디입니다." 응답.
 
+### 2026-10-29 · 보안(입력 검증) · 장바구니 담기 수량 서버 측 검증
+- 영역: foodcourt
+- 근거: 직접 리뷰. `foodcourt/foodcartaddaction.jsp`가 `cart_cnt`를 범위 검사 없이 `Integer.parseInt`해 직접 POST로 0·음수·대량 수량을 넣을 수 있었고(`foodcartlist.jsp` 합계가 음수가 됨), 숫자가 아니면 처리되지 않은 예외(500)가 났다. 화면 입력란은 `min="1" max="10"`이었다.
+- 정한 규칙: 장바구니 담기 요청 수량은 1~10 정수(화면 입력란과 동일). CLAUDE.md '보안 규칙'에 기록.
+- 수정: `foodcourt/foodcartaddaction.jsp`(범위 밖·비숫자면 400) / `foodcourt/foodmenu.jsp`(AJAX 전 같은 규칙 검사) / `CLAUDE.md`.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(호출처는 `foodmenu.jsp` 한 곳).
+- 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 메뉴 수량 0·11 입력 시 안내창, 1~10 정상 담기, 이미 담긴 메뉴 재담기(+1) 동작.
+
 ## 후보
+- `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
+- `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
+- `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
 - `member/gaipform.jsp`: 중복확인 AJAX 결과를 기다리지 않고 `isIdChecked = true`로 설정되고, 확인 뒤 ID를 바꿔도 초기화되지 않음(서버의 중복 재확인·UNIQUE 제약으로 데이터는 보호됨)
 - `member/gaipform.jsp`: 중복 시 입력란을 비우는 셀렉터가 `#id`로 잘못됨(실제는 `#m_id`)
 - `hugesoinfo/hugesodetail.jsp:720` `g_role` 세션 값 그대로 출력(서버가 정하는 USER/ADMIN이라 위험 낮음)

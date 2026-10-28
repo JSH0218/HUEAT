@@ -22,7 +22,16 @@ if(!util.SecurityUtil.isPost(request) || !util.SecurityUtil.checkCsrf(request)){
 String f_num=request.getParameter("f_num");
 String h_num=request.getParameter("h_num");
 String m_num=new meminfo.model.MemInfoDao().selectM_num(util.SecurityUtil.currentId(session));
-int cart_cnt=Integer.parseInt(request.getParameter("cart_cnt"));
+// 수량은 1~10 정수만 허용(foodmenu.jsp 입력란 min/max와 같은 규칙, 음수·0·비정상 값 차단)
+int cart_cnt;
+try{
+	cart_cnt=Integer.parseInt(request.getParameter("cart_cnt"));
+}catch(NumberFormatException e){
+	cart_cnt=0;
+}
+if(cart_cnt<1 || cart_cnt>10){
+	response.sendError(400); return;
+}
 
 FoodCartDao dao=new FoodCartDao();
 boolean cnt=dao.selectCartItemExists(f_num, m_num);
