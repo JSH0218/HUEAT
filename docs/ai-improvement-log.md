@@ -48,7 +48,7 @@
 - 수정: `foodcourt/foodcartaddaction.jsp`(범위 밖·비숫자면 400) / `foodcourt/foodmenu.jsp`(AJAX 전 같은 규칙 검사) / `CLAUDE.md`.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(호출처는 `foodmenu.jsp` 한 곳).
 - 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #117
 - 실구동 확인 포인트: 메뉴 수량 0·11 입력 시 안내창, 1~10 정상 담기, 이미 담긴 메뉴 재담기(+1) 동작.
 
 ## 후보
