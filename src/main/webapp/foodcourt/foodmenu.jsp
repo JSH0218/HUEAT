@@ -108,6 +108,11 @@ $(function(){
 	            alert("로그인이 필요한 서비스입니다.");
 	            return;
 	        }
+		  //수량은 1~10 정수만 허용(서버 foodcartaddaction.jsp와 같은 규칙)
+		  if(!/^([1-9]|10)$/.test(cart_cnt)){
+	            alert("수량은 1~10 사이로 입력해주세요.");
+	            return;
+	        }
 		  var a=confirm("추가하시겠습니까?");
 		  
 		  if(a){
