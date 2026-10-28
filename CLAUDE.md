@@ -138,6 +138,7 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
   - 세션 쿠키는 `web.xml`(HttpOnly)과 `META-INF/context.xml`(`SameSite=lax`)에서 설정한다. 오류는 `web.xml`이 `error.jsp`로 포워딩해 스택트레이스를 노출하지 않는다.
 - **파일 업로드:** 업로드 후 `SecurityUtil.validateOrDelete`/`validateAllUploads`로 확장자+MIME 검증(이미지만 허용). 저장 경로는 웹루트 외부(`upload.dir`)이며 직접 URL 접근이 아닌 `ImageServlet`으로만 제공.
 - **DB 자격증명:** 소스에 하드코딩 금지. `AppConfig` 외부 설정 파일로만 관리.
+- **민감값 치환:** 소스에서 API 키·앱키·가맹점 코드·토큰·비밀번호 등 민감값으로 추정되는 문자열을 발견하면 값만 `[secret]`으로 치환한다(예: `sdk.js?appkey=[secret]`, `Kakao.init("[secret]")`, `IMP.init('[secret]')`). 이 저장소에 남아 있던 카카오·결제 키는 계정 삭제로 이미 무효화된 값이라 치환으로 해당 기능이 동작하지 않아도 된다. 커밋 이력은 재작성(force-push)하지 않으며, 로그·PR·커밋 메시지에도 원래 값을 적지 않는다.
 
 ## 작업 원칙
 

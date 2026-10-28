@@ -47,7 +47,7 @@ function shareTwitter() {
 
 // Kakao Talk
 function shareKakao() {
-  Kakao.init("5a77ce427996f7b3cb3de14e9a4e0444");
+  Kakao.init("[secret]");
   var thisUrl = document.URL; 
   Kakao.Link.sendDefault({
     objectType: 'feed',

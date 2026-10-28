@@ -307,7 +307,7 @@ $(function(){
 	})	
 	function requestPay(myid, total, name, hp) {
 		
-		IMP.init('imp22445011');
+		IMP.init('[secret]');
         IMP.request_pay(
           {
             pg: 'html5_inicis',
