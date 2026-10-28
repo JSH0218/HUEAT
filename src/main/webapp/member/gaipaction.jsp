@@ -29,8 +29,8 @@ if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){
 <jsp:useBean id="dto" class="meminfo.model.MemInfoDto"/>
 <jsp:setProperty property="*" name="dto"/>
 <%
-// 1) 예약 아이디(admin 등) 가입 차단 — 권한 상승 방지
-if (SecurityUtil.isReservedId(dto.getM_id())) {
+// 1) 아이디 형식(영문 소문자로 시작하는 영문 소문자·숫자 4~20자) 위반·예약 아이디(admin 등) 가입 차단
+if (!SecurityUtil.isValidMemberId(dto.getM_id()) || SecurityUtil.isReservedId(dto.getM_id())) {
 %>
 	<script type="text/javascript">
 		alert("사용할 수 없는 아이디입니다.");

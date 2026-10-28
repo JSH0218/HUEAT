@@ -131,6 +131,7 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
   - JSON 응답이 클라이언트에서 `.html()`로 삽입되는 경우(DOM XSS), **서버 측 JSON 생성 시** `escapeHtml`로 이스케이프한다(예: `grade/gradelist.jsp`, `qaanswer/qaListAction.jsp`, `mypage/membersearch.jsp`).
 - **비밀번호:** 평문 저장/비교 금지. 저장은 `SecurityUtil.hashPassword`, 검증은 `SecurityUtil.checkPassword`(BCrypt). 비밀번호 찾기는 평문 반환 대신 재설정(`member/passResetaction.jsp`) 방식.
 - **권한:** 관리자 판별은 `myid.equals("admin")` 문자열 비교가 아니라 세션 `role`로 한다 — `SecurityUtil.isAdmin(session)`(내부적으로 `"ADMIN".equals(session.getAttribute("role"))`). 작성자 본인/관리자 확인은 `isOwnerOrAdmin(session, ownerId)`. 회원가입 시 예약 ID는 `SecurityUtil.isReservedId`로 차단.
+- **입력 형식:** 회원 ID는 영문 소문자로 시작하는 영문 소문자·숫자 4~20자(`SecurityUtil.isValidMemberId`, 서버 `member/gaipaction.jsp`·`member/idcheck.jsp`와 클라이언트 `member/gaipform.jsp`가 같은 규칙).
 - **CSRF:** 상태변경 액션 JSP는 맨 앞에서 권한 확인 후 `if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }`로 POST+토큰을 검증한다.
   - HTML 폼: `<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">`
   - jQuery AJAX: `index.jsp` 하단의 `ajaxPrefilter`가 `_csrf`를 자동 첨부한다(동일출처 한정).

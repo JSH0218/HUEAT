@@ -58,6 +58,7 @@ $(function(){
 	$("#check_nick").hide();
 	
 	var isIdChecked = false;
+	var idPattern = /^[a-z][a-z0-9]{3,19}$/;
 	
 	//아이디 중복체크
 	$("#btnidcheck").click(function(){
@@ -70,6 +71,11 @@ $(function(){
    alert("아이디를 입력해주세요.")
     return; // Exit the function early if id is empty
 }
+		//아이디 형식 검사(서버 SecurityUtil.isValidMemberId와 같은 규칙)
+		if(!idPattern.test(id)){
+			alert("아이디는 영문 소문자로 시작하는 영문 소문자·숫자 4~20자로 입력해주세요.");
+			return;
+		}
 		
 		$.ajax({
 			type:"post",
@@ -142,6 +148,11 @@ $(function(){
                 alert("아이디 중복 확인을 해주세요.");
                 return;
             }
+		//중복확인 뒤 아이디를 바꾼 경우도 막는다
+		if(!idPattern.test(f.m_id.value)){
+			alert("아이디는 영문 소문자로 시작하는 영문 소문자·숫자 4~20자로 입력해주세요.");
+			return;
+		}
 		
 		var name=$("#m_name").val();
 		swal("회원가입 완료",name+"님의 회원가입이 성공적으로 완료되었습니다.","success")

@@ -220,6 +220,16 @@ public class SecurityUtil {
 		return RESERVED_IDS.contains(id.trim().toLowerCase());
 	}
 
+	// ===== 회원 아이디 형식 =====
+
+	/**
+	 * 회원 아이디 형식 검증: 영문 소문자로 시작하는 영문 소문자·숫자 4~20자.
+	 * 가입 시 서버 측에서 검사한다(gaipform.jsp의 클라이언트 검사와 같은 규칙).
+	 */
+	public static boolean isValidMemberId(String id) {
+		return id != null && id.matches("[a-z][a-z0-9]{3,19}");
+	}
+
 	// ===== 업로드 이미지 검증 =====
 
 	private static final List<String> ALLOWED_IMAGE_EXT = Arrays.asList("jpg", "jpeg", "png", "gif");
