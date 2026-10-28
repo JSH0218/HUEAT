@@ -23,6 +23,17 @@ Maven 기반 프로젝트로 IntelliJ IDEA + Apache Tomcat v9.0에서 실행한�
 - **웹 컨텐츠 루트:** `src/main/webapp/`
 - **빌드:** `mvn clean package` (WAR 파일 생성)
 
+### 검증
+
+자동화 테스트(`src/test`)는 없다. 변경 후에는 아래로 정적 검증한다.
+
+- **Java(DAO/DTO/util) 컴파일:** `mvn -q compile` — `src/main/java`만 확인하며 JSP는 검사하지 않는다.
+- **JSP 프리컴파일 게이트:** `powershell -ExecutionPolicy Bypass -File scripts/jspc-check.ps1`
+  - Jasper(`JspC`)로 모든 JSP를 변환+컴파일한다. 스크립틀릿 문법 오류, `<%@ include %>` 변수 중복선언, **JSP가 호출하는 DAO 메서드 이름/시그니처 불일치**(`javac`로는 못 잡음)를 잡는다.
+  - Tomcat 9 설치(`CATALINA_HOME`)와 Java 17 필요. 최초 실행 시 `ant.jar`를 내려받아 `.jspc/`에 캐시한다.
+  - 베이스라인은 전체 JSP 오류 0이므로, 실패하면 직전 변경이 원인이다. JSP를 수정했다면 커밋 전에 실행한다.
+  - 런타임 동작(SQL 결과, redirect, AJAX URL, 세션 흐름)은 잡지 못하므로 Tomcat+MySQL 실구동으로 별도 확인한다. 자세한 내용은 `scripts/README.md`.
+
 ## 환경 설정
 
 DB 접속 정보와 업로드 경로는 **웹루트 외부 설정 파일**에서 읽는다(소스코드에 하드코딩하지 않음).
@@ -68,6 +79,8 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
 
 **요청 흐름:**
 1. 모든 페이지는 `src/main/webapp/index.jsp`를 통해 `?main=<page>` 쿼리 파라미터로 로드됨
+   - `main` 값은 `SecurityUtil.isAllowedMainPage`의 화이트리스트(`ALLOWED_MAIN_PAGES`, 대소문자 무시)에 있어야 include되며, 없으면 조용히 `layout/main.jsp`로 폴백한다. **`index.jsp?main=`으로 여는 새 화면을 추가하면 반드시 이 목록에도 등록한다.**
+   - 폼/목록 화면은 `index.jsp`에 include되고, 상태변경 액션 JSP(`*action.jsp`, `*Delete.jsp`, `*save/` 등)는 단독으로 호출된 뒤 `response.sendRedirect("../index.jsp?main=...")`로 돌아간다.
 2. 포함된 JSP 페이지가 서비스 레이어 없이 DAO를 직접 생성
 3. DAO가 `mysql/db/DbConnect.getConnection()`으로 DB에 연결 후 PreparedStatement 실행
 4. 결과를 DTO에 매핑하여 JSP에서 렌더링
@@ -77,8 +90,8 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
 - `mysql/db/DbConnect.java` — JDBC 연결 관리 단일 진입점 (`AppConfig`로 접속 정보 획득)
 - `util/` — 공용 인프라
   - `AppConfig.java` — 외부 설정 파일 로딩(DB 접속·`upload.dir`)
-  - `SecurityUtil.java` — 보안 공용 유틸: XSS 이스케이프(`escapeHtml`/`nl2brEscaped`/`escapeJs`), 비밀번호 BCrypt(`hashPassword`/`checkPassword`), 예약 ID 차단(`isReservedId`), 업로드 검증(`validateOrDelete`/`validateAllUploads`), `urlEncode`
-  - `ImageServlet.java` — `/fileview`로 매핑. 웹루트 외부 업로드 이미지를 type 화이트리스트 + 경로조작 차단으로 제공
+  - `SecurityUtil.java` — 보안 공용 유틸: XSS 이스케이프(`escapeHtml`/`nl2brEscaped`/`escapeJs`), 비밀번호 BCrypt(`hashPassword`/`checkPassword`), 예약 ID 차단(`isReservedId`), 업로드 검증(`validateOrDelete`/`validateAllUploads`), 세션 권한(`isLogin`/`isAdmin`/`isOwnerOrAdmin`/`currentId`), CSRF(`csrfToken`/`isPost`/`checkCsrf`), `index.jsp` include 화이트리스트(`isAllowedMainPage`), `urlEncode`/`safeUrl`/`digitsOnly`
+  - `ImageServlet.java` — `/fileview`로 매핑. 웹루트 외부 업로드 이미지를 type 화이트리스트(`notice`, `event`, `review`, `shop`, `hugeso`) + 경로조작 차단으로 제공. 새 업로드 type을 만들면 `ALLOWED_TYPES`에 추가해야 한다
 - 각 도메인은 `<domain>/model/<Entity>Dto.java` + `<domain>/model/<Entity>Dao.java` 구조를 따름
 
 **비즈니스 도메인별 패키지:**
@@ -117,6 +130,11 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
   - 인라인 JS 문자열: `util.SecurityUtil.escapeJs(...)`
   - JSON 응답이 클라이언트에서 `.html()`로 삽입되는 경우(DOM XSS), **서버 측 JSON 생성 시** `escapeHtml`로 이스케이프한다(예: `grade/gradelist.jsp`, `qaanswer/qaListAction.jsp`, `mypage/membersearch.jsp`).
 - **비밀번호:** 평문 저장/비교 금지. 저장은 `SecurityUtil.hashPassword`, 검증은 `SecurityUtil.checkPassword`(BCrypt). 비밀번호 찾기는 평문 반환 대신 재설정(`member/passResetaction.jsp`) 방식.
-- **권한:** 관리자 판별은 `myid.equals("admin")` 문자열 비교가 아니라 세션 `role`로 한다 — `"ADMIN".equals(session.getAttribute("role"))`. 회원가입 시 예약 ID는 `SecurityUtil.isReservedId`로 차단.
+- **권한:** 관리자 판별은 `myid.equals("admin")` 문자열 비교가 아니라 세션 `role`로 한다 — `SecurityUtil.isAdmin(session)`(내부적으로 `"ADMIN".equals(session.getAttribute("role"))`). 작성자 본인/관리자 확인은 `isOwnerOrAdmin(session, ownerId)`. 회원가입 시 예약 ID는 `SecurityUtil.isReservedId`로 차단.
+- **CSRF:** 상태변경 액션 JSP는 맨 앞에서 권한 확인 후 `if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }`로 POST+토큰을 검증한다.
+  - HTML 폼: `<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">`
+  - jQuery AJAX: `index.jsp` 하단의 `ajaxPrefilter`가 `_csrf`를 자동 첨부한다(동일출처 한정).
+  - 링크형 삭제 등: GET 링크 대신 `index.jsp`가 제공하는 `postNav(url, params)`로 POST 전송한다.
+  - 세션 쿠키는 `web.xml`(HttpOnly)과 `META-INF/context.xml`(`SameSite=lax`)에서 설정한다. 오류는 `web.xml`이 `error.jsp`로 포워딩해 스택트레이스를 노출하지 않는다.
 - **파일 업로드:** 업로드 후 `SecurityUtil.validateOrDelete`/`validateAllUploads`로 확장자+MIME 검증(이미지만 허용). 저장 경로는 웹루트 외부(`upload.dir`)이며 직접 URL 접근이 아닌 `ImageServlet`으로만 제공.
 - **DB 자격증명:** 소스에 하드코딩 금지. `AppConfig` 외부 설정 파일로만 관리.
