@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash scripts/static-analysis.sh)",
+      "Bash(bash scripts/jspc-check.sh)",
+      "Bash(mvn -B -q compile)",
+      "Bash(mvn -q compile)"
+    ]
+  }
+}
