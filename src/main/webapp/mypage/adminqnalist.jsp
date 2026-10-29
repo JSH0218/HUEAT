@@ -115,6 +115,12 @@ div.adminqnalist {
 	String loginok=(String)session.getAttribute("loginok");
 	String myid=(String)session.getAttribute("myid");
 
+	// 관리자 전용 화면: 관리자가 아니면 목록을 보여 주지 않는다(비밀글 답변·관리 기능 노출 차단)
+	if(!util.SecurityUtil.isAdmin(session)){
+		out.print("<script>alert('관리자만 이용할 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/index.jsp';</script>");
+		return;
+	}
+
 	QaanswerDao dao=new QaanswerDao();
 	
 	//전체갯수

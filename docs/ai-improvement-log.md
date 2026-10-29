@@ -13,6 +13,7 @@
 | 2026-10-29 | cddaec1 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | d3334cf | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | cab6173 | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-30 | ab650d4 | 802 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -72,7 +73,19 @@
 - PR: #119
 - 실구동 확인 포인트: 비로그인·타인 계정으로 `index.jsp?main=qaboard/qaDetail.jsp?q_num=<남의 글>` 접근 시 안내창 후 목록 이동, 작성자 본인·관리자는 상세·답변 목록·관리자 답변 수정 정상.
 
+### 2026-10-30 · 보안(권한 누락·정보 노출) · 마이페이지 관리자 목록 화면의 관리자 확인
+- 영역: mypage(관리자 목록)
+- 근거: 직접 리뷰. `mypage/adminqnalist.jsp`·`adminnoticelist.jsp`·`admineventlist.jsp`는 화이트리스트에 있는 관리자 전용 화면인데 권한 확인이 없어, 비로그인 사용자도 `index.jsp?main=mypage/adminqnalist.jsp`로 모든 Q&A 답변 내용과 질문 제목(비밀글)을 볼 수 있었다(#119로 막은 비밀글이 이 화면으로 노출).
+- 수정: 세 파일의 기존 스크립틀릿 안, DAO 접근 전에 `SecurityUtil.isAdmin(session)` 확인. 아니면 안내창 후 메인으로 이동하고 `return`.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(가드 앞 출력은 정적 CSS·JS뿐, 진입 링크·삭제 액션·페이징 정상).
+- 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 비로그인·일반 계정으로 세 화면 접근 시 안내창 후 메인 이동, 관리자는 목록·페이징·선택 삭제 정상.
+
 ## 후보
+- **(1순위)** `mypage/mypageindex.jsp:42-43,68`: `mypagemain` 파라미터를 검증 없이 `<jsp:include page=...>`에 사용. 화이트리스트에 없어 `index.jsp?main=`으로는 못 열지만 직접 호출(`/mypage/mypageindex.jsp?mypagemain=...`)로 웹앱 내부 임의 리소스 include 가능(참조처 없는 죽은 페이지로 보임 → 삭제 또는 화이트리스트)
+- 관리자 폼(`noticeboard/noticeForm.jsp`·`noticeUpdateForm.jsp`, `eventboard/eventForm.jsp`·`eventUpdateForm.jsp`, `shop/shopForm.jsp`, `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp`)에 표시 단계 관리자 확인 없음(대응 액션은 `isAdmin`으로 막혀 있고 표시 데이터는 공개 정보라 위험 낮음)
+- `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - `qaboard/qaDetail.jsp:166`: 관리자 답변 수정 폼이 `res.uqa_content`를 읽지만 서버 JSON 키는 `qa_content`라 기존 내용이 채워지지 않음. 또 `qaAnswerOneData.jsp`가 `escapeHtml`한 값을 `.val()`에 넣어 `&lt;` 같은 엔티티가 그대로 보일 수 있음
 - `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
