@@ -6,6 +6,10 @@
 <%
    String q_num=request.getParameter("q_num");
    String qa_num = request.getParameter("qa_num");
+   // 비밀글의 답변은 글 작성자 본인 또는 관리자만 조회
+   if(!util.SecurityUtil.isOwnerOrAdmin(session, new qa.model.QaDao().selectDataQa(q_num).getQ_myid())){
+      response.sendError(403); return;
+   }
    
    QaanswerDao qdao=new QaanswerDao();
    QaanswerDto qdto=qdao.selectAnswerData(q_num, qa_num);

@@ -21,6 +21,11 @@
    
    QaDao dao = new QaDao();
    QaDto dto = dao.selectDataQa(q_num);
+   // 비밀글 내용 노출 차단: 작성자 본인 또는 관리자만 수정 폼 열람
+   if(!util.SecurityUtil.isOwnerOrAdmin(session, dto.getQ_myid())){
+      out.print("<script>alert('작성자 본인과 관리자만 볼 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/index.jsp?main=qaboard/qaList.jsp';</script>");
+      return;
+   }
    %>
 <body>
 
