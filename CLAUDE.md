@@ -133,6 +133,7 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
 - **권한:** 관리자 판별은 `myid.equals("admin")` 문자열 비교가 아니라 세션 `role`로 한다 — `SecurityUtil.isAdmin(session)`(내부적으로 `"ADMIN".equals(session.getAttribute("role"))`). 작성자 본인/관리자 확인은 `isOwnerOrAdmin(session, ownerId)`. 회원가입 시 예약 ID는 `SecurityUtil.isReservedId`로 차단.
 - **입력 형식:** 회원 ID는 영문 소문자로 시작하는 영문 소문자·숫자 4~20자(`SecurityUtil.isValidMemberId`, 서버 `member/gaipaction.jsp`·`member/idcheck.jsp`와 클라이언트 `member/gaipform.jsp`가 같은 규칙).
 - **입력 형식(장바구니):** 푸드코트 장바구니 담기 요청 수량은 1~10 정수(서버 `foodcourt/foodcartaddaction.jsp`, 클라이언트 `foodcourt/foodmenu.jsp` 입력란·검사가 같은 규칙).
+- **입력 형식(평점):** 휴게소·음식 평점은 1~5 정수(`SecurityUtil.isValidGrade`, 서버 `grade/insertgrade.jsp`·`foodgrade/insertfoodgrade.jsp`, 클라이언트는 `hugesoinfo/hugesodetail.jsp`의 별점 라디오 1~5).
 - **CSRF:** 상태변경 액션 JSP는 맨 앞에서 권한 확인 후 `if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }`로 POST+토큰을 검증한다.
   - HTML 폼: `<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">`
   - jQuery AJAX: `index.jsp` 하단의 `ajaxPrefilter`가 `_csrf`를 자동 첨부한다(동일출처 한정).

@@ -21,10 +21,10 @@
   if(!allowedContent.contains(dto.getG_content())){
     response.sendError(400); return;
   }
-  // 숫자 파라미터 정규화(h_num/g_grade)
+  // 숫자 파라미터 정규화(h_num), 평점은 1~5 정수만 허용(평균·랭킹 조작 차단)
   String h_num = util.SecurityUtil.digitsOnly(dto.getH_num());
-  String g_grade = util.SecurityUtil.digitsOnly(dto.getG_grade());
-  if(h_num.isEmpty() || g_grade.isEmpty()){
+  String g_grade = dto.getG_grade();
+  if(h_num.isEmpty() || !util.SecurityUtil.isValidGrade(g_grade)){
     response.sendError(400); return;
   }
   dto.setH_num(h_num);
