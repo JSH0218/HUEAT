@@ -11,6 +11,7 @@
 | 2026-10-28 | 59e53c2 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-28 | 3012e6e | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | cddaec1 | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-29 | d3334cf | 802 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -51,7 +52,20 @@
 - PR: #117
 - 실구동 확인 포인트: 메뉴 수량 0·11 입력 시 안내창, 1~10 정상 담기, 이미 담긴 메뉴 재담기(+1) 동작.
 
+### 2026-10-29 · 보안(입력 검증) · 휴게소·음식 평점 값 범위 서버 측 검증
+- 영역: grade, foodgrade, util
+- 근거: 직접 리뷰. `grade/insertgrade.jsp`는 `g_grade`에서 숫자만 남기고 범위를 검사하지 않아 `9999` 같은 값이 저장됐고, `foodgrade/insertfoodgrade.jsp`는 `fg_grade`를 전혀 검증하지 않았다. 평균은 이 테이블에서 재계산(`hugesoinfo/updateh_grade.jsp`, `foodgrade/updatef_grade.jsp`)되어 메인 "이달의 휴게소" 등 순위에 반영되므로, 로그인 사용자의 직접 POST 몇 번으로 순위를 조작할 수 있었다.
+- 정한 규칙: 휴게소·음식 평점은 1~5 정수(화면 별점 라디오, 스키마 주석 `-- 1~5`와 동일). CLAUDE.md '보안 규칙'에 기록.
+- 수정: `util/SecurityUtil.java`(`isValidGrade` 추가) / `grade/insertgrade.jsp`·`foodgrade/insertfoodgrade.jsp`(위반 시 400) / `CLAUDE.md`.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(평점 INSERT 경로는 두 액션뿐, UPDATE 경로 없음, 평균 재계산은 서버 측).
+- 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
+- PR: #118
+- 실구동 확인 포인트: 휴게소 상세에서 휴게소 평점·음식 평점 등록 후 평균·개수 갱신, 메인 "이달의 휴게소" 표시.
+
 ## 후보
+- 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
+- `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
+- `reviewboard/reviewUpdateAction.jsp`: 권한 없음·CSRF 실패 시 이미 저장된 업로드 파일을 지우지 않음, 없는 `r_num`이면 NPE를 `catch(Exception)`이 삼켜 빈 화면
 - `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)

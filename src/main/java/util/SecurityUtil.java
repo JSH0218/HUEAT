@@ -230,6 +230,15 @@ public class SecurityUtil {
 		return id != null && id.matches("[a-z][a-z0-9]{3,19}");
 	}
 
+	// ===== 평점 값 =====
+
+	/**
+	 * 평점(휴게소·음식) 값 검증: 1~5 정수(상세페이지 별점 라디오와 같은 규칙).
+	 */
+	public static boolean isValidGrade(String grade) {
+		return grade != null && grade.matches("[1-5]");
+	}
+
 	// ===== 업로드 이미지 검증 =====
 
 	private static final List<String> ALLOWED_IMAGE_EXT = Arrays.asList("jpg", "jpeg", "png", "gif");

@@ -14,6 +14,10 @@
 <jsp:useBean id="dto" class="foodgrade.model.FoodGradeDto"/>
 <jsp:setProperty property="*" name="dto"/>
 <%
+  // 평점은 1~5 정수만 허용(음식 평균 평점 조작 차단)
+  if(!util.SecurityUtil.isValidGrade(dto.getFg_grade())){
+    response.sendError(400); return;
+  }
   // 작성자 위조 방어: 작성자 ID는 클라이언트 값이 아닌 세션 사용자로 강제
   dto.setFg_myid(util.SecurityUtil.currentId(session));
   dao.insertFoodGrade(dto);
