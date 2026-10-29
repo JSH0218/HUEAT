@@ -69,7 +69,7 @@
 - 수정: 위 5개 파일에서 글을 읽은 직후 `SecurityUtil.isOwnerOrAdmin(session, 글 작성자)` 확인. include 화면은 안내창 후 목록으로 이동하고 `return`, AJAX는 403. 없는 글은 작성자가 null이라 관리자 외 거부.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(작성자·관리자·마이페이지 링크·답변 AJAX 흐름 정상, 조회수는 권한 통과 시에만 증가). 리뷰가 찾은 같은 유형의 경로 2곳(`qaAnswerOneData.jsp`, `qaAnswerUpdateForm.jsp`)을 함께 막음.
 - 경고 수 변화: Semgrep 802→802(기존 스크립틀릿 블록 안에서 처리), SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #119
 - 실구동 확인 포인트: 비로그인·타인 계정으로 `index.jsp?main=qaboard/qaDetail.jsp?q_num=<남의 글>` 접근 시 안내창 후 목록 이동, 작성자 본인·관리자는 상세·답변 목록·관리자 답변 수정 정상.
 
 ## 후보
