@@ -14,6 +14,7 @@
 | 2026-10-29 | d3334cf | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | cab6173 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | ab650d4 | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-30 | cca8737 | 802 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -82,8 +83,16 @@
 - PR: #120
 - 실구동 확인 포인트: 비로그인·일반 계정으로 세 화면 접근 시 안내창 후 메인 이동, 관리자는 목록·페이징·선택 삭제 정상.
 
+### 2026-10-30 · 보안(LFI·정보 노출) · 검증 없는 include를 하던 죽은 화면 `mypage/mypageindex.jsp` 삭제
+- 영역: mypage
+- 근거: 직접 리뷰(지난 회차 서브에이전트 발견, 이번 회차에 코드 재확인). `mypagemain` 파라미터를 검증 없이 `<jsp:include page=...>`에 넣어, 직접 호출(`/mypage/mypageindex.jsp?mypagemain=../WEB-INF/web.xml`)로 `WEB-INF` 보호를 우회해 웹앱 내부 파일을 읽거나 `index.jsp` 화이트리스트를 우회해 임의 JSP를 include할 수 있었다.
+- 수정: 저장소 어디에서도 참조·링크되지 않는 죽은 화면이라 파일을 삭제(화이트리스트를 새로 만드는 것보다 단순). 남은 동적 include는 화이트리스트로 막힌 `index.jsp` 하나뿐임을 확인.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(코드·링크·설정 참조 없음, `RequestDispatcher`·`jsp:forward`·`pageContext.include` 사용처 없음).
+- 경고 수 변화: Semgrep 802→800(`no-scriptlets` 799→797), SpotBugs 21→21, gitleaks 0→0.
+- PR: #121
+- 실구동 확인 포인트: 마이페이지 메뉴(회원정보 수정·내 글·즐겨찾기) 정상, `/mypage/mypageindex.jsp` 접근 시 404.
+
 ## 후보
-- **(1순위)** `mypage/mypageindex.jsp:42-43,68`: `mypagemain` 파라미터를 검증 없이 `<jsp:include page=...>`에 사용. 화이트리스트에 없어 `index.jsp?main=`으로는 못 열지만 직접 호출(`/mypage/mypageindex.jsp?mypagemain=...`)로 웹앱 내부 임의 리소스 include 가능(참조처 없는 죽은 페이지로 보임 → 삭제 또는 화이트리스트)
 - 관리자 폼(`noticeboard/noticeForm.jsp`·`noticeUpdateForm.jsp`, `eventboard/eventForm.jsp`·`eventUpdateForm.jsp`, `shop/shopForm.jsp`, `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp`)에 표시 단계 관리자 확인 없음(대응 액션은 `isAdmin`으로 막혀 있고 표시 데이터는 공개 정보라 위험 낮음)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
