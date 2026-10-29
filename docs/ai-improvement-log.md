@@ -59,7 +59,7 @@
 - 수정: `util/SecurityUtil.java`(`isValidGrade` 추가) / `grade/insertgrade.jsp`·`foodgrade/insertfoodgrade.jsp`(위반 시 400) / `CLAUDE.md`.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(평점 INSERT 경로는 두 액션뿐, UPDATE 경로 없음, 평균 재계산은 서버 측).
 - 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #118
 - 실구동 확인 포인트: 휴게소 상세에서 휴게소 평점·음식 평점 등록 후 평균·개수 갱신, 메인 "이달의 휴게소" 표시.
 
 ## 후보
