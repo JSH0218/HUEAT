@@ -89,7 +89,7 @@
 - 수정: 저장소 어디에서도 참조·링크되지 않는 죽은 화면이라 파일을 삭제(화이트리스트를 새로 만드는 것보다 단순). 남은 동적 include는 화이트리스트로 막힌 `index.jsp` 하나뿐임을 확인.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(코드·링크·설정 참조 없음, `RequestDispatcher`·`jsp:forward`·`pageContext.include` 사용처 없음).
 - 경고 수 변화: Semgrep 802→800(`no-scriptlets` 799→797), SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #121
 - 실구동 확인 포인트: 마이페이지 메뉴(회원정보 수정·내 글·즐겨찾기) 정상, `/mypage/mypageindex.jsp` 접근 시 404.
 
 ## 후보
