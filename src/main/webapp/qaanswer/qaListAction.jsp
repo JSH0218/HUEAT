@@ -9,6 +9,10 @@
 
 <%
   String q_num=request.getParameter("q_num");
+  // 비밀글의 답변도 작성자 본인 또는 관리자만 조회
+  if(!util.SecurityUtil.isOwnerOrAdmin(session, new qa.model.QaDao().selectDataQa(q_num).getQ_myid())){
+    response.sendError(403); return;
+  }
   QaanswerDao dao=new QaanswerDao();
   List<QaanswerDto> list=dao.selectQaAnswerList(q_num);
   

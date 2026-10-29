@@ -12,6 +12,7 @@
 | 2026-10-28 | 3012e6e | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | cddaec1 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-29 | d3334cf | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-29 | cab6173 | 802 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -62,7 +63,19 @@
 - PR: #118
 - 실구동 확인 포인트: 휴게소 상세에서 휴게소 평점·음식 평점 등록 후 평균·개수 갱신, 메인 "이달의 휴게소" 표시.
 
+### 2026-10-29 · 보안(IDOR·정보 노출) · Q&A 비밀글 열람 권한 확인
+- 영역: qaboard, qaanswer
+- 근거: 직접 리뷰. Q&A는 모두 비밀글이라 `qaboard/qaList.jsp`가 작성자·관리자 외에는 "비밀글입니다"로 가리지만, `qaboard/qaDetail.jsp`·`qaboard/qaUpdateForm.jsp`(include 화면)와 `qaanswer/qaListAction.jsp`·`qaanswer/qaAnswerOneData.jsp`·`qaanswer/qaAnswerUpdateForm.jsp`(AJAX)는 권한 확인이 없어 비로그인 사용자도 `q_num`·`qa_num`을 바꿔 남의 질문과 답변을 읽을 수 있었다.
+- 수정: 위 5개 파일에서 글을 읽은 직후 `SecurityUtil.isOwnerOrAdmin(session, 글 작성자)` 확인. include 화면은 안내창 후 목록으로 이동하고 `return`, AJAX는 403. 없는 글은 작성자가 null이라 관리자 외 거부.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(작성자·관리자·마이페이지 링크·답변 AJAX 흐름 정상, 조회수는 권한 통과 시에만 증가). 리뷰가 찾은 같은 유형의 경로 2곳(`qaAnswerOneData.jsp`, `qaAnswerUpdateForm.jsp`)을 함께 막음.
+- 경고 수 변화: Semgrep 802→802(기존 스크립틀릿 블록 안에서 처리), SpotBugs 21→21, gitleaks 0→0.
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 비로그인·타인 계정으로 `index.jsp?main=qaboard/qaDetail.jsp?q_num=<남의 글>` 접근 시 안내창 후 목록 이동, 작성자 본인·관리자는 상세·답변 목록·관리자 답변 수정 정상.
+
 ## 후보
+- `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
+- `qaboard/qaDetail.jsp:166`: 관리자 답변 수정 폼이 `res.uqa_content`를 읽지만 서버 JSON 키는 `qa_content`라 기존 내용이 채워지지 않음. 또 `qaAnswerOneData.jsp`가 `escapeHtml`한 값을 `.val()`에 넣어 `&lt;` 같은 엔티티가 그대로 보일 수 있음
+- `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
 - `reviewboard/reviewUpdateAction.jsp`: 권한 없음·CSRF 실패 시 이미 저장된 업로드 파일을 지우지 않음, 없는 `r_num`이면 NPE를 `catch(Exception)`이 삼켜 빈 화면

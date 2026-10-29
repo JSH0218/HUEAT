@@ -20,6 +20,11 @@ String q_num = util.SecurityUtil.digitsOnly(request.getParameter("q_num"));
 QaDao dao = new QaDao();
 
 QaDto dto = dao.selectDataQa(q_num);
+// Q&A는 모두 비밀글: 작성자 본인 또는 관리자만 열람(없는 글이면 작성자가 null이라 관리자 외 거부)
+if(!util.SecurityUtil.isOwnerOrAdmin(session, dto.getQ_myid())){
+	out.print("<script>alert('작성자 본인과 관리자만 볼 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/index.jsp?main=qaboard/qaList.jsp';</script>");
+	return;
+}
 String currentPage = util.SecurityUtil.digitsOnly(request.getParameter("currentPage"));
 
 //조회수 가져오기
