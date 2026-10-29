@@ -79,7 +79,7 @@
 - 수정: 세 파일의 기존 스크립틀릿 안, DAO 접근 전에 `SecurityUtil.isAdmin(session)` 확인. 아니면 안내창 후 메인으로 이동하고 `return`.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(122개, 오류 0) / 서브에이전트 독립 재검토: 막을 문제 없음(가드 앞 출력은 정적 CSS·JS뿐, 진입 링크·삭제 액션·페이징 정상).
 - 경고 수 변화: Semgrep 802→802, SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #120
 - 실구동 확인 포인트: 비로그인·일반 계정으로 세 화면 접근 시 안내창 후 메인 이동, 관리자는 목록·페이징·선택 삭제 정상.
 
 ## 후보
