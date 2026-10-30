@@ -47,6 +47,8 @@ bash scripts/jspc-check.sh
 ## static-analysis.sh — 정적 분석 일괄 실행
 
 무료 오픈소스 도구 Semgrep(로컬 룰), SpotBugs+FindSecBugs, gitleaks(`--redact`)를 한 번에 설치·실행하고 도구별 경고 수를 요약한다.
+- Semgrep은 GitHub의 공개 룰(`semgrep-rules`의 java·generic)과 이 저장소의 전용 룰(`scripts/semgrep/hueat-rules.yml`)을 함께 쓰고, 요약도 둘을 나눠 보여준다.
+- 공개 룰 중 `no-scriptlets`는 스크립틀릿 JSP 구조 전체에 걸려(약 800건) 실제 결함을 가리므로 제외한다.
 도구와 결과물은 저장소 밖 `/tmp/hueat-tools`(환경변수 `HUEAT_TOOLS`로 변경 가능)에 두며 커밋하지 않는다.
 
 ```bash
