@@ -6,7 +6,11 @@
 # gitleaks는 --redact로 실행하므로 비밀값 원문은 출력·저장되지 않는다.
 #
 # 실행:  bash scripts/static-analysis.sh
-# 출력:  도구별 경고 수 요약(마지막 줄들). 상세 결과는 $T/semgrep.json, target/spotbugsXml.xml, $T/gitleaks.json
+# 출력:  도구별 경고 수 요약과, origin/main 결과 대비 새로 생기거나 사라진 경고 목록(scripts/lib/baseline.sh).
+#        상세 결과는 $T/semgrep.json, target/spotbugsXml.xml, $T/gitleaks.json
+# 종료코드: 0 = main 기준선 저장 또는 새 경고 없음, 1 = main 대비 새 경고 있음,
+#           2 = 도구가 하나라도 실행되지 않았거나 main 기준선이 없어 비교할 수 없음
+# 경고 항목은 "도구|룰|파일(SpotBugs는 클래스)"로 비교한다(줄 번호는 수정하면 바뀌므로 쓰지 않는다).
 set -uo pipefail
 
 proj="$(cd "$(dirname "$0")/.." && pwd)"
@@ -14,6 +18,8 @@ T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
 GITLEAKS_VER=8.21.2
 mkdir -p "$T"
 cd "$proj"
+. scripts/lib/baseline.sh
+key="$(baseline_tree_key)"
 # 이전 회차 결과가 남아 있으면 도구 실패 시 지난 수치가 요약에 나오므로 먼저 지운다
 rm -f "$T/semgrep.json" "$T/gitleaks.json" target/spotbugsXml.xml
 
@@ -40,11 +46,11 @@ mvn -B -q compile >/dev/null 2>&1 \
     || echo "[sa] WARN: SpotBugs 실행 실패"
 [ -x "$T/gitleaks" ] && "$T/gitleaks" dir src --no-banner --redact -f json -r "$T/gitleaks.json" >/dev/null 2>&1
 
-# --- 요약 ---
-python3 - "$T" <<'EOF'
+# --- 요약과 비교용 항목 목록 ---
+python3 - "$T" "$T/findings.txt" <<'PY'
 import collections, json, os, sys
 import xml.etree.ElementTree as ET
-t = sys.argv[1]
+t, out = sys.argv[1], sys.argv[2]
 def summary(name, counter):
     if counter is None:
         print(f"[sa] {name}: 실행 안 됨")
@@ -61,7 +67,26 @@ def semgrep_counter(own):
 summary("Semgrep(HUEAT 전용 룰)", semgrep_counter(True))
 summary("Semgrep(공개 룰)", semgrep_counter(False))
 p = "target/spotbugsXml.xml"
-summary("SpotBugs", collections.Counter(b.get("type") for b in ET.parse(p).getroot().iter("BugInstance")) if os.path.exists(p) else None)
+bugs = list(ET.parse(p).getroot().iter("BugInstance")) if os.path.exists(p) else None
+summary("SpotBugs", collections.Counter(b.get("type") for b in bugs) if bugs is not None else None)
 p = os.path.join(t, "gitleaks.json")
-summary("gitleaks", collections.Counter(x["RuleID"] for x in json.load(open(p))) if os.path.exists(p) else None)
-EOF
+leaks = json.load(open(p)) if os.path.exists(p) else None
+summary("gitleaks", collections.Counter(x["RuleID"] for x in leaks) if leaks is not None else None)
+
+# 한 줄 = 경고 하나
+items = [f"semgrep|{r['check_id'].split('.')[-1]}|{r['path']}" for r in results or []]
+for b in bugs or []:
+    c = b.find("Class")
+    items.append(f"spotbugs|{b.get('type')}|{c.get('classname') if c is not None else ''}")
+items += [f"gitleaks|{x['RuleID']}|{x['File']}" for x in leaks or []]
+open(out, "w", encoding="utf-8").write("".join(i + "\n" for i in items))
+
+missing = [n for n, v in (("Semgrep", results), ("SpotBugs", bugs), ("gitleaks", leaks)) if v is None]
+if missing:
+    print(f"[sa] ERROR: 실행되지 않은 도구가 있어 비교할 수 없다: {', '.join(missing)}")
+    sys.exit(2)
+PY
+[ $? -eq 0 ] || exit 2
+
+baseline_compare sa "$T/findings.txt" "$key"
+exit $?

@@ -8,7 +8,11 @@
 #   - 시나리오: scripts/smoke/smoke.js
 #
 # 실행:  bash scripts/runtime-smoke.sh
-# 종료코드: 0 = 전 시나리오 통과, 그 외 = 실패(또는 환경 준비 실패 시 2 이상)
+# 결과는 scripts/lib/baseline.sh로 origin/main 결과와 시나리오 이름 단위로 비교한다.
+# 종료코드:
+#   origin/main에서 실행(기준선): 0 = 전 시나리오 통과, 1 = 실패 시나리오 있음
+#   수정한 트리에서 실행: 0 = main 대비 새로 실패한 시나리오 없음, 1 = 새로 실패한 시나리오 있음
+#   2 = 환경 문제(설치·다운로드·DB·Tomcat 실패, 시나리오 중단) 또는 실패가 있는데 main 기준선이 없어 비교 불가
 set -uo pipefail
 
 proj="$(cd "$(dirname "$0")/.." && pwd)"
@@ -19,6 +23,8 @@ TC="$T/apache-tomcat-$TOMCAT_VER"
 RUN="$T/smoke-run"
 mkdir -p "$T"
 cd "$proj"
+. scripts/lib/baseline.sh
+key="$(baseline_tree_key)"
 
 log() { echo "[smoke] $*"; }
 
@@ -88,10 +94,23 @@ done
 [ -n "$ready" ] || { log "ERROR: Tomcat 응답 없음($TC/logs/catalina.out)"; exit 2; }
 
 # --- 3) 시나리오 ---
-SMOKE_BASE="http://localhost:$PORT/HuEatProject/" node scripts/smoke/smoke.js
+failed_out="$RUN/failed.txt"
+rm -f "$failed_out"
+SMOKE_BASE="http://localhost:$PORT/HuEatProject/" SMOKE_FAILED_OUT="$failed_out" node scripts/smoke/smoke.js
 rc=$?
 if grep -qE "SEVERE|Exception" "$TC/logs/catalina.out"; then
     log "참고: Tomcat 로그에 SEVERE/Exception이 있다($TC/logs/catalina.out)"
     grep -E "SEVERE|Exception" "$TC/logs/catalina.out" | head -5
 fi
-exit $rc
+# 시나리오가 끝까지 돌지 못했으면(결과 파일 없음) 환경 문제로 본다
+[ -f "$failed_out" ] || { log "ERROR: 시나리오 실행이 중간에 끝났다(종료코드 $rc)"; exit 2; }
+# 실패가 없으면 기준선 유무와 상관없이 통과다(결과는 기준선용으로 저장만 한다)
+if [ ! -s "$failed_out" ]; then
+    baseline_compare smoke "$failed_out" "$key" >/dev/null
+    exit 0
+fi
+baseline_compare smoke "$failed_out" "$key"
+cmp=$?
+# 기준선(main) 실행에서 실패가 있으면 1(main 자체의 실패)
+[ "$key" = "$(baseline_main_key)" ] && exit 1
+exit $cmp

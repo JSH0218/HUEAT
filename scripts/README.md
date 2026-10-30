@@ -48,6 +48,8 @@ bash scripts/jspc-check.sh
 
 무료 오픈소스 도구 Semgrep(로컬 룰), SpotBugs+FindSecBugs, gitleaks(`--redact`)를 한 번에 설치·실행하고 도구별 경고 수를 요약한다.
 - Semgrep은 GitHub의 공개 룰(`semgrep-rules`의 java·generic)과 이 저장소의 전용 룰(`scripts/semgrep/hueat-rules.yml`)을 함께 쓰고, 요약도 둘을 나눠 보여준다.
+- 결과를 `lib/baseline.sh`로 origin/main 결과와 항목 단위(도구|룰|파일)로 비교한다. 최신 origin/main 상태에서 먼저 실행해 기준선을 만든 뒤, 수정 후 다시 실행하면 새로 생긴 경고를 보여 준다.
+- 종료코드: 0 = 기준선 저장 또는 새 경고 없음, 1 = 새 경고 있음, 2 = 실행되지 않은 도구가 있거나 기준선 없음.
 - 공개 룰 중 `no-scriptlets`는 스크립틀릿 JSP 구조 전체에 걸려(약 800건) 실제 결함을 가리므로 제외한다.
 도구와 결과물은 저장소 밖 `/tmp/hueat-tools`(환경변수 `HUEAT_TOOLS`로 변경 가능)에 두며 커밋하지 않는다.
 
@@ -65,5 +67,10 @@ bash scripts/runtime-smoke.sh
 ```
 - MariaDB가 없으면 apt로 설치하고, 실행할 때마다 스모크 전용 DB(`hueat_smoke`)를 새로 만들어 `db/schema.sql` + `smoke/seed.sql`을 적용한다.
 - Tomcat 9는 Maven Central 배포본을 내려받아 포트 18080으로 쓴다. 도구는 `/tmp/hueat-tools`(`HUEAT_TOOLS`)에 캐시한다.
-- 시나리오는 `smoke/smoke.js`에 있다. 각 시나리오가 `[smoke] PASS/FAIL 이름`을 출력하고, 실패 수가 종료코드가 된다(환경 준비 실패는 2 이상).
+- 시나리오는 `smoke/smoke.js`에 있다. 각 시나리오가 `[smoke] PASS/FAIL 이름`을 출력한다.
+- 정적 분석과 같은 방식으로 origin/main 결과와 시나리오 이름 단위로 비교한다. 종료코드: 0 = (main에서) 전부 통과 / (수정 트리에서) 새로 실패한 시나리오 없음, 1 = 실패 있음 / 새 실패 있음, 2 = 환경 문제 또는 기준선 없음. 시나리오 실패는 몇 개든 1이다.
 - 로컬 IntelliJ 개발 환경용이 아니라 Linux 컨테이너(자동 개선 회차)용이다. 로컬 DB를 건드리지 않도록 별도 DB·포트를 쓴다.
+
+## lib/baseline.sh — 검증 결과 기준선 비교
+
+`static-analysis.sh`와 `runtime-smoke.sh`가 함께 쓰는 모듈이다. 결과를 작업 트리 내용으로 정한 키(커밋 여부와 무관, `.gitignore` 존중)별로 `$HUEAT_TOOLS/results/<키>/`에 저장하고, `origin/main` 트리의 결과와 항목 단위로 비교한다. 스크립트 자체를 시험할 때만 `HUEAT_BASE_REF`로 기준 ref를 바꾼다.
