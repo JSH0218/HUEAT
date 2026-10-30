@@ -162,7 +162,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    		 success : function(res) {
 	    			 $("#q_num").val(res.q_num);
 	    			 $("#qa_num").val(res.qa_num);
-	    			 $("#uqa_content").val(res.uqa_content);
+	    			 //서버는 qa_content를 HTML 이스케이프해 보내므로, 입력란에는 엔티티를 원래 문자로 되돌려 넣는다(키 오타로 빈 값이 저장되던 문제 수정)
+	    			 $("#uqa_content").val($("<textarea>").html(res.qa_content).text());
 	    			 
 	    		 }
 	    	 })  
