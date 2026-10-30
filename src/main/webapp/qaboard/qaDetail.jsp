@@ -174,6 +174,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    	 var q_num = $("#q_num").val();
 	    	 var qa_num = $("#qa_num").val(); 
 	    	 var qa_content = $("#uqa_content").val();
+	    	 //빈 답변 저장 방지(서버 qaAnswerUpdateAction.jsp와 같은 규칙: 공백 제외 1~1000자)
+	    	 if(qa_content.trim().length==0) {
+	    		 alert("댓글 입력 후 저장해주세요");
+	    		 return;
+	    	 }
 	    	
 	    	//alert(q_num+","+qa_num+","+qa_content);
 	    	
@@ -283,7 +288,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
      
         <div class="aform" >
            <span><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           <input type = "text" id="qa_content" class="form-control" style="width: 645px;"
+           <input type = "text" id="qa_content" class="form-control" style="width: 645px;" maxlength="1000"
            placeholder="댓글메세지">
            <button type="button" id="btnsend" class="btn btn-success">저장</button>
          </div>
@@ -294,7 +299,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
            <input type="hidden" id="q_num">
            <input type="hidden" id="qa_num">
            <span><%=util.SecurityUtil.escapeHtml(dto.getQ_myid()) %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           <input type = "text" id="uqa_content" class="form-control" style="width: 645px;"
+           <input type = "text" id="uqa_content" class="form-control" style="width: 645px;" maxlength="1000"
            placeholder="댓글메세지">
            <button type="button" id="btnupdate" class="btn btn-success">수정</button>
          </div>

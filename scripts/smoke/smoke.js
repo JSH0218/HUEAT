@@ -269,6 +269,29 @@ async function check(name, fn) {
     await submitAndWait(admin, () => admin.locator('button', { hasText: '삭제' }).first().click());
     return db(`select count(*) from noticeboard where n_num=${n}`) === '0' ? true : 'DB에서 공지가 지워지지 않음';
   });
+  // Q&A 답변: 정상 등록은 저장되고, 공백만 있는 등록·빈 값 수정은 서버가 거부해야 한다(관리자, 토큰은 ajaxPrefilter가 붙인다)
+  const answerText = `SMOKE_ANSWER_${stamp}`;
+  await check('관리자 Q&A 답변 등록(입력 → 저장 버튼 AJAX)', async () => {
+    await open(admin, 'index.jsp?main=qaboard/qaDetail.jsp?q_num=1');
+    await admin.fill('#qa_content', answerText);
+    await admin.locator('#btnsend').click();
+    await admin.waitForTimeout(1500);
+    return db(`select count(*) from qaanswerboard where q_num=1 and qa_content=${sqlStr(answerText)}`) !== '0' ? true : 'DB에 답변이 저장되지 않음';
+  });
+  const postAsAdmin = (url, data) => admin.evaluate(([u, d]) => new Promise(r => $.post(u, d).always(() => r())), [url, data]);
+  await check('공백만 있는 Q&A 답변 등록 POST 거부', async () => {
+    const before = db("select count(*) from qaanswerboard where q_num=1 and trim(coalesce(qa_content,''))=''");
+    await open(admin, 'index.jsp?main=qaboard/qaDetail.jsp?q_num=1');
+    await postAsAdmin('qaanswer/qaAnswerInsertAction.jsp', { q_num: '1', qa_content: '   ' });
+    return db("select count(*) from qaanswerboard where q_num=1 and trim(coalesce(qa_content,''))=''") === before ? true : '빈 답변이 저장됨';
+  });
+  await check('Q&A 답변을 빈 값으로 수정하는 POST 거부', async () => {
+    const qa = db(`select qa_num from qaanswerboard where q_num=1 and qa_content=${sqlStr(answerText)} limit 1`);
+    if (!qa) return '수정할 답변이 없음(등록 실패)';
+    await open(admin, 'index.jsp?main=qaboard/qaDetail.jsp?q_num=1');
+    await postAsAdmin('qaanswer/qaAnswerUpdateAction.jsp', { q_num: '1', qa_num: qa, qa_content: '' });
+    return db(`select qa_content from qaanswerboard where q_num=1 and qa_num=${qa}`) === answerText ? true : '답변이 빈 값으로 덮어써짐';
+  });
   await check('CSRF 토큰 없는 공지 작성 POST 차단', async () => {
     const subject = `SMOKE_NOCSRF_${Date.now()}`;
     await admin.context().request.post(BASE + 'noticeboard/noticeAction.jsp',
