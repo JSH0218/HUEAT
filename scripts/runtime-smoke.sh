@@ -10,12 +10,14 @@
 # 실행:  bash scripts/runtime-smoke.sh
 # 결과는 scripts/lib/baseline.sh로 origin/main 결과와 시나리오 이름 단위로 비교한다.
 # 종료코드:
-#   origin/main에서 실행(기준선): 0 = 전 시나리오 통과, 1 = 실패 시나리오 있음
-#   수정한 트리에서 실행: 0 = main 대비 새로 실패한 시나리오 없음, 1 = 새로 실패한 시나리오 있음
+#   3 = origin/main 트리에서 실행해 기준선으로 저장함(합격 판정 아님, main의 실패 시나리오는 출력만 한다)
+#   0 = main 대비 새로 실패한 시나리오 없음, 1 = 새로 실패한 시나리오 있음
 #   2 = 환경 문제(설치·다운로드·DB·Tomcat 실패, 시나리오 중단) 또는 실패가 있는데 main 기준선이 없어 비교 불가
+# 수정한 트리에서 실행하면 origin/main판 스크립트·시나리오·시드로 다시 실행해 판정한다(lib/baseline.sh).
 set -uo pipefail
 
-proj="$(cd "$(dirname "$0")/.." && pwd)"
+S="$(cd "$(dirname "$0")" && pwd)"
+proj="${HUEAT_PROJ:-$(cd "$S/.." && pwd)}"
 T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
 TOMCAT_VER=9.0.118
 PORT=18080
@@ -23,8 +25,9 @@ TC="$T/apache-tomcat-$TOMCAT_VER"
 RUN="$T/smoke-run"
 mkdir -p "$T"
 cd "$proj"
-. scripts/lib/baseline.sh
+. "$S/lib/baseline.sh"
 key="$(baseline_tree_key)"
+baseline_judge_with_main runtime-smoke.sh "$@"
 
 log() { echo "[smoke] $*"; }
 
@@ -51,7 +54,7 @@ mysql -uroot -e "DROP DATABASE IF EXISTS hueat_smoke; CREATE DATABASE hueat_smok
   CREATE USER IF NOT EXISTS 'hueat_smoke'@'localhost' IDENTIFIED BY 'smoke';
   GRANT ALL ON hueat_smoke.* TO 'hueat_smoke'@'localhost';" \
   && mysql -uroot hueat_smoke < db/schema.sql \
-  && mysql -uroot --default-character-set=utf8mb4 hueat_smoke < scripts/smoke/seed.sql \
+  && mysql -uroot --default-character-set=utf8mb4 hueat_smoke < "$S/smoke/seed.sql" \
   || { log "ERROR: DB 초기화 실패"; exit 2; }
 
 # --- 2) 빌드와 Tomcat 배포 ---
@@ -96,7 +99,7 @@ done
 # --- 3) 시나리오 ---
 failed_out="$RUN/failed.txt"
 rm -f "$failed_out"
-SMOKE_BASE="http://localhost:$PORT/HuEatProject/" SMOKE_FAILED_OUT="$failed_out" node scripts/smoke/smoke.js
+SMOKE_BASE="http://localhost:$PORT/HuEatProject/" SMOKE_FAILED_OUT="$failed_out" node "$S/smoke/smoke.js"
 rc=$?
 if grep -qE "SEVERE|Exception" "$TC/logs/catalina.out"; then
     log "참고: Tomcat 로그에 SEVERE/Exception이 있다($TC/logs/catalina.out)"
@@ -104,13 +107,21 @@ if grep -qE "SEVERE|Exception" "$TC/logs/catalina.out"; then
 fi
 # 시나리오가 끝까지 돌지 못했으면(결과 파일 없음) 환경 문제로 본다
 [ -f "$failed_out" ] || { log "ERROR: 시나리오 실행이 중간에 끝났다(종료코드 $rc)"; exit 2; }
-# 실패가 없으면 기준선 유무와 상관없이 통과다(결과는 기준선용으로 저장만 한다)
+# 기준선(main) 실행이면 저장하고 3(main에서 실패한 시나리오는 위에 FAIL로 출력됨)
+if [ "$key" = "$(baseline_main_key)" ]; then
+    baseline_compare smoke "$failed_out" "$key"
+    exit 3
+fi
+# 실패가 없으면 기준선 유무와 상관없이 통과다(결과는 저장만 한다)
 if [ ! -s "$failed_out" ]; then
     baseline_compare smoke "$failed_out" "$key" >/dev/null
     exit 0
 fi
 baseline_compare smoke "$failed_out" "$key"
 cmp=$?
-# 기준선(main) 실행에서 실패가 있으면 1(main 자체의 실패)
-[ "$key" = "$(baseline_main_key)" ] && exit 1
+# main에서도 실패하던 시나리오는 이번 변경의 영향을 판정할 수 없으므로 따로 알린다
+mfile="$T/results/$(baseline_main_key)/smoke.txt"
+if [ -f "$mfile" ]; then
+    grep -Fxf "$mfile" "$failed_out" | sed 's/^/[smoke] main에서도 실패(이번 변경 판정 불가): /'
+fi
 exit $cmp
