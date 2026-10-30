@@ -15,6 +15,7 @@
 | 2026-10-29 | cab6173 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | ab650d4 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | cca8737 | 802 (동일) | 21 (동일) | 0 |
+| 2026-10-30 | a25890c | 800 (no-scriptlets 797, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -92,11 +93,20 @@
 - PR: #121
 - 실구동 확인 포인트: 마이페이지 메뉴(회원정보 수정·내 글·즐겨찾기) 정상, `/mypage/mypageindex.jsp` 접근 시 404.
 
+### 2026-10-30 · 버그(데이터 손실) · Q&A 관리자 답변 수정 폼에 기존 내용이 채워지지 않던 문제
+- 영역: qaboard(상세 화면 스크립트)
+- 근거: 직접 리뷰(로그 후보, 이번 회차에 코드 재확인). `qaboard/qaDetail.jsp`의 수정 아이콘 처리에서 `qaanswer/qaAnswerOneData.jsp` 응답 키(`qa_content`)가 아닌 `res.uqa_content`를 읽어 수정란이 비었고, 그대로 "수정"을 누르면 `qaAnswerUpdateAction.jsp`가 빈 값을 저장해 답변이 지워졌다. 서버는 값을 `escapeHtml`해 보내므로 키만 고치면 엔티티가 보이고 저장 시 이중 이스케이프된다.
+- 수정: `qaboard/qaDetail.jsp` 한 줄. `res.qa_content`를 분리된 textarea로 엔티티 디코드해 `.val()`로 넣음(서버 이스케이프는 유지, 응답이 `text/html`이라 원문 반환보다 안전).
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / Chromium(Playwright)에서 디코드 방식 확인: 엔티티 복원, `<img onerror>` 실행 안 됨 / 서브에이전트 독립 재검토: 막을 문제 없음(대상은 `<input type="text">`, 이후 목록은 서버 이스케이프 후 `.html()`).
+- 경고 수 변화: Semgrep 800→800, SpotBugs 21→21, gitleaks 0→0.
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 관리자로 Q&A 상세에서 답변 수정 아이콘 클릭 시 기존 내용(특수문자 `<`, `&` 포함)이 그대로 채워지는지, 수정 후 목록 표시.
+
 ## 후보
+- `qaanswer/qaAnswerUpdateAction.jsp`·`qaAnswerInsertAction.jsp`: 답변 내용 빈 값 서버 측 검사 없음(빈 답변 저장 가능)
 - 관리자 폼(`noticeboard/noticeForm.jsp`·`noticeUpdateForm.jsp`, `eventboard/eventForm.jsp`·`eventUpdateForm.jsp`, `shop/shopForm.jsp`, `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp`)에 표시 단계 관리자 확인 없음(대응 액션은 `isAdmin`으로 막혀 있고 표시 데이터는 공개 정보라 위험 낮음)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
-- `qaboard/qaDetail.jsp:166`: 관리자 답변 수정 폼이 `res.uqa_content`를 읽지만 서버 JSON 키는 `qa_content`라 기존 내용이 채워지지 않음. 또 `qaAnswerOneData.jsp`가 `escapeHtml`한 값을 `.val()`에 넣어 `&lt;` 같은 엔티티가 그대로 보일 수 있음
 - `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
