@@ -18,6 +18,7 @@
 | 2026-10-30 | a25890c | 800 (no-scriptlets 797, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 | 2026-10-30 | c5ca2af | 800 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | 53a9f29 | 전용 10 (admin-page-missing-isadmin 7, raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 (no-scriptlets 제외) | 21 (동일) | 0 |
+| 2026-10-30 | be020c0 | 전용 3 (raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -113,7 +114,17 @@
 - PR: #128
 - 실구동 확인 포인트: 스모크 시나리오로 확인됨(비로그인·일반 사용자 안내창 후 이동, 관리자 정상 열람).
 
+### 2026-10-30 · 보안(저장형 XSS) · 회원 생년월일·휴대폰 출력 이스케이프 누락
+- 영역: mypage(회원 목록·검색·정보 수정), hugesoinfo(상세 1줄)
+- 근거: HUEAT 전용 룰 `hueat-raw-string-getter-output` 2건·`hueat-raw-request-session-output` 1건 + 직접 리뷰(`mypage/membersearch.jsp`). `meminfo.m_birth`는 `VARCHAR(20)`이고 서버 형식 검증이 없어 가입·정보 수정 시 `<svg onload=alert()>`(20자)를 넣으면, 관리자 회원 목록(`memberlist.jsp`)에서 그대로 출력되어 관리자 브라우저에서 스크립트가 실행됐다. 관리자 회원 검색 JSON(`membersearch.jsp`)도 원문을 돌려줘 `memberlist.jsp`의 `.html()`로 DOM XSS가 됐다.
+- 수정: `memberlist.jsp`(m_birth), `membersearch.jsp`(JSON m_birth), `updateform.jsp`(m_hp2·m_birth value), `hugesodetail.jsp`(세션 role)을 `escapeHtml`로 감쌈. `scripts/smoke/seed.sql`에 악성 생년월일 회원 추가, `scripts/smoke/smoke.js`에 시나리오 2개(회원 목록 스크립트 미실행, 검색 응답 이스케이프) 추가.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 수정 전 코드 50/53(목록에서 스크립트 실행 확인, 검색 응답에 원문 `<svg onload=alert()>` 확인) → 수정 후 53/53 / 서브에이전트 독립 재검토: 막을 문제 없음(정상 값 불변, 이중 이스케이프 없음, 남은 raw 출력 없음).
+- 경고 수 변화: Semgrep 전용 3→0, 공개 3→3, SpotBugs 21→21, gitleaks 0→0.
+- PR: #130
+- 실구동 확인 포인트: 스모크 시나리오로 확인됨.
+
 ## 후보
+- `member/gaipaction.jsp`·`mypage/updateaction.jsp`: `m_birth`(yyyy-MM-dd)·`m_hp2`(숫자) 서버 측 형식 검증 없음(이번엔 출력 쪽만 막음)
 - `hugesoinfo/hugesodetail.jsp:1270-1271`: 휴게소 수정·삭제 버튼이 권한 조건 없이 모든 사용자에게 보임(서버·폼 단계에서는 막힘, 화면 표시만 정리 필요)
 - `shop/shopDelete.jsp`: 호출처가 없는 죽은 액션(화면은 `shopAllDelete.jsp`만 사용). redirect가 `if(file.exists())` 안에만 있어 직접 호출 시 빈 화면. 죽은 코드 정리 후보
 - `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
@@ -139,6 +150,7 @@
 - 2026-10-28 · SpotBugs `RV_RETURN_VALUE_IGNORED_BAD_PRACTICE` · `util/AppConfig.java:113`, `util/SecurityUtil.java:322,358`: `mkdirs`/`delete` 반환값 무시. 실패해도 웹루트 밖 파일이라 영향 낮아 수정 가치 낮음
 
 ## 보류
+- 2026-10-30 · `scripts/delete-auto-branch.sh`로 머지된 `claude/auto-*` 브랜치 11개 삭제를 시도했으나 세션 git 프록시가 삭제 push를 HTTP 403으로 거부(브랜치 생성 push는 가능). GitHub MCP에도 브랜치 삭제 도구가 없어 이 세션에서는 삭제 불가. 조건(머지됨·head 일치)은 모두 확인됨.
 - 2026-10-30 · 머지된 `claude/auto-*` 원격 브랜치 10개 삭제(`git push origin --delete`)가 세션 권한 분류기(Git Destructive)에 막힘. 조건(머지됨·head 일치)은 확인했으나 우회하지 않음. 사용자가 이 명령을 권한 규칙에 허용해야 실행 가능.
 - 2026-10-30 · 업로드 파일 삭제 경로 불일치: `reviewboard/reviewDelete.jsp`·`shop/shopDelete.jsp`·`hugesoinfo/hugesodeleteaction.jsp`가 첨부 이미지를 옛 웹루트 경로(`getRealPath("/reviewsave")` 등)에서 지워, 실제 업로드 파일(`AppConfig.getUploadPath(type)`)은 남는다. 경로만 바꾸면 여러 행이 같은 파일명(예: `hugesosave/없음.jpg` 같은 자리표시 이미지)을 참조할 때 화면에 쓰이는 공유 이미지를 지워 다른 글의 이미지가 깨질 수 있어 보류. 해결하려면 삭제 전 같은 파일명을 참조하는 다른 행이 없는지 확인하는 로직이 먼저 필요하다. (서브에이전트 검토도 보류 판단에 동의)
 - 2026-10-30 · 이번 회차는 위 항목 검토 중 `shop/shopDelete.jsp` redirect 수정을 시도했으나, 서브에이전트 검토로 호출처가 없는 죽은 액션임이 확인되어(화면 재현 경로 없음) 변경을 되돌리고 기록만 남김.

@@ -158,7 +158,7 @@ SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
          <td><%=util.SecurityUtil.escapeHtml(dto.getM_nick()) %></td>
          <td><%=util.SecurityUtil.escapeHtml(dto.getM_hp1()) %>-<%=util.SecurityUtil.escapeHtml(dto.getM_hp2()) %></td>
          <td><%=dto.getM_email()==null?"":util.SecurityUtil.escapeHtml(dto.getM_email()) %></td>
-         <td><%=dto.getM_birth() %></td>
+         <td><%=util.SecurityUtil.escapeHtml(dto.getM_birth()) %></td>
          <td><%=sdf.format(dto.getM_gaipday())%></td>
          <td>
             <button type="button" class="deletemem" onclick="delemem('<%=dto.getM_num()%>')">강퇴</button>

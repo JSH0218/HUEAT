@@ -167,6 +167,17 @@ async function check(name, fn) {
     await open(admin, 'index.jsp?main=mypage/memberlist.jsp');
     return (await admin.content()).includes('admin@hueat.local') ? true : '회원 정보가 보이지 않음';
   });
+  // 생년월일에 스크립트를 넣은 회원(seed.sql)이 관리자 화면에서 실행되지 않아야 한다
+  await check('관리자 회원 목록 저장형 XSS 차단', async () => {
+    await open(admin, 'index.jsp?main=mypage/memberlist.jsp');
+    const html = await admin.content();
+    if (admin.alerts.length) return `안내창 ${admin.alerts.length}개(스크립트 실행)`;
+    return html.includes('스모크XSS') && !html.includes('<svg onload') ? true : '악성 생년월일이 태그로 출력됨';
+  });
+  await check('관리자 회원 검색 응답 XSS 이스케이프', async () => {
+    const body = await admin.evaluate(() => fetch('mypage/membersearch.jsp?m_name=' + encodeURIComponent('스모크XSS')).then(r => r.text()));
+    return body.includes('xssuser') && !body.includes('<svg') ? true : `검색 응답: ${body.trim().slice(0, 120)}`;
+  });
   await check('관리자 Q&A 비밀글 열람', async () => {
     await open(admin, 'index.jsp?main=qaboard/qaDetail.jsp?q_num=1');
     return (await admin.content()).includes('비밀 내용') ? true : '비밀글 본문이 보이지 않음';

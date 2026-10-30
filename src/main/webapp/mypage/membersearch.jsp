@@ -27,7 +27,7 @@ for(MemInfoDto dto:list){
 	ob.put("m_hp1", util.SecurityUtil.escapeHtml(dto.getM_hp1()));
 	ob.put("m_hp2", util.SecurityUtil.escapeHtml(dto.getM_hp2()));
 	ob.put("m_email", util.SecurityUtil.escapeHtml(dto.getM_email()));
-	ob.put("m_birth", dto.getM_birth());
+	ob.put("m_birth", util.SecurityUtil.escapeHtml(dto.getM_birth()));
 	ob.put("m_gaipday", sdf.format(dto.getM_gaipday()));
 	arr.add(ob);
 }
