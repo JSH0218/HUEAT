@@ -97,9 +97,18 @@ done
 [ -n "$ready" ] || { log "ERROR: Tomcat 응답 없음($TC/logs/catalina.out)"; exit 2; }
 
 # --- 3) 시나리오 ---
+# 화면이 쓰는 jQuery 3.7.0(code.jquery.com)은 컨테이너에서 막혀 있으므로, 허용된 npm 저장소에서 같은 버전을 받아
+# smoke.js가 대신 응답하게 한다. 없으면 AJAX·postNav 흐름을 확인할 수 없으므로 환경 문제로 본다
+jq="$T/cdn/jquery-3.7.0.js"
+if [ ! -s "$jq" ]; then
+    mkdir -p "$T/cdn"
+    curl -fsSL --retry 4 --retry-delay 2 -o "$T/cdn/jquery.tgz" https://registry.npmjs.org/jquery/-/jquery-3.7.0.tgz \
+        && tar xzf "$T/cdn/jquery.tgz" -C "$T/cdn" package/dist/jquery.js \
+        && mv "$T/cdn/package/dist/jquery.js" "$jq" || { log "ERROR: jQuery 3.7.0 다운로드 실패"; exit 2; }
+fi
 failed_out="$RUN/failed.txt"
 rm -f "$failed_out"
-SMOKE_BASE="http://localhost:$PORT/HuEatProject/" SMOKE_FAILED_OUT="$failed_out" node "$S/smoke/smoke.js"
+SMOKE_BASE="http://localhost:$PORT/HuEatProject/" SMOKE_FAILED_OUT="$failed_out" SMOKE_JQUERY="$jq" node "$S/smoke/smoke.js"
 rc=$?
 if grep -qE "SEVERE|Exception" "$TC/logs/catalina.out"; then
     log "참고: Tomcat 로그에 SEVERE/Exception이 있다($TC/logs/catalina.out)"

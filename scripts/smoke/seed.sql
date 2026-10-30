@@ -12,3 +12,6 @@ INSERT INTO qaboard (q_myid, q_category, q_subject, q_content) VALUES ('admin', 
 -- 저장형 XSS 확인용: 서버가 형식을 검사하지 않던 생년월일(VARCHAR(20))에 20자 스크립트를 넣은 회원
 INSERT INTO meminfo (m_name, m_nick, m_id, m_pass, m_hp1, m_hp2, m_birth, m_email)
 VALUES ('스모크XSS', 'xssnick', 'xssuser', 'x', 'SKT', '01099999999', '<svg onload=alert()>', 'xss@hueat.local');
+
+-- 정상 흐름(장바구니 담기) 확인용 메뉴: 휴게소 1번의 푸드코트 메뉴
+INSERT INTO food (h_num, f_name, f_photo, f_price) VALUES (1, '스모크메뉴', '없음.jpg', '5000');
