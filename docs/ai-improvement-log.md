@@ -16,6 +16,7 @@
 | 2026-10-30 | ab650d4 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | cca8737 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | a25890c | 800 (no-scriptlets 797, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
+| 2026-10-30 | c5ca2af | 800 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -103,6 +104,8 @@
 - 실구동 확인 포인트: 관리자로 Q&A 상세에서 답변 수정 아이콘 클릭 시 기존 내용(특수문자 `<`, `&` 포함)이 그대로 채워지는지, 수정 후 목록 표시.
 
 ## 후보
+- `shop/shopDelete.jsp`: 호출처가 없는 죽은 액션(화면은 `shopAllDelete.jsp`만 사용). redirect가 `if(file.exists())` 안에만 있어 직접 호출 시 빈 화면. 죽은 코드 정리 후보
+- `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
 - `qaanswer/qaAnswerUpdateAction.jsp`·`qaAnswerInsertAction.jsp`: 답변 내용 빈 값 서버 측 검사 없음(빈 답변 저장 가능)
 - 관리자 폼(`noticeboard/noticeForm.jsp`·`noticeUpdateForm.jsp`, `eventboard/eventForm.jsp`·`eventUpdateForm.jsp`, `shop/shopForm.jsp`, `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp`)에 표시 단계 관리자 확인 없음(대응 액션은 `isAdmin`으로 막혀 있고 표시 데이터는 공개 정보라 위험 낮음)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
@@ -126,5 +129,7 @@
 - 2026-10-28 · SpotBugs `RV_RETURN_VALUE_IGNORED_BAD_PRACTICE` · `util/AppConfig.java:113`, `util/SecurityUtil.java:322,358`: `mkdirs`/`delete` 반환값 무시. 실패해도 웹루트 밖 파일이라 영향 낮아 수정 가치 낮음
 
 ## 보류
+- 2026-10-30 · 업로드 파일 삭제 경로 불일치: `reviewboard/reviewDelete.jsp`·`shop/shopDelete.jsp`·`hugesoinfo/hugesodeleteaction.jsp`가 첨부 이미지를 옛 웹루트 경로(`getRealPath("/reviewsave")` 등)에서 지워, 실제 업로드 파일(`AppConfig.getUploadPath(type)`)은 남는다. 경로만 바꾸면 여러 행이 같은 파일명(예: `hugesosave/없음.jpg` 같은 자리표시 이미지)을 참조할 때 화면에 쓰이는 공유 이미지를 지워 다른 글의 이미지가 깨질 수 있어 보류. 해결하려면 삭제 전 같은 파일명을 참조하는 다른 행이 없는지 확인하는 로직이 먼저 필요하다. (서브에이전트 검토도 보류 판단에 동의)
+- 2026-10-30 · 이번 회차는 위 항목 검토 중 `shop/shopDelete.jsp` redirect 수정을 시도했으나, 서브에이전트 검토로 호출처가 없는 죽은 액션임이 확인되어(화면 재현 경로 없음) 변경을 되돌리고 기록만 남김.
 
 ## 사람 확인 필요
