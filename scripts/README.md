@@ -54,3 +54,16 @@ bash scripts/jspc-check.sh
 ```bash
 bash scripts/static-analysis.sh
 ```
+
+## runtime-smoke.sh — 실행 스모크 테스트
+
+실제 DB(MariaDB)와 Tomcat 9에 WAR를 띄우고 브라우저(Playwright)로 주요 화면과 권한 흐름을 확인한다.
+정적 검증(컴파일·JSP 프리컴파일·정적 분석)이 잡지 못하는 런타임 동작(SQL 결과, 안내창·이동, 세션 흐름)을 본다.
+
+```bash
+bash scripts/runtime-smoke.sh
+```
+- MariaDB가 없으면 apt로 설치하고, 실행할 때마다 스모크 전용 DB(`hueat_smoke`)를 새로 만들어 `db/schema.sql` + `smoke/seed.sql`을 적용한다.
+- Tomcat 9는 Maven Central 배포본을 내려받아 포트 18080으로 쓴다. 도구는 `/tmp/hueat-tools`(`HUEAT_TOOLS`)에 캐시한다.
+- 시나리오는 `smoke/smoke.js`에 있다. 각 시나리오가 `[smoke] PASS/FAIL 이름`을 출력하고, 실패 수가 종료코드가 된다(환경 준비 실패는 2 이상).
+- 로컬 IntelliJ 개발 환경용이 아니라 Linux 컨테이너(자동 개선 회차)용이다. 로컬 DB를 건드리지 않도록 별도 DB·포트를 쓴다.
