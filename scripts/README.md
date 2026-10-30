@@ -17,7 +17,7 @@ Apache Jasper(`org.apache.jasper.JspC`)로 `src/main/webapp`의 모든 `*.jsp`�
 
 ### 한계 (이건 못 잡는다 → 여전히 실제 구동 필요)
 런타임 동작: SQL 결과, redirect 대상, AJAX URL 정합, 세션/로그인 흐름, DB 데이터 의존 화면.
-→ end-to-end는 IntelliJ + Tomcat(+MySQL 시드) 수동 스모크 또는 Docker 스택으로 별도 검증.
+→ 컨테이너에서는 아래 `runtime-smoke.sh`(MariaDB+Tomcat+Playwright)로, 로컬에서는 IntelliJ + Tomcat(+MySQL 시드)으로 실제 구동해 확인한다.
 
 ### 사전조건
 - Java 17 (`javac`/`java` on PATH)

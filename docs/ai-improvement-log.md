@@ -150,8 +150,7 @@
 - 2026-10-28 · SpotBugs `RV_RETURN_VALUE_IGNORED_BAD_PRACTICE` · `util/AppConfig.java:113`, `util/SecurityUtil.java:322,358`: `mkdirs`/`delete` 반환값 무시. 실패해도 웹루트 밖 파일이라 영향 낮아 수정 가치 낮음
 
 ## 보류
-- 2026-10-30 · `scripts/delete-auto-branch.sh`로 머지된 `claude/auto-*` 브랜치 11개 삭제를 시도했으나 세션 git 프록시가 삭제 push를 HTTP 403으로 거부(브랜치 생성 push는 가능). GitHub MCP에도 브랜치 삭제 도구가 없어 이 세션에서는 삭제 불가. 조건(머지됨·head 일치)은 모두 확인됨.
-- 2026-10-30 · 머지된 `claude/auto-*` 원격 브랜치 10개 삭제(`git push origin --delete`)가 세션 권한 분류기(Git Destructive)에 막힘. 조건(머지됨·head 일치)은 확인했으나 우회하지 않음. 사용자가 이 명령을 권한 규칙에 허용해야 실행 가능.
+- (해결) 2026-10-30 · 머지된 `claude/auto-*` 원격 브랜치 정리: 세션에서는 삭제가 막혀(권한 분류기·git 프록시 403) 저장소 설정 "Automatically delete head branches"로 대체했고, 남은 브랜치는 소유자가 정리했다. 이후 회차는 브랜치 삭제를 시도하거나 기록하지 않는다(CLAUDE.md).
 - 2026-10-30 · 업로드 파일 삭제 경로 불일치: `reviewboard/reviewDelete.jsp`·`shop/shopDelete.jsp`·`hugesoinfo/hugesodeleteaction.jsp`가 첨부 이미지를 옛 웹루트 경로(`getRealPath("/reviewsave")` 등)에서 지워, 실제 업로드 파일(`AppConfig.getUploadPath(type)`)은 남는다. 경로만 바꾸면 여러 행이 같은 파일명(예: `hugesosave/없음.jpg` 같은 자리표시 이미지)을 참조할 때 화면에 쓰이는 공유 이미지를 지워 다른 글의 이미지가 깨질 수 있어 보류. 해결하려면 삭제 전 같은 파일명을 참조하는 다른 행이 없는지 확인하는 로직이 먼저 필요하다. (서브에이전트 검토도 보류 판단에 동의)
 - 2026-10-30 · 이번 회차는 위 항목 검토 중 `shop/shopDelete.jsp` redirect 수정을 시도했으나, 서브에이전트 검토로 호출처가 없는 죽은 액션임이 확인되어(화면 재현 경로 없음) 변경을 되돌리고 기록만 남김.
 
