@@ -214,7 +214,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							        <option value="알뜰폰" <%if (dto.getM_hp1().equals("알뜰폰")) {%> selected <%}%>>알뜰폰</option>
 							    </select>
 							     <input type="text" name="m_hp2" id="m_hp2" style="width: 215px; height: 45px;  margin-left: 5px;"
-							           value="<%=dto.getM_hp2()%>" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="11">
+							           value="<%=util.SecurityUtil.escapeHtml(dto.getM_hp2())%>" class="form-control" required="required" oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="11">
 							</div>
 						</td>
 					</tr>
@@ -222,7 +222,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						<td style="width: 200px;"><b>생년월일</b></td>
 						<td><input type="date" name="m_birth" id="m_birth"
 							style="width: 300px; height: 45px;"
-							value="<%=dto.getM_birth()%>" class="form-control"
+							value="<%=util.SecurityUtil.escapeHtml(dto.getM_birth())%>" class="form-control"
 							required="required"></td>
 					</tr>
 					<tr>

@@ -8,3 +8,7 @@ INSERT INTO eventboard (e_myid, e_subject, e_content) VALUES ('admin', '스모�
 
 -- Q&A는 모두 비밀글: 관리자가 쓴 글을 일반 사용자가 열람하지 못해야 한다
 INSERT INTO qaboard (q_myid, q_category, q_subject, q_content) VALUES ('admin', '기타', '관리자 비밀글', '비밀 내용');
+
+-- 저장형 XSS 확인용: 서버가 형식을 검사하지 않던 생년월일(VARCHAR(20))에 20자 스크립트를 넣은 회원
+INSERT INTO meminfo (m_name, m_nick, m_id, m_pass, m_hp1, m_hp2, m_birth, m_email)
+VALUES ('스모크XSS', 'xssnick', 'xssuser', 'x', 'SKT', '01099999999', '<svg onload=alert()>', 'xss@hueat.local');
