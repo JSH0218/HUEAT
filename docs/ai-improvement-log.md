@@ -99,7 +99,7 @@
 - 수정: `qaboard/qaDetail.jsp` 한 줄. `res.qa_content`를 분리된 textarea로 엔티티 디코드해 `.val()`로 넣음(서버 이스케이프는 유지, 응답이 `text/html`이라 원문 반환보다 안전).
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / Chromium(Playwright)에서 디코드 방식 확인: 엔티티 복원, `<img onerror>` 실행 안 됨 / 서브에이전트 독립 재검토: 막을 문제 없음(대상은 `<input type="text">`, 이후 목록은 서버 이스케이프 후 `.html()`).
 - 경고 수 변화: Semgrep 800→800, SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #122
 - 실구동 확인 포인트: 관리자로 Q&A 상세에서 답변 수정 아이콘 클릭 시 기존 내용(특수문자 `<`, `&` 포함)이 그대로 채워지는지, 수정 후 목록 표시.
 
 ## 후보
