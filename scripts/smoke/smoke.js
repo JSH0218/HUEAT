@@ -1,7 +1,9 @@
 // 실행 스모크 테스트 시나리오 (Playwright, scripts/runtime-smoke.sh가 실행한다)
 //
 // 실제로 띄운 Tomcat+DB에 브라우저로 접속해 주요 화면과 권한 흐름을 확인한다.
-// 각 시나리오는 "[smoke] PASS/FAIL 이름"을 출력하며, 실패 수를 종료코드로 돌려준다.
+// 각 시나리오는 "[smoke] PASS/FAIL 이름"을 출력한다. 실패한 시나리오가 하나라도 있으면 종료코드 1, 모두 통과하면 0이다
+// (실패 수를 종료코드로 쓰면 "2 이상 = 환경 문제"와 겹치므로 쓰지 않는다).
+// 끝까지 실행되면 실패한 시나리오 이름을 SMOKE_FAILED_OUT 파일에 한 줄씩 쓴다(파일이 없으면 중간에 끝난 것).
 // 외부 CDN(jQuery·카카오 지도 등) 로딩 실패는 판정에 쓰지 않는다. 같은 출처의 5xx 응답만 실패로 본다.
 //
 // 기능을 고치거나 추가하면 그 동작을 확인하는 시나리오를 여기에 추가한다.
@@ -9,8 +11,10 @@ const { chromium } = require('playwright');
 
 const BASE = process.env.SMOKE_BASE || 'http://localhost:18080/HuEatProject/';
 const results = [];
+const failedNames = [];
 const record = (name, ok, detail) => {
   results.push(ok);
+  if (!ok) failedNames.push(name);
   console.log(`[smoke] ${ok ? 'PASS' : 'FAIL'} ${name}${ok || !detail ? '' : ' — ' + detail}`);
 };
 
@@ -186,5 +190,8 @@ async function check(name, fn) {
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);
-  process.exit(failed);
+  if (process.env.SMOKE_FAILED_OUT) {
+    require('fs').writeFileSync(process.env.SMOKE_FAILED_OUT, failedNames.map(n => n + '\n').join(''));
+  }
+  process.exit(failed > 0 ? 1 : 0);
 })();
