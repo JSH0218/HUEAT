@@ -1,0 +1,115 @@
+# HUEAT 전용 Semgrep 룰
+#
+# 자동 개선 회차가 직접 리뷰로 찾아 고친 결함 유형을 룰로 만들어, 같은 실수가 다시 생기면
+# 정적 분석에서 바로 잡히게 한다. scripts/static-analysis.sh가 공개 룰과 함께 실행한다.
+# JSP는 Semgrep이 파싱하지 못하므로 generic(정규식) 모드로 검사한다.
+#
+# 새 결함 유형을 고치면 여기에 룰을 추가하는 것을 우선 고려한다. 의도적으로 허용하는 파일은
+# 각 룰의 paths.exclude에 이유와 함께 적는다.
+rules:
+  - id: hueat-raw-string-getter-output
+    languages: [generic]
+    severity: WARNING
+    message: >-
+      DTO의 문자열 값을 이스케이프 없이 출력한다(XSS). util.SecurityUtil.escapeHtml(...) 또는
+      nl2brEscaped(...)로 감싼다. 숫자 필드(_num, _readcount 등)와 getContextPath()는 이 룰에서 제외된다.
+    paths:
+      include: ["*.jsp"]
+    # JSP 주석(<%-- ... --%>) 안의 줄은 출력되지 않으므로 제외한다
+    pattern-regex: '(?m)^(?!.*<%--).*?<%=\s*\w+\.get(?![A-Za-z]+_(?:num|readcount|chu|cnt|grade|gradecount|price|xvalue|yvalue)\(\)|ContextPath\(\))[A-Za-z_]+\(\)\s*%>'
+
+  - id: hueat-raw-request-session-output
+    languages: [generic]
+    severity: WARNING
+    message: >-
+      요청 파라미터나 세션 값을 이스케이프 없이 출력한다(XSS). util.SecurityUtil.escapeHtml(...)로 감싼다.
+    paths:
+      include: ["*.jsp"]
+    pattern-regex: '<%=\s*(?:request\.getParameter|session\.getAttribute)\s*\('
+
+  - id: hueat-action-missing-csrf
+    languages: [generic]
+    severity: WARNING
+    message: >-
+      상태변경 액션 JSP에 CSRF 검증이 없다. 맨 앞에서 권한 확인 후
+      if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }
+      를 둔다. 조회 전용이면 paths.exclude에 이유와 함께 추가한다.
+    paths:
+      include:
+        - "*[Aa]ction*.jsp"
+        - "*[Dd]elete*.jsp"
+        - "insert*.jsp"
+        - "update*.jsp"
+      exclude:
+        - "*[Ff]orm*.jsp"
+        # 조회 전용(상태 변경 없음)
+        - "hugesoinfo/searchaction.jsp"
+        - "hugesoinfo/mapaction.jsp"
+        - "qaanswer/qaListAction.jsp"
+    # 파일 전체에 checkCsrf가 한 번도 없으면 파일 첫머리에 1건 보고한다
+    pattern-regex: '(?s)\A(?!.*checkCsrf).{1,40}'
+
+  - id: hueat-admin-page-missing-isadmin
+    languages: [generic]
+    severity: WARNING
+    message: >-
+      관리자 전용 화면에 관리자 확인이 없다. 화면 출력·DAO 접근 전에 util.SecurityUtil.isAdmin(session)을 확인한다.
+    paths:
+      include:
+        - "mypage/admin*.jsp"
+        - "mypage/memberlist.jsp"
+        - "mypage/membersearch.jsp"
+        - "noticeboard/noticeForm.jsp"
+        - "noticeboard/noticeUpdateForm.jsp"
+        - "eventboard/eventForm.jsp"
+        - "eventboard/eventUpdateForm.jsp"
+        - "shop/shopForm.jsp"
+        - "hugesoinfo/hugesoaddform.jsp"
+        - "hugesoinfo/hugesoupdateform.jsp"
+    pattern-regex: '(?s)\A(?!.*isAdmin\s*\().{1,40}'
+
+  - id: hueat-string-admin-check
+    languages: [generic]
+    severity: ERROR
+    message: >-
+      관리자 판별을 아이디 문자열 비교로 하고 있다. util.SecurityUtil.isAdmin(session)(세션 role 기반)을 쓴다.
+    paths:
+      include: ["*.jsp", "*.java"]
+    pattern-regex: '\.equals\(\s*"admin"\s*\)|"admin"\s*\.equals\('
+
+  - id: hueat-hardcoded-key
+    languages: [generic]
+    severity: ERROR
+    message: >-
+      API 키·앱키·가맹점 코드로 보이는 값이 하드코딩되어 있다. CLAUDE.md 규칙대로 값만 [secret]으로 치환한다.
+    paths:
+      include: ["*.jsp", "*.java", "*.js", "*.html"]
+    pattern-regex: 'appkey=[A-Za-z0-9]{16,}|Kakao\.init\(\s*["''][A-Za-z0-9]{16,}|IMP\.init\(\s*["'']imp\d+'
+
+  - id: hueat-sql-string-concat
+    languages: [java]
+    severity: ERROR
+    message: >-
+      SQL을 문자열 연결로 만든다(SQL Injection 위험). 값은 PreparedStatement의 ? 바인딩으로 넘긴다.
+    patterns:
+      - pattern-either:
+          - pattern: $C.prepareStatement("..." + $X)
+          - pattern: $S.executeQuery("..." + $X)
+          - pattern: $S.executeUpdate("..." + $X)
+          - pattern: $S.execute("..." + $X)
+          - pattern: $C.prepareStatement("..." + $X + "...")
+          - pattern: $S.executeQuery("..." + $X + "...")
+          - pattern: $S.executeUpdate("..." + $X + "...")
+          - pattern: |
+              String $SQL = "..." + $X + "...";
+              ...
+              $C.prepareStatement($SQL);
+          - pattern: |
+              String $SQL = "..." + $X;
+              ...
+              $C.prepareStatement($SQL);
+      # 문자열 리터럴끼리 줄을 나눠 이어 붙인 것은 안전하므로 제외한다
+      - metavariable-pattern:
+          metavariable: $X
+          patterns:
+            - pattern-not: '"..."'

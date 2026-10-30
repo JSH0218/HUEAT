@@ -20,6 +20,9 @@ rm -f "$T/semgrep.json" "$T/gitleaks.json" target/spotbugsXml.xml
 # --- 설치 ---
 command -v semgrep >/dev/null 2>&1 || pip install -q semgrep >/dev/null 2>&1 || echo "[sa] WARN: semgrep 설치 실패"
 [ -d "$T/sgr" ] || git clone -q --depth 1 https://github.com/semgrep/semgrep-rules.git "$T/sgr" || echo "[sa] WARN: semgrep-rules clone 실패"
+# no-scriptlets는 "JSP에 스크립틀릿을 쓰지 말라"는 룰로, 스크립틀릿 JSP인 이 프로젝트 전체가 걸려(약 800건)
+# 실제 결함을 가리므로 뺀다
+rm -f "$T/sgr/java/lang/security/audit/xss/jsp/no-scriptlets.yaml"
 if [ ! -x "$T/gitleaks" ]; then
     curl -fsSL -o "$T/gl.tgz" "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VER/gitleaks_${GITLEAKS_VER}_linux_x64.tar.gz" \
         && tar xzf "$T/gl.tgz" -C "$T" gitleaks || echo "[sa] WARN: gitleaks 설치 실패"
@@ -28,6 +31,7 @@ fi
 # --- 실행 ---
 if command -v semgrep >/dev/null 2>&1 && [ -d "$T/sgr" ]; then
     semgrep scan --metrics=off --disable-version-check --config "$T/sgr/java" --config "$T/sgr/generic" \
+        --config scripts/semgrep \
         --json -o "$T/semgrep.json" src/main >/dev/null 2>"$T/semgrep.log" || true
 fi
 mvn -B -q compile >/dev/null 2>&1 \
@@ -47,7 +51,15 @@ def summary(name, counter):
     else:
         print(f"[sa] {name}: {sum(counter.values())} {dict(counter.most_common())}")
 p = os.path.join(t, "semgrep.json")
-summary("Semgrep", collections.Counter(r["check_id"].split(".")[-1] for r in json.load(open(p))["results"]) if os.path.exists(p) else None)
+results = json.load(open(p))["results"] if os.path.exists(p) else None
+def semgrep_counter(own):
+    if results is None:
+        return None
+    return collections.Counter(r["check_id"].split(".")[-1] for r in results
+                               if r["check_id"].split(".")[-1].startswith("hueat-") == own)
+# HUEAT 전용 룰(scripts/semgrep)과 공개 룰을 나눠 보여준다
+summary("Semgrep(HUEAT 전용 룰)", semgrep_counter(True))
+summary("Semgrep(공개 룰)", semgrep_counter(False))
 p = "target/spotbugsXml.xml"
 summary("SpotBugs", collections.Counter(b.get("type") for b in ET.parse(p).getroot().iter("BugInstance")) if os.path.exists(p) else None)
 p = os.path.join(t, "gitleaks.json")
