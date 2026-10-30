@@ -60,6 +60,11 @@ if [ ! -x "$TC/bin/startup.sh" ]; then
     sed -i "s/port=\"8080\"/port=\"$PORT\"/; s/port=\"8005\"/port=\"-1\"/" "$TC/conf/server.xml"
 fi
 
+# 이전 실행이 남긴 Tomcat이 떠 있으면 옛 WAR로 응답해 잘못 통과할 수 있으므로 먼저 내리고, 포트가 비었는지 확인한다
+[ -f "$RUN/tomcat.pid" ] && CATALINA_PID="$RUN/tomcat.pid" "$TC/bin/shutdown.sh" 10 -force >/dev/null 2>&1
+if curl -s -o /dev/null --max-time 3 "http://localhost:$PORT/"; then
+    log "ERROR: 포트 $PORT를 이미 다른 프로세스가 쓰고 있다(이전 Tomcat이 남아 있는지 확인)"; exit 2
+fi
 rm -rf "$RUN" && mkdir -p "$RUN/upload"
 cat >"$RUN/db.properties" <<EOF
 db.url=jdbc:mysql://localhost:3306/hueat_smoke?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
