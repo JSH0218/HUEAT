@@ -27,6 +27,7 @@ mkdir -p "$T"
 cd "$proj"
 . "$S/lib/baseline.sh"
 key="$(baseline_tree_key)"
+baseline_reset_verdict smoke "$key"
 baseline_judge_with_main runtime-smoke.sh "$@"
 
 log() { echo "[smoke] $*"; }
@@ -88,13 +89,17 @@ cp "$war" "$TC/webapps/HuEatProject.war"
 
 log "Tomcat 시작(포트 $PORT)..."
 CATALINA_PID="$RUN/tomcat.pid" CATALINA_OPTS="-Dhueat.config=$RUN/db.properties" "$TC/bin/startup.sh" >/dev/null 2>&1
+# 준비 확인은 "웹앱이 배포되어 응답한다"(연결됨·404 아님)까지만 본다. index.jsp가 200인지로 기다리면
+# 첫 화면을 500으로 깨뜨린 변경이 "Tomcat 응답 없음(환경 문제, 종료코드 2)"으로 분류되므로,
+# 5xx는 준비된 것으로 보고 시나리오(공개 화면)에서 실패로 잡는다
 ready=""
 for _ in $(seq 1 60); do
     code="$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:$PORT/HuEatProject/index.jsp")"
-    [ "$code" = "200" ] && { ready=1; break; }
+    [ "$code" != "000" ] && [ "$code" != "404" ] && { ready=1; break; }
     sleep 1
 done
 [ -n "$ready" ] || { log "ERROR: Tomcat 응답 없음($TC/logs/catalina.out)"; exit 2; }
+[ "$code" = "200" ] || log "참고: 준비 확인 시 index.jsp가 HTTP $code (시나리오에서 실패로 판정한다)"
 
 # --- 3) 시나리오 ---
 # 화면이 쓰는 jQuery 3.7.0(code.jquery.com)은 컨테이너에서 막혀 있으므로, 허용된 npm 저장소에서 같은 버전을 받아

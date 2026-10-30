@@ -23,6 +23,7 @@ mkdir -p "$T"
 cd "$proj"
 . "$S/lib/baseline.sh"
 key="$(baseline_tree_key)"
+baseline_reset_verdict sa "$key"
 baseline_judge_with_main static-analysis.sh "$@"
 # 이전 회차 결과가 남아 있으면 도구 실패 시 지난 수치가 요약에 나오므로 먼저 지운다
 rm -f "$T/semgrep.json" "$T/gitleaks.json" target/spotbugsXml.xml
