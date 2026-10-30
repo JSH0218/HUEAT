@@ -120,7 +120,7 @@
 - 수정: `memberlist.jsp`(m_birth), `membersearch.jsp`(JSON m_birth), `updateform.jsp`(m_hp2·m_birth value), `hugesodetail.jsp`(세션 role)을 `escapeHtml`로 감쌈. `scripts/smoke/seed.sql`에 악성 생년월일 회원 추가, `scripts/smoke/smoke.js`에 시나리오 2개(회원 목록 스크립트 미실행, 검색 응답 이스케이프) 추가.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 수정 전 코드 50/53(목록에서 스크립트 실행 확인, 검색 응답에 원문 `<svg onload=alert()>` 확인) → 수정 후 53/53 / 서브에이전트 독립 재검토: 막을 문제 없음(정상 값 불변, 이중 이스케이프 없음, 남은 raw 출력 없음).
 - 경고 수 변화: Semgrep 전용 3→0, 공개 3→3, SpotBugs 21→21, gitleaks 0→0.
-- PR: (생성 후 기입)
+- PR: #130
 - 실구동 확인 포인트: 스모크 시나리오로 확인됨.
 
 ## 후보
