@@ -27,6 +27,7 @@ mkdir -p "$T"
 cd "$proj"
 . "$S/lib/baseline.sh"
 key="$(baseline_tree_key)"
+baseline_reset_verdict smoke "$key"
 baseline_judge_with_main runtime-smoke.sh "$@"
 
 log() { echo "[smoke] $*"; }
