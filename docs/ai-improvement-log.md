@@ -19,6 +19,7 @@
 | 2026-10-30 | c5ca2af | 800 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | 53a9f29 | 전용 10 (admin-page-missing-isadmin 7, raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 (no-scriptlets 제외) | 21 (동일) | 0 |
 | 2026-10-30 | be020c0 | 전용 3 (raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 | 21 (동일) | 0 |
+| 2026-10-31 | 1ed7d65 | 전용 0 / 공개 3 (httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -128,7 +129,8 @@
 - 근거: 로그 후보 + 오탐 확인 에이전트 판정 '실제 문제(낮음)'. 서버가 `m_hp2`·`m_birth` 형식을 검사하지 않았고 가입 화면은 `010.1234.5678`·12자 이상 번호를 허용했다. 아이디 찾기·비밀번호 재설정(`idsearchform.jsp`·`passSearchform.jsp`)은 정확히 11자만 받아 `m_hp2=?` 완전 일치로 비교하므로 이런 회원은 계정을 영구히 복구할 수 없었다. 생년월일에는 임의 문자열(스크립트 포함)이 저장됐다.
 - 정한 규칙: 휴대폰은 숫자 11자, 생년월일은 실제 날짜인 `yyyy-MM-dd`. CLAUDE.md '보안 규칙'에 기록.
 - 수정: `util/SecurityUtil.java`(`isValidPhone`·`isValidBirth`) / `member/gaipaction.jsp`·`mypage/updateaction.jsp`(위반 시 안내 후 되돌아감) / `member/gaipform.jsp`(휴대폰 숫자만·최대 11자, 제출 시 검사) / `mypage/updateform.jsp`(제출 시 검사) / `scripts/smoke/smoke.js`(형식 위반 휴대폰·생년월일 가입 거부 시나리오 2개 추가) / `CLAUDE.md`.
-- 검증: (기록 예정)
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / jshell 판정 확인(휴대폰 11자만 통과, 생년월일 2024-02-29 통과·2023-02-29·1990-13-01·19900101·스크립트 거부) / 실행 스모크: 깨끗한 origin/main 기준선 53/53(종료코드 3) → 브랜치판으로 새 시나리오를 수정 전 코드에 돌리면 2건 실패(53/55), 수정 후 55/55 → main판 판정 종료코드 0 / 정적 분석 main판 판정 종료코드 0(새 경고 0건) / 서브에이전트 독립 재검토: 막을 문제 없음(관리자 시드 값은 새 규칙 통과, 형식 위반 기존 값도 수정 화면에서 고칠 수 있음).
+- 경고 수 변화: Semgrep 전용 0→0, 공개 3→3, SpotBugs 21→21, gitleaks 0→0.
 - PR: (생성 후 기입)
 - 실구동 확인 포인트: 스모크 시나리오(형식 위반 가입 거부, 정상 가입·로그인)로 확인.
 
