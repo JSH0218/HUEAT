@@ -67,3 +67,13 @@ bash scripts/runtime-smoke.sh
 - Tomcat 9는 Maven Central 배포본을 내려받아 포트 18080으로 쓴다. 도구는 `/tmp/hueat-tools`(`HUEAT_TOOLS`)에 캐시한다.
 - 시나리오는 `smoke/smoke.js`에 있다. 각 시나리오가 `[smoke] PASS/FAIL 이름`을 출력하고, 실패 수가 종료코드가 된다(환경 준비 실패는 2 이상).
 - 로컬 IntelliJ 개발 환경용이 아니라 Linux 컨테이너(자동 개선 회차)용이다. 로컬 DB를 건드리지 않도록 별도 DB·포트를 쓴다.
+
+## delete-auto-branch.sh — 머지된 자동 개선 브랜치 삭제
+
+자동 회차가 머지를 마친 원격 `claude/auto-*` 브랜치를 지울 때 쓴다. `git push origin --delete`를 직접 실행하면 세션 권한 확인에 막히므로, 이 스크립트만 허용 규칙에 두고 이름 검사를 강제한다.
+
+```bash
+bash scripts/delete-auto-branch.sh claude/auto-20261030-1305-qa-answer-edit [...]
+```
+- 인자 중 하나라도 `claude/auto-*` 형식이 아니면 아무것도 지우지 않고 종료코드 2로 끝난다.
+- PR이 머지됐는지, 원격 최신 커밋이 PR head와 같은지는 호출하는 쪽이 GitHub에서 먼저 확인한다.
