@@ -142,7 +142,7 @@
 - 수정: `qaanswer/qaAnswerInsertAction.jsp`·`qaAnswerUpdateAction.jsp`(위반 시 400) / `qaboard/qaDetail.jsp`(수정 시 빈 값 검사, 등록·수정 입력란 `maxlength="1000"`) / `scripts/smoke/smoke.js`(정상 답변 등록, 공백 답변 등록 거부, 빈 값 수정 거부 시나리오 3개 추가) / `CLAUDE.md`.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 깨끗한 origin/main 기준선 61/61(종료코드 3) → 브랜치판으로 새 시나리오를 수정 전 코드에 돌리면 2건 실패(62/64, 빈 답변 저장 재현) → 수정 후 64/64 → main판 판정 종료코드 0 / 정적 분석 main판 판정 종료코드 0(새 경고 0건).
 - 독립 리뷰(2단계): 높음 0 / 중간 0 / 낮음 3. 1단계(diff만)는 호출처(`qaDetail.jsp`의 두 AJAX)·CSRF 첨부(`ajaxPrefilter`)·검사 순서·길이 상한·smoke 경로를 확인했다. 2단계(설명 추가)는 문제가 실제로 있었고 두 경로가 모두 막혔으며, `qaanswerboard`에 쓰는 다른 경로가 없음을 확인했다. 낮음 지적은 다음 세 가지로 모두 고치지 않았다. ① 길이 검사가 원문 기준(규칙 의도인 빈 답변·저장 실패는 막힘) ② 400 응답 시 화면 안내 없음 ③ 거부 시나리오가 상태코드를 보지 않음(②③은 후보로 기록).
-- PR: (생성 후 기입)
+- PR: #141
 - 실구동 확인 포인트: 스모크 시나리오로 확인.
 
 ## 후보
