@@ -142,6 +142,25 @@ async function check(name, fn) {
     await signup(user, '1abc');
     return !(await login(user, '1abc', 'smokepw123')) ? true : '형식 위반 아이디로 로그인됨';
   });
+  // 휴대폰(숫자 11자)·생년월일(실제 날짜 yyyy-MM-dd) 형식 위반은 서버가 가입을 거부해야 한다(클라이언트 검사는 form.submit()으로 우회)
+  const signupWith = async (id, hp2, birth) => {
+    await open(user, 'member/gaipform.jsp');
+    for (const [sel, v] of [['input[name=m_id]', id], ['input[name=m_nick]', 'smoke'], ['input[name=m_pass]', 'smokepw123'],
+      ['input[name=m_pass2]', 'smokepw123'], ['input[name=m_email]', 'smoke@hueat.local'], ['input[name=m_name]', '스모크']]) {
+      if (await user.locator(sel).count()) await user.fill(sel, v);
+    }
+    await user.locator('#frm').evaluate((f, v) => { f.m_hp2.value = v.hp2; f.m_birth.type = 'text'; f.m_birth.value = v.birth; f.submit(); }, { hp2, birth });
+    await user.waitForLoadState('load');
+    await user.waitForTimeout(800);
+  };
+  await check('형식 위반 휴대폰(010.1234.5678) 가입 거부', async () => {
+    await signupWith('badphone1', '010.1234.5678', '1990-01-01');
+    return !(await login(user, 'badphone1', 'smokepw123')) ? true : '형식 위반 휴대폰으로 가입됨';
+  });
+  await check('형식 위반 생년월일(<svg onload=alert()>) 가입 거부', async () => {
+    await signupWith('badbirth1', '01012345678', '<svg onload=alert()>');
+    return !(await login(user, 'badbirth1', 'smokepw123')) ? true : '형식 위반 생년월일로 가입됨';
+  });
   await check('정상 가입 후 로그인', async () => {
     await signup(user, 'smokeuser1');
     return (await login(user, 'smokeuser1', 'smokepw123')) ? true : '로그인 실패';

@@ -230,6 +230,31 @@ public class SecurityUtil {
 		return id != null && id.matches("[a-z][a-z0-9]{3,19}");
 	}
 
+	// ===== 회원 휴대폰·생년월일 형식 =====
+
+	/**
+	 * 휴대폰 번호(m_hp2) 형식 검증: 숫자 11자('-' 없이).
+	 * 아이디 찾기·비밀번호 재설정 화면이 11자만 받아 완전 일치로 비교하므로 가입·수정도 같은 규칙을 쓴다.
+	 */
+	public static boolean isValidPhone(String hp) {
+		return hp != null && hp.matches("[0-9]{11}");
+	}
+
+	/**
+	 * 생년월일(m_birth) 형식 검증: yyyy-MM-dd이면서 실제로 있는 날짜.
+	 */
+	public static boolean isValidBirth(String birth) {
+		if (birth == null || !birth.matches("\\d{4}-\\d{2}-\\d{2}")) {
+			return false;
+		}
+		try {
+			java.time.LocalDate.parse(birth);
+			return true;
+		} catch (java.time.format.DateTimeParseException e) {
+			return false;
+		}
+	}
+
 	// ===== 평점 값 =====
 
 	/**

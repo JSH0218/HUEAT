@@ -148,6 +148,11 @@ $(function(){
                 alert("아이디 중복 확인을 해주세요.");
                 return;
             }
+		//휴대폰·생년월일 형식 검사(서버 SecurityUtil.isValidPhone·isValidBirth와 같은 규칙)
+		if(!/^[0-9]{11}$/.test(f.m_hp2.value) || !/^\d{4}-\d{2}-\d{2}$/.test(f.m_birth.value)){
+			alert("휴대폰 번호(숫자 11자)와 생년월일을 확인해주세요.");
+			return;
+		}
 		//중복확인 뒤 아이디를 바꾼 경우도 막는다
 		if(!idPattern.test(f.m_id.value)){
 			alert("아이디는 영문 소문자로 시작하는 영문 소문자·숫자 4~20자로 입력해주세요.");
@@ -243,7 +248,7 @@ $(function(){
 						<option value="알뜰폰">알뜰폰</option>
 					</select>
 					<input type="text" placeholder="휴대전화번호('-'생략)" style="width: 280px;" required="required"
-					name="m_hp2" id="m_hp2"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+					name="m_hp2" id="m_hp2" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 				</td>
 			</tr>
 			<tr>

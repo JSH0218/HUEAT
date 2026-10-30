@@ -47,6 +47,17 @@
 
 	MemInfoDao dao=new MemInfoDao();
 
+	// 휴대폰(숫자 11자)·생년월일(yyyy-MM-dd) 형식 서버 측 검증
+	if(!SecurityUtil.isValidPhone(m_hp2) || !SecurityUtil.isValidBirth(m_birth)){
+%>
+	<script type="text/javascript">
+		alert("휴대폰 번호(숫자 11자)와 생년월일을 확인해주세요.");
+		history.back();
+	</script>
+<%
+		return;
+	}
+
 	// 서버 측 현재 비밀번호 검증(클라이언트 비교 제거)
 	if(!dao.isIdPassMember(myid, m_pass)){
 %>
