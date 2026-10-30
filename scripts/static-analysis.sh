@@ -8,18 +8,22 @@
 # 실행:  bash scripts/static-analysis.sh
 # 출력:  도구별 경고 수 요약과, origin/main 결과 대비 새로 생기거나 사라진 경고 목록(scripts/lib/baseline.sh).
 #        상세 결과는 $T/semgrep.json, target/spotbugsXml.xml, $T/gitleaks.json
-# 종료코드: 0 = main 기준선 저장 또는 새 경고 없음, 1 = main 대비 새 경고 있음,
-#           2 = 도구가 하나라도 실행되지 않았거나 main 기준선이 없어 비교할 수 없음
+# 종료코드: 3 = origin/main 트리에서 실행해 기준선으로 저장함(합격 판정 아님), 0 = main 대비 새 경고 없음,
+#           1 = main 대비 새 경고 있음, 2 = 도구가 하나라도 실행되지 않았거나 main 기준선이 없어 비교할 수 없음
 # 경고 항목은 "도구|룰|파일(SpotBugs는 클래스)"로 비교한다(줄 번호는 수정하면 바뀌므로 쓰지 않는다).
+# Semgrep이 파싱하지 못한 파일도 "semgrep-error|파일" 항목으로 넣어, 파싱 실패로 경고가 '사라지는' 것을 새 항목으로 잡는다.
+# 수정한 트리에서 실행하면 origin/main판 스크립트·룰로 다시 실행해 판정한다(lib/baseline.sh의 baseline_judge_with_main).
 set -uo pipefail
 
-proj="$(cd "$(dirname "$0")/.." && pwd)"
+S="$(cd "$(dirname "$0")" && pwd)"
+proj="${HUEAT_PROJ:-$(cd "$S/.." && pwd)}"
 T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
 GITLEAKS_VER=8.21.2
 mkdir -p "$T"
 cd "$proj"
-. scripts/lib/baseline.sh
+. "$S/lib/baseline.sh"
 key="$(baseline_tree_key)"
+baseline_judge_with_main static-analysis.sh "$@"
 # 이전 회차 결과가 남아 있으면 도구 실패 시 지난 수치가 요약에 나오므로 먼저 지운다
 rm -f "$T/semgrep.json" "$T/gitleaks.json" target/spotbugsXml.xml
 
@@ -36,8 +40,9 @@ fi
 
 # --- 실행 ---
 if command -v semgrep >/dev/null 2>&1 && [ -d "$T/sgr" ]; then
-    semgrep scan --metrics=off --disable-version-check --config "$T/sgr/java" --config "$T/sgr/generic" \
-        --config scripts/semgrep \
+    # --disable-nosem: 소스의 nosemgrep 주석으로 경고를 숨기지 못하게 한다
+    semgrep scan --metrics=off --disable-version-check --disable-nosem --config "$T/sgr/java" --config "$T/sgr/generic" \
+        --config "$S/semgrep" \
         --json -o "$T/semgrep.json" src/main >/dev/null 2>"$T/semgrep.log" || true
 fi
 mvn -B -q compile >/dev/null 2>&1 \
@@ -75,6 +80,9 @@ summary("gitleaks", collections.Counter(x["RuleID"] for x in leaks) if leaks is 
 
 # 한 줄 = 경고 하나
 items = [f"semgrep|{r['check_id'].split('.')[-1]}|{r['path']}" for r in results or []]
+if results is not None:
+    for e in json.load(open(os.path.join(t, "semgrep.json"))).get("errors", []):
+        items.append(f"semgrep-error|{e.get('path') or e.get('type') or 'unknown'}")
 for b in bugs or []:
     c = b.find("Class")
     items.append(f"spotbugs|{b.get('type')}|{c.get('classname') if c is not None else ''}")

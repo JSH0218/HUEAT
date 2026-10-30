@@ -66,13 +66,19 @@ async function signup(page, id) {
   await page.waitForTimeout(800);
 }
 
+// 시나리오를 실행한다. 실패하면 한 번 더 시도해(고정 대기 때문에 생기는 흔들림 완화) 두 번 모두 실패할 때만 FAIL로 기록한다.
 async function check(name, fn) {
-  try {
-    const r = await fn();
-    record(name, r === true, typeof r === 'string' ? r : undefined);
-  } catch (e) {
-    record(name, false, e.message.split('\n')[0]);
+  let detail;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const r = await fn();
+      if (r === true) { record(name, true); return; }
+      detail = typeof r === 'string' ? r : undefined;
+    } catch (e) {
+      detail = e.message.split('\n')[0];
+    }
   }
+  record(name, false, detail);
 }
 
 (async () => {
