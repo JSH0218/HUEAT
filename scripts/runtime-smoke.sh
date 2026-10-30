@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# 실행 스모크 테스트: 실제 DB(MariaDB)와 Tomcat 9에 WAR를 띄우고 브라우저(Playwright)로 주요 화면과 권한 흐름을 확인한다.
+#
+# 정적 검증(컴파일·JSP 프리컴파일·정적 분석)이 잡지 못하는 런타임 동작(SQL 결과, redirect, 안내창, 세션 흐름)을 본다.
+# 모두 무료 도구이며 컨테이너 안에서만 실행된다. 도구는 저장소 밖 $HUEAT_TOOLS(기본 /tmp/hueat-tools)에 캐시한다.
+#   - MariaDB: 없으면 apt로 설치한다. 매 실행마다 스모크 전용 DB(hueat_smoke)를 새로 만들고 db/schema.sql + scripts/smoke/seed.sql을 적용한다.
+#   - Tomcat 9: Maven Central의 배포본을 내려받아 포트 18080으로 쓴다.
+#   - 시나리오: scripts/smoke/smoke.js
+#
+# 실행:  bash scripts/runtime-smoke.sh
+# 종료코드: 0 = 전 시나리오 통과, 그 외 = 실패(또는 환경 준비 실패 시 2 이상)
+set -uo pipefail
+
+proj="$(cd "$(dirname "$0")/.." && pwd)"
+T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
+TOMCAT_VER=9.0.118
+PORT=18080
+TC="$T/apache-tomcat-$TOMCAT_VER"
+RUN="$T/smoke-run"
+mkdir -p "$T"
+cd "$proj"
+
+log() { echo "[smoke] $*"; }
+
+cleanup() {
+    [ -x "$TC/bin/shutdown.sh" ] && CATALINA_PID="$RUN/tomcat.pid" "$TC/bin/shutdown.sh" 10 -force >/dev/null 2>&1
+    mysqladmin -uroot shutdown >/dev/null 2>&1
+}
+trap cleanup EXIT
+
+# --- 1) MariaDB ---
+if ! command -v mariadbd >/dev/null 2>&1 && ! command -v mysqld >/dev/null 2>&1; then
+    log "MariaDB 설치(apt)..."
+    { apt-get update -q && DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends mariadb-server; } >"$T/apt.log" 2>&1 \
+        || { log "ERROR: MariaDB 설치 실패($T/apt.log)"; exit 2; }
+fi
+if ! mysqladmin -uroot ping >/dev/null 2>&1; then
+    mkdir -p /run/mysqld
+    (mysqld_safe --user=root >/dev/null 2>&1 &)
+    for _ in $(seq 1 30); do mysqladmin -uroot ping >/dev/null 2>&1 && break; sleep 1; done
+fi
+mysqladmin -uroot ping >/dev/null 2>&1 || { log "ERROR: MariaDB 시작 실패"; exit 2; }
+
+mysql -uroot -e "DROP DATABASE IF EXISTS hueat_smoke; CREATE DATABASE hueat_smoke DEFAULT CHARSET utf8mb4;
+  CREATE USER IF NOT EXISTS 'hueat_smoke'@'localhost' IDENTIFIED BY 'smoke';
+  GRANT ALL ON hueat_smoke.* TO 'hueat_smoke'@'localhost';" \
+  && mysql -uroot hueat_smoke < db/schema.sql \
+  && mysql -uroot --default-character-set=utf8mb4 hueat_smoke < scripts/smoke/seed.sql \
+  || { log "ERROR: DB 초기화 실패"; exit 2; }
+
+# --- 2) 빌드와 Tomcat 배포 ---
+log "WAR 빌드..."
+mvn -B -q package -DskipTests >"$T/smoke-build.log" 2>&1 || { log "ERROR: mvn package 실패($T/smoke-build.log)"; exit 2; }
+war="$(ls target/*.war | head -1)"
+
+if [ ! -x "$TC/bin/startup.sh" ]; then
+    curl -fsSL --retry 4 --retry-delay 2 -o "$T/tomcat.tgz" \
+        "https://repo1.maven.org/maven2/org/apache/tomcat/tomcat/$TOMCAT_VER/tomcat-$TOMCAT_VER.tar.gz" \
+        && tar xzf "$T/tomcat.tgz" -C "$T" || { log "ERROR: Tomcat 다운로드 실패"; exit 2; }
+    sed -i "s/port=\"8080\"/port=\"$PORT\"/; s/port=\"8005\"/port=\"-1\"/" "$TC/conf/server.xml"
+fi
+
+rm -rf "$RUN" && mkdir -p "$RUN/upload"
+cat >"$RUN/db.properties" <<EOF
+db.url=jdbc:mysql://localhost:3306/hueat_smoke?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+db.user=hueat_smoke
+db.password=smoke
+db.driver=com.mysql.cj.jdbc.Driver
+upload.dir=$RUN/upload
+EOF
+rm -rf "$TC/webapps/HuEatProject" "$TC/webapps/HuEatProject.war" "$TC/work/Catalina"
+cp "$war" "$TC/webapps/HuEatProject.war"
+: >"$TC/logs/catalina.out"
+
+log "Tomcat 시작(포트 $PORT)..."
+CATALINA_PID="$RUN/tomcat.pid" CATALINA_OPTS="-Dhueat.config=$RUN/db.properties" "$TC/bin/startup.sh" >/dev/null 2>&1
+ready=""
+for _ in $(seq 1 60); do
+    code="$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:$PORT/HuEatProject/index.jsp")"
+    [ "$code" = "200" ] && { ready=1; break; }
+    sleep 1
+done
+[ -n "$ready" ] || { log "ERROR: Tomcat 응답 없음($TC/logs/catalina.out)"; exit 2; }
+
+# --- 3) 시나리오 ---
+SMOKE_BASE="http://localhost:$PORT/HuEatProject/" node scripts/smoke/smoke.js
+rc=$?
+if grep -qE "SEVERE|Exception" "$TC/logs/catalina.out"; then
+    log "참고: Tomcat 로그에 SEVERE/Exception이 있다($TC/logs/catalina.out)"
+    grep -E "SEVERE|Exception" "$TC/logs/catalina.out" | head -5
+fi
+exit $rc
