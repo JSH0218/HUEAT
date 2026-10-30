@@ -19,6 +19,10 @@
 	String q_num = request.getParameter("q_num");
 	String qa_num = request.getParameter("qa_num");
     String qa_content = request.getParameter("qa_content");
+    // 답변 내용은 앞뒤 공백을 뺀 1~1000자(qaanswerboard.qa_content VARCHAR(1000), 빈 답변·저장 실패 차단)
+    if(qa_content==null || qa_content.trim().isEmpty() || qa_content.length()>1000){
+        response.sendError(400); return;
+    }
    
     
     QaanswerDto dto = new QaanswerDto();
