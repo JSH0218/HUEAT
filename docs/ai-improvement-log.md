@@ -20,6 +20,7 @@
 | 2026-10-30 | 53a9f29 | 전용 10 (admin-page-missing-isadmin 7, raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 (no-scriptlets 제외) | 21 (동일) | 0 |
 | 2026-10-30 | be020c0 | 전용 3 (raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 | 21 (동일) | 0 |
 | 2026-10-31 | 1ed7d65 | 전용 0 / 공개 3 (httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
+| 2026-10-31 | dff4487 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -134,11 +135,20 @@
 - PR: #137
 - 실구동 확인 포인트: 스모크 시나리오(형식 위반 가입 거부, 정상 가입·로그인)로 확인.
 
+### 2026-10-31 · 버그(빈 답변 저장)·입력 검증 · Q&A 답변 내용 서버 측 검증
+- 영역: qaanswer, qaboard(상세 화면 스크립트)
+- 근거: 로그 후보 + 오탐 확인 에이전트 판정 '실제 문제(낮음)'. 답변 등록·수정 액션이 `qa_content`를 검사하지 않았고 수정 화면(`#btnupdate`)에는 빈 값 검사가 없어, 관리자가 수정창을 비우고 저장하면 빈 답변이 저장되어 질문 목록에 '답변 1'로 집계됐다(`qaList.jsp`의 `qa_cnt`는 행 수). 1000자 초과는 DAO가 예외를 삼켜 실패해도 성공처럼 보였다.
+- 정한 규칙: 답변 내용은 앞뒤 공백을 뺀 1~1000자. CLAUDE.md '보안 규칙'에 기록.
+- 수정: `qaanswer/qaAnswerInsertAction.jsp`·`qaAnswerUpdateAction.jsp`(위반 시 400) / `qaboard/qaDetail.jsp`(수정 시 빈 값 검사, 등록·수정 입력란 `maxlength="1000"`) / `scripts/smoke/smoke.js`(정상 답변 등록, 공백 답변 등록 거부, 빈 값 수정 거부 시나리오 3개 추가) / `CLAUDE.md`.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 깨끗한 origin/main 기준선 61/61(종료코드 3) → 브랜치판으로 새 시나리오를 수정 전 코드에 돌리면 2건 실패(62/64, 빈 답변 저장 재현) → 수정 후 64/64 → main판 판정 종료코드 0 / 정적 분석 main판 판정 종료코드 0(새 경고 0건).
+- 독립 리뷰: (기록 예정)
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 스모크 시나리오로 확인.
+
 ## 후보
 - `hugesoinfo/hugesodetail.jsp:1270-1271`: 휴게소 수정·삭제 버튼이 권한 조건 없이 모든 사용자에게 보임(서버·폼 단계에서는 막힘, 화면 표시만 정리 필요)
 - `shop/shopDelete.jsp`: 호출처가 없는 죽은 액션(화면은 `shopAllDelete.jsp`만 사용). redirect가 `if(file.exists())` 안에만 있어 직접 호출 시 빈 화면. 죽은 코드 정리 후보
 - `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
-- `qaanswer/qaAnswerUpdateAction.jsp`·`qaAnswerInsertAction.jsp`: 답변 내용 빈 값 서버 측 검사 없음(빈 답변 저장 가능)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
