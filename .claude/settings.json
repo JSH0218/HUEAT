@@ -4,6 +4,7 @@
       "Bash(bash scripts/static-analysis.sh)",
       "Bash(bash scripts/jspc-check.sh)",
       "Bash(bash scripts/runtime-smoke.sh)",
+      "Bash(bash scripts/merge-gate.sh)",
       "Bash(mvn -B -q compile)",
       "Bash(mvn -q compile)"
     ]
