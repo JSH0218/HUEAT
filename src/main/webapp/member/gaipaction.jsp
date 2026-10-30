@@ -40,6 +40,17 @@ if (!SecurityUtil.isValidMemberId(dto.getM_id()) || SecurityUtil.isReservedId(dt
 	return;
 }
 
+// 1-1) 휴대폰(숫자 11자)·생년월일(yyyy-MM-dd) 형식 서버 측 검증
+if (!SecurityUtil.isValidPhone(dto.getM_hp2()) || !SecurityUtil.isValidBirth(dto.getM_birth())) {
+%>
+	<script type="text/javascript">
+		alert("휴대폰 번호(숫자 11자)와 생년월일을 확인해주세요.");
+		history.back();
+	</script>
+<%
+	return;
+}
+
 // 2) 아이디 중복 서버 측 재확인
 if (dao.idcount(dto.getM_id()) > 0) {
 %>

@@ -114,6 +114,12 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				return false;
 			}
 
+			//휴대폰·생년월일 형식 검사(서버 SecurityUtil.isValidPhone·isValidBirth와 같은 규칙)
+			if(!/^[0-9]{11}$/.test(f.m_hp2.value) || !/^\d{4}-\d{2}-\d{2}$/.test(f.m_birth.value)){
+				alert("휴대폰 번호(숫자 11자)와 생년월일을 확인해주세요.");
+				return false;
+			}
+
 			 if (!isNickChecked) {
 	                alert("닉네임 중복 확인을 해주세요.");
 	                return;
