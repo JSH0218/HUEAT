@@ -25,7 +25,7 @@ Maven 기반 프로젝트로 IntelliJ IDEA + Apache Tomcat v9.0에서 실행한�
 
 ### 검증
 
-자동화 테스트(`src/test`)는 없다. 변경 후에는 아래로 정적 검증한다.
+단위 테스트(`src/test`)는 없다. 변경 후에는 아래 정적 검증(컴파일·JSP 프리컴파일·정적 분석)과 실행 스모크 테스트로 확인한다.
 
 - **Java(DAO/DTO/util) 컴파일:** `mvn -q compile` — `src/main/java`만 확인하며 JSP는 검사하지 않는다.
 - **JSP 프리컴파일 게이트:** `powershell -ExecutionPolicy Bypass -File scripts/jspc-check.ps1` (Linux/macOS: `bash scripts/jspc-check.sh`)
