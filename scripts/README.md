@@ -79,3 +79,16 @@ bash scripts/runtime-smoke.sh
 ## lib/baseline.sh — 검증 결과 기준선 비교
 
 `static-analysis.sh`와 `runtime-smoke.sh`가 함께 쓰는 모듈이다. 결과를 작업 트리 내용으로 정한 키(커밋 여부와 무관, `.gitignore` 존중)별로 `$HUEAT_TOOLS/results/<키>/`에 저장하고, `origin/main` 트리의 결과와 항목 단위로 비교한다. 수정한 트리에서는 origin/main의 `scripts/`를 `$HUEAT_TOOLS/judge/`에 꺼내 그 사본으로 다시 실행해 판정한다(`HUEAT_JUDGE=self`면 브랜치판). 스크립트 자체를 시험할 때만 `HUEAT_BASE_REF`로 기준 ref를 바꾼다.
+
+## merge-gate.sh — 자동 PR 머지 게이트
+
+자동 회차가 squash 머지하기 직전에 실행해, 머지 조건 중 기계적으로 확인할 수 있는 것을 판정한다(에이전트가 종료코드·보호 규칙을 스스로 해석하는 단계를 없앤다). 다른 검증 스크립트처럼 origin/main판으로 다시 실행해 판정한다.
+
+```bash
+git fetch origin main
+bash scripts/merge-gate.sh     # 머지할 PR 브랜치, 미커밋 변경 없음
+```
+- 확인 항목: 미커밋 변경 없음 / `static-analysis.sh` 판정 기록이 종료코드 0·main판·지금의 origin/main 기준 / 코드(`src/`·`db/`)를 바꿨다면 `runtime-smoke.sh` 판정 기록도 같은 조건 / 검증 기준 보호(보호 파일, 검사 제외 설정, 억제 주석, 룰 판정 좁히기, CLAUDE.md '보안 규칙' 밖 변경).
+- 판정 기록은 `lib/baseline.sh`가 `$HUEAT_TOOLS/results/<트리 키>/<sa|smoke>.verdict`에 남긴다. 트리 키는 개선 로그(`docs/ai-improvement-log.md`)를 빼고 계산하므로 검증 뒤에 로그만 커밋해도 된다. 검증 뒤 다른 파일을 바꾸면 기록이 없어 판정 불가가 된다.
+- 종료코드: 0 = 자동 머지 가능, 1 = 불합격, 2 = 판정 불가(다시 검증), 4 = 사람 확인 필요.
+
