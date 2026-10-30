@@ -7,6 +7,13 @@
 <%@page import="hugesoinfo.model.HugesoInfoDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+// 관리자 전용 화면: 관리자가 아니면 폼을 보여 주지 않는다(대응 액션도 isAdmin으로 막혀 있음)
+if(!util.SecurityUtil.isAdmin(session)){
+	out.print("<script>alert('관리자만 이용할 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/index.jsp';</script>");
+	return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>

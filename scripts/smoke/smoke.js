@@ -106,7 +106,11 @@ async function check(name, fn) {
   }
 
   // 2) 비로그인 사용자: 관리자 화면·비밀글 차단
-  for (const path of ['mypage/adminqnalist.jsp', 'mypage/adminnoticelist.jsp', 'mypage/admineventlist.jsp']) {
+  // 관리자 글쓰기·수정 폼(공지·이벤트·상품·휴게소)
+  const adminForms = ['noticeboard/noticeForm.jsp', 'noticeboard/noticeUpdateForm.jsp?n_num=1',
+    'eventboard/eventForm.jsp', 'eventboard/eventUpdateForm.jsp?e_num=1', 'shop/shopForm.jsp',
+    'hugesoinfo/hugesoaddform.jsp', 'hugesoinfo/hugesoupdateform.jsp?h_num=1'];
+  for (const path of ['mypage/adminqnalist.jsp', 'mypage/adminnoticelist.jsp', 'mypage/admineventlist.jsp', ...adminForms]) {
     await check(`비로그인 관리자 화면 차단 ${path}`, async () => {
       await open(anon, 'index.jsp?main=' + path);
       return anon.alerts.length > 0 && !anon.url().includes(path) ? true : `안내창 ${anon.alerts.length}개, URL ${anon.url()}`;
@@ -138,6 +142,12 @@ async function check(name, fn) {
     await open(user, 'index.jsp?main=mypage/adminqnalist.jsp');
     return user.alerts.length > 0 && !user.url().includes('adminqnalist') ? true : `URL ${user.url()}`;
   });
+  for (const path of adminForms) {
+    await check(`일반 사용자 관리자 폼 차단 ${path}`, async () => {
+      await open(user, 'index.jsp?main=' + path);
+      return user.alerts.length > 0 && !user.url().includes(path) ? true : `안내창 ${user.alerts.length}개, URL ${user.url()}`;
+    });
+  }
   await check('일반 사용자 남의 Q&A 비밀글 차단', async () => {
     await open(user, 'index.jsp?main=qaboard/qaDetail.jsp?q_num=1');
     return !(await user.content()).includes('비밀 내용') ? true : '비밀글 본문 노출';
@@ -146,7 +156,7 @@ async function check(name, fn) {
   // 5) 관리자: 로그인 후 관리자 화면·비밀글 열람
   const admin = await newPage(browser);
   await check('관리자 로그인', async () => (await login(admin, 'admin', 'admin1234')) ? true : '로그인 실패');
-  for (const path of ['mypage/adminqnalist.jsp', 'mypage/memberlist.jsp']) {
+  for (const path of ['mypage/adminqnalist.jsp', 'mypage/memberlist.jsp', ...adminForms]) {
     await check(`관리자 화면 접근 ${path}`, async () => {
       const resp = await open(admin, 'index.jsp?main=' + path);
       if (resp.status() !== 200 || admin.errors5xx.length) return `HTTP ${resp.status()} ${admin.errors5xx.join(', ')}`;

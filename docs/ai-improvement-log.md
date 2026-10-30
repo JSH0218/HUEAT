@@ -17,6 +17,7 @@
 | 2026-10-30 | cca8737 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | a25890c | 800 (no-scriptlets 797, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 | 2026-10-30 | c5ca2af | 800 (동일) | 21 (동일) | 0 |
+| 2026-10-30 | 53a9f29 | 전용 10 (admin-page-missing-isadmin 7, raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 (no-scriptlets 제외) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -103,11 +104,20 @@
 - PR: #122
 - 실구동 확인 포인트: 관리자로 Q&A 상세에서 답변 수정 아이콘 클릭 시 기존 내용(특수문자 `<`, `&` 포함)이 그대로 채워지는지, 수정 후 목록 표시.
 
+### 2026-10-30 · 보안(권한 누락) · 관리자 글쓰기·수정 폼 7개의 관리자 확인
+- 영역: noticeboard, eventboard, shop, hugesoinfo(관리자 폼)
+- 근거: HUEAT 전용 Semgrep 룰 `hueat-admin-page-missing-isadmin` 7건(로그 후보와 동일). `noticeForm`·`noticeUpdateForm`·`eventForm`·`eventUpdateForm`·`shopForm`·`hugesoaddform`·`hugesoupdateform`이 비로그인 사용자에게도 관리자 폼과 수정용 기존 데이터를 보여 줬다(제출 액션은 이미 `isAdmin`으로 막힘).
+- 수정: 7개 파일의 `<!DOCTYPE>` 바로 앞에 `SecurityUtil.isAdmin(session)` 확인 추가(아니면 안내창 후 메인 이동, `return`). `scripts/smoke/smoke.js`에 비로그인·일반 사용자 차단과 관리자 접근 시나리오 21개 추가.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 변경 전 main 30/30 → 새 시나리오를 수정 전 코드에 돌리면 차단 14건 실패(37/51) → 수정 후 51/51 / 서브에이전트 독립 재검토: 막을 문제 없음(가드 앞 DAO·출력 없음, 정상 진입 링크는 모두 관리자 조건 안).
+- 경고 수 변화: Semgrep 전용 10→3, 공개 3→3, SpotBugs 21→21, gitleaks 0→0.
+- PR: #128
+- 실구동 확인 포인트: 스모크 시나리오로 확인됨(비로그인·일반 사용자 안내창 후 이동, 관리자 정상 열람).
+
 ## 후보
+- `hugesoinfo/hugesodetail.jsp:1270-1271`: 휴게소 수정·삭제 버튼이 권한 조건 없이 모든 사용자에게 보임(서버·폼 단계에서는 막힘, 화면 표시만 정리 필요)
 - `shop/shopDelete.jsp`: 호출처가 없는 죽은 액션(화면은 `shopAllDelete.jsp`만 사용). redirect가 `if(file.exists())` 안에만 있어 직접 호출 시 빈 화면. 죽은 코드 정리 후보
 - `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
 - `qaanswer/qaAnswerUpdateAction.jsp`·`qaAnswerInsertAction.jsp`: 답변 내용 빈 값 서버 측 검사 없음(빈 답변 저장 가능)
-- 관리자 폼(`noticeboard/noticeForm.jsp`·`noticeUpdateForm.jsp`, `eventboard/eventForm.jsp`·`eventUpdateForm.jsp`, `shop/shopForm.jsp`, `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp`)에 표시 단계 관리자 확인 없음(대응 액션은 `isAdmin`으로 막혀 있고 표시 데이터는 공개 정보라 위험 낮음)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
@@ -129,6 +139,7 @@
 - 2026-10-28 · SpotBugs `RV_RETURN_VALUE_IGNORED_BAD_PRACTICE` · `util/AppConfig.java:113`, `util/SecurityUtil.java:322,358`: `mkdirs`/`delete` 반환값 무시. 실패해도 웹루트 밖 파일이라 영향 낮아 수정 가치 낮음
 
 ## 보류
+- 2026-10-30 · 머지된 `claude/auto-*` 원격 브랜치 10개 삭제(`git push origin --delete`)가 세션 권한 분류기(Git Destructive)에 막힘. 조건(머지됨·head 일치)은 확인했으나 우회하지 않음. 사용자가 이 명령을 권한 규칙에 허용해야 실행 가능.
 - 2026-10-30 · 업로드 파일 삭제 경로 불일치: `reviewboard/reviewDelete.jsp`·`shop/shopDelete.jsp`·`hugesoinfo/hugesodeleteaction.jsp`가 첨부 이미지를 옛 웹루트 경로(`getRealPath("/reviewsave")` 등)에서 지워, 실제 업로드 파일(`AppConfig.getUploadPath(type)`)은 남는다. 경로만 바꾸면 여러 행이 같은 파일명(예: `hugesosave/없음.jpg` 같은 자리표시 이미지)을 참조할 때 화면에 쓰이는 공유 이미지를 지워 다른 글의 이미지가 깨질 수 있어 보류. 해결하려면 삭제 전 같은 파일명을 참조하는 다른 행이 없는지 확인하는 로직이 먼저 필요하다. (서브에이전트 검토도 보류 판단에 동의)
 - 2026-10-30 · 이번 회차는 위 항목 검토 중 `shop/shopDelete.jsp` redirect 수정을 시도했으나, 서브에이전트 검토로 호출처가 없는 죽은 액션임이 확인되어(화면 재현 경로 없음) 변경을 되돌리고 기록만 남김.
 
