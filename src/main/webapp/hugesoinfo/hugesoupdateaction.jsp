@@ -55,6 +55,20 @@
 			return;
 		}
 
+		//음식 가격은 숫자 1~7자리만 허용(저장 전에 모두 검사해 일부만 저장되지 않게 함)
+		int priceCount=Integer.parseInt(multi.getParameter("foodcount"));
+		for(int i=1;i<=priceCount;i++){
+			if(!SecurityUtil.isValidPrice(multi.getParameter("f_price"+i))){
+%>
+			<script type="text/javascript">
+				alert("음식 가격은 숫자만 1~7자리로 입력해 주세요.");
+				history.back();
+			</script>
+<%
+				return;
+			}
+		}
+
 		HugesoInfoDto hdto=new HugesoInfoDto();
 		HugesoInfoDao hdao=new HugesoInfoDao();
 		

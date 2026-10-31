@@ -264,6 +264,15 @@ public class SecurityUtil {
 		return grade != null && grade.matches("[1-5]");
 	}
 
+	// ===== 음식 가격 =====
+
+	/**
+	 * 음식 가격 검증: 숫자만 1~7자리(0~9,999,999원). 화면이 Integer.parseInt로 읽으므로 쉼표·단위·int 범위 초과를 막는다.
+	 */
+	public static boolean isValidPrice(String price) {
+		return price != null && price.matches("[0-9]{1,7}");
+	}
+
 	// ===== 업로드 이미지 검증 =====
 
 	private static final List<String> ALLOWED_IMAGE_EXT = Arrays.asList("jpg", "jpeg", "png", "gif");
