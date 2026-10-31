@@ -21,6 +21,7 @@
 | 2026-10-30 | be020c0 | 전용 3 (raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 | 21 (동일) | 0 |
 | 2026-10-31 | 1ed7d65 | 전용 0 / 공개 3 (httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 | 2026-10-31 | dff4487 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
+| 2026-10-31 | 033ae67 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -145,7 +146,24 @@
 - PR: #141
 - 실구동 확인 포인트: 스모크 시나리오로 확인.
 
+### 2026-10-31 · 버그(가입 흐름) · 가입 폼 아이디 중복확인 흐름 수정
+- 영역: member(가입 화면 스크립트)
+- 근거: 로그 후보. 오탐 확인 에이전트를 3번 돌렸고, 1·2순위(리뷰 수정 액션, 지도 페이징)는 오탐, 3순위인 이 항목이 '실제 문제(낮음)'로 판정됐다. `member/gaipform.jsp`는 중복확인 AJAX 직후 결과와 상관없이 `isIdChecked = true`로 설정했고, 사용 불가 시 입력란을 비우는 셀렉터가 `#id`(존재하지 않음)였으며, 확인 뒤 아이디를 바꿔도 초기화되지 않았다. 그래서 사용 불가 아이디로 제출하면 "회원가입 완료" 안내가 먼저 뜨고 서버가 거부했다. 독립 리뷰 1단계에서 추가로 '높음' 문제가 확인됐다. 단독으로 연 가입 폼에는 `ajaxPrefilter`가 없어서 `idcheck.jsp`·`nickcheck.jsp`(POST+CSRF 강제)가 원래부터 항상 403이었고, 첫 수정 후에는 회원가입이 아예 불가능해졌다.
+- 수정: `member/gaipform.jsp`
+  - 중복확인 결과가 '사용 가능'이고 응답 사이 입력값이 그대로일 때만 확인 처리한다.
+  - 셀렉터를 `#m_id`로 고치고, 아이디 입력이 바뀌면 확인 상태를 초기화한다.
+  - 중복확인·닉네임 확인 AJAX에 폼의 hidden `_csrf`를 직접 보낸다.
+  - `scripts/smoke/smoke.js`: 사용 불가 결과 표시·입력란 비움, 사용 가능 결과 표시(단독 화면 CSRF 전달), 확인 뒤 아이디 변경 시 재확인 요구 시나리오 3개를 추가했다.
+- 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 깨끗한 origin/main 기준선 79/79(종료코드 3) → 브랜치판으로 새 시나리오를 수정 전 코드에 돌리면 3건 실패(79/82) → 수정 후 82/82 → main판 판정 종료코드 0 / 정적 분석 main판 판정 종료코드 0(새 경고 0건).
+- 독립 리뷰: (기록 예정)
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 스모크 시나리오(단독 가입 화면의 중복확인 결과 표시, 재확인 요구)로 확인.
+
 ## 후보
+- [유지보수·낮음·2026-10-31] 업로드 액션 9개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`·`hugesoaddaction`·`hugesoupdateaction`): CSRF·권한 거부 경로에서 이미 저장된 업로드 파일을 지우지 않고, 이미지 교체 시 기존 파일도 지우지 않음(공통 정리 과제)
+- [유지보수·낮음·2026-10-31] `layout/pagingCalc.jspf`(13개 화면)·`hugesoinfo/hugesopaging.jsp`: `currentPage`가 비숫자·0 이하일 때 기본값 1로 정리하지 않음(현재 영향은 오류 화면·빈 목록뿐)
+- [버그·낮음·2026-10-31] `index.jsp?main=member/gaipform.jsp`(`layout/banner.jsp:133`)로 include하면 상대경로 `idcheck.jsp`·`nickcheck.jsp`·`gaipaction.jsp`가 웹 루트 기준으로 풀려 404(단독 화면은 정상)
+- [버그·낮음·2026-10-31] `member/gaipform.jsp`: 닉네임 중복 결과가 제출을 막지 않음, `onsubmit="return check(this)"`의 `check` 함수가 정의돼 있지 않음, 중복확인 AJAX에 `error` 처리 없음
 - `qaboard/qaDetail.jsp`: 답변 등록·수정 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `scripts/smoke/smoke.js`: Q&A 답변 거부 시나리오가 DB 불변만 보고 응답 상태코드(400)는 확인하지 않음(다른 이유의 실패로도 통과 가능)
 - `qaboard/qaAction.jsp`·`qaUpdateAction.jsp`: 질문 제목·내용 빈 값 서버 측 검사 여부 미확인
@@ -154,18 +172,16 @@
 - `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
 - `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
-- `hugesoinfo/hugesopaging.jsp`: `currentPage`를 검증 없이 `Integer.parseInt`(비숫자면 500, 0 이하면 음수 LIMIT)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
-- `reviewboard/reviewUpdateAction.jsp`: 권한 없음·CSRF 실패 시 이미 저장된 업로드 파일을 지우지 않음, 없는 `r_num`이면 NPE를 `catch(Exception)`이 삼켜 빈 화면
 - `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
-- `member/gaipform.jsp`: 중복확인 AJAX 결과를 기다리지 않고 `isIdChecked = true`로 설정되고, 확인 뒤 ID를 바꿔도 초기화되지 않음(서버의 중복 재확인·UNIQUE 제약으로 데이터는 보호됨)
-- `member/gaipform.jsp`: 중복 시 입력란을 비우는 셀렉터가 `#id`로 잘못됨(실제는 `#m_id`)
 - Semgrep `no-scriptlets` 799건은 이 프로젝트 구조(스크립틀릿 JSP) 자체라 개선 대상 아님
 
 ## 오탐
+- 2026-10-31 · 직접 리뷰 · `reviewboard/reviewUpdateAction.jsp`(오탐 확인 에이전트 판정): 없는 `r_num`은 DAO가 빈 DTO를 돌려줘 NPE가 나지 않고 권한 없음으로 정상 차단됨. 거부 경로의 고아 업로드 파일은 업로드 액션 9개 공통 구조이며 새 공격 능력이 없음(로그인 사용자는 원래 업로드 가능, 웹루트 밖 저장)
+- 2026-10-31 · 직접 리뷰 · `hugesoinfo/hugesopaging.jsp`(오탐 확인 에이전트 판정): 유일한 호출처 `hugesomap.jsp`는 1 이상의 정수만 보냄. 비정상 값은 `error.jsp`(스택트레이스 비노출) 또는 빈 목록으로 끝나 노출·우회 없음. `layout/pagingCalc.jspf`(13개 화면)도 같은 방식이라 이 파일만 고치면 일관성이 깨짐
 - 2026-10-28 · Semgrep `httpservlet-path-traversal` · `util/ImageServlet.java:64-65`: type 화이트리스트, 파일명 구분자·`..` 차단, 정규화 경로의 베이스 하위 재확인으로 이미 방어됨
 - 2026-10-28 · Semgrep `unsafe-reflection` · `mysql/db/DbConnect.java:16`: `Class.forName` 인자는 서버 외부 설정 파일(`db.driver`) 값이며 사용자 입력이 아님
 - 2026-10-28 · SpotBugs `REC_CATCH_EXCEPTION` · `util/SecurityUtil.java`(`isAllowedImage`, `hasImageMagicBytes`): 예외 시 false 반환(거부) — 의도된 fail-closed
