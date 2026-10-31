@@ -8,6 +8,7 @@
 #   3) 코드(src/·db/)를 바꿨다면 runtime-smoke.sh의 판정 기록도 같은 조건이다(종료코드 2·3은 불합격)
 #   4) 코드(src/)를 바꿨다면 jspc-check.sh의 판정 기록이 종료코드 0, 지금의 origin/main 기준이다
 #   5) 검증 기준 보호: 사람 확인이 필요한 파일·변경이 없다
+#      (룰은 새 룰 추가만, 시나리오는 끝에 한 덩어리 추가만, 시드는 INSERT만, CLAUDE.md는 '보안 규칙'의 입력 형식 줄 추가만)
 #   6) HEAD가 지금의 origin/main을 포함하고(검증한 트리 = squash 머지 결과), 원격 브랜치에 push된 커밋과 같다
 #   7) 판정에 영향을 주는 환경변수(HUEAT_JUDGE·HUEAT_BASE_REF·HUEAT_TOOLS·HUEAT_PROJ)를 바깥에서 주지 않았다
 #
@@ -38,7 +39,7 @@ head_key="$(baseline_ref_key HEAD)"
 dirty="$(git status --porcelain)"
 
 python3 - "$T" "$ref" "$main_sha" "$head_key" "$dirty" "$HUEAT_GATE_ENV" <<'PY'
-import re, subprocess, sys
+import difflib, re, subprocess, sys
 T, ref, main_sha, head_key, dirty, gate_env = sys.argv[1:7]
 
 def git(*a):
@@ -111,7 +112,7 @@ if not src_changed:
 
 # 4) 검증 기준 보호
 any_change = re.compile(r"^(scripts/[^/]+\.sh|scripts/lib/.*|\.claude/.*|\.github/.*|pom\.xml|db/schema\.sql"
-                        r"|src/main/webapp/WEB-INF/web\.xml|src/main/webapp/META-INF/context\.xml)$")
+                        r"|src/main/webapp/WEB-INF/web\.xml|src/main/webapp/META-INF/context\.xml|src/main/webapp/WEB-INF/lib/.*)$")
 ignore_files = {".semgrepignore", ".gitleaksignore", ".gitleaks.toml"}
 for p in paths:
     if any_change.match(p):
@@ -149,13 +150,61 @@ for p in paths:
             if re.search(r"nosemgrep|gitleaks:allow", t):
                 human.append(f"검사 억제 주석 추가: {p}: {t.strip()[:80]}")
 
+def show(rev, path):
+    r = subprocess.run(["git", "show", f"{rev}:{path}"], capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+# 룰 파일: 기존 룰(id 기준)은 내용이 그대로여야 한다(기존 룰 안에 exclude·조건을 끼워 넣어 판정을 좁히는 것 차단). 새 룰 추가만 허용
+for p in paths:
+    if p.startswith("scripts/semgrep/") and p.endswith((".yml", ".yaml")):
+        old, new = show(ref, p), show("HEAD", p)
+        if old is None or new is None:
+            continue
+        try:
+            import yaml
+            o, n = yaml.safe_load(old) or {}, yaml.safe_load(new) or {}
+            orules = {r["id"]: r for r in o.get("rules", [])}
+            nrules = {r["id"]: r for r in n.get("rules", [])}
+        except Exception as e:
+            human.append(f"룰 파일을 해석하지 못함(사람 확인): {p}: {str(e)[:60]}")
+            continue
+        if {k: v for k, v in o.items() if k != "rules"} != {k: v for k, v in n.items() if k != "rules"}:
+            human.append(f"룰 파일의 rules 밖 설정 변경: {p}")
+        for rid, rule in orules.items():
+            if nrules.get(rid) != rule:
+                human.append(f"기존 룰 변경·삭제: {p}: {rid}")
+
+# 시나리오: 마지막 `await browser.close();` 바로 앞에 한 덩어리로 추가하는 것만 허용하고,
+# 결과 집계·종료·공용 헬퍼를 건드리거나 DB를 바꾸는 줄은 사람 확인으로 돌린다
+SMOKE = "scripts/smoke/smoke.js"
+if SMOKE in paths and show(ref, SMOKE) is not None:
+    old, new = show(ref, SMOKE).splitlines(), (show("HEAD", SMOKE) or "").splitlines()
+    close = max((i for i, l in enumerate(old) if l.strip() == "await browser.close();"), default=-1)
+    ops = [op for op in difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes() if op[0] != "equal"]
+    if any(tag != "insert" or i1 != close for tag, i1, _, _, _ in ops) or len(ops) > 1:
+        human.append(f"시나리오 추가 위치: {SMOKE}는 마지막 'await browser.close();' 바로 앞에 한 덩어리로만 추가할 수 있다")
+    bad = re.compile(r"\b(results|failedNames|process|require|record)\b"
+                     r"|^\s*(check|open|login|raw|blocked|db|newPage|submitAndWait|signup|sqlStr)\s*=[^=]"
+                     r"|\bdb\(\s*[`'\"]\s*(insert|update|delete|drop|alter|truncate|replace|create)\b", re.I)
+    for no, t in added_lines(SMOKE):
+        if bad.search(t):
+            human.append(f"시나리오에 결과 집계·종료·헬퍼 재정의·DB 변경 줄 추가: {no}행: {t.strip()[:80]}")
+
+# 시드: 데이터 추가(INSERT)만 허용한다(기존 시드를 지우거나 바꿔 차단 시나리오를 무의미하게 만드는 것 차단)
+SEED = "scripts/smoke/seed.sql"
+if SEED in paths:
+    for no, t in added_lines(SEED):
+        if not t.lstrip().startswith("--") and re.search(
+                r"\b(delete|update|drop|alter|truncate|replace|create|grant|rename|set)\b", t, re.I):
+            human.append(f"시드에 INSERT 외 문장 추가: {no}행: {t.strip()[:80]}")
+
 if "CLAUDE.md" in paths:
     lines = git("show", "HEAD:CLAUDE.md").splitlines()
     start = next((i + 1 for i, l in enumerate(lines) if l.startswith("## 보안 규칙")), None)
     end = next((i + 1 for i, l in enumerate(lines) if start and i + 1 > start and l.startswith("## ")), len(lines) + 1)
     for no, t in added_lines("CLAUDE.md"):
-        if not (start and start < no < end and t.startswith("- **")):
-            human.append(f"CLAUDE.md '보안 규칙' 섹션 밖의 추가 또는 규칙 형식(- **…) 아님: {no}행: {t.strip()[:60]}")
+        if not (start and start < no < end and t.startswith("- **입력 형식")):
+            human.append(f"CLAUDE.md '보안 규칙' 섹션의 입력 형식 규칙(- **입력 형식…) 추가가 아님: {no}행: {t.strip()[:60]}")
 
 if not human:
     ok("검증 기준 보호 대상 변경 없음")

@@ -330,6 +330,79 @@ async function check(name, fn) {
     return Number(db("select count(*) from grade where g_myid='smokeuser1' and h_num=1")) > before ? true : 'DB에 평점이 저장되지 않음';
   });
 
+  // 7) 업로드·파일 제공·include 화이트리스트·토큰 없는 POST: 정적 분석이 JSP에서 잡기 어려운 방어를 실제 요청으로 확인한다
+  // 후기 작성 폼에 파일을 붙여 제출한다(파일이 없으면 첨부하지 않음)
+  const submitReview = async (content, file) => {
+    await open(user, 'index.jsp?main=reviewboard/reviewList.jsp'); // 작성 폼은 로그인 시 목록 화면에 include된다
+    await user.fill('textarea[name=r_content]', content);
+    if (file) await user.setInputFiles('input[name=r_image]', file);
+    await submitAndWait(user, () => user.locator('form[action="reviewboard/reviewAction.jsp"]').evaluate(f => f.submit()));
+  };
+  const reviewCount = content => db(`select count(*) from reviewboard where r_content=${sqlStr(content)}`);
+  const reviewText = `SMOKE_REVIEW_${stamp}`;
+  await check('회원 후기 작성(화면 제출 → DB 저장)', async () => {
+    if (reviewCount(reviewText) === '0') await submitReview(reviewText);
+    return reviewCount(reviewText) !== '0' ? true : 'DB에 후기가 저장되지 않음';
+  });
+  // 확장자가 이미지가 아닌 파일과, 확장자만 이미지인 텍스트 파일은 모두 거부되고 저장된 파일도 지워져야 한다
+  for (const [label, name] of [['확장자 jsp', 'smoke_evil.jsp'], ['내용이 이미지가 아닌 png', 'smoke_evil.png']]) {
+    await check(`이미지가 아닌 업로드 거부(${label})`, async () => {
+      const content = `SMOKE_UPLOAD_${name}_${stamp}`;
+      await submitReview(content, { name, mimeType: 'image/png', buffer: Buffer.from('<% out.print("smoke"); %>\n') });
+      if (reviewCount(content) !== '0') return '후기가 저장됨';
+      const r = await user.context().request.get(BASE + 'fileview?type=review&name=' + encodeURIComponent(name));
+      return r.status() !== 200 ? true : '업로드 파일이 남아 제공됨';
+    });
+  }
+  // 이미지 제공 서블릿: 업로드 폴더 밖(설정 파일 등)을 읽는 경로조작과 허용 목록 밖 type은 400이어야 한다
+  for (const q of ['type=review&name=' + encodeURIComponent('../../db.properties'), 'type=review&name=' + encodeURIComponent('..\\..\\db.properties'),
+    'type=' + encodeURIComponent('../review') + '&name=a.png', 'type=WEB-INF&name=web.xml']) {
+    await check(`fileview 경로조작 거부 ${q}`, async () => {
+      const r = await anon.context().request.get(BASE + 'fileview?' + q);
+      const body = await r.text();
+      if (body.includes('db.password') || body.includes('<web-app')) return '파일 내용 노출';
+      return r.status() === 400 ? true : `HTTP ${r.status()}`;
+    });
+  }
+  // index.jsp의 include 화이트리스트: 목록 밖 경로는 내용을 include하지 않고 메인 화면으로 폴백해야 한다
+  for (const path of ['WEB-INF/web.xml', 'mypage/../WEB-INF/web.xml', '/WEB-INF/web.xml']) {
+    await check(`화이트리스트 밖 main= 폴백 ${path}`, async () => {
+      const r = await anon.context().request.get(BASE + 'index.jsp?main=' + encodeURIComponent(path));
+      const body = await r.text();
+      if (body.includes('<web-app') || body.includes('servlet-mapping')) return '설정 파일 내용 노출';
+      return r.status() === 200 ? true : `HTTP ${r.status()}`;
+    });
+  }
+  // 토큰 없는 상태변경 POST(로그인 회원 세션): 저장·삭제가 일어나지 않아야 한다
+  const memberNum = () => db("select m_num from meminfo where m_id='smokeuser1'");
+  // 대상이 없으면 "바뀌지 않음"이 당연히 성립하므로 통과로 보지 않는다
+  const need = (v, what) => { if (!v) throw new Error(`대상 ${what} 없음(앞 시나리오 실패 또는 이미 바뀜)`); return v; };
+  const noCsrf = [
+    ['Q&A 작성', 'qaboard/qaAction.jsp', { q_category: '기타', q_subject: `SMOKE_NOCSRF_QA_${stamp}`, q_content: 'x' },
+      () => db(`select count(*) from qaboard where q_subject=${sqlStr(`SMOKE_NOCSRF_QA_${stamp}`)}`)],
+    ['장바구니 담기', 'foodcourt/foodcartaddaction.jsp', () => ({ f_num: need(db("select f_num from food where f_name='스모크메뉴' limit 1"), '메뉴'), h_num: '1', cart_cnt: '1' }),
+      () => db(`select count(*) from foodcart where m_num=${memberNum()}`)],
+    ['휴게소 평점 등록', 'grade/insertgrade.jsp', { h_num: '1', g_grade: '5', g_content: '시설이 깨끗해요' },
+      () => db("select count(*) from grade where g_myid='smokeuser1'")],
+    ['후기 삭제', 'reviewboard/reviewDelete.jsp', () => ({ r_num: need(db(`select r_num from reviewboard where r_content=${sqlStr(reviewText)} limit 1`), '후기'), currentPage: '1' }),
+      () => reviewCount(reviewText)],
+  ];
+  for (const [label, url, data, count] of noCsrf) {
+    await check(`CSRF 토큰 없는 ${label} POST 차단`, async () => {
+      const before = count();
+      await user.context().request.post(BASE + url, { form: typeof data === 'function' ? data() : data, maxRedirects: 0 });
+      return count() === before ? true : '토큰 없이 DB가 바뀜';
+    });
+  }
+  await check('회원 후기 삭제(목록 휴지통 → postNav POST)', async () => {
+    const r = db(`select r_num from reviewboard where r_content=${sqlStr(reviewText)} limit 1`);
+    if (!r) return '삭제할 후기가 없음(작성 실패)';
+    await open(user, 'index.jsp?main=reviewboard/reviewList.jsp');
+    // 아이콘 글꼴(외부 CDN)이 차단돼 <i>의 크기가 0이므로 화면 클릭 대신 요소의 click 이벤트로 누른다
+    await submitAndWait(user, () => user.locator(`i.del[r_num="${r}"]`).evaluate(el => el.click()));
+    return db(`select count(*) from reviewboard where r_num=${r}`) === '0' ? true : 'DB에서 후기가 지워지지 않음';
+  });
+
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);
