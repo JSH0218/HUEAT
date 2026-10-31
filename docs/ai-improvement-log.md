@@ -197,7 +197,10 @@
   - 거부 경로의 고아 업로드 파일: 기존 CSRF 거부 경로와 같은 공통 후보라 유지했다.
   - 옛 잘못된 가격이 남은 수정 폼은 pattern 때문에 제출이 막힌다: 의도한 동작이다.
   - 스모크가 좌표 없는 휴게소 행을 남긴다: 마지막 시나리오라 영향이 없다.
-  - 2단계: (REVIEW2)
+  - 2단계: 높음 0·중간 0·낮음 2
+    - 이미 저장된 잘못된 가격은 표시 쪽에서 여전히 실패한다: 후보로 기록했다.
+    - 장바구니 합계 `cnt*price`가 수량 상한 없는 `updateCnt` 경로로 int 범위를 넘을 수 있다: 기존 `updateCnt` 후보에 덧붙였다.
+    - 같은 유형의 다른 경로(검증 없이 저장한 뒤 `parseInt`하는 값)는 없었다. 유가 필드는 `parseInt`하지 않는다.
   - 확인 항목: `isValidPrice`·`f_price` 쓰기/읽기 경로 grep, foodcount와 번호 재배열(추가·삭제) 관계, 수정 폼 값 채우기, 검증이 DB 쓰기·기존 사진 삭제보다 앞에 있는지, 폼 진입 링크와 화이트리스트
 - PR: (PR)
 - 실구동 확인 포인트:
@@ -223,7 +226,7 @@
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
-- `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
+- `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토(가격 최대 9,999,999원이면 수량 215 이상에서 `foodcartlist.jsp:24-26` 합계 int 오버플로)
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
 - Semgrep `no-scriptlets` 799건은 이 프로젝트 구조(스크립틀릿 JSP) 자체라 개선 대상 아님
