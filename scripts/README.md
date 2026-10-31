@@ -88,7 +88,8 @@ bash scripts/runtime-smoke.sh
 git fetch origin main
 bash scripts/merge-gate.sh     # 머지할 PR 브랜치, 미커밋 변경 없음
 ```
-- 확인 항목: 미커밋 변경 없음 / `static-analysis.sh` 판정 기록이 종료코드 0·main판·지금의 origin/main 기준 / 코드(`src/`·`db/`)를 바꿨다면 `runtime-smoke.sh` 판정 기록도 같은 조건 / 검증 기준 보호(보호 파일, 검사 제외 설정, 억제 주석, 룰 판정 좁히기, CLAUDE.md '보안 규칙' 밖 변경).
+- 확인 항목: 판정 관련 환경변수(`HUEAT_JUDGE`·`HUEAT_BASE_REF`·`HUEAT_TOOLS`·`HUEAT_PROJ`)를 바깥에서 주지 않음 / HEAD가 지금의 origin/main을 포함(squash 머지 결과 = 검증한 트리) / 원격 브랜치와 HEAD가 같은 커밋 / `src/`를 바꿨다면 `jspc-check.sh` 판정 기록이 종료코드 0·지금의 origin/main 기준 / 미커밋 변경 없음 / `static-analysis.sh` 판정 기록이 종료코드 0·main판·지금의 origin/main 기준 / 코드(`src/`·`db/`)를 바꿨다면 `runtime-smoke.sh` 판정 기록도 같은 조건 / 검증 기준 보호(보호 파일, 검사 제외 설정, 억제 주석, 룰 판정 좁히기, CLAUDE.md '보안 규칙' 밖 변경).
 - 판정 기록은 `lib/baseline.sh`가 `$HUEAT_TOOLS/results/<트리 키>/<sa|smoke>.verdict`에 남긴다. 트리 키는 개선 로그(`docs/ai-improvement-log.md`)를 빼고 계산하므로 검증 뒤에 로그만 커밋해도 된다. 검증 뒤 다른 파일을 바꾸면 기록이 없어 판정 불가가 된다.
-- 종료코드: 0 = 자동 머지 가능, 1 = 불합격, 2 = 판정 불가(다시 검증), 4 = 사람 확인 필요.
+- 판정 기록의 판정방식(`main`/`self`)은 `HUEAT_JUDGE` 값이 아니라 실제로 main판 사본(`$HUEAT_TOOLS/judge/<main 키>/scripts`, 매번 새로 꺼냄)에서 실행됐는지로 정한다.
+- 종료코드: 0 = 자동 머지 가능, 1 = 불합격, 2 = 판정 불가(다시 검증), 4 = 사람 확인 필요. 0이면 마지막 줄에 머지할 커밋 SHA를 출력한다(squash 머지 때 `expectedHeadSha`로 넘긴다).
 
