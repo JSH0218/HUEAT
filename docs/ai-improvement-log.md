@@ -155,7 +155,7 @@
   - 중복확인·닉네임 확인 AJAX에 폼의 hidden `_csrf`를 직접 보낸다.
   - `scripts/smoke/smoke.js`: 사용 불가 결과 표시·입력란 비움, 사용 가능 결과 표시(단독 화면 CSRF 전달), 확인 뒤 아이디 변경 시 재확인 요구 시나리오 3개를 추가했다.
 - 검증: `mvn -q compile` 통과 / `bash scripts/jspc-check.sh` PASS(121개, 오류 0) / 실행 스모크: 깨끗한 origin/main 기준선 79/79(종료코드 3) → 브랜치판으로 새 시나리오를 수정 전 코드에 돌리면 3건 실패(79/82) → 수정 후 82/82 → main판 판정 종료코드 0 / 정적 분석 main판 판정 종료코드 0(새 경고 0건).
-- 독립 리뷰: (기록 예정)
+- 독립 리뷰: 첫 리뷰 1단계 높음 1(단독 가입 폼 AJAX의 CSRF 토큰 누락으로 가입 불가)·중간 1(시나리오가 403 때문에 통과)·낮음 1 → 모두 수정. 새 리뷰 에이전트로 다시 리뷰: 1단계 높음 0·중간 0·낮음 3, 2단계 높음 0·중간 0·낮음 1(include 경로로 연 가입 폼의 상대경로 404, 회귀 아님, 후보로 기록). 확인 항목: idcheck/nickcheck/gaipaction 호출처, 단독·include 진입 경로(banner.jsp, loginform.jsp), 다른 단독 화면(idsearchform·passSearchform·updateform)의 CSRF 토큰 전달
 - PR: (생성 후 기입)
 - 실구동 확인 포인트: 스모크 시나리오(단독 가입 화면의 중복확인 결과 표시, 재확인 요구)로 확인.
 
