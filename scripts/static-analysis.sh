@@ -35,7 +35,7 @@ command -v semgrep >/dev/null 2>&1 || pip install -q semgrep >/dev/null 2>&1 || 
 # 실제 결함을 가리므로 뺀다
 rm -f "$T/sgr/java/lang/security/audit/xss/jsp/no-scriptlets.yaml"
 if [ ! -x "$T/gitleaks" ]; then
-    curl -fsSL -o "$T/gl.tgz" "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VER/gitleaks_${GITLEAKS_VER}_linux_x64.tar.gz" \
+    curl -fsSL --retry 4 --retry-delay 10 -o "$T/gl.tgz" "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VER/gitleaks_${GITLEAKS_VER}_linux_x64.tar.gz" \
         && tar xzf "$T/gl.tgz" -C "$T" gitleaks || echo "[sa] WARN: gitleaks 설치 실패"
 fi
 
