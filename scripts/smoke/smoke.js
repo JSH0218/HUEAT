@@ -415,12 +415,16 @@ async function check(name, fn) {
     await gaip.locator('#btnidcheck').click();
     await gaip.waitForTimeout(1200);
   };
-  await check('가입 폼: 사용 불가 아이디 중복확인 후 제출 시 재확인 요구', async () => {
+  await check('가입 폼: 사용 불가 아이디 중복확인 결과 표시와 입력란 비움', async () => {
     await fillGaip('xssuser');
-    gaip.alerts = [];
-    await gaip.locator('button.btninsert').click();
-    await gaip.waitForTimeout(800);
-    return gaip.alerts.some(m => m.includes('아이디 중복 확인')) ? true : `안내창 ${JSON.stringify(gaip.alerts)}`;
+    const msg = await gaip.locator('#check_id').innerText().catch(() => '');
+    const val = await gaip.inputValue('#m_id');
+    return msg.includes('사용할 수 없는') && val === '' ? true : `결과 '${msg}', 입력란 '${val}'`;
+  });
+  await check('가입 폼: 사용 가능 아이디 중복확인 결과 표시(단독 화면에서 CSRF 토큰 전달)', async () => {
+    await fillGaip('okid' + String(stamp).slice(-6));
+    const msg = await gaip.locator('#check_id').innerText().catch(() => '');
+    return msg.includes('사용 가능한') ? true : `결과 '${msg}'`;
   });
   await check('가입 폼: 중복확인 뒤 아이디를 바꾸면 제출 시 재확인 요구', async () => {
     await fillGaip('freshid' + String(stamp).slice(-6));

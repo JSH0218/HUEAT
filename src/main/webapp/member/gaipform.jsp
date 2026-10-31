@@ -81,12 +81,14 @@ $(function(){
 			type:"post",
 			url:"idcheck.jsp",
 			dataType:"json",
-			data:{"id":id},
+			//가입 폼은 단독으로도 열리므로(index.jsp의 ajaxPrefilter 없음) 폼의 CSRF 토큰을 직접 보낸다(idcheck.jsp가 POST+CSRF 강제)
+			data:{"id":id, "_csrf":$("input[name=_csrf]").val()},
 			success:function(res){
 				//alert("중복체크확인");
 				
 				//중복확인 결과가 '사용 가능'일 때만 확인된 것으로 본다(응답 전·사용 불가·요청 실패는 미확인)
-				isIdChecked = (res.idcount==0);
+				//응답을 기다리는 동안 아이디를 바꿨다면 확인하지 않은 것으로 본다
+				isIdChecked = (res.idcount==0 && $("#m_id").val()===id);
 
 				//아이디가 중복일 경우
 				if(res.idcount==1){
@@ -123,7 +125,7 @@ $(function(){
 		 type:"post",
 		 url:"nickcheck.jsp",
 		 dataType:"json",
-		 data:{"m_nick":nick},
+		 data:{"m_nick":nick, "_csrf":$("input[name=_csrf]").val()},
 		 success:function(res){
 			 //alert("닉네임중복방지성공");
 			 if(res.nickcount==1){
