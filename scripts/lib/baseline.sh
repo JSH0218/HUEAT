@@ -7,6 +7,10 @@
 # 키는 커밋 여부와 상관없이 현재 작업 트리 내용(.gitignore 존중)으로 정해지므로,
 # main에서 한 번(기준선), 수정 후에 한 번 실행하면 자동으로 둘을 비교한다. 비교 전에 `git fetch origin main`이 되어 있어야 한다.
 
+# 이 파일이 들어 있는 scripts 디렉터리. 판정 기록의 판정방식(main|self)을 환경변수가 아니라
+# "실제로 main판 사본($T/judge/<main 키>/scripts)에서 실행됐는지"로 정하는 데 쓴다
+BASELINE_SCRIPTS="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+
 # 키를 계산할 때 빼는 파일. 개선 로그는 검증 결과를 적는 문서라, 검증 뒤에 로그만 커밋해도 같은 트리로 본다
 BASELINE_KEY_EXCLUDE="docs/ai-improvement-log.md"
 
@@ -37,6 +41,24 @@ baseline_main_key() {
     baseline_ref_key "${HUEAT_BASE_REF:-origin/main}"
 }
 
+# 이번 실행의 판정방식: main판 사본에서 실행 중이면 main, 아니면 self(HUEAT_JUDGE 값과 무관)
+baseline_judge_mode() {
+    local mkey
+    mkey="$(baseline_main_key)"
+    if [ -n "$mkey" ] && [ "$BASELINE_SCRIPTS" = "$(cd "$T" 2>/dev/null && pwd -P)/judge/$mkey/scripts" ]; then
+        echo main
+    else
+        echo self
+    fi
+}
+
+# 사용: baseline_write_verdict <태그> <키> <종료코드>
+#   판정 기록 $T/results/<키>/<태그>.verdict 에 "종료코드 판정방식(main|self) 기준main커밋"을 남긴다(merge-gate.sh가 읽는다)
+baseline_write_verdict() {
+    mkdir -p "$T/results/$2"
+    echo "$3 $(baseline_judge_mode) $(git rev-parse "${HUEAT_BASE_REF:-origin/main}" 2>/dev/null)" >"$T/results/$2/$1.verdict"
+}
+
 # 이번 실행의 판정 기록을 먼저 지운다(중간에 실패하면 판정 기록이 없어 merge-gate.sh가 불합격으로 본다)
 baseline_reset_verdict() {
     rm -f "$T/results/$2/$1.verdict"
@@ -54,10 +76,9 @@ baseline_judge_with_main() {
     [ -n "$mkey" ] && [ "$key" != "$mkey" ] || return 0
     ref="${HUEAT_BASE_REF:-origin/main}"
     dir="$T/judge/$mkey"
-    if [ ! -f "$dir/scripts/$rel" ]; then
-        rm -rf "$dir" && mkdir -p "$dir"
-        git archive "$ref" scripts | tar -x -C "$dir" 2>/dev/null
-    fi
+    # 남아 있던 사본이 바뀌었을 수 있으므로 매번 새로 꺼낸다
+    rm -rf "$dir" && mkdir -p "$dir"
+    git archive "$ref" scripts | tar -x -C "$dir" 2>/dev/null
     [ -f "$dir/scripts/$rel" ] || return 0
     echo "[judge] 판정은 $ref 의 검증 스크립트·룰·시나리오로 한다(브랜치판은 HUEAT_JUDGE=self)"
     HUEAT_JUDGE=main HUEAT_PROJ="$proj" exec bash "$dir/scripts/$rel" "$@"
@@ -67,12 +88,12 @@ baseline_judge_with_main() {
 #   결과 파일을 $T/results/<현재 키>/<태그>.txt로 저장하고 origin/main 결과와 비교해 새 항목을 출력한다.
 #   반환: 3 = 기준선(main)으로 저장함, 0 = 새 항목 없음, 1 = 새 항목 있음, 2 = 비교 불가(main 기준선 없음)
 #   (기준선 저장을 0과 구분해, 수정 후 실행을 실수로 main 트리에서 해도 '통과'로 읽히지 않게 한다)
-#   판정 기록 $T/results/<현재 키>/<태그>.verdict 에 "종료코드 판정방식(main|self) 기준main커밋"을 남긴다(merge-gate.sh가 읽는다).
+#   판정 기록(baseline_write_verdict)도 남긴다.
 baseline_compare() {
     local rc
     _baseline_compare "$@"
     rc=$?
-    echo "$rc ${HUEAT_JUDGE:-self} $(git rev-parse "${HUEAT_BASE_REF:-origin/main}" 2>/dev/null)" >"$T/results/$3/$1.verdict"
+    baseline_write_verdict "$1" "$3" "$rc"
     return $rc
 }
 

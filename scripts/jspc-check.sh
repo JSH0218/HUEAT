@@ -10,12 +10,19 @@
 #
 # 실행:  bash scripts/jspc-check.sh
 # 종료코드: 0 = 전 JSP 통과, 그 외 = 실패
+# 결과는 판정 기록 $HUEAT_TOOLS/results/<트리 키>/jspc.verdict 에도 남긴다(merge-gate.sh가 읽는다, lib/baseline.sh).
 #
 # 참고: JspC는 JSP 컴파일이 실패해도 종료코드 0을 반환하므로, 생성 결과물
 # (모든 .java에 대응하는 .class가 있는지)로 통과 여부를 판정한다.
 set -uo pipefail
 
 proj="$(cd "$(dirname "$0")/.." && pwd)"
+T="${HUEAT_TOOLS:-/tmp/hueat-tools}"
+cd "$proj"
+. "$proj/scripts/lib/baseline.sh"
+key="$(baseline_tree_key)"
+baseline_reset_verdict jspc "$key"
+trap 'baseline_write_verdict jspc "$key" $?' EXIT
 webapp="$proj/src/main/webapp"
 weblib_dir="$webapp/WEB-INF/lib"
 work="$proj/.jspc"
