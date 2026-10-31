@@ -403,6 +403,37 @@ async function check(name, fn) {
     return db(`select count(*) from reviewboard where r_num=${r}`) === '0' ? true : 'DB에서 후기가 지워지지 않음';
   });
 
+  // 가입 폼 중복확인: '사용 불가' 결과나 확인 뒤 아이디 변경이면 제출 시 다시 확인을 요구해야 한다(성공 안내가 먼저 뜨지 않음)
+  const gaip = await newPage(browser);
+  const fillGaip = async id => {
+    await open(gaip, 'member/gaipform.jsp');
+    for (const [sel, v] of [['input[name=m_nick]', 'smoke'], ['input[name=m_pass]', 'smokepw123'], ['input[name=m_pass2]', 'smokepw123'],
+      ['input[name=m_email]', 'smoke@hueat.local'], ['input[name=m_name]', '스모크'], ['input[name=m_hp2]', '01012345678']]) {
+      if (await gaip.locator(sel).count()) await gaip.fill(sel, v);
+    }
+    await gaip.fill('#m_id', id);
+    await gaip.locator('#btnidcheck').click();
+    await gaip.waitForTimeout(1200);
+  };
+  await check('가입 폼: 사용 불가 아이디 중복확인 결과 표시와 입력란 비움', async () => {
+    await fillGaip('xssuser');
+    const msg = await gaip.locator('#check_id').innerText().catch(() => '');
+    const val = await gaip.inputValue('#m_id');
+    return msg.includes('사용할 수 없는') && val === '' ? true : `결과 '${msg}', 입력란 '${val}'`;
+  });
+  await check('가입 폼: 사용 가능 아이디 중복확인 결과 표시(단독 화면에서 CSRF 토큰 전달)', async () => {
+    await fillGaip('okid' + String(stamp).slice(-6));
+    const msg = await gaip.locator('#check_id').innerText().catch(() => '');
+    return msg.includes('사용 가능한') ? true : `결과 '${msg}'`;
+  });
+  await check('가입 폼: 중복확인 뒤 아이디를 바꾸면 제출 시 재확인 요구', async () => {
+    await fillGaip('freshid' + String(stamp).slice(-6));
+    await gaip.fill('#m_id', 'changedid' + String(stamp).slice(-6));
+    gaip.alerts = [];
+    await gaip.locator('button.btninsert').click();
+    await gaip.waitForTimeout(800);
+    return gaip.alerts.some(m => m.includes('아이디 중복 확인')) ? true : `안내창 ${JSON.stringify(gaip.alerts)}`;
+  });
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);
