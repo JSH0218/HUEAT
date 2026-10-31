@@ -92,7 +92,7 @@ def verdict(tag, need, need_main=True):
     if sha != main_sha:
         unknown.append(f"{tag}: 판정 기준 main({sha[:7]})이 지금의 {ref}({main_sha[:7]})와 다르다(최신 main 기준으로 다시 검증한다)")
     elif need_main and mode != "main":
-        unknown.append(f"{tag}: 브랜치판(HUEAT_JUDGE={mode}) 판정이다. main판 판정이어야 한다")
+        unknown.append(f"{tag}: 판정방식 {mode}(main판 사본에서 실행되지 않음). 환경변수 없이 다시 검증한다")
     elif code != "0":
         fails.append(f"{tag}: 판정 종료코드 {code}(0만 합격)")
     else:
