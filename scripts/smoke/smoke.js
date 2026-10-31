@@ -333,7 +333,7 @@ async function check(name, fn) {
   // 7) 업로드·파일 제공·include 화이트리스트·토큰 없는 POST: 정적 분석이 JSP에서 잡기 어려운 방어를 실제 요청으로 확인한다
   // 후기 작성 폼에 파일을 붙여 제출한다(파일이 없으면 첨부하지 않음)
   const submitReview = async (content, file) => {
-    await open(user, 'index.jsp?main=reviewboard/reviewForm.jsp');
+    await open(user, 'index.jsp?main=reviewboard/reviewList.jsp'); // 작성 폼은 로그인 시 목록 화면에 include된다
     await user.fill('textarea[name=r_content]', content);
     if (file) await user.setInputFiles('input[name=r_image]', file);
     await submitAndWait(user, () => user.locator('form[action="reviewboard/reviewAction.jsp"]').evaluate(f => f.submit()));
@@ -376,7 +376,7 @@ async function check(name, fn) {
   // 토큰 없는 상태변경 POST(로그인 회원 세션): 저장·삭제가 일어나지 않아야 한다
   const memberNum = () => db("select m_num from meminfo where m_id='smokeuser1'");
   // 대상이 없으면 "바뀌지 않음"이 당연히 성립하므로 통과로 보지 않는다
-  const need = (v, what) => { if (!v) throw new Error(`${what}이 없음(앞 시나리오 실패)`); return v; };
+  const need = (v, what) => { if (!v) throw new Error(`대상 ${what} 없음(앞 시나리오 실패 또는 이미 바뀜)`); return v; };
   const noCsrf = [
     ['Q&A 작성', 'qaboard/qaAction.jsp', { q_category: '기타', q_subject: `SMOKE_NOCSRF_QA_${stamp}`, q_content: 'x' },
       () => db(`select count(*) from qaboard where q_subject=${sqlStr(`SMOKE_NOCSRF_QA_${stamp}`)}`)],
@@ -398,7 +398,8 @@ async function check(name, fn) {
     const r = db(`select r_num from reviewboard where r_content=${sqlStr(reviewText)} limit 1`);
     if (!r) return '삭제할 후기가 없음(작성 실패)';
     await open(user, 'index.jsp?main=reviewboard/reviewList.jsp');
-    await submitAndWait(user, () => user.locator(`i.del[r_num="${r}"]`).click());
+    // 아이콘 글꼴(외부 CDN)이 차단돼 <i>의 크기가 0이므로 화면 클릭 대신 요소의 click 이벤트로 누른다
+    await submitAndWait(user, () => user.locator(`i.del[r_num="${r}"]`).evaluate(el => el.click()));
     return db(`select count(*) from reviewboard where r_num=${r}`) === '0' ? true : 'DB에서 후기가 지워지지 않음';
   });
 
