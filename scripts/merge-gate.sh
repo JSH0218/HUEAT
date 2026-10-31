@@ -99,7 +99,12 @@ def verdict(tag, need, need_main=True):
     else:
         ok(f"{tag}: 종료코드 0" + (", main판 판정" if need_main else "") + f", 기준 {main_sha[:7]}")
 
-verdict("sa", True)
+# 개선 로그만 바꾼 PR(항목 없음·주간 재검토 기록 등)은 트리 키가 main과 같아 검증이 기준선 저장(3)으로 끝나므로
+# 판정 기록을 요구하지 않는다. 로그는 검증 스크립트가 읽지 않는 문서라 판정에 영향이 없다
+log_only = bool(paths) and all(p == "docs/ai-improvement-log.md" for p in paths)
+if log_only:
+    ok("sa: 개선 로그만 바뀌어 생략")
+verdict("sa", not log_only)
 code_changed = any(p.startswith(("src/", "db/")) for p in paths)
 verdict("smoke", code_changed)
 if not code_changed:
