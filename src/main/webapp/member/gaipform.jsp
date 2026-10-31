@@ -85,10 +85,13 @@ $(function(){
 			success:function(res){
 				//alert("중복체크확인");
 				
+				//중복확인 결과가 '사용 가능'일 때만 확인된 것으로 본다(응답 전·사용 불가·요청 실패는 미확인)
+				isIdChecked = (res.idcount==0);
+
 				//아이디가 중복일 경우
 				if(res.idcount==1){
 					$("#check_id").show();
-					$("#id").val("");
+					$("#m_id").val("");
 					$("#check_id").html("<i class='bi bi-exclamation-triangle'></i>사용할 수 없는 아이디입니다. 다른 아이디를 입력해주세요.").css("color","red");
 				}else {
 					$("#check_id").show();
@@ -97,8 +100,12 @@ $(function(){
 			}
 			
 		})
-		
-		isIdChecked = true;
+	});
+
+	//중복확인 뒤 아이디를 바꾸면 다시 확인해야 한다
+	$("#m_id").on("input", function(){
+		isIdChecked = false;
+		$("#check_id").hide();
 	});
 	
 	//닉네임의 중복여부는 닉네임을 입력하고 다음 칸으로 떠날 때 알 수 있음. (blur)
