@@ -240,3 +240,4 @@
 - 2026-10-31(재검토) · 보안·높음 · 비밀번호 재설정이 이름+휴대폰만으로 가능: `member/idsearchaction_hp.jsp`가 ID를 그대로 돌려주고 `member/passResetaction.jsp`가 `verifyMember` 통과 즉시 `resetPassword`(일회성 토큰·메일/SMS 확인·횟수 제한 없음, 코드 주석에 후속과제로만 적혀 있음). 메일·SMS 발송 기반과 토큰 저장(스키마)이 필요해 자동 회차 단독 처리 불가
 - 2026-10-31(재검토) · 보안·중간 · 강퇴·탈퇴·권한 변경·비밀번호 변경 후에도 기존 세션 유효(세션 `loginok`·`myid`·`role`만 보고 DB 재확인 없음). 삭제된 ID로 재가입하면 이전 세션이 새 회원의 소유자로 판정됨. 세션 무효화 방식(세션 레지스트리 또는 요청마다 DB 확인) 결정 필요
 - 2026-10-31(재검토) · 보안·낮음 · `WEB-INF/web.xml`에 400·405 `error-page`가 없어 Tomcat 기본 오류 화면에 서버 버전 노출(보호 대상 파일)
+- 2026-10-31(재검토) · 인프라 · 로그만 바꾼 PR은 머지 게이트를 통과할 수 없음: `scripts/lib/baseline.sh:15`가 트리 키에서 `docs/ai-improvement-log.md`를 빼므로 로그만 바뀐 트리는 main과 키가 같아 `static-analysis.sh`가 기준선 저장(종료코드 3, 판정방식 self)으로 끝나고, `merge-gate.sh`의 `verdict("sa", True)`가 "판정방식 self"로 종료코드 2를 낸다. 회차 지시문의 "항목 없음이면 로그만 바꾼 PR" 및 주간 재검토 결과 PR이 자동 머지되지 않는다. 로그만 바뀐 경우 sa 판정을 생략하거나 main 기준선의 판정 기록을 인정하는 처리 필요(보호 대상 `scripts/`)
