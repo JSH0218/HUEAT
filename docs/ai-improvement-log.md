@@ -22,6 +22,7 @@
 | 2026-10-31 | 1ed7d65 | 전용 0 / 공개 3 (httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
 | 2026-10-31 | dff4487 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
 | 2026-10-31 | 033ae67 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
+| 2026-10-31 | e733d64 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
@@ -159,7 +160,30 @@
 - PR: #144
 - 실구동 확인 포인트: 스모크 시나리오(단독 가입 화면의 중복확인 결과 표시, 재확인 요구)로 확인.
 
+### 2026-10-31 · 버그(NPE)·일관성 · 마이페이지 화면 비로그인 접근 시 로그인 안내
+- 영역: mypage(회원 화면 6개)
+- 근거: 로그 후보. 오탐 확인 에이전트가 '실제 문제(낮음)'로 판정했다. 비로그인 상태로 `index.jsp?main=mypage/<화면>`을 열 수 있는 경로가 있다(북마크, 로그아웃 후 뒤로 가기, 세션 만료, 마이페이지 탭).
+  - `updateform.jsp`는 `selectMemberById(null)`이 빈 DTO를 돌려줘 `dto.getM_hp1().equals("SKT")`에서 NPE(500)가 났다.
+  - `deleteform`·`favlist`·`myqnalist`·`myreviewlist`·`updatepassform`은 안내 없이 빈 폼이나 빈 목록을 보였다.
+  - 타인 데이터 노출은 없었고, 상태변경 액션은 이미 가드돼 있다.
+- 수정:
+  - 6개 화면에서 DAO 호출과 데이터 출력 앞에 `SecurityUtil.isLogin` 확인을 넣었다. 실패하면 로그인 화면으로 보내는 안내 스크립트를 출력하고 `return`한다(include 화면 규칙). 이 변경으로 안 쓰이게 된 `loginok` 변수는 지웠다.
+  - `scripts/smoke/smoke.js`에 비로그인 접근 시나리오 6개를 추가했다.
+- 검증:
+  - `mvn -q compile` 통과
+  - `bash scripts/jspc-check.sh` PASS(121개)
+  - 스모크
+    - 깨끗한 origin/main 기준선: 82/82(종료코드 3)
+    - 수정 전 코드 + 브랜치판 시나리오: 6건 실패(updateform 상태 500, 나머지 안내 없음)
+    - 수정 후: 88/88
+    - main판 판정: 종료코드 0
+  - 정적 분석 main판 판정: 종료코드 0(새 경고 0건)
+- 독립 리뷰: (기록 예정)
+- PR: (생성 후 기입)
+- 실구동 확인 포인트: 로그아웃 상태로 마이페이지 화면 주소를 열면 로그인 안내가 뜨고 로그인 화면으로 이동한다. 로그인 상태에서는 기존과 같다.
+
 ## 후보
+- [유지보수·낮음·2026-10-31] `mypage/updateform.jsp`: 직접 URL로 열면 `updatepassform.jsp`의 비밀번호 재확인 단계를 건너뜀(저장 시 `updateaction.jsp`가 비밀번호를 다시 확인하므로 영향 낮음)
 - [유지보수·낮음·2026-10-31] 업로드 액션 9개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`·`hugesoaddaction`·`hugesoupdateaction`): CSRF·권한 거부 경로에서 이미 저장된 업로드 파일을 지우지 않고, 이미지 교체 시 기존 파일도 지우지 않음(공통 정리 과제)
 - [유지보수·낮음·2026-10-31] `layout/pagingCalc.jspf`(13개 화면)·`hugesoinfo/hugesopaging.jsp`: `currentPage`가 비숫자·0 이하일 때 기본값 1로 정리하지 않음(현재 영향은 오류 화면·빈 목록뿐)
 - [버그·낮음·2026-10-31] `index.jsp?main=member/gaipform.jsp`(`layout/banner.jsp:133`)로 include하면 상대경로 `idcheck.jsp`·`nickcheck.jsp`·`gaipaction.jsp`가 웹 루트 기준으로 풀려 404(단독 화면은 정상)
@@ -170,7 +194,6 @@
 - `hugesoinfo/hugesodetail.jsp:1270-1271`: 휴게소 수정·삭제 버튼이 권한 조건 없이 모든 사용자에게 보임(서버·폼 단계에서는 막힘, 화면 표시만 정리 필요)
 - `shop/shopDelete.jsp`: 호출처가 없는 죽은 액션(화면은 `shopAllDelete.jsp`만 사용). redirect가 `if(file.exists())` 안에만 있어 직접 호출 시 빈 화면. 죽은 코드 정리 후보
 - `shop/shopAllDelete.jsp`: 상품 일괄 삭제 시 이미지 파일을 지우지 않음(`shopDelete.jsp`와 불일치)
-- `mypage/updateform.jsp`·`deleteform.jsp`·`favlist.jsp`·`myqnalist.jsp`·`myreviewlist.jsp`: 로그인 확인 없음(세션 myid로만 조회해 타인 데이터 노출은 없으나 비로그인 시 NPE 가능)
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
