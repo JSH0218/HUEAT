@@ -171,6 +171,13 @@
 - PR: #145
 - 실구동 확인 포인트: 로그아웃 상태로 마이페이지 화면 주소를 열면 로그인 안내가 뜨고 로그인 화면으로 이동한다. 로그인 상태에서는 기존과 같다.
 
+## 재검토
+### 2026-10-31 · 주간 재검토(지난 7일 자동 머지 PR 16건)
+- 대상: #110·#114·#116·#117·#118·#119·#120·#121·#122·#123·#128·#130·#137·#141·#144·#145. 리뷰 에이전트 3개(회원·마이페이지 / Q&A·관리자 / 입력 검증·인프라)가 현재 main 기준으로 호출처를 grep해 정상 흐름·우회 경로·범위 이탈을 확인했다.
+- 결과: 높음 0 / 중간 0 / 낮음 7. 머지된 변경의 회귀·보안 결함은 없어 수정 PR 없음. 낮음 지적은 아래 '후보'로 옮김(#130 동류 이메일 출력, #141 길이 기준, #120 가드 앞 삭제 경로 문자열, #119 죽은 `qaAnswerUpdateForm.jsp`(기존 후보), 관리자 목록 쿼리 `'admin'` 고정, #144 include 가입 폼(기존 후보), #110 macOS bash 3.2 빈 배열 진단 출력 누락).
+- 확인 항목 요약: 회원 쓰기 경로(`insertMember`·`updateMember` 각 호출처 1곳, 검증 뒤 호출), 평점·장바구니 쓰기 경로(검증된 액션에서만 호출), Q&A 데이터를 내보내는 엔드포인트 전체의 `isOwnerOrAdmin`, 관리자 폼 7개 가드 위치(출력 전), `jspc-check.sh` 실패 경로(다운로드 실패·JspC 중단·컴파일 오류 모두 비0 종료).
+- 같은 회차에 탐색 에이전트 3개(보안·오류 가능성·유지보수)를 돌려 아래 '후보'에 `2026-10-31(재검토)` 항목을 추가했다.
+
 ## 후보
 - [유지보수·낮음·2026-10-31] `reviewboard/reviewUpdateForm.jsp`: 로그인·작성자 확인이 없어 누구나 아무 `r_num`의 수정 폼을 볼 수 있음(내용은 원래 공개, 저장은 `reviewUpdateAction.jsp`가 막음)
 - [유지보수·낮음·2026-10-31] `qaboard/qaForm.jsp`: 비로그인에게도 작성 폼이 보임(제출은 `qaAction.jsp`가 로그인 화면으로 보냄)
@@ -191,6 +198,29 @@
 - `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
+- [버그·높음·2026-10-31(재검토)] 음식 가격 `f_price`(`VARCHAR(20)`)를 `hugesoaddaction.jsp:123`·`hugesoupdateaction.jsp:203,226`이 검증 없이 저장하고 `mainlayout/foodrank.jsp:115`·`foodcourt/foodmenu.jsp:233`·`foodcourt/foodcartlist.jsp:25`가 `Integer.parseInt`함. 관리자가 `8,000`처럼 넣으면 메인 화면(이달의 메뉴) 전체가 500. 가격 입력 형식 규칙(숫자만) 후보
+- [보안·중간·2026-10-31(재검토)] 업로드 액션 7개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`)가 지정 필드 하나만 `validateOrDelete`해, 다른 필드명으로 보낸 파일(확장자 무관)이 `upload.dir`에 남음. 휴게소 액션은 `validateAllUploads`로 막혀 있어 불일치
+- [버그·중간·2026-10-31(재검토)] `hugesoupdateaction.jsp:123-125,206-208`: 수정 화면에서 이미지 없이 새로 추가한 음식·브랜드가 `selectFoodNum`/`selectBrandNum`의 `photo=?`(NULL 비교)로 번호를 못 찾아 바로 뒤 정리 루프에서 삭제됨
+- [버그·중간·2026-10-31(재검토)] `hugesoaddaction.jsp:89`: 새 휴게소 번호를 좌표로 재조회(`selectHugesoNum`)해, 좌표가 비었거나 같으면 음식·브랜드가 다른 휴게소에 붙음
+- [버그·중간·2026-10-31(재검토)] `mypage/admineventlist.jsp:192`: 이벤트 제목 링크가 `noticeboard/noticeDetail.jsp?n_num=<e_num>`로 공지 상세를 엶(없는 번호면 `noticeDetail.jsp:153` NPE)
+- [버그·중간·2026-10-31(재검토)] 메인(`mainlayout/noticevent.jsp:83,92`)에서 연 공지·이벤트 상세에서 수정·삭제하면 `currentPage`가 `undefined`/빈 값으로 목록에 redirect되어 `pagingCalc.jspf:10` NFE(기존 페이징 후보의 정상 흐름 재현 경로)
+- [버그·중간·2026-10-31(재검토)] 비밀번호 최소 길이: 재설정(`passResetaction.jsp:34`)만 6자 이상, 가입(`gaipaction.jsp`)·정보 수정(`updateaction.jsp:76-80`)은 서버 검사 없음(`m_pass` 누락 시 빈 문자열 해시). '입력 형식(비밀번호)' 규칙 후보
+- [버그·중간·2026-10-31(재검토)] 닉네임 중복 검사가 화면에만 있음(`gaipaction.jsp`·`updateaction.jsp` 서버 검사 없음), 클라이언트 `res.nickcount==1` 비교라 중복 2건이면 "사용 가능" 표시, 길이 제한도 가입 6자·수정 무제한으로 다름(UNIQUE 제약은 스키마 변경)
+- [보안·중간·2026-10-31(재검토)] 로그인·본인확인 액션(`loginaction`·`passSearchaction`·`idsearchaction_*`·`passResetaction`)에 시도 횟수 제한 없음
+- [보안·낮음·2026-10-31(재검토)] `hugesoinfo/hugesodetail.jsp:1231,1238`: 좌표 `h_xvalue`·`h_yvalue`(`VARCHAR(30)`, 서버 숫자 검증 없음)가 인라인 JS에 raw 출력(관리자 입력)
+- [보안·낮음·2026-10-31(재검토)] `mypage/updateform.jsp:211`: `m_email` value 이스케이프 누락(#130 동류, 본인에게만 영향)
+- [보안·낮음·2026-10-31(재검토)] `index.jsp:85-96` `ajaxPrefilter`가 GET 요청에도 `_csrf`를 붙여 URL(접근 로그)에 토큰이 남음
+- [버그·낮음·2026-10-31(재검토)] 이동 경로 오류: `noticeboard/noticeList.jsp:49`(`qaboard/noticeList.jsp`, 없는 파일), `mypage/myreviewlist.jsp:137`(`myreviewList.jsp`, Linux에서 include 실패)
+- [버그·낮음·2026-10-31(재검토)] `noticeDetail.jsp:153`·`eventDetail.jsp:142`: 없는 글 번호면 `sdf.format(null)` NPE
+- [버그·낮음·2026-10-31(재검토)] `hugesoinfo/hugesodetail.jsp`: 평균 평점 숫자가 비로그인에게 빈칸(`updateh_grade.jsp` 403 콜백에만 의존), "평점남기기" 반복 클릭 시 음식 click 리스너 중복으로 선택 해제 → 음식 평점이 조용히 저장 실패
+- [버그·낮음·2026-10-31(재검토)] `foodgrade/foodgradesort.jsp:110`: 정렬 후 음식 이미지를 옛 경로 `image/food/`로 그려 업로드 사진이 깨짐
+- [유지보수·낮음·2026-10-31(재검토)] `qaanswer/qaAnswerInsertAction.jsp:24`·`qaAnswerUpdateAction.jsp:23`: 1000자 상한을 trim 전 길이로 검사하고 수정 경로는 trim하지 않고 저장(규칙 문구 "앞뒤 공백을 뺀"과 불일치)
+- [유지보수·낮음·2026-10-31(재검토)] `mypage/admin*list.jsp` 3개: `<head>` 스크립트의 관리자 삭제 경로 문자열이 `isAdmin` 가드보다 앞에 출력됨(데이터 노출 없음, 액션은 막힘)
+- [유지보수·낮음·2026-10-31(재검토)] 관리자 목록 쿼리 `qa_myid/n_myid/e_myid='admin'` 고정(`QaanswerDao.java:153,181`, `NoticeDao.java:249,276`, `EventDao.java:253,281`): role 기반 판별과 불일치
+- [유지보수·낮음·2026-10-31(재검토)] `grade/deletegrade.jsp`: 서버는 작성자 삭제를 허용하나 화면(`hugesodetail.jsp:446`)은 관리자에게만 버튼 표시, 미사용 `h_num`·import
+- [유지보수·낮음·2026-10-31(재검토)] 죽은 JSP: `foodcourt/import.jsp`(주석 처리된 호출만), `hugesoinfo/checkfavorite.jsp`, `member/loginmain.jsp`(호출처 0)
+- [유지보수·낮음·2026-10-31(재검토)] 미사용 import(`mypage/updatepassaction.jsp`의 `javax.swing...BoldAction` 등 JSP 10여 곳, `FoodDao`·`FoodGradeDao`·`ReviewDto`), `MemInfoDao.numPassCheck` 주석·이름 불일치, 관리자 직접 비교 `"ADMIN".equals(...)` 11개 파일 18곳(`isAdmin`으로 통일 후보)
+- [유지보수·낮음·2026-10-31(재검토)] `scripts/jspc-check.sh:112`: bash 3.2(macOS)에서 빈 `missing` 배열 + `set -u`로 실패 원인 출력이 빠짐(종료코드는 실패 유지, 보호 대상 파일)
 - Semgrep `no-scriptlets` 799건은 이 프로젝트 구조(스크립틀릿 JSP) 자체라 개선 대상 아님
 
 ## 오탐
@@ -207,3 +237,7 @@
 - 2026-10-30 · 이번 회차는 위 항목 검토 중 `shop/shopDelete.jsp` redirect 수정을 시도했으나, 서브에이전트 검토로 호출처가 없는 죽은 액션임이 확인되어(화면 재현 경로 없음) 변경을 되돌리고 기록만 남김.
 
 ## 사람 확인 필요
+- 2026-10-31(재검토) · 보안·높음 · 비밀번호 재설정이 이름+휴대폰만으로 가능: `member/idsearchaction_hp.jsp`가 ID를 그대로 돌려주고 `member/passResetaction.jsp`가 `verifyMember` 통과 즉시 `resetPassword`(일회성 토큰·메일/SMS 확인·횟수 제한 없음, 코드 주석에 후속과제로만 적혀 있음). 메일·SMS 발송 기반과 토큰 저장(스키마)이 필요해 자동 회차 단독 처리 불가
+- 2026-10-31(재검토) · 보안·중간 · 강퇴·탈퇴·권한 변경·비밀번호 변경 후에도 기존 세션 유효(세션 `loginok`·`myid`·`role`만 보고 DB 재확인 없음). 삭제된 ID로 재가입하면 이전 세션이 새 회원의 소유자로 판정됨. 세션 무효화 방식(세션 레지스트리 또는 요청마다 DB 확인) 결정 필요
+- 2026-10-31(재검토) · 보안·낮음 · `WEB-INF/web.xml`에 400·405 `error-page`가 없어 Tomcat 기본 오류 화면에 서버 버전 노출(보호 대상 파일)
+- 2026-10-31(재검토) · 인프라 · 로그만 바꾼 PR은 머지 게이트를 통과할 수 없음: `scripts/lib/baseline.sh:15`가 트리 키에서 `docs/ai-improvement-log.md`를 빼므로 로그만 바뀐 트리는 main과 키가 같아 `static-analysis.sh`가 기준선 저장(종료코드 3, 판정방식 self)으로 끝나고, `merge-gate.sh`의 `verdict("sa", True)`가 "판정방식 self"로 종료코드 2를 낸다. 회차 지시문의 "항목 없음이면 로그만 바꾼 PR" 및 주간 재검토 결과 PR이 자동 머지되지 않는다. 로그만 바뀐 경우 sa 판정을 생략하거나 main 기준선의 판정 기록을 인정하는 처리 필요(보호 대상 `scripts/`)
