@@ -8,21 +8,10 @@
 | 날짜 | main 커밋 | Semgrep | SpotBugs(+FindSecBugs) | gitleaks |
 |---|---|---|---|---|
 | 2026-10-28 | 8101471 | 802 (no-scriptlets 799, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (EI_EXPOSE_REP 8, EI_EXPOSE_REP2 8, RV_RETURN_VALUE_IGNORED_BAD_PRACTICE 3, REC_CATCH_EXCEPTION 2) | 0 |
-| 2026-10-28 | 59e53c2 | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-28 | 3012e6e | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-29 | cddaec1 | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-29 | d3334cf | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-29 | cab6173 | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-30 | ab650d4 | 802 (동일) | 21 (동일) | 0 |
-| 2026-10-30 | cca8737 | 802 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | a25890c | 800 (no-scriptlets 797, httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
-| 2026-10-30 | c5ca2af | 800 (동일) | 21 (동일) | 0 |
 | 2026-10-30 | 53a9f29 | 전용 10 (admin-page-missing-isadmin 7, raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 (no-scriptlets 제외) | 21 (동일) | 0 |
 | 2026-10-30 | be020c0 | 전용 3 (raw-string-getter-output 2, raw-request-session-output 1) / 공개 3 | 21 (동일) | 0 |
 | 2026-10-31 | 1ed7d65 | 전용 0 / 공개 3 (httpservlet-path-traversal 2, unsafe-reflection 1) | 21 (동일) | 0 |
-| 2026-10-31 | dff4487 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
-| 2026-10-31 | 033ae67 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
-| 2026-10-31 | e733d64 | 전용 0 / 공개 3 (동일) | 21 (동일) | 0 |
 
 ## 처리 내역
 
