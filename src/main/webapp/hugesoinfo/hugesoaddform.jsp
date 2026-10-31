@@ -118,7 +118,7 @@ if(!util.SecurityUtil.isAdmin(session)){
 				var s="<div>";
 				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: <input type='text' name='f_name"+foodCount+"' required='required'></div><i class='bi bi-x-lg' onclick='removeFoodField(this)'></i></div>";
 				s+="<div>음식 이미지: <input type='file' name='f_photo"+foodCount+"' required='required'></div>";
-				s+="<div>음식 가격: <input type='text' name='f_price"+foodCount+"' required='required'></div>";
+				s+="<div>음식 가격: <input type='text' name='f_price"+foodCount+"' required='required' pattern='[0-9]{1,7}' inputmode='numeric' title='숫자만 1~7자리'></div>";
 				s+="</div>";
 
                 // 가게 이름과 이미지 입력 필드를 추가

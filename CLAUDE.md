@@ -151,6 +151,7 @@ upload.dir=C:/Project/Web/.appdata/hueat   # 업로드 파일 저장 베이스(�
 - **입력 형식(Q&A 답변):** 관리자 답변 내용(`qa_content`)은 앞뒤 공백을 뺀 1~1000자(서버 `qaanswer/qaAnswerInsertAction.jsp`·`qaAnswerUpdateAction.jsp`, 클라이언트 `qaboard/qaDetail.jsp`의 등록·수정 입력란 `maxlength`와 빈 값 검사가 같은 규칙).
 - **입력 형식(장바구니):** 푸드코트 장바구니 담기 요청 수량은 1~10 정수(서버 `foodcourt/foodcartaddaction.jsp`, 클라이언트 `foodcourt/foodmenu.jsp` 입력란·검사가 같은 규칙).
 - **입력 형식(평점):** 휴게소·음식 평점은 1~5 정수(`SecurityUtil.isValidGrade`, 서버 `grade/insertgrade.jsp`·`foodgrade/insertfoodgrade.jsp`, 클라이언트는 `hugesoinfo/hugesodetail.jsp`의 별점 라디오 1~5).
+- **입력 형식(음식 가격):** 휴게소 등록·수정의 음식 가격(`f_price`)은 숫자만 1~7자리(0~9,999,999원)(`SecurityUtil.isValidPrice`, 서버 `hugesoinfo/hugesoaddaction.jsp`·`hugesoupdateaction.jsp`는 저장 전에 모든 메뉴를 검사, 클라이언트 `hugesoinfo/hugesoaddform.jsp`·`hugesoupdateform.jsp` 입력란 `pattern`이 같은 규칙).
 - **CSRF:** 상태변경 액션 JSP는 맨 앞에서 권한 확인 후 `if(!SecurityUtil.isPost(request) || !SecurityUtil.checkCsrf(request)){ response.sendError(403); return; }`로 POST+토큰을 검증한다.
   - HTML 폼: `<input type="hidden" name="_csrf" value="<%=util.SecurityUtil.csrfToken(session)%>">`
   - jQuery AJAX: `index.jsp` 하단의 `ajaxPrefilter`가 `_csrf`를 자동 첨부한다(동일출처 한정).

@@ -148,7 +148,7 @@ if(!util.SecurityUtil.isAdmin(session)){
 				var s="<div>";
 				s+="<div style='display: flex; justify-content: space-between;'><div>음식 이름: <input type='text' name='f_name"+foodCount+"' required='required'></div><i class='bi bi-x-lg' onclick='removeFoodField(this)'></i></div>";
 				s+="<div>음식 이미지: <input type='file' name='f_photo"+foodCount+"'></div>";
-				s+="<div>음식 가격: <input type='text' name='f_price"+foodCount+"' required='required'></div>";
+				s+="<div>음식 가격: <input type='text' name='f_price"+foodCount+"' required='required' pattern='[0-9]{1,7}' inputmode='numeric' title='숫자만 1~7자리'></div>";
 				s+="<input type='hidden' name='f_num"+foodCount+"'>";
 				s+="</div>";
 
@@ -182,7 +182,7 @@ if(!util.SecurityUtil.isAdmin(session)){
 					FoodDto fdto=flist.get(i-1);
 					%>
 					$("#foodaddarea input[type='text'][name='f_name"+<%=i %>+"']").attr("value","<%=util.SecurityUtil.escapeJs(fdto.getF_name()) %>");
-					$("#foodaddarea input[type='text'][name='f_price"+<%=i %>+"']").attr("value","<%=fdto.getF_price() %>");
+					$("#foodaddarea input[type='text'][name='f_price"+<%=i %>+"']").attr("value","<%=util.SecurityUtil.escapeJs(fdto.getF_price()) %>");
 					$("#foodaddarea input[type='hidden'][name='f_num"+<%=i %>+"']").attr("value","<%=fdto.getF_num() %>");
 					<%
 				}

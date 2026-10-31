@@ -443,6 +443,38 @@ async function check(name, fn) {
       return r.status() < 500 && body.includes('로그인 후 이용할 수 있습니다.') ? true : `상태 ${r.status()}, 안내 없음`;
     });
   }
+  // 휴게소 등록의 음식 가격: 숫자 1~7자리만 저장돼야 한다(쉼표 등이 저장되면 메인 화면 이달의 메뉴가 parseInt로 500)
+  const priceAdmin = await newPage(browser);
+  await login(priceAdmin, 'admin', 'admin1234');
+  const addHugesoWithPrice = async (name, price) => {
+    await open(priceAdmin, 'index.jsp?main=hugesoinfo/hugesoaddform.jsp');
+    for (const [sel, v] of [['input[name=h_name]', name], ['input[name=h_hp1]', '02'], ['input[name=h_hp2]', '000'],
+      ['input[name=h_hp3]', '0000'], ['#h_addr', '서울시 가격로 1']]) await priceAdmin.fill(sel, v);
+    // 지도(외부 CDN)가 차단돼 '메뉴 추가' 버튼 핸들러가 붙지 않으므로, 버튼이 만드는 입력란(f_name1·f_price1, foodcount=1)을 직접 넣는다
+    await priceAdmin.locator('#frm').evaluate((f, [n, p]) => {
+      for (const [k, v] of [['f_name1', n], ['f_price1', p]]) {
+        const i = document.createElement('input'); i.type = 'text'; i.name = k; i.value = v; f.appendChild(i);
+      }
+      f.querySelector('#foodcount').value = '1';
+    }, [name + '메뉴', price]);
+    priceAdmin.alerts = [];
+    // 클라이언트 검사(pattern)는 건너뛰고 서버 검증을 확인한다
+    await submitAndWait(priceAdmin, () => priceAdmin.locator('#frm').evaluate(f => f.submit()));
+  };
+  await check('휴게소 등록: 숫자가 아닌 음식 가격(8,000)은 저장하지 않음', async () => {
+    const name = '가격거부' + String(stamp).slice(-6);
+    await addHugesoWithPrice(name, '8,000');
+    const saved = db(`select count(*) from hugesoinfo where h_name=${sqlStr(name)}`);
+    return saved === '0' && priceAdmin.alerts.some(m => m.includes('음식 가격')) ? true : `저장 ${saved}건, 안내창 ${JSON.stringify(priceAdmin.alerts)}`;
+  });
+  await check('휴게소 등록: 숫자 음식 가격(8000)은 저장되고 메인 화면 정상', async () => {
+    const name = '가격정상' + String(stamp).slice(-6);
+    await addHugesoWithPrice(name, '8000');
+    const price = db(`select f_price from food where f_name=${sqlStr(name + '메뉴')} limit 1`);
+    if (price !== '8000') return `저장된 가격 '${price}'`;
+    const r = await priceAdmin.context().request.get(BASE + 'index.jsp');
+    return r.status() < 500 ? true : `메인 화면 상태 ${r.status()}`;
+  });
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);

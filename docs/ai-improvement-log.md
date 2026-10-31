@@ -171,6 +171,43 @@
 - PR: #145
 - 실구동 확인 포인트: 로그아웃 상태로 마이페이지 화면 주소를 열면 로그인 안내가 뜨고 로그인 화면으로 이동한다. 로그인 상태에서는 기존과 같다.
 
+### 2026-10-31 · 버그(메인 화면 500)·입력 검증 · 휴게소 등록·수정의 음식 가격 서버 측 형식 검증
+- 영역: hugesoinfo(관리자 휴게소 등록·수정)
+- 근거: 주간 재검토 PR #149(머지 대기)의 탐색 후보 `[버그·높음]`. 오탐 확인 에이전트는 '실제 문제'로 판정했다.
+  - `f_price`(`VARCHAR(20)`)를 `hugesoaddaction.jsp`·`hugesoupdateaction.jsp`가 검증 없이 저장한다.
+  - `mainlayout/foodrank.jsp:115`(메인 화면, 최신 메뉴 5개)·`foodcourt/foodmenu.jsp:232`·`foodcourt/foodcartlist.jsp:25`가 이 값을 `Integer.parseInt`한다.
+  - 그래서 관리자가 `8,000`을 넣는 순간 모든 방문자의 메인 화면이 깨진다.
+- 수정:
+  - `SecurityUtil.isValidPrice`(숫자 1~7자리)를 추가했다.
+  - 두 액션은 DB에 쓰기 전에 모든 메뉴의 가격을 검사한다. 하나라도 틀리면 안내 후 `history.back()` 한다.
+  - 두 폼 입력란에 같은 규칙의 `pattern`을 넣었고, 수정 폼의 기존 가격 출력에 `escapeJs`를 적용했다.
+  - CLAUDE.md에 '입력 형식(음식 가격)' 규칙 줄을 추가했다.
+  - 스모크 시나리오 2개를 추가했다(쉼표 가격 거부, 숫자 가격 저장 후 메인 화면 정상).
+- 검증:
+  - `mvn -q compile` 통과
+  - `bash scripts/jspc-check.sh` PASS(121개, 오류 0)
+  - 정적 분석 main판 판정: 종료코드 0(새 경고 0건)
+  - 스모크
+    - 깨끗한 origin/main 기준선: 88/88(종료코드 3)
+    - 수정 전 코드 + 브랜치판 시나리오: 2건 실패. 쉼표 가격이 저장됐고, 이어서 메인 화면 요청이 aborted로 끝났다.
+    - 수정 후 브랜치판: 90/90
+    - main판 판정: 종료코드 0
+  - 참고: 컨테이너에서는 지도(카카오) 차단으로 `createMap()`이 예외를 던져 '메뉴 추가' 버튼 핸들러가 붙지 않는다. 그래서 시나리오가 버튼이 만드는 입력란을 직접 넣는다.
+- 독립 리뷰: 1단계 높음 0·중간 0·낮음 3
+  - 거부 경로의 고아 업로드 파일: 기존 CSRF 거부 경로와 같은 공통 후보라 유지했다.
+  - 옛 잘못된 가격이 남은 수정 폼은 pattern 때문에 제출이 막힌다: 의도한 동작이다.
+  - 스모크가 좌표 없는 휴게소 행을 남긴다: 마지막 시나리오라 영향이 없다.
+  - 2단계: 높음 0·중간 0·낮음 2
+    - 이미 저장된 잘못된 가격은 표시 쪽에서 여전히 실패한다: 후보로 기록했다.
+    - 장바구니 합계 `cnt*price`가 수량 상한 없는 `updateCnt` 경로로 int 범위를 넘을 수 있다: 기존 `updateCnt` 후보에 덧붙였다.
+    - 같은 유형의 다른 경로(검증 없이 저장한 뒤 `parseInt`하는 값)는 없었다. 유가 필드는 `parseInt`하지 않는다.
+  - 확인 항목: `isValidPrice`·`f_price` 쓰기/읽기 경로 grep, foodcount와 번호 재배열(추가·삭제) 관계, 수정 폼 값 채우기, 검증이 DB 쓰기·기존 사진 삭제보다 앞에 있는지, 폼 진입 링크와 화이트리스트
+- PR: #151
+- 실구동 확인 포인트:
+  - 관리자로 휴게소를 등록할 때 음식 가격에 `8,000`을 넣으면 브라우저가 형식 오류를 표시한다. 서버도 거부하고 아무것도 저장하지 않는다.
+  - 숫자만 넣으면 정상 등록되고 메인 화면이 그대로 열린다.
+  - 이미 DB에 잘못된 가격이 있다면 그 메뉴를 수정 폼에서 숫자로 고쳐야 저장된다.
+
 ## 후보
 - [유지보수·낮음·2026-10-31] `reviewboard/reviewUpdateForm.jsp`: 로그인·작성자 확인이 없어 누구나 아무 `r_num`의 수정 폼을 볼 수 있음(내용은 원래 공개, 저장은 `reviewUpdateAction.jsp`가 막음)
 - [유지보수·낮음·2026-10-31] `qaboard/qaForm.jsp`: 비로그인에게도 작성 폼이 보임(제출은 `qaAction.jsp`가 로그인 화면으로 보냄)
@@ -179,6 +216,7 @@
 - [유지보수·낮음·2026-10-31] `layout/pagingCalc.jspf`(13개 화면)·`hugesoinfo/hugesopaging.jsp`: `currentPage`가 비숫자·0 이하일 때 기본값 1로 정리하지 않음(현재 영향은 오류 화면·빈 목록뿐)
 - [버그·낮음·2026-10-31] `index.jsp?main=member/gaipform.jsp`(`layout/banner.jsp:133`)로 include하면 상대경로 `idcheck.jsp`·`nickcheck.jsp`·`gaipaction.jsp`가 웹 루트 기준으로 풀려 404(단독 화면은 정상)
 - [버그·낮음·2026-10-31] `member/gaipform.jsp`: 닉네임 중복 결과가 제출을 막지 않음, `onsubmit="return check(this)"`의 `check` 함수가 정의돼 있지 않음, 중복확인 AJAX에 `error` 처리 없음
+- [버그·낮음·2026-10-31] 이미 DB에 들어간 숫자가 아닌 `f_price`는 여전히 `foodrank.jsp`·`foodmenu.jsp`·`foodcartlist.jsp`의 `Integer.parseInt`에서 실패함(새 입력은 막힘, 표시 쪽 방어 여부 검토)
 - `qaboard/qaDetail.jsp`: 답변 등록·수정 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `scripts/smoke/smoke.js`: Q&A 답변 거부 시나리오가 DB 불변만 보고 응답 상태코드(400)는 확인하지 않음(다른 이유의 실패로도 통과 가능)
 - `qaboard/qaAction.jsp`·`qaUpdateAction.jsp`: 질문 제목·내용 빈 값 서버 측 검사 여부 미확인
@@ -188,7 +226,7 @@
 - `qaanswer/qaAnswerUpdateForm.jsp`: 호출처가 없는 파일로 보이며 `qa_content`를 이스케이프 없이 JSON으로 출력(죽은 코드 정리 후보)
 - 같은 사용자의 평점 중복 등록 제한 없음(1~5 범위여도 반복 등록으로 평균·순위가 기울어짐). 사용자당 1회 규칙이면 UNIQUE 제약 등 스키마 변경이 필요할 수 있음
 - `foodgrade/insertfoodgrade.jsp`: `fg_foodnum`·`fg_hugesonum` 숫자 정규화·빈 값 검사 없음(`insertgrade.jsp`의 `h_num` 처리와 비대칭)
-- `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토
+- `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토(가격 최대 9,999,999원이면 수량 215 이상에서 `foodcartlist.jsp:24-26` 합계 int 오버플로)
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
 - Semgrep `no-scriptlets` 799건은 이 프로젝트 구조(스크립틀릿 JSP) 자체라 개선 대상 아님
