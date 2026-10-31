@@ -178,11 +178,13 @@
     - 수정 후: 88/88
     - main판 판정: 종료코드 0
   - 정적 분석 main판 판정: 종료코드 0(새 경고 0건)
-- 독립 리뷰: (기록 예정)
+- 독립 리뷰: 1단계 높음 0·중간 0·낮음 2(가드 문장 6곳 복사: 기존 스크립틀릿 스타일이라 유지 / 이동 경로가 액션 JSP의 `../index.jsp?main=member/loginform.jsp`와 다름: `title.jsp:153` 로그인 링크와 같은 단독 경로라 유지). 2단계 높음 0·중간 0·낮음 2(같은 유형의 범위 밖 경로 `reviewUpdateForm.jsp`·`qaForm.jsp`, 후보로 기록). 확인 항목: 삭제한 `loginok` 참조 0건, 가드가 DAO 호출·데이터 출력보다 앞, 6개 화면 호출처(메뉴·탭·화면 간 링크·액션 redirect)와 폼 `_csrf` 유지, 화이트리스트 전체 화면의 가드 여부
 - PR: (생성 후 기입)
 - 실구동 확인 포인트: 로그아웃 상태로 마이페이지 화면 주소를 열면 로그인 안내가 뜨고 로그인 화면으로 이동한다. 로그인 상태에서는 기존과 같다.
 
 ## 후보
+- [유지보수·낮음·2026-10-31] `reviewboard/reviewUpdateForm.jsp`: 로그인·작성자 확인이 없어 누구나 아무 `r_num`의 수정 폼을 볼 수 있음(내용은 원래 공개, 저장은 `reviewUpdateAction.jsp`가 막음)
+- [유지보수·낮음·2026-10-31] `qaboard/qaForm.jsp`: 비로그인에게도 작성 폼이 보임(제출은 `qaAction.jsp`가 로그인 화면으로 보냄)
 - [유지보수·낮음·2026-10-31] `mypage/updateform.jsp`: 직접 URL로 열면 `updatepassform.jsp`의 비밀번호 재확인 단계를 건너뜀(저장 시 `updateaction.jsp`가 비밀번호를 다시 확인하므로 영향 낮음)
 - [유지보수·낮음·2026-10-31] 업로드 액션 9개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`·`hugesoaddaction`·`hugesoupdateaction`): CSRF·권한 거부 경로에서 이미 저장된 업로드 파일을 지우지 않고, 이미지 교체 시 기존 파일도 지우지 않음(공통 정리 과제)
 - [유지보수·낮음·2026-10-31] `layout/pagingCalc.jspf`(13개 화면)·`hugesoinfo/hugesopaging.jsp`: `currentPage`가 비숫자·0 이하일 때 기본값 1로 정리하지 않음(현재 영향은 오류 화면·빈 목록뿐)
