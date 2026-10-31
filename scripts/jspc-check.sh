@@ -42,11 +42,11 @@ mkdir -p "$classes" "$gen" "$lib_cache"
 fetch() {
     local url="$1" out="$2" i
     [ -s "$out" ] && return 0
-    for i in 1 2 3 4; do
+    for i in 1 2 3 4 5 6; do
         if curl -fsSL --max-time 120 -o "$out.tmp" "$url"; then
             mv "$out.tmp" "$out"; return 0
         fi
-        sleep $((i * 2))
+        sleep $((i * 10))
     done
     rm -f "$out.tmp"
     echo "[jspc] ERROR: 다운로드 실패: $url"

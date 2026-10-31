@@ -64,7 +64,7 @@ mvn -B -q package -DskipTests >"$T/smoke-build.log" 2>&1 || { log "ERROR: mvn pa
 war="$(ls target/*.war | head -1)"
 
 if [ ! -x "$TC/bin/startup.sh" ]; then
-    curl -fsSL --retry 4 --retry-delay 2 -o "$T/tomcat.tgz" \
+    curl -fsSL --retry 6 --retry-delay 20 -o "$T/tomcat.tgz" \
         "https://repo1.maven.org/maven2/org/apache/tomcat/tomcat/$TOMCAT_VER/tomcat-$TOMCAT_VER.tar.gz" \
         && tar xzf "$T/tomcat.tgz" -C "$T" || { log "ERROR: Tomcat 다운로드 실패"; exit 2; }
     sed -i "s/port=\"8080\"/port=\"$PORT\"/; s/port=\"8005\"/port=\"-1\"/" "$TC/conf/server.xml"
@@ -107,7 +107,7 @@ done
 jq="$T/cdn/jquery-3.7.0.js"
 if [ ! -s "$jq" ]; then
     mkdir -p "$T/cdn"
-    curl -fsSL --retry 4 --retry-delay 2 -o "$T/cdn/jquery.tgz" https://registry.npmjs.org/jquery/-/jquery-3.7.0.tgz \
+    curl -fsSL --retry 6 --retry-delay 20 -o "$T/cdn/jquery.tgz" https://registry.npmjs.org/jquery/-/jquery-3.7.0.tgz \
         && tar xzf "$T/cdn/jquery.tgz" -C "$T/cdn" package/dist/jquery.js \
         && mv "$T/cdn/package/dist/jquery.js" "$jq" || { log "ERROR: jQuery 3.7.0 다운로드 실패"; exit 2; }
 fi
