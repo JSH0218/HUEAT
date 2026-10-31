@@ -434,6 +434,15 @@ async function check(name, fn) {
     await gaip.waitForTimeout(800);
     return gaip.alerts.some(m => m.includes('아이디 중복 확인')) ? true : `안내창 ${JSON.stringify(gaip.alerts)}`;
   });
+  // 마이페이지 화면: 비로그인으로 열면 오류(5xx)나 빈 화면 대신 로그인 안내로 이동해야 한다
+  const anonMy = await newPage(browser);
+  for (const f of ['updateform', 'deleteform', 'favlist', 'myqnalist', 'myreviewlist', 'updatepassform']) {
+    await check(`마이페이지 비로그인 접근: ${f}.jsp는 로그인 안내`, async () => {
+      const r = await anonMy.context().request.get(BASE + `index.jsp?main=mypage/${f}.jsp`);
+      const body = await r.text();
+      return r.status() < 500 && body.includes('로그인 후 이용할 수 있습니다.') ? true : `상태 ${r.status()}, 안내 없음`;
+    });
+  }
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);

@@ -80,6 +80,11 @@
 </div>
 
 <%
+//로그인한 사용자만 이용할 수 있다(비로그인이면 로그인 화면으로 이동)
+if(!util.SecurityUtil.isLogin(session)){
+	out.print("<script>alert('로그인 후 이용할 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/member/loginform.jsp';</script>");
+	return;
+}
 String m_id=(String)session.getAttribute("myid");
 FavoriteDao dao=new FavoriteDao();
 List<HashMap<String,String>> list=dao.selectFavlist(m_id);
