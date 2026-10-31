@@ -48,8 +48,11 @@
 }
 </style>
 <%
-//로그인 세션얻기
-String loginok = (String) session.getAttribute("loginok");
+//로그인한 사용자만 이용할 수 있다(비로그인이면 로그인 화면으로 이동)
+if(!util.SecurityUtil.isLogin(session)){
+	out.print("<script>alert('로그인 후 이용할 수 있습니다.');location.href='" + util.SecurityUtil.escapeJs(request.getContextPath()) + "/member/loginform.jsp';</script>");
+	return;
+}
 //아이디 얻기
 String myid = (String) session.getAttribute("myid");
 
