@@ -487,7 +487,9 @@ async function check(name, fn) {
     const subject = db(`select e_subject from eventboard where e_num=${m[1]}`);
     const r = await evAdmin.context().request.get(BASE + href);
     const body = await r.text();
-    return r.status() < 500 && subject && body.includes(subject) ? true : `상태 ${r.status()}, 제목 '${subject}' 없음`;
+    // 메인 화면 폴백에도 이벤트 제목이 보이므로 상세 화면에만 있는 번호 입력란까지 확인한다
+    const detail = body.includes(`id="e_num" value="${m[1]}"`);
+    return r.status() < 500 && subject && body.includes(subject) && detail ? true : `상태 ${r.status()}, 제목 '${subject}'·상세 화면 확인 실패`;
   });
   await browser.close();
   const failed = results.filter(r => !r).length;
