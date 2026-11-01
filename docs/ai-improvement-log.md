@@ -208,6 +208,32 @@
   - 숫자만 넣으면 정상 등록되고 메인 화면이 그대로 열린다.
   - 이미 DB에 잘못된 가격이 있다면 그 메뉴를 수정 폼에서 숫자로 고쳐야 저장된다.
 
+### 2026-11-01 · 버그(잘못된 화면·500) · 관리자 이벤트 목록 제목 링크가 공지 상세를 열던 문제
+- 영역: mypage(관리자 이벤트 목록)
+- 근거: 로그 후보 `[버그·중간]`. 1순위 후보(업로드 액션 7개의 지정 필드만 검증)는 오탐 확인 에이전트가 '오탐'으로 판정해 '오탐'으로 옮겼고, 2순위인 이 항목이 '실제 문제(중간)'로 판정됐다.
+  - `mypage/admineventlist.jsp:192`의 제목 링크가 `noticeboard/noticeDetail.jsp?currentPage=..&n_num=<e_num>`이었다. `noticeboard`와 `eventboard`는 별개 테이블이다.
+  - 같은 번호의 공지가 있으면 그 공지가 열렸다. 공지 조회수가 오르고, 관리자에게 공지 수정·삭제 버튼이 보여 이벤트 대신 공지를 지울 수 있었다.
+  - 같은 번호의 공지가 없으면 `NoticeDao.selectDataNotice`가 빈 DTO를 돌려줘 `noticeDetail.jsp:153` `sdf.format(null)`에서 NPE(500)가 났다.
+- 수정:
+  - 링크를 `eventboard/eventDetail.jsp?currentPage=..&e_num=..`로 바꿨다(`adminnoticelist.jsp:189`와 같은 모양).
+  - `scripts/smoke/smoke.js`에 시나리오 1개를 추가했다. 관리자 이벤트 목록 첫 제목 링크가 `eventDetail.jsp`·`e_num`을 가리키고, 열었을 때 5xx가 아니며 그 이벤트 제목과 상세 화면 고유 요소(`id="e_num" value="<번호>"`)가 있는지 확인한다.
+- 검증:
+  - `mvn -q compile` 통과
+  - `bash scripts/jspc-check.sh` PASS(121개, 오류 0)
+  - 정적 분석: 기준선 종료코드 3(건수는 직전 줄과 같아 추이 표 줄 추가 없음) → main판 판정 종료코드 0(새 경고 0건)
+  - 스모크
+    - 깨끗한 origin/main 기준선: 90/90(종료코드 3)
+    - 수정 전 코드 + 브랜치판 시나리오: 1건 실패(링크가 `noticeDetail.jsp?..n_num=1`)
+    - 수정 후 브랜치판: 91/91
+    - main판 판정: 종료코드 0
+- 독립 리뷰: 1단계 높음 0·중간 0·낮음 2, 2단계 높음 0·중간 1·낮음 0
+  - 1단계 낮음 1(본문의 이벤트 제목 확인만으로는 메인 화면 폴백에도 통과): 상세 화면 고유 요소 확인을 추가해 고쳤다.
+  - 1단계 낮음 2(시나리오의 직접 GET이 시드 이벤트 조회수를 올림): 조회수에 의존하는 시나리오가 없어 유지했다.
+  - 2단계 중간 1(같은 유형의 다른 경로 `mainlayout/foodrank.jsp:85`가 `hugesodetail.jsp`에 `f_num`을 넘김): 이번 수정이 만든 회귀가 아니고 다른 영역(메인 화면·휴게소)이라 주제 1개 원칙에 따라 고치지 않고 '후보'에 올렸다.
+  - 확인 항목: `eventDetail.jsp` 호출처 3곳과 받는 파라미터(`e_num`·`currentPage`, `digitsOnly`), 화이트리스트, 상세 화면의 수정·삭제(`postNav`+CSRF)·목록 버튼, 출력 이스케이프, 시나리오 선택자가 다른 링크에 걸리지 않는지, 상세 화면으로 가는 링크 전수 grep과 파라미터 대조
+- PR: (이 PR)
+- 실구동 확인 포인트: 관리자로 마이페이지 > 관리자 탭 > 이벤트에서 제목을 누르면 그 이벤트 상세가 열린다. 수정·삭제 버튼도 그 이벤트를 대상으로 한다.
+
 ## 재검토
 ### 2026-10-31 · 주간 재검토(지난 7일 자동 머지 PR 16건)
 - 대상: #110·#114·#116·#117·#118·#119·#120·#121·#122·#123·#128·#130·#137·#141·#144·#145. 리뷰 에이전트 3개(회원·마이페이지 / Q&A·관리자 / 입력 검증·인프라)가 현재 main 기준으로 호출처를 grep해 정상 흐름·우회 경로·범위 이탈을 확인했다.
@@ -236,10 +262,8 @@
 - `foodcart/model/FoodCartDao.java` `updateCnt`: 이미 담긴 메뉴는 요청 수량을 무시하고 +1만 하며 누적 상한이 없음(반복 담기로 10 초과 가능). 누적 상한 규칙 검토(가격 최대 9,999,999원이면 수량 215 이상에서 `foodcartlist.jsp:24-26` 합계 int 오버플로)
 - `foodcourt/foodmenu.jsp`: 담기 AJAX에 `error` 콜백이 없어 서버 400 응답이 화면에 표시되지 않음
 - `foodcourt/foodcartaddaction.jsp`: `f_num`·`h_num` 존재·숫자 여부 미검증(바인딩 파라미터라 SQLi는 아님)
-- [보안·중간·2026-10-31(재검토)] 업로드 액션 7개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`)가 지정 필드 하나만 `validateOrDelete`해, 다른 필드명으로 보낸 파일(확장자 무관)이 `upload.dir`에 남음. 휴게소 액션은 `validateAllUploads`로 막혀 있어 불일치
 - [버그·중간·2026-10-31(재검토)] `hugesoupdateaction.jsp:123-125,206-208`: 수정 화면에서 이미지 없이 새로 추가한 음식·브랜드가 `selectFoodNum`/`selectBrandNum`의 `photo=?`(NULL 비교)로 번호를 못 찾아 바로 뒤 정리 루프에서 삭제됨
 - [버그·중간·2026-10-31(재검토)] `hugesoaddaction.jsp:89`: 새 휴게소 번호를 좌표로 재조회(`selectHugesoNum`)해, 좌표가 비었거나 같으면 음식·브랜드가 다른 휴게소에 붙음
-- [버그·중간·2026-10-31(재검토)] `mypage/admineventlist.jsp:192`: 이벤트 제목 링크가 `noticeboard/noticeDetail.jsp?n_num=<e_num>`로 공지 상세를 엶(없는 번호면 `noticeDetail.jsp:153` NPE)
 - [버그·중간·2026-10-31(재검토)] 메인(`mainlayout/noticevent.jsp:83,92`)에서 연 공지·이벤트 상세에서 수정·삭제하면 `currentPage`가 `undefined`/빈 값으로 목록에 redirect되어 `pagingCalc.jspf:10` NFE(기존 페이징 후보의 정상 흐름 재현 경로)
 - [버그·중간·2026-10-31(재검토)] 비밀번호 최소 길이: 재설정(`passResetaction.jsp:34`)만 6자 이상, 가입(`gaipaction.jsp`)·정보 수정(`updateaction.jsp:76-80`)은 서버 검사 없음(`m_pass` 누락 시 빈 문자열 해시). '입력 형식(비밀번호)' 규칙 후보
 - [버그·중간·2026-10-31(재검토)] 닉네임 중복 검사가 화면에만 있음(`gaipaction.jsp`·`updateaction.jsp` 서버 검사 없음), 클라이언트 `res.nickcount==1` 비교라 중복 2건이면 "사용 가능" 표시, 길이 제한도 가입 6자·수정 무제한으로 다름(UNIQUE 제약은 스키마 변경)
@@ -258,9 +282,12 @@
 - [유지보수·낮음·2026-10-31(재검토)] 죽은 JSP: `foodcourt/import.jsp`(주석 처리된 호출만), `hugesoinfo/checkfavorite.jsp`, `member/loginmain.jsp`(호출처 0)
 - [유지보수·낮음·2026-10-31(재검토)] 미사용 import(`mypage/updatepassaction.jsp`의 `javax.swing...BoldAction` 등 JSP 10여 곳, `FoodDao`·`FoodGradeDao`·`ReviewDto`), `MemInfoDao.numPassCheck` 주석·이름 불일치, 관리자 직접 비교 `"ADMIN".equals(...)` 11개 파일 18곳(`isAdmin`으로 통일 후보)
 - [유지보수·낮음·2026-10-31(재검토)] `scripts/jspc-check.sh:112`: bash 3.2(macOS)에서 빈 `missing` 배열 + `set -u`로 실패 원인 출력이 빠짐(종료코드는 실패 유지, 보호 대상 파일)
+- [버그·중간·2026-11-01] `mainlayout/foodrank.jsp:85,119`: 메인 '최신 메뉴' 링크가 `hugesoinfo/hugesodetail.jsp?f_num=<음식번호>`로 이동하지만 상세 화면은 `h_num`만 읽어(`hugesodetail.jsp:33`) 어떤 메뉴를 눌러도 빈 휴게소 상세가 열림
+- [버그·낮음·2026-11-01] `eventboard/eventList.jsp:108`·`mainlayout/noticevent.jsp:92`에서 연 이벤트 상세는 `currentPage`가 없어 관리자 삭제 버튼이 `funcdel(<번호>,)`(JS 문법 오류)가 됨(공지 상세도 같은 구조인지 확인 필요, 메인 화면 `currentPage` 후보와 관련)
 - Semgrep `no-scriptlets` 799건은 이 프로젝트 구조(스크립틀릿 JSP) 자체라 개선 대상 아님
 
 ## 오탐
+- 2026-11-01 · 로그 후보 · 업로드 액션 7개(`reviewAction`·`reviewUpdateAction`·`noticeAction`·`noticeUpdateAction`·`eventAction`·`eventUpdateAction`·`shopAction`)가 지정 필드 하나만 `validateOrDelete`(오탐 확인 에이전트 판정): 7개 모두 `MultipartRequest` 생성(저장)이 CSRF 검사보다 앞이라, 지정 필드 이름으로도 CSRF 거부 경로에서 아무 파일이나 남길 수 있어 다른 필드명 경로가 더하는 능력이 없다. 공지·이벤트·쇼핑은 저장 전에 `isAdmin`, 리뷰는 로그인 필요. 저장 위치는 웹루트 밖이고 `ImageServlet`은 jpg/jpeg/png/gif 확장자만 이미지 MIME으로 제공해 실행·XSS로 이어지지 않는다. 2026-10-31 `reviewUpdateAction.jsp` 오탐(거부 경로 고아 파일)과 같은 공통 구조이며, 정리는 업로드 액션 공통 정리 후보로 다룬다
 - 2026-10-31 · 직접 리뷰 · `reviewboard/reviewUpdateAction.jsp`(오탐 확인 에이전트 판정): 없는 `r_num`은 DAO가 빈 DTO를 돌려줘 NPE가 나지 않고 권한 없음으로 정상 차단됨. 거부 경로의 고아 업로드 파일은 업로드 액션 9개 공통 구조이며 새 공격 능력이 없음(로그인 사용자는 원래 업로드 가능, 웹루트 밖 저장)
 - 2026-10-31 · 직접 리뷰 · `hugesoinfo/hugesopaging.jsp`(오탐 확인 에이전트 판정): 유일한 호출처 `hugesomap.jsp`는 1 이상의 정수만 보냄. 비정상 값은 `error.jsp`(스택트레이스 비노출) 또는 빈 목록으로 끝나 노출·우회 없음. `layout/pagingCalc.jspf`(13개 화면)도 같은 방식이라 이 파일만 고치면 일관성이 깨짐
 - 2026-10-28 · Semgrep `httpservlet-path-traversal` · `util/ImageServlet.java:64-65`: type 화이트리스트, 파일명 구분자·`..` 차단, 정규화 경로의 베이스 하위 재확인으로 이미 방어됨
