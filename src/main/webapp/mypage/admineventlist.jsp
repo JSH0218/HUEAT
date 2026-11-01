@@ -189,7 +189,7 @@ div.admineventlist {
 			<%=no-- %>
 			</td>
 			<td>
-				 <a href="index.jsp?main=noticeboard/noticeDetail.jsp?currentPage=<%=currentPage %>&n_num=<%=dto.getE_num()%>">
+				 <a href="index.jsp?main=eventboard/eventDetail.jsp?currentPage=<%=currentPage %>&e_num=<%=dto.getE_num()%>">
 				<%=util.SecurityUtil.escapeHtml(dto.getE_subject())%>
 				</a>
 			</td>

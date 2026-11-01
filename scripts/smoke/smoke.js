@@ -475,6 +475,20 @@ async function check(name, fn) {
     const r = await priceAdmin.context().request.get(BASE + 'index.jsp');
     return r.status() < 500 ? true : `메인 화면 상태 ${r.status()}`;
   });
+  // 관리자 이벤트 목록의 제목 링크는 같은 번호의 공지가 아니라 해당 이벤트 상세를 열어야 한다
+  await check('관리자 이벤트 목록: 제목 링크가 해당 이벤트 상세를 엶', async () => {
+    const evAdmin = await newPage(browser);
+    await login(evAdmin, 'admin', 'admin1234');
+    await open(evAdmin, 'index.jsp?main=mypage/admineventlist.jsp');
+    const link = evAdmin.locator('table a[href*="_num="]').first();
+    const href = await link.getAttribute('href').catch(() => null);
+    const m = href && href.match(/[?&]e_num=(\d+)/);
+    if (!href || !href.includes('eventboard/eventDetail.jsp') || !m) return `링크 ${href}`;
+    const subject = db(`select e_subject from eventboard where e_num=${m[1]}`);
+    const r = await evAdmin.context().request.get(BASE + href);
+    const body = await r.text();
+    return r.status() < 500 && subject && body.includes(subject) ? true : `상태 ${r.status()}, 제목 '${subject}' 없음`;
+  });
   await browser.close();
   const failed = results.filter(r => !r).length;
   console.log(`[smoke] 결과: ${results.length - failed}/${results.length} 통과`);
